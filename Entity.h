@@ -1,9 +1,9 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <SFML/Graphics.hpp>
-
-using namespace sf;
+#include "Hitbox.h"
+#include "Texture.h"
+#include "Animation.h"
 
 class Entity {
     private:
@@ -14,17 +14,16 @@ class Entity {
         
         float speed;
         
-        Rect<float> hitbox;
+        Hitbox *hitbox;
         
-        Texture texture;
-        Sprite sprite;
+        Animation *anim;
     public:
         Entity();
         virtual ~Entity();
         
-        void loadSprite(Texture texture);
+        void loadAnimation(Texture *t, int w, int h, int cX, int cY, int nS, float d);
         void move(float dirX, float dirY);
-        bool collision(Rect<float> other);
+        bool collision(Hitbox *other);
         
         void setSize(int w, int h) { width = w; height = h; }
         void setPosition(float x, float y) { posX = x; posY = y; }
@@ -35,8 +34,8 @@ class Entity {
         float getX() { return posX; }
         float getY() { return posY; }
         float getSpeed() { return speed; }
-        Rect<float> getHitbox() { return hitbox; }
-        Sprite getSprite(){ return sprite; }
+        Hitbox getHitbox() { return *hitbox; }
+        Animation *getAnimation(){ return anim; }
 };
 
 #endif /* Entity_H */

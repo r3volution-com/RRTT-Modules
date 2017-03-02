@@ -2,21 +2,15 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "../Protagonista.h"
-
-using namespace sf;
+#include "../Entity.h"
 
 int main(int argc, char** argv) {
     sf::RenderWindow window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
     
-    sf::Texture tex;
-    //Cargo la imagen donde reside la textura del sprite
-    if (!tex.loadFromFile("resources/map.png")) {
-        std::cerr << "Error cargando la imagen map.png";
-        exit(0);
-    }
+    Texture *tex = new Texture("resources/map.png");
     
-    Protagonista rath = Protagonista();
+    Entity *rath = new Entity();
+    rath->loadAnimation(tex, 128, 128, 0, 0, 4, 0.1f);
     
     window.setFramerateLimit(60);
     
@@ -46,8 +40,10 @@ int main(int argc, char** argv) {
             }
         }
         
+        
+        
         window.clear();
-        window.draw(rath.getSprite());
+        window.draw(rath->getAnimation()->getCurrentSprite());
         window.display();
         
     }
