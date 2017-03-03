@@ -21,6 +21,7 @@ class Animation {
         virtual ~Animation();
         
         void move(float x, float y);
+        void changeSpriteRect(int cX, int cY, int w, int h);
         
         sf::Sprite getCurrentSprite();
 };

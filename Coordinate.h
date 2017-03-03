@@ -3,10 +3,14 @@
 
 class Coordinate {
     private:
-        
+
     public:
-        Coordinate();
+        float x, y;
+        
+        Coordinate(float xC, float yC);
         virtual ~Coordinate();
+        
+        void setCoordinate(float xC, float yC);
 };
 
 #endif /* COORDINATE_H */

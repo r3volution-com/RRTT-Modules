@@ -1,6 +1,6 @@
 #include "Sprite.h"
 
-Sprite::Sprite(sf::Texture *texture, int w, int h, int cX, int cY) {
+Sprite::Sprite(Texture *texture, int w, int h, int cX, int cY) {
     //Copiamos las variables
     tex = texture;
     maxW = w;
@@ -8,11 +8,13 @@ Sprite::Sprite(sf::Texture *texture, int w, int h, int cX, int cY) {
     clipX = cX;
     clipY = cY;
     
+    spriteRect = new sf::IntRect(clipX, clipY, w, h);
+    
     //Y creo el spritesheet a partir de la imagen anterior
-    sprite = *sf::Sprite(tex);
+    sprite = new sf::Sprite(*tex->getTexture());
     
     //Cojo el sprite que me interesa por defecto del sheet
-    sprite->setTextureRect(sf::IntRect(clipX, clipY, w, h));
+    sprite->setTextureRect(*spriteRect);
     
     //Le pongo el centroide donde corresponde
     sprite->setOrigin(0,0);
@@ -22,7 +24,12 @@ Sprite::Sprite(sf::Texture *texture, int w, int h, int cX, int cY) {
 }
 
 Sprite::~Sprite() {
-    
+    delete tex;
+    delete sprite;
+    delete spriteRect;
+    tex = NULL;
+    sprite = NULL;
+    spriteRect = NULL;
 }
 
 void Sprite::move(float x, float y){
@@ -30,9 +37,23 @@ void Sprite::move(float x, float y){
 }
 
 void Sprite::setSize(int w, int h){
-    sprite->setTextureRect(sf::IntRect(clipX, clipY, w, h));
+    spriteRect->width = w;
+    spriteRect->height = h;
+    sprite->setTextureRect(*spriteRect);
+}
+
+void Sprite::changeSpriteRect(int cX, int cY, int w, int h){
+    spriteRect->left = cX;
+    spriteRect->top = cY;
+    spriteRect->width = w;
+    spriteRect->height = h;
+    sprite->setTextureRect(*spriteRect);
 }
 
 void Sprite::restoreSize(){
-    sprite->setTextureRect(sf::IntRect(clipX, clipY, maxW, maxH));
+    spriteRect->left = clipX;
+    spriteRect->top = clipY;
+    spriteRect->width = maxW;
+    spriteRect->height = maxH;
+    sprite->setTextureRect(*spriteRect);
 }

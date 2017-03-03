@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "InterpolatedCoordinate.h"
 #include "Hitbox.h"
 #include "Texture.h"
 #include "Animation.h"
@@ -9,8 +10,7 @@ class Entity {
     private:
         int width;
         int height;
-        float posX;
-        float posY;
+        InterpolatedCoordinate *coor;
         
         float speed;
         
@@ -18,21 +18,19 @@ class Entity {
         
         Animation *anim;
     public:
-        Entity();
+        Entity(float x, float y, int w, int h, float sp);
         virtual ~Entity();
         
-        void loadAnimation(Texture *t, int w, int h, int cX, int cY, int nS, float d);
+        void loadAnimation(Texture *t, int cX, int cY, int nS, float d);
         void move(float dirX, float dirY);
         bool collision(Hitbox *other);
         
         void setSize(int w, int h) { width = w; height = h; }
-        void setPosition(float x, float y) { posX = x; posY = y; }
         void setSpeed(float sp) { speed = sp; }
         
         int getWidth() { return width; }
         int getHeight() { return height; }
-        float getX() { return posX; }
-        float getY() { return posY; }
+        Coordinate getCoordinate() { return coor->getIC(); }
         float getSpeed() { return speed; }
         Hitbox getHitbox() { return *hitbox; }
         Animation *getAnimation(){ return anim; }

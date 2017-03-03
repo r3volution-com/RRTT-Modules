@@ -42,13 +42,23 @@ Animation::~Animation() {
     delete sprites;
     delete tex;
     delete clock;
+    delete rectSprite;
     sprites = NULL;
     tex = NULL;
     clock = NULL;
+    rectSprite = NULL;
 }
 
 void Animation::move(float x, float y){
     sprites->move(x, y);
+}
+
+void Animation::changeSpriteRect(int cX, int cY, int w, int h){
+    rectSprite->left = cX;
+    rectSprite->top = cY;
+    rectSprite->width = w;
+    rectSprite->height = h;
+    sprites->setTextureRect(*rectSprite);
 }
 
 void Animation::changeCurrentSprite(){

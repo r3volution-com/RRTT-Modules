@@ -1,17 +1,26 @@
 #include "Entity.h"
 
-Entity::Entity() {
+#include <iostream>
+
+Entity::Entity(float x, float y, int w, int h, float sp) {
+    coor = new InterpolatedCoordinate(x, y);
+    hitbox = new Hitbox(x, y, w, h);
+    width = w;
+    height = h;
+    speed = sp;
 }
 
 Entity::~Entity() {
 }
 
-void Entity::loadAnimation(Texture *t, int w, int h, int cX, int cY, int nS, float d){
-    anim = new Animation(t->getTexture(), w, h, cX, cY, nS, d);
+void Entity::loadAnimation(Texture *t, int cX, int cY, int nS, float d){
+    anim = new Animation(t->getTexture(), width, height, cX, cY, nS, d);
+    anim->move(coor->getCoordinate().x, coor->getCoordinate().y);
 }
 
 void Entity::move(float dirX, float dirY){
-    anim->move(dirX*speed, dirY*speed);
+    coor->setCoordinate(dirX*speed, dirY*speed);
+    anim->move(coor->getIC().x, coor->getIC().y);
 }
 
 /*bool Entity::collision(Hitbox other){
