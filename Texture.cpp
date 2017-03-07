@@ -8,5 +8,15 @@ Texture::Texture(const char *path) {
     }
 }
 
+Texture::Texture(sf::RenderTexture *t){
+    tex=t; //ToDo: conversion de sf::RenderTexture a sf::Texture (o buscar alternativa)
+}
+
 Texture::~Texture() {
+}
+
+sf::RenderTexture *Texture::getRenderTexture(int w, int h) { 
+    sf::RenderTexture *te;
+    te->create(w, h);
+    return te;
 }

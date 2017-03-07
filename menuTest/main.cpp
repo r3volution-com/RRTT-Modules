@@ -3,25 +3,29 @@
 #include <SFML/Graphics.hpp>
 
 #include "../Sprite.h"
+#include "../Menu.h"
 
 int main(int argc, char** argv) {
-    sf::RenderWindow window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
+    sf::RenderWindow *window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
     
-    Texture *tex = new Texture("resources/map.png");
-    Sprite *sp = new Sprite(tex, 128, 128, 0, 0);
-    int w, h;
-    w = h = 128;
-    window.setFramerateLimit(120);
+    Texture *tex = new Texture("resources/pyramid-background.png");
+    Sprite *background = new Sprite(tex, 640, 480, 0, 0);
+    Texture *tex2 = new Texture("resources/button-map.png");
+    Sprite *buttons = new Sprite(tex2, 120, 25, 0, 0);
+    Menu *menu = new Menu(background, buttons, 1);
+    menu->addButton("hola", 200, 200, 120, 25);
+
+    window->setFramerateLimit(120);
     
     //Bucle del juego
-    while (window.isOpen()) {
+    while (window->isOpen()) {
         //Bucle de obtención de eventos
         sf::Event event;
-        while (window.pollEvent(event)) {
+        while (window->pollEvent(event)) {
             switch(event.type) {
                 //Si se recibe el evento de cerrar la ventana la cierro
                 case sf::Event::Closed:
-                    window.close();
+                    window->close();
                     break;
                 //Se pulsó una tecla, imprimo su codigo
                 case sf::Event::KeyPressed:
@@ -29,7 +33,7 @@ int main(int argc, char** argv) {
                     switch(event.key.code) {
                         //Tecla ESC para salir
                         case sf::Keyboard::Escape:
-                            window.close();
+                            window->close();
                         break;
                         default:
                         break;
@@ -39,28 +43,11 @@ int main(int argc, char** argv) {
             }
         }
      
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-            sp->move(0, -1);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-            sp->move(0, 1);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            w--;
-            sp->setSize(w, h);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-            h--;
-            sp->setSize(w, h);
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            w = h = 128;
-            sp->restoreSize();
-        }
         
-        window.clear();
-        window.draw(sp->getSprite());
-        window.display();
+        window->clear();
+        menu->drawMenu(window);
+        window->draw(sp->getSprite());
+        window->display();
         
     }
     return 0;

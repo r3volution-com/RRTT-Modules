@@ -21,6 +21,7 @@ class Sprite {
         void restoreSize();
         
         sf::Sprite getSprite() { return *sprite; }
+        sf::IntRect getSpriteRect() { return *spriteRect; }
 };
 
 #endif /* SPRITE_H */
