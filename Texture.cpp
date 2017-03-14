@@ -9,7 +9,7 @@ Texture::Texture(const char *path) {
 }
 
 Texture::Texture(sf::RenderTexture *t){
-    tex=t; //ToDo: conversion de sf::RenderTexture a sf::Texture (o buscar alternativa)
+    rTex=t; //ToDo: conversion de sf::RenderTexture a sf::Texture (o buscar alternativa)
 }
 
 Texture::~Texture() {

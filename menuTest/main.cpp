@@ -6,13 +6,16 @@
 #include "../Menu.h"
 
 int main(int argc, char** argv) {
-    sf::RenderWindow *window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(640, 480), "RRTT: Menu Test");
     
-    Texture *tex = new Texture("resources/pyramid-background.png");
+    Texture *tex = new Texture("resources/pyramid-background.jpg");
     Sprite *background = new Sprite(tex, 640, 480, 0, 0);
     Texture *tex2 = new Texture("resources/button-map.png");
     Sprite *buttons = new Sprite(tex2, 120, 25, 0, 0);
-    Menu *menu = new Menu(background, buttons, 1);
+    
+    Font *fuente = new Font("resources/font.ttf");
+    
+    Menu *menu = new Menu(background, buttons, fuente, 1);
     menu->addButton("hola", 200, 200, 120, 25);
 
     window->setFramerateLimit(120);
@@ -46,7 +49,6 @@ int main(int argc, char** argv) {
         
         window->clear();
         menu->drawMenu(window);
-        window->draw(sp->getSprite());
         window->display();
         
     }
