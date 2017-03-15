@@ -12,7 +12,7 @@ Player::~Player() {
  */
 
 void Player::flash(int dirX, int dirY){
-    
+
 }
 
 void Player::respawn(){
