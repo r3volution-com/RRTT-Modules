@@ -10,7 +10,7 @@ class Text {
         Font *font;
         sf::Text *text;
     public:
-        Text(std::string t, float x, float y); //ToDo: color, estilo, etc...
+        Text(std::string t, float x, float y, sf::Color color, Font *f); //ToDo: color, estilo, etc...
         virtual ~Text();
         
         void setText(std::string t) { text->setString(t); }

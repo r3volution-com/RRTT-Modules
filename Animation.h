@@ -2,10 +2,11 @@
 #define ANIMATION_H
 
 #include <SFML/Graphics.hpp>
+#include "Texture.h"
 
 class Animation {
     private:
-        sf::Texture *tex;
+        Texture *tex;
         sf::Sprite *sprites;
         sf::IntRect *rectSprite;
         sf::Clock *clock;
@@ -17,7 +18,7 @@ class Animation {
         
         void changeCurrentSprite();
     public:
-        Animation(sf::Texture *t, int w, int h, int cX, int cY, int nS, float d);
+        Animation(Texture *t, int w, int h, int cX, int cY, int nS, float d);
         virtual ~Animation();
         
         void move(float x, float y);

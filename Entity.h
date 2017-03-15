@@ -32,7 +32,7 @@ class Entity {
         int getHeight() { return height; }
         Coordinate getCoordinate() { return coor->getIC(); }
         float getSpeed() { return speed; }
-        Hitbox getHitbox() { return *hitbox; }
+        Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return anim; }
 };
 
