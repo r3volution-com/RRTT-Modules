@@ -15,9 +15,9 @@ class NPC : public Entity{
         NPC(float x, float y, int w, int h, float sp);
         virtual ~NPC();
         
-        void addSentence();
+        void addSentence(std::string sentence, float x, float y);
         bool nextSentence();
-        void getCurrentSentence();
+        Text *getCurrentSentence();
 };
 
 #endif /* NPC_H */
