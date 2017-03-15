@@ -45,10 +45,12 @@ int main(int argc, char** argv) {
                 default: break;
             }
         }
+       
      
         
         window->clear();
-        menu->drawMenu(window);
+        //menu->drawMenu(window);
+        window->draw(buttons->getSprite());
         window->display();
         
     }

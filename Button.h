@@ -10,10 +10,15 @@ class Button {
         Text *text;
         Hitbox *hitbox;
         Sprite *buttonLayout;
-        float bX, bY;
-        int bW, bH;
+        
+        Texture *tButton;
+        Sprite *button;
+        
         bool h;
     public:
+        float bX, bY;
+        int bW, bH;
+        
         Button(std::string t, float x, float y, int w, int h, Sprite *bL);
         virtual ~Button();
         

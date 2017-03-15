@@ -8,14 +8,16 @@ class Texture {
     private:
         sf::Texture *tex;
         sf::RenderTexture *rTex;
+        
+        bool render;
     public:
         Texture(const char* path);
         Texture(sf::RenderTexture *t);
         virtual ~Texture();
         
-        sf::RenderTexture *getRenderTexture(int w, int h);
+        sf::RenderTexture *createRenderTexture(int w, int h);
         
-        sf::Texture *getTexture() { return tex; }
+        sf::Texture *getTexture();
         sf::RenderTexture *getRenderTexture() { return rTex; }
 };
 

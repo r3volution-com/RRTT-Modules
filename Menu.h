@@ -12,10 +12,10 @@ class Menu {
     private:
         Sprite *background;
         Sprite *buttonLayout;
-        //std::vector<Button> *buttons;
+        std::vector<Button*> *buttons;
         Font *buttonFont;
         
-        int addedButtons, maxButtons;
+        int maxButtons;
     public:
         Menu(Sprite *bg, Sprite *bLayout, Font* bFont, int numButtons);
         virtual ~Menu();
