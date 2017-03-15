@@ -117,10 +117,6 @@ int main(int argc, char** argv) {
                     rath->getAnimation()->changeSpriteRect(0,0,128,128);
                     mov=false;
             }
-                    
-                
-            
-        
                 
         window.clear();
         window.draw(rath->getAnimation()->getCurrentSprite());
