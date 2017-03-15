@@ -26,9 +26,11 @@ class HUD {
         void changeBossLife(int life);
         void changeFlashCooldown();
         
-        bool drawHUD(sf::RenderWindow *window);
+        bool drawHUD(sf::RenderWindow *window, int maxLife, int life,  int maxLifeBoss, int lifeBoss);
         void drawGun(sf::RenderWindow *window);
         void drawPlayerHP(sf::RenderWindow *window, int maxLife, int life);
+        void drawBossHP(sf::RenderWindow *window, int maxLifeBoss, int lifeBoss);
+
         
 };
 

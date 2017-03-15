@@ -35,9 +35,11 @@
 
     }
 
-    bool HUD::drawHUD(sf::RenderWindow* window){
+    bool HUD::drawHUD(sf::RenderWindow* window, int maxLife, int life, int maxLifeBoss, int lifeBoss){
         window->draw(background->getSprite());
         drawGun(window);
+        drawPlayerHP(window, maxLife, life);
+        drawBossHP(window, maxLifeBoss, lifeBoss);
     }
     
     void HUD::drawGun(sf::RenderWindow *window){
@@ -57,4 +59,22 @@
         }*/
     }
     void HUD::drawPlayerHP(sf::RenderWindow *window, int maxLife, int life){
+        int newW = (life*playerHP->getW())/maxLife;
+        if(newW < playerHP->getW() && newW >= 0){
+            playerHP->setSize(newW, playerHP->getH());
+            window->draw(playerHP->getSprite());
+        }else {
+            playerHP->setSize(playerHP->getW(), playerHP->getH());
+            window->draw(playerHP->getSprite());
+        }
+    }
+    void HUD::drawBossHP(sf::RenderWindow *window, int maxLifeBoss, int lifeBoss){
+        int newW = (lifeBoss*bossHP->getW())/maxLifeBoss;
+        if(newW < bossHP->getW() && newW >= 0){
+            bossHP->setSize(newW, bossHP->getH());
+            window->draw(bossHP->getSprite());
+        }else {
+            bossHP->setSize(bossHP->getW(), bossHP->getH());
+            window->draw(bossHP->getSprite());
+        }
     }
