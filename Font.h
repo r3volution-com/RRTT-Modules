@@ -6,7 +6,7 @@
 
 class Font {
     private:
-        sf::Font *font;
+        static sf::Font *font;
     public:
         Font(const char *path);
         virtual ~Font();
