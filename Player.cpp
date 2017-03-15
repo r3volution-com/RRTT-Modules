@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player() : Entity(){
+Player::Player(float x, float y, int w, int h, float sp) : Entity(x, y, w, h, sp){
 }
 
 Player::~Player() {
@@ -12,6 +12,10 @@ Player::~Player() {
  */
 
 void Player::flash(int dirX, int dirY){
+    
+}
+
+void Player::die(){
     
 }
 

@@ -9,7 +9,7 @@
  * nS = numero de Sprites de la animacion
  * d = delay
  */
-Animation::Animation(sf::Texture *t, int w, int h, int cX, int cY, int nS, float d) {
+Animation::Animation(Texture *t, int w, int h, int cX, int cY, int nS, float d) {
     //Copiamos las variables
     tex = t;
     width = w;
@@ -26,7 +26,7 @@ Animation::Animation(sf::Texture *t, int w, int h, int cX, int cY, int nS, float
     rectSprite = new sf::IntRect(cX, cY, w, h);
     
     //Y creo el spritesheet a partir de la imagen anterior
-    sprites = new sf::Sprite(*tex);
+    sprites = new sf::Sprite(*tex->getTexture());
     
     //Cojo el sprite que me interesa por defecto del sheet
     sprites->setTextureRect(*rectSprite);

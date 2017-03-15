@@ -3,12 +3,11 @@
 
 #include "Entity.h"
 
-class NPC {
+class NPC : public Entity{
     private:
         
     public:
-        NPC();
-        NPC(const NPC& orig);
+        NPC(float x, float y, int w, int h, float sp);
         virtual ~NPC();
 };
 

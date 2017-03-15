@@ -12,7 +12,7 @@ class Player : public Entity {
         
         void die();
     public:
-        Player();
+        Player(float x, float y, int w, int h, float sp);
         virtual ~Player();
         
         //void changeGun(Arma g);

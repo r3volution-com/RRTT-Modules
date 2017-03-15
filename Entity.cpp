@@ -14,7 +14,7 @@ Entity::~Entity() {
 }
 
 void Entity::loadAnimation(Texture *t, int cX, int cY, int nS, float d){
-    anim = new Animation(t->getTexture(), width, height, cX, cY, nS, d);
+    anim = new Animation(t, width, height, cX, cY, nS, d);
     anim->move(coor->getCoordinate().x, coor->getCoordinate().y);
 }
 
