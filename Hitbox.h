@@ -1,6 +1,7 @@
 #ifndef HITBOX_H
 #define HITBOX_H
 
+#include <iostream>
 #include <cstddef>
 #include <SFML/Graphics/Rect.hpp>
 
