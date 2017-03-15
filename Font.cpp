@@ -1,6 +1,6 @@
 #include "Font.h"
 
-Font::Font(const char *path) {
+Font::Font(std::string path) {
     font = new sf::Font();
     if (!font->loadFromFile(path)){
         std::cerr << "Error cargando la fuente " << path;

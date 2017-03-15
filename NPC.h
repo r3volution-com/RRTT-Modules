@@ -11,8 +11,9 @@ class NPC : public Entity{
         std::vector<Coordinate*> *sentencePosition;
         int currentSentence;
         Text *currentText;
+        Font *font;
     public:
-        NPC(float x, float y, int w, int h, float sp);
+        NPC(float x, float y, int w, int h, float sp, Font *f);
         virtual ~NPC();
         
         void addSentence(std::string sentence, float x, float y);

@@ -6,9 +6,9 @@
 
 class Font {
     private:
-        static sf::Font *font;
+        sf::Font *font;
     public:
-        Font(const char *path);
+        Font(std::string path);
         virtual ~Font();
         
         sf::Font getFont() { return *font; }

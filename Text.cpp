@@ -1,6 +1,7 @@
 #include "Text.h"
 
-Text::Text(std::string t, float x, float y, sf::Color color) {
+Text::Text(std::string t, float x, float y, sf::Color color, Font* f) {
+    font = f;
     text = new sf::Text();
     text->setFont(font->getFont());
     text->setString(t);
