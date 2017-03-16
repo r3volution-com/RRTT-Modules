@@ -6,6 +6,7 @@
 #include "../Animation.h"
 #include "../Player.h"
 #include "../NPC.h"
+#include "../HUD.h"
 
 
 int main(int argc, char** argv) {
@@ -18,13 +19,16 @@ int main(int argc, char** argv) {
     Player *rath = new Player(0, 0, 128, 128, 2);
     rath->loadAnimation(tex, 0, 0, 3, 0.1f);
     
-    NPC *aldeano = new NPC(200, 200, 128, 128, 2, font, 15);
+    NPC *aldeano = new NPC(200, 200, 128, 128, 2);
+    //aldeano->setTextParams(font, 15, sf::Color::Black, sf::Color::White);
     aldeano->loadAnimation(tex, 0, 128, 3, 0.1f);
-    aldeano->addSentence("probamos con esto", 0, 340);
+    aldeano->addSentence("probamos con esto\n\nPulsa espacio para continuar", 20, 340);
+    aldeano->addSentence("probamos con esto otra ves\n\nPulsa espacio para continuar", 20, 340);
+    aldeano->addSentence("probamos con esto por ultima vez\n\nPulsa espacio para continuar", 20, 340);
     
-    Texture *tex2 = new Texture("resources/button-map.png");
-    Sprite *sp = new Sprite(tex2, 640, 150, 120, 0);
-    sp->move(0,330);
+    Texture *tex2 = new Texture("resources/textbox.png");
+    Sprite *sp = new Sprite(tex2, 640, 190, 0, 0);
+    sp->move(0,290);
     
     window->setFramerateLimit(120);
     
@@ -46,6 +50,11 @@ int main(int argc, char** argv) {
                         case sf::Keyboard::Escape:
                             window->close();
                         break;
+                        case sf::Keyboard::Space:
+                            if (showText){
+                                if (!aldeano->nextSentence()) showText = false;
+                            }
+                            break;
                         default:
                         break;
                     }
@@ -69,10 +78,9 @@ int main(int argc, char** argv) {
      
         if (rath->collision(aldeano->getHitbox()) && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && !showText){
             showText = true;
-        }
-        
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && showText){
             aldeano->nextSentence();
+            // setTLayerText(sentences->at(currentSentence), sentencePosition->at(currentSentence)->x, sentencePosition->at(currentSentence)->y);
+        //ToDo: cambia la frase en HUD
         }
         
         window->clear();
