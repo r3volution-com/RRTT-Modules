@@ -13,10 +13,16 @@ using namespace std;
 int main(int argc, char** argv) {
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: HUD Test");
     
-    //Guns ON
+    //Texture
     Texture *tex0 = new Texture("resources/homer.gif");
-    Sprite *gun1 = new Sprite(tex0, 100, 100, 0, 0);
     Texture *tex1 = new Texture("resources/lenny.gif");
+    Texture *tex4 = new Texture("resources/white.png");
+    Texture *tex5 = new Texture("resources/rayo.jpg");
+    Texture *tex7 = new Texture("resources/pyramid-background.jpg");
+
+    //Guns ON
+    
+    Sprite *gun1 = new Sprite(tex0, 100, 100, 0, 0);
     Sprite *gun2 = new Sprite(tex1, 100, 100, 0, 0);
     gun2->move(0.0f,100.0f);
     /*Texture *tex3 = new Texture("resources/jake.jpg");
@@ -31,7 +37,6 @@ int main(int argc, char** argv) {
     int activeGun = 0;
     
     //Guns Off
-    Texture *tex4 = new Texture("resources/white.png");
     Sprite *go1 = new Sprite(tex4, 100, 100, 0, 0);
     Sprite *go2 = new Sprite(tex4, 100, 100, 0, 0);
     go2->move(0.0f,100.0f);
@@ -45,28 +50,29 @@ int main(int argc, char** argv) {
     //gsO->push_back(go3);
     
     //Background
-    Texture *tex7 = new Texture("resources/pyramid-background.jpg");
     Sprite *background = new Sprite(tex7, 1920, 1024, 0, 0);
     
     //Player
     Sprite *plHP = new Sprite(tex4,100 , 15, 0, 0);
     plHP->move(150.0f,10.0f);
     
-    int maxLife = 100;
-    int life = 100;
-    
     //Boss
     Sprite *bHP = new Sprite(tex4,100 , 20, 0, 0);
     bHP->move(590.0f,680.0f);
     
-    int maxLifeBoss = 150;
-    int lifeBoss = 150;
-    
     //Flash
-    Sprite *fC = new Sprite(tex4,100 , 100, 0, 0);
+    Sprite *fC = new Sprite(tex5,100 , 100, 0, 0);
+    fC->move(0.0f,250.0f);
+    
+    bool flash = false;
+    bool fCd = false;
+    
+    //FlashOff
+    Sprite *fCO = new Sprite(tex4,100 , 100, 0, 0);
+    fCO->move(0.0f,250.0f);
     
     //HUD
-    HUD *hud = new HUD(background, guns, gsO, plHP, bHP, fC);
+    HUD *hud = new HUD(background, guns, gsO, plHP, bHP, fC, fCO);
     
     
     window->setFramerateLimit(120);
@@ -103,31 +109,46 @@ int main(int argc, char** argv) {
             activeGun = 1;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Add)){
-            if(life < maxLife){
+            /*if(life < maxLife){
                 life = life + 1;
-            }
+            }*/
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract)){
-            if(life > 0){
+           /* if(life > 0){
                 life = life - 1;
-            }
+            }*/
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Multiply)){
-            if(lifeBoss < maxLifeBoss){
+            /*if(lifeBoss < maxLifeBoss){
                 lifeBoss = lifeBoss + 1;
-            }
+            }*/
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Divide)){
-            if(lifeBoss > 0){
+            /*if(lifeBoss > 0){
                 lifeBoss = lifeBoss - 1;
+            }*/
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
+            if(fCd == false){
+                flash = true;
+                hud->resetClock();
+            }
+            
+        }
+        
+        hud->changeActiveGun(activeGun);        
+
+        window->clear();
+        hud->drawHUD(window);
+        
+       
+        if(flash == true){
+            fCd=hud->drawFlashCooldown(window);
+            if(fCd == false){
+                flash = false;
             }
         }
         
-        hud->changeActiveGun(activeGun);
-     
-        
-        window->clear();
-        hud->drawHUD(window, maxLife, life, maxLifeBoss, lifeBoss);
         window->display();
         
     }
