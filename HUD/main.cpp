@@ -91,8 +91,12 @@ int main(int argc, char** argv) {
     fCO->move(100.0f,100.0f);
     
     //HUD
-    HUD *hud = new HUD(background, guns, gsO, plHP, bHP, fC, fCO, gsC);
-    
+    HUD *hud = new HUD(background, plHP, bHP);
+    hud->setSpriteFlash(fC);
+    hud->setSpriteFlashCooldown(fCO);
+    hud->setSpriteGunsCooldown(gsC);
+    hud->setSpriteGunsOff(gsO);
+    hud->setSpriteGunsOn(guns);
     
     window->setFramerateLimit(120);
     
@@ -154,7 +158,7 @@ int main(int argc, char** argv) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
             if(fCd == false){
                 flash = true;
-                hud->resetClock();
+                hud->resetClockFlash();
             }
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Right)){
