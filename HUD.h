@@ -2,9 +2,12 @@
 #define HUD_H
 #include <iostream>
 #include <vector>
-#include "Sprite.h"
+
 #include <SFML/Graphics.hpp>
 
+#include "Sprite.h"
+#include "Font.h"
+#include "Text.h"
 
 class HUD {
     
@@ -19,6 +22,11 @@ class HUD {
         Sprite *flashCooldown;
         
         sf::Clock *clock;
+        
+        Sprite *textSprite;
+        Text *talker;
+        Text *currentText;
+        Font *font;
         
         float timeFlash;
         float firstGunCooldown;
@@ -43,6 +51,11 @@ class HUD {
         void changeFirstGunCooldown(int cooldown);
         void changeSecondGunCooldown(int cooldown);
         
+        void setTextLayer(float x, float y, Sprite *sp, Font *f);
+        void setTLayerTalker(std::string s, float x, float y);
+        void setTLayerText(std::string s, float x, float y);
+        void setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor);
+        
         bool drawHUD(sf::RenderWindow *window);
         void drawGun(sf::RenderWindow *window);
         void drawPlayerHP(sf::RenderWindow *window);
@@ -53,9 +66,6 @@ class HUD {
         bool drawGunCooldown(sf::RenderWindow *window);
         
         void resetClock();
-        
-        
-        
 };
 
 #endif /* HUD_H */

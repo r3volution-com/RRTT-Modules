@@ -20,7 +20,7 @@ class Menu {
         Menu(Sprite *bg, Sprite *bLayout, Font* bFont, int numButtons);
         virtual ~Menu();
         
-        bool addButton(std::string text, float x, float y, int w, int h, sf::Color color, int size);
+        bool addButton(std::string text, float x, float y, int w, int h, sf::Color color, sf::Color outlineColor, int size);
         
         void checkHover(Hitbox* mouse);
         int checkClicks();

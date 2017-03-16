@@ -16,8 +16,9 @@ Button::Button(float x, float y, int w, int h, Sprite *bL) {
 Button::~Button() {
 }
 
-void Button::setText(std::string t, sf::Color color, Font *f, int size){
-    text = new Text(t, bX+(bW/2), bY+(bH/2), color, f, size);
+void Button::setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size){
+    text = new Text(t, bX+(bW/2), bY+(bH/2), f);
+    text->setStyles(color, outlineColor, 1, size);
 }
 
 void Button::hover(Hitbox *mouse){ //ToDo: revisar por que a veces no se ve el cambio de sprite

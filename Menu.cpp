@@ -11,10 +11,10 @@ Menu::Menu(Sprite* bg, Sprite *bLayout, Font* bFont, int numButtons) {
 Menu::~Menu() {
 }
 
-bool Menu::addButton(std::string text, float x, float y, int w, int h, sf::Color color, int size){
+bool Menu::addButton(std::string text, float x, float y, int w, int h, sf::Color color, sf::Color outlineColor, int size){
     if (buttons->size() < maxButtons){
         Button *button = new Button(x, y, w, h, buttonLayout);
-        button->setText(text, color, buttonFont, size);
+        button->setText(text, color, outlineColor, buttonFont, size);
         buttons->push_back(button);
         return true;
     } else return false;

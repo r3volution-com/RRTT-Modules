@@ -5,20 +5,22 @@
 #include "Text.h"
 #include "Entity.h"
 
-class NPC : public Entity{
+class NPC : public Entity {
     private:
+        std::string name;
         std::vector<std::string> *sentences;
         std::vector<Coordinate*> *sentencePosition;
         int currentSentence;
-        Text *currentText;
-        Font *font;
     public:
-        NPC(float x, float y, int w, int h, float sp, Font *f, int size);
+        NPC(float x, float y, int w, int h, float sp, std::string n);
         virtual ~NPC();
         
+        void setTextParams(Font *f, int size, sf::Color fillColor, sf::Color outlineColor);
         void addSentence(std::string sentence, float x, float y);
         bool nextSentence();
-        Text *getCurrentSentence();
+        std::string getName();
+        std::string getCurrentSentenceText();
+        Coordinate *getCurrentSentencePosition();
 };
 
 #endif /* NPC_H */
