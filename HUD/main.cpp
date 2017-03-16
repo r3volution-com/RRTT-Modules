@@ -18,15 +18,16 @@ int main(int argc, char** argv) {
     Texture *tex1 = new Texture("resources/lenny.gif");
     Texture *tex4 = new Texture("resources/white.png");
     Texture *tex5 = new Texture("resources/rayo.jpg");
+    Texture *tex6 = new Texture("resources/cooldown.png");
     Texture *tex7 = new Texture("resources/pyramid-background.jpg");
+    
 
     //Guns ON
     
     Sprite *gun1 = new Sprite(tex0, 100, 100, 0, 0);
     Sprite *gun2 = new Sprite(tex1, 100, 100, 0, 0);
     gun2->move(0.0f,100.0f);
-    /*Texture *tex3 = new Texture("resources/jake.jpg");
-    Sprite *gun3 = new Sprite(tex3, 100, 100, 0, 0);
+    /*Sprite *gun3 = new Sprite(tex3, 100, 100, 0, 0);
     gun3->move(0.0f,200.0f);*/
     
     std::vector<Sprite*> *guns = new std::vector<Sprite*>();
@@ -40,14 +41,28 @@ int main(int argc, char** argv) {
     Sprite *go1 = new Sprite(tex4, 100, 100, 0, 0);
     Sprite *go2 = new Sprite(tex4, 100, 100, 0, 0);
     go2->move(0.0f,100.0f);
-    /*Texture *tex6 = new Texture("resources/white.png");
-    Sprite *go3 = new Sprite(tex6, 100, 100, 0, 0);
+    /*Sprite *go3 = new Sprite(tex6, 100, 100, 0, 0);
     go3->move(0.0f,200.0f);*/
     
     std::vector<Sprite*> *gsO = new std::vector<Sprite*>();
     gsO->push_back(go1);
     gsO->push_back(go2);
     //gsO->push_back(go3);
+    
+    //Guns Cooldown
+    Sprite *gc1 = new Sprite(tex6, 100, 100, 0, 0);
+    Sprite *gc2 = new Sprite(tex6, 100, 100, 0, 0);
+    gc2->move(0.0f,100.0f);
+    /*Sprite *go3 = new Sprite(tex6, 100, 100, 0, 0);
+    go3->move(0.0f,200.0f);*/
+    
+    std::vector<Sprite*> *gsC = new std::vector<Sprite*>();
+    gsC->push_back(gc1);
+    gsC->push_back(gc2);
+    //gsO->push_back(go3);
+    
+    bool gunCooldown = false;
+    bool gCd = false;
     
     //Background
     Sprite *background = new Sprite(tex7, 1920, 1024, 0, 0);
@@ -66,17 +81,17 @@ int main(int argc, char** argv) {
     
     //Flash
     Sprite *fC = new Sprite(tex5,100 , 100, 0, 0);
-    fC->move(0.0f,250.0f);
+    fC->move(100.0f,100.0f);
     
     bool flash = false;
     bool fCd = false;
     
     //FlashOff
-    Sprite *fCO = new Sprite(tex4,100 , 100, 0, 0);
-    fCO->move(0.0f,250.0f);
+    Sprite *fCO = new Sprite(tex6,100 , 100, 0, 0);
+    fCO->move(100.0f,100.0f);
     
     //HUD
-    HUD *hud = new HUD(background, guns, gsO, plHP, bHP, fC, fCO);
+    HUD *hud = new HUD(background, guns, gsO, plHP, bHP, fC, fCO, gsC);
     
     
     window->setFramerateLimit(120);
@@ -141,8 +156,14 @@ int main(int argc, char** argv) {
                 flash = true;
                 hud->resetClock();
             }
-            
         }
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Right)){
+            if(gCd == false){
+                gunCooldown = true;
+                hud->resetClock();
+            }
+        }
+        
         
         hud->changeActiveGun(activeGun);        
 
@@ -154,6 +175,12 @@ int main(int argc, char** argv) {
             fCd=hud->drawFlashCooldown(window);
             if(fCd == false){
                 flash = false;
+            }
+        }
+        if(gunCooldown == true){
+            gCd=hud->drawGunCooldown(window);
+            if(gCd == false){
+                gunCooldown = false;
             }
         }
         

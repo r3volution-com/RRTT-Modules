@@ -1,19 +1,21 @@
 #include "HUD.h"
 
-HUD::HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite *pHP, Sprite *bHP, Sprite *fC, Sprite *fCO){
+HUD::HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite *pHP, Sprite *bHP, Sprite *fC, Sprite *cool, std::vector<Sprite*> *gCd){
     background = bg;
     guns = gs;
     gunsOff = gsO;
     playerHP = pHP;
     bossHP = bHP;
     flash = fC;
-    flashCooldown = fCO;
+    flashCooldown = cool;
+    gunsCooldown = gCd;
     
     clock = new sf::Clock;
     
-    timeFlash = 1.5f;
-    firstGunCooldown = 4.0f;
+    timeFlash = 4.0f;
+    firstGunCooldown = 10.0f;
     secondGunCooldown = 2.0f;
+    
     activeGun = 0;
     maxLifeBoss = 150;
     lifeBoss = 150;
@@ -106,10 +108,28 @@ void HUD::drawFlash(sf::RenderWindow* window){
 bool HUD::drawFlashCooldown(sf::RenderWindow *window){
     if(clock->getElapsedTime().asSeconds() < timeFlash){
         window->draw(flashCooldown->getSprite());
-        flashCooldown->setSize(flashCooldown->getW()-(timeFlash/120.0f), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+        flashCooldown->setSize(flashCooldown->getW()-(timeFlash/19.0f), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
         return true;
     }
     flashCooldown->restoreSize();
+    return false;
+}
+bool HUD::drawGunCooldown(sf::RenderWindow* window){
+    if(activeGun == 0){
+        if(clock->getElapsedTime().asSeconds() < firstGunCooldown){
+            window->draw(gunsCooldown->at(0)->getSprite());
+            gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getW()-(firstGunCooldown/120.0f), gunsCooldown->at(0)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+            return true;
+        }
+        gunsCooldown->at(0)->restoreSize();
+    }else if(activeGun == 1){
+        if(clock->getElapsedTime().asSeconds() < secondGunCooldown){
+            window->draw(gunsCooldown->at(1)->getSprite());
+            gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getW()-(secondGunCooldown/120.0f), gunsCooldown->at(1)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+            return true;
+        }
+        gunsCooldown->at(1)->restoreSize();
+    }
     return false;
 }
 

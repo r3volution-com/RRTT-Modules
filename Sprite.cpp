@@ -7,6 +7,8 @@ Sprite::Sprite(Texture *texture, int w, int h, int cX, int cY) {
     maxH = h;
     clipX = cX;
     clipY = cY;
+    actW = maxW;
+    actH = maxH;
     
     spriteRect = new sf::IntRect(clipX, clipY, w, h);
     
@@ -40,9 +42,11 @@ void Sprite::setPosition(float x, float y){
     sprite->setPosition(x, y);
 }
 
-void Sprite::setSize(int w, int h){
-    spriteRect->width = w;
-    spriteRect->height = h;
+void Sprite::setSize(float w, float h){
+    actW = w;
+    actH = h;
+    spriteRect->width = actW;
+    spriteRect->height = actH;
     sprite->setTextureRect(*spriteRect);
 }
 
@@ -59,5 +63,7 @@ void Sprite::restoreSize(){
     spriteRect->top = clipY;
     spriteRect->width = maxW;
     spriteRect->height = maxH;
+    actW = maxW;
+    actH = maxH;
     sprite->setTextureRect(*spriteRect);
 }

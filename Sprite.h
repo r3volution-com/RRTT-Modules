@@ -11,17 +11,18 @@ class Sprite {
         sf::IntRect *spriteRect;
         int clipX, clipY;
         int maxW, maxH;
+        float actW, actH;
     public:
         Sprite(Texture *texture, int w, int h, int cX, int cY);
         virtual ~Sprite();
         
         void move(float x, float y);
         void setPosition(float x, float y);
-        void setSize(int w, int h);
+        void setSize(float w, float h);
         void changeSpriteRect(int cX, int cY, int w, int h);
         void restoreSize();
-        int getW(){return spriteRect->width;}
-        int getH(){return spriteRect->height;}
+        float getW(){return actW;}
+        float getH(){return actH;}
         int getMaxW(){return maxW;}
         int getMaxH(){return maxH;}
         

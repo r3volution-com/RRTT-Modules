@@ -12,6 +12,7 @@ class HUD {
         Sprite *background;
         std::vector<Sprite*> *guns;
         std::vector<Sprite*> *gunsOff;
+        std::vector<Sprite*> *gunsCooldown;
         Sprite *playerHP;
         Sprite *bossHP;
         Sprite *flash;
@@ -30,7 +31,7 @@ class HUD {
         int lifePlayer;
         
     public:
-        HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite *pHP, Sprite *bHP, Sprite *fC, Sprite *fCO);
+        HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite *pHP, Sprite *bHP, Sprite *fC, Sprite *cool, std::vector<Sprite*> *gCd);
         virtual ~HUD();
         
         void changeActiveGun(int gun);
@@ -47,12 +48,13 @@ class HUD {
         void drawPlayerHP(sf::RenderWindow *window);
         void drawBossHP(sf::RenderWindow *window);
         void drawFlash(sf::RenderWindow *window);
-        bool drawFlashCooldown(sf::RenderWindow *window);
         
+        bool drawFlashCooldown(sf::RenderWindow *window);
+        bool drawGunCooldown(sf::RenderWindow *window);
         
         void resetClock();
         
-        //void useFirstGun()
+        
         
 };
 
