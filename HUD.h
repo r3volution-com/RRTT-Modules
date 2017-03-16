@@ -30,6 +30,10 @@ class HUD {
         Text *currentText;
         Font *font;
         
+        bool firstGunUsed;
+        bool secondGunUsed;
+        bool flashUsed;
+        
         float timeFlash;
         float firstGunCooldown;
         float secondGunCooldown;
@@ -75,9 +79,10 @@ class HUD {
         void drawPlayerHP(sf::RenderWindow *window);
         void drawBossHP(sf::RenderWindow *window);
         void drawFlash(sf::RenderWindow *window);
+        void drawTextLayer(sf::RenderWindow *window);
         
-        bool drawFlashCooldown(sf::RenderWindow *window);
-        bool drawGunCooldown(sf::RenderWindow *window);
+        void drawFlashCooldown(sf::RenderWindow *window);
+        void drawGunCooldown(sf::RenderWindow *window);
         
         void resetClockFlash();
         void resetClock();

@@ -13,6 +13,10 @@ HUD::HUD(Sprite *bg, Sprite *pHP, Sprite *bHP){
     firstGunCooldown = 10.0f;
     secondGunCooldown = 2.0f;
     
+    firstGunUsed = false;
+    secondGunUsed = false;
+    flashUsed = false;
+    
     activeGun = 0;
     maxLifeBoss = 150;
     lifeBoss = 150;
@@ -25,7 +29,7 @@ HUD::~HUD(){
 }
 
 void HUD::changeActiveGun(int gun){
-        activeGun = gun;    
+    activeGun = gun;
 }
 
 void HUD::changeMaxLifePlayer(int maxLife){
@@ -74,6 +78,9 @@ void HUD::setSpriteGunsOff(std::vector<Sprite*>* gsO){
 
 void HUD::setSpriteGunsCooldown(std::vector<Sprite*>* gCd){
     gunsCooldown = gCd;
+    for (int i = 0; i<gCd->size(); i++){
+        gunsCooldown->at(i)->setSize(0,0);
+    }
 }
 
 void HUD::setSpriteFlash(Sprite* fC){
@@ -88,8 +95,8 @@ void HUD::setTextLayer(float x, float y, Sprite *sp, Font* f){
     textSprite = sp;
     textSprite->setPosition(x, y);
     font = f;
-    currentText = new Text(std::string(), 0, 0, f);
-    talker = new Text(std::string(), 0, 0, f);
+    currentText = new Text(std::string(), 0, 0, f, false);
+    talker = new Text(std::string(), 0, 0, f, false);
 }
 
 void HUD::setTLayerTalker(std::string s, float x, float y){
@@ -143,42 +150,51 @@ void HUD::drawFlash(sf::RenderWindow* window){
     window->draw(flash->getSprite());
 }
 
-bool HUD::drawFlashCooldown(sf::RenderWindow *window){
+void HUD::drawFlashCooldown(sf::RenderWindow *window){
     if(clockFlash->getElapsedTime().asSeconds() < timeFlash){
-        window->draw(flashCooldown->getSprite());
         flashCooldown->setSize(flashCooldown->getW()-(flashCooldown->getMaxW()/(120.0f*timeFlash)), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
-        return true;
-    }
-    flashCooldown->restoreSize();
-    return false;
+    } else flashUsed = false;
+    if (flashUsed) window->draw(flashCooldown->getSprite());
 }
-bool HUD::drawGunCooldown(sf::RenderWindow* window){
-    if(activeGun == 0){
-        if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
-            window->draw(gunsCooldown->at(0)->getSprite());
-            gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getW()-(gunsCooldown->at(0)->getMaxW()/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
-            return true;
-        }
-        gunsCooldown->at(0)->restoreSize();
-    }else if(activeGun == 1){
-        if(clockSecondGun->getElapsedTime().asSeconds() < secondGunCooldown){
-            window->draw(gunsCooldown->at(1)->getSprite());
-            gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getW()-(gunsCooldown->at(1)->getMaxW()/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
-            return true;
-        }
-        gunsCooldown->at(1)->restoreSize();
-    }
-    return false;
+void HUD::drawGunCooldown(sf::RenderWindow* window){
+    if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
+        gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getW()-(gunsCooldown->at(0)->getMaxW()/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento  
+    } else firstGunUsed = false;
+    
+    if(clockSecondGun->getElapsedTime().asSeconds() < secondGunCooldown){
+        gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getW()-(gunsCooldown->at(1)->getMaxW()/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+    } else secondGunUsed = false;
+    
+    if(activeGun == 0 && firstGunUsed) window->draw(gunsCooldown->at(0)->getSprite());
+    else if(activeGun == 1 && secondGunUsed) window->draw(gunsCooldown->at(1)->getSprite());
+}
+
+void HUD::drawTextLayer(sf::RenderWindow *window){
+    window->draw(textSprite->getSprite());
+    window->draw(*talker->getText());
+    window->draw(*currentText->getText());
 }
 
 void HUD::resetClockFlash(){
-    clockFlash->restart();
+    if (!flashUsed){
+        clockFlash->restart();
+        flashCooldown->restoreSize();
+        flashUsed = true;
+    }
 }
 
 void HUD::resetClock(){
     if(activeGun == 0){
-        clockFirstGun->restart();
+        if (!firstGunUsed) {
+            clockFirstGun->restart();
+            firstGunUsed = true;
+            gunsCooldown->at(activeGun)->restoreSize();
+        }
     }else if(activeGun == 1){
-        clockSecondGun->restart();
+        if (!secondGunUsed){
+            clockSecondGun->restart();
+            secondGunUsed = true;
+            gunsCooldown->at(activeGun)->restoreSize();
+        }
     }
 }

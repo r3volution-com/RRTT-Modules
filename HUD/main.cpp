@@ -61,9 +61,6 @@ int main(int argc, char** argv) {
     gsC->push_back(gc2);
     //gsO->push_back(go3);
     
-    bool gunCooldown = false;
-    bool gCd = false;
-    
     //Background
     Sprite *background = new Sprite(tex7, 1920, 1024, 0, 0);
     
@@ -82,9 +79,6 @@ int main(int argc, char** argv) {
     //Flash
     Sprite *fC = new Sprite(tex5,100 , 100, 0, 0);
     fC->move(100.0f,100.0f);
-    
-    bool flash = false;
-    bool fCd = false;
     
     //FlashOff
     Sprite *fCO = new Sprite(tex6,100 , 100, 0, 0);
@@ -156,37 +150,20 @@ int main(int argc, char** argv) {
             }
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-            if(fCd == false){
-                flash = true;
-                hud->resetClockFlash();
-            }
+            hud->resetClockFlash();
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Right)){
-            if(gCd == false){
-                gunCooldown = true;
-                hud->resetClock();
-            }
+            hud->resetClock();
         }
         
         
         hud->changeActiveGun(activeGun);        
 
         window->clear();
-        hud->drawHUD(window);
         
-       
-        if(flash == true){
-            fCd=hud->drawFlashCooldown(window);
-            if(fCd == false){
-                flash = false;
-            }
-        }
-        if(gunCooldown == true){
-            gCd=hud->drawGunCooldown(window);
-            if(gCd == false){
-                gunCooldown = false;
-            }
-        }
+        hud->drawHUD(window);
+        hud->drawFlashCooldown(window);
+        hud->drawGunCooldown(window);
         
         window->display();
         
