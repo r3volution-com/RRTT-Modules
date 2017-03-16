@@ -151,7 +151,7 @@ int main(int argc, char** argv) {
         
        
         if(flash == true){
-            fCd=hud->FlashCooldown(window);
+            fCd=hud->drawFlashCooldown(window);
             if(fCd == false){
                 flash = false;
             }

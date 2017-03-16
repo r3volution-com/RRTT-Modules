@@ -55,7 +55,7 @@ void HUD::changeLifeBoss(int life){
 }
 
 void HUD::changeFlashCooldown(int cooldown){
-    flashCooldown = cooldown;
+    timeFlash = cooldown;
 }
 
 void HUD::changeFirstGunCooldown(int cooldown){
@@ -103,7 +103,7 @@ void HUD::drawFlash(sf::RenderWindow* window){
     window->draw(flash->getSprite());
 }
 
-void HUD::drawFlashCooldown(sf::RenderWindow *window){
+bool HUD::drawFlashCooldown(sf::RenderWindow *window){
     if(clock->getElapsedTime().asSeconds() < timeFlash){
         window->draw(flashCooldown->getSprite());
         flashCooldown->setSize(flashCooldown->getW()-(timeFlash/120.0f), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento

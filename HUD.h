@@ -47,7 +47,7 @@ class HUD {
         void drawPlayerHP(sf::RenderWindow *window);
         void drawBossHP(sf::RenderWindow *window);
         void drawFlash(sf::RenderWindow *window);
-        void drawFlashCooldown(sf::RenderWindow *window);
+        bool drawFlashCooldown(sf::RenderWindow *window);
         
         
         void resetClock();
