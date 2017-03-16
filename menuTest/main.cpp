@@ -16,7 +16,10 @@ int main(int argc, char** argv) {
     Font *fuente = new Font("resources/font.ttf");
     
     Menu *menu = new Menu(background, buttons, fuente, 1);
-    menu->addButton("hola", 200, 200, 120, 25);
+    if (!menu->addButton("hola", 200, 200, 120, 25, sf::Color::Black, 15)) window->close();
+    
+    sf::Vector2i pos = sf::Mouse::getPosition(*window);
+    Hitbox *mouse = new Hitbox(pos.x, pos.y, 1, 1);
 
     window->setFramerateLimit(120);
     
@@ -45,12 +48,12 @@ int main(int argc, char** argv) {
                 default: break;
             }
         }
+        pos = sf::Mouse::getPosition(*window);
+        mouse->setPosition(pos.x, pos.y);
+        menu->checkHover(mouse);
        
-     
-        
         window->clear();
-        //menu->drawMenu(window);
-        window->draw(buttons->getSprite());
+        menu->drawMenu(window);
         window->display();
         
     }

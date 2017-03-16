@@ -11,7 +11,7 @@ class Font {
         Font(std::string path);
         virtual ~Font();
         
-        sf::Font getFont() { return *font; }
+        sf::Font *getFont() { return font; }
 };
 
 #endif /* FONT_H */

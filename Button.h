@@ -11,22 +11,19 @@ class Button {
         Hitbox *hitbox;
         Sprite *buttonLayout;
         
-        Texture *tButton;
-        Sprite *button;
-        
         bool h;
     public:
         float bX, bY;
         int bW, bH;
         
-        Button(std::string t, float x, float y, int w, int h, Sprite *bL);
+        Button(float x, float y, int w, int h, Sprite *bL);
         virtual ~Button();
         
+        void setText(std::string t, sf::Color color, Font *f, int size);
         void hover(Hitbox *mouse);
         bool getHover() { return h; }
+        void draw(sf::RenderWindow *window);
         
-        Sprite *getSprite();
-        //void callFunction()
 };
 
 #endif /* BUTTON_H */

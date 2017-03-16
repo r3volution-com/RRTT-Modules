@@ -16,10 +16,10 @@ int main(int argc, char** argv) {
     Texture *tex = new Texture("resources/sprites.png");
     
     Player *rath = new Player(0, 0, 128, 128, 2);
-    rath->loadAnimation(tex, 0, 0, 4, 0.1f);
+    rath->loadAnimation(tex, 0, 0, 3, 0.1f);
     
-    NPC *aldeano = new NPC(200, 200, 128, 128, 2, font);
-    aldeano->loadAnimation(tex, 0, 128, 4, 0.1f);
+    NPC *aldeano = new NPC(200, 200, 128, 128, 2, font, 15);
+    aldeano->loadAnimation(tex, 0, 128, 3, 0.1f);
     aldeano->addSentence("probamos con esto", 0, 340);
     
     Texture *tex2 = new Texture("resources/button-map.png");
@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
         window->draw(aldeano->getAnimation()->getCurrentSprite());
         if (showText) {
             window->draw(sp->getSprite());
-            window->draw(aldeano->getCurrentSentence()->getText());
+            window->draw(*aldeano->getCurrentSentence()->getText());
         }
         window->display();
     }

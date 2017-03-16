@@ -10,7 +10,7 @@ Texture::Texture(const char *path) {
 }
 
 Texture::Texture(sf::RenderTexture *t){
-    rTex=t; //ToDo: conversion de sf::RenderTexture a sf::Texture (o buscar alternativa)
+    rTex=t;
     render = true;
 }
 
@@ -20,6 +20,7 @@ Texture::~Texture() {
 sf::RenderTexture *Texture::createRenderTexture(int w, int h) { 
     sf::RenderTexture *te = new sf::RenderTexture();
     te->create(w, h);
+    te->clear();
     return te;
 }
 sf::Texture *Texture::getTexture(){

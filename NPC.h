@@ -13,7 +13,7 @@ class NPC : public Entity{
         Text *currentText;
         Font *font;
     public:
-        NPC(float x, float y, int w, int h, float sp, Font *f);
+        NPC(float x, float y, int w, int h, float sp, Font *f, int size);
         virtual ~NPC();
         
         void addSentence(std::string sentence, float x, float y);
