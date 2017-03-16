@@ -22,6 +22,8 @@ class Sprite {
         void restoreSize();
         int getW(){return spriteRect->width;}
         int getH(){return spriteRect->height;}
+        int getMaxW(){return maxW;}
+        int getMaxH(){return maxH;}
         
         sf::Sprite getSprite() { return *sprite; }
         sf::IntRect getSpriteRect() { return *spriteRect; }

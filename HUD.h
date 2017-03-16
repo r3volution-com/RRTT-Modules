@@ -20,25 +20,39 @@ class HUD {
         sf::Clock *clock;
         
         float timeFlash;
+        float firstGunCooldown;
+        float secondGunCooldown;
+        
         int activeGun;
         int maxLifeBoss;
         int lifeBoss;
-        int maxLife;
-        int life;
+        int maxLifePlayer;
+        int lifePlayer;
         
     public:
         HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite *pHP, Sprite *bHP, Sprite *fC, Sprite *fCO);
         virtual ~HUD();
         
         void changeActiveGun(int gun);
+        void changeMaxLifePlayer(int maxLife);
+        void changeLifePlayer(int life);
+        void changeMaxLifeBoss(int maxLife);
+        void changeLifeBoss(int life);
+        void changeFlashCooldown(int cooldown);
+        void changeFirstGunCooldown(int cooldown);
+        void changeSecondGunCooldown(int cooldown);
         
         bool drawHUD(sf::RenderWindow *window);
         void drawGun(sf::RenderWindow *window);
         void drawPlayerHP(sf::RenderWindow *window);
         void drawBossHP(sf::RenderWindow *window);
         void drawFlash(sf::RenderWindow *window);
-        bool drawFlashCooldown(sf::RenderWindow *window);
+        void drawFlashCooldown(sf::RenderWindow *window);
+        
+        
         void resetClock();
+        
+        //void useFirstGun()
         
 };
 

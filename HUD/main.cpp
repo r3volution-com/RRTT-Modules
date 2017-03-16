@@ -56,9 +56,13 @@ int main(int argc, char** argv) {
     Sprite *plHP = new Sprite(tex4,100 , 15, 0, 0);
     plHP->move(150.0f,10.0f);
     
+    int lifePlayer = 100;
+    
     //Boss
     Sprite *bHP = new Sprite(tex4,100 , 20, 0, 0);
     bHP->move(590.0f,680.0f);
+    
+    int lifeBoss = 150;
     
     //Flash
     Sprite *fC = new Sprite(tex5,100 , 100, 0, 0);
@@ -109,24 +113,28 @@ int main(int argc, char** argv) {
             activeGun = 1;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Add)){
-            /*if(life < maxLife){
-                life = life + 1;
-            }*/
+            if(lifePlayer < 100){
+                lifePlayer = lifePlayer + 1;
+                hud->changeLifePlayer(lifePlayer);
+            }
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract)){
-           /* if(life > 0){
-                life = life - 1;
-            }*/
+            if(lifePlayer > 0){
+                lifePlayer = lifePlayer - 1;
+                hud->changeLifePlayer(lifePlayer);
+            }
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Multiply)){
-            /*if(lifeBoss < maxLifeBoss){
+            if(lifeBoss < 150){
                 lifeBoss = lifeBoss + 1;
-            }*/
+                hud->changeLifeBoss(lifeBoss);
+            }
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Divide)){
-            /*if(lifeBoss > 0){
+            if(lifeBoss > 0){
                 lifeBoss = lifeBoss - 1;
-            }*/
+                hud->changeLifeBoss(lifeBoss);
+            }
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
             if(fCd == false){
@@ -143,7 +151,7 @@ int main(int argc, char** argv) {
         
        
         if(flash == true){
-            fCd=hud->drawFlashCooldown(window);
+            fCd=hud->FlashCooldown(window);
             if(fCd == false){
                 flash = false;
             }

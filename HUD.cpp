@@ -12,11 +12,13 @@ HUD::HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite
     clock = new sf::Clock;
     
     timeFlash = 1.5f;
+    firstGunCooldown = 4.0f;
+    secondGunCooldown = 2.0f;
     activeGun = 0;
     maxLifeBoss = 150;
     lifeBoss = 150;
-    maxLife = 100;
-    life = 100;
+    maxLifePlayer = 100;
+    lifePlayer = 100;
     
 }
 
@@ -26,6 +28,42 @@ HUD::~HUD(){
 
 void HUD::changeActiveGun(int gun){
     activeGun = gun;
+}
+
+void HUD::changeMaxLifePlayer(int maxLife){
+    maxLifePlayer = maxLife;
+}
+
+void HUD::changeLifePlayer(int life){
+    lifePlayer = life;
+    int newW = (lifePlayer*playerHP->getMaxW())/maxLifePlayer;
+    if(newW < playerHP->getMaxW() && newW >= 0){
+        playerHP->setSize(newW, playerHP->getMaxH());
+    }
+}
+
+void HUD::changeMaxLifeBoss(int maxLife){
+    maxLifeBoss = maxLife;
+}
+
+void HUD::changeLifeBoss(int life){
+    lifeBoss = life;
+    int newW = (lifeBoss*bossHP->getMaxW())/maxLifeBoss;
+    if(newW < bossHP->getMaxW() && newW >= 0){
+        bossHP->setSize(newW, bossHP->getMaxH());
+    }
+}
+
+void HUD::changeFlashCooldown(int cooldown){
+    flashCooldown = cooldown;
+}
+
+void HUD::changeFirstGunCooldown(int cooldown){
+    firstGunCooldown = cooldown;
+}
+
+void HUD::changeSecondGunCooldown(int cooldown){
+    secondGunCooldown = cooldown;
 }
 
 bool HUD::drawHUD(sf::RenderWindow* window){
@@ -52,30 +90,20 @@ void HUD::drawGun(sf::RenderWindow *window){
 
     }*/
 }
+
 void HUD::drawPlayerHP(sf::RenderWindow *window){
-    int newW = (life*playerHP->getW())/maxLife;
-    if(newW < playerHP->getW() && newW >= 0){
-        playerHP->setSize(newW, playerHP->getH());
-        window->draw(playerHP->getSprite());
-    }else {
-        playerHP->restoreSize();
-        window->draw(playerHP->getSprite());
-    }
+    window->draw(playerHP->getSprite());
 }
+
 void HUD::drawBossHP(sf::RenderWindow *window){
-    int newW = (lifeBoss*bossHP->getW())/maxLifeBoss;
-    if(newW < bossHP->getW() && newW >= 0){
-        bossHP->setSize(newW, bossHP->getH());
-        window->draw(bossHP->getSprite());
-    }else {
-        bossHP->restoreSize();
-        window->draw(bossHP->getSprite());
-    }
+    window->draw(bossHP->getSprite());
 }
+
 void HUD::drawFlash(sf::RenderWindow* window){
     window->draw(flash->getSprite());
 }
-bool HUD::drawFlashCooldown(sf::RenderWindow *window){
+
+void HUD::drawFlashCooldown(sf::RenderWindow *window){
     if(clock->getElapsedTime().asSeconds() < timeFlash){
         window->draw(flashCooldown->getSprite());
         flashCooldown->setSize(flashCooldown->getW()-(timeFlash/120.0f), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
@@ -84,6 +112,7 @@ bool HUD::drawFlashCooldown(sf::RenderWindow *window){
     flashCooldown->restoreSize();
     return false;
 }
+
 void HUD::resetClock(){
     clock->restart();
 }
