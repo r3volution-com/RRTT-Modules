@@ -1,16 +1,13 @@
 #include "HUD.h"
 
-HUD::HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite *pHP, Sprite *bHP, Sprite *fC, Sprite *cool, std::vector<Sprite*> *gCd){
+HUD::HUD(Sprite *bg, Sprite *pHP, Sprite *bHP){
     background = bg;
-    guns = gs;
-    gunsOff = gsO;
     playerHP = pHP;
     bossHP = bHP;
-    flash = fC;
-    flashCooldown = cool;
-    gunsCooldown = gCd;
     
-    clock = new sf::Clock;
+    clockFlash = new sf::Clock;
+    clockFirstGun = new sf::Clock;
+    clockSecondGun = new sf::Clock;
     
     timeFlash = 4.0f;
     firstGunCooldown = 10.0f;
@@ -28,7 +25,7 @@ HUD::~HUD(){
 }
 
 void HUD::changeActiveGun(int gun){
-    activeGun = gun;
+        activeGun = gun;    
 }
 
 void HUD::changeMaxLifePlayer(int maxLife){
@@ -67,6 +64,26 @@ void HUD::changeSecondGunCooldown(int cooldown){
     secondGunCooldown = cooldown;
 }
 
+void HUD::setSpriteGunsOn(std::vector<Sprite*>* gs){
+    guns = gs;
+}
+
+void HUD::setSpriteGunsOff(std::vector<Sprite*>* gsO){
+    gunsOff = gsO;
+}
+
+void HUD::setSpriteGunsCooldown(std::vector<Sprite*>* gCd){
+    gunsCooldown = gCd;
+}
+
+void HUD::setSpriteFlash(Sprite* fC){
+    flash = fC;
+}
+
+void HUD::setSpriteFlashCooldown(Sprite* cool){
+    flashCooldown = cool;
+}
+
 void HUD::setTextLayer(float x, float y, Sprite *sp, Font* f){
     textSprite = sp;
     textSprite->setPosition(x, y);
@@ -74,14 +91,17 @@ void HUD::setTextLayer(float x, float y, Sprite *sp, Font* f){
     currentText = new Text(std::string(), 0, 0, f);
     talker = new Text(std::string(), 0, 0, f);
 }
+
 void HUD::setTLayerTalker(std::string s, float x, float y){
     talker->setText(s);
     talker->setPosition(x, y);
 }
+
 void HUD::setTLayerText(std::string s, float x, float y){
     currentText->setText(s);
     currentText->setPosition(x, y);
 }
+
 void HUD::setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor){
     currentText->setStyles(fillColor, outlineColor, 1, size);
 }
@@ -124,7 +144,7 @@ void HUD::drawFlash(sf::RenderWindow* window){
 }
 
 bool HUD::drawFlashCooldown(sf::RenderWindow *window){
-    if(clock->getElapsedTime().asSeconds() < timeFlash){
+    if(clockFlash->getElapsedTime().asSeconds() < timeFlash){
         window->draw(flashCooldown->getSprite());
         flashCooldown->setSize(flashCooldown->getW()-(flashCooldown->getMaxW()/(120.0f*timeFlash)), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
         return true;
@@ -134,14 +154,14 @@ bool HUD::drawFlashCooldown(sf::RenderWindow *window){
 }
 bool HUD::drawGunCooldown(sf::RenderWindow* window){
     if(activeGun == 0){
-        if(clock->getElapsedTime().asSeconds() < firstGunCooldown){
+        if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
             window->draw(gunsCooldown->at(0)->getSprite());
             gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getW()-(gunsCooldown->at(0)->getMaxW()/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
             return true;
         }
         gunsCooldown->at(0)->restoreSize();
     }else if(activeGun == 1){
-        if(clock->getElapsedTime().asSeconds() < secondGunCooldown){
+        if(clockSecondGun->getElapsedTime().asSeconds() < secondGunCooldown){
             window->draw(gunsCooldown->at(1)->getSprite());
             gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getW()-(gunsCooldown->at(1)->getMaxW()/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
             return true;
@@ -151,6 +171,14 @@ bool HUD::drawGunCooldown(sf::RenderWindow* window){
     return false;
 }
 
+void HUD::resetClockFlash(){
+    clockFlash->restart();
+}
+
 void HUD::resetClock(){
-    clock->restart();
+    if(activeGun == 0){
+        clockFirstGun->restart();
+    }else if(activeGun == 1){
+        clockSecondGun->restart();
+    }
 }
