@@ -21,8 +21,9 @@ void Entity::loadAnimation(Texture *t, int cX, int cY, int nS, float d){
 void Entity::move(float dirX, float dirY){
     coor->setCoordinate(dirX*speed, dirY*speed);
     anim->move(coor->getIC().x, coor->getIC().y);
+    hitbox->move(coor->getIC().x, coor->getIC().y);
 }
 
-/*bool Entity::collision(Hitbox other){
-    return hitbox.intersects(other);
-}*/
+bool Entity::collision(Hitbox *other){
+    return hitbox->checkCollision(other);
+}

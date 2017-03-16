@@ -16,6 +16,7 @@ class Sprite {
         virtual ~Sprite();
         
         void move(float x, float y);
+        void setPosition(float x, float y);
         void setSize(int w, int h);
         void changeSpriteRect(int cX, int cY, int w, int h);
         void restoreSize();
