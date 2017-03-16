@@ -1,7 +1,8 @@
 #include "Button.h"
 
-Button::Button(std::string t, float x, float y, int w, int h, Sprite *bL) {
-    text = new Text(t, x+(w/2), y+(h/2));
+#include <iostream>
+
+Button::Button(float x, float y, int w, int h, Sprite *bL) {
     bX = x;
     bY = y;
     bW = w;
@@ -9,33 +10,35 @@ Button::Button(std::string t, float x, float y, int w, int h, Sprite *bL) {
     buttonLayout = bL;
     hitbox = new Hitbox(x, y, w, h);
     h = false;
-    bL->move(x, y);
+    buttonLayout->setPosition(x,y);
 }
 
 Button::~Button() {
 }
 
-void Button::hover(Hitbox *mouse){
+void Button::setText(std::string t, sf::Color color, Font *f, int size){
+    text = new Text(t, bX+(bW/2), bY+(bH/2), color, f, size);
+}
+
+void Button::hover(Hitbox *mouse){ //ToDo: revisar por que a veces no se ve el cambio de sprite
     if (hitbox->checkCollision(mouse) && !h){
         int cX = buttonLayout->getSpriteRect().left+bW;
         int cY = buttonLayout->getSpriteRect().top;
         buttonLayout->changeSpriteRect(cX, cY, bW, bH);
+    //std::cout << mouse->hitbox->left << "," << mouse->hitbox->top << " - " << hitbox->hitbox->left << "," << hitbox->hitbox->top << "\n";
+        
         h = true;
     } else if (!hitbox->checkCollision(mouse) && h){
         int cX = buttonLayout->getSpriteRect().left-bW;
         int cY = buttonLayout->getSpriteRect().top;
         buttonLayout->changeSpriteRect(cX, cY, bW, bH);
+    //std::cout << mouse->hitbox->left << "," << mouse->hitbox->top << " + " << hitbox->hitbox->left << "," << hitbox->hitbox->top << "\n";
+        
         h = false;
     }
 }
 
-Sprite *Button::getSprite(){
-    sf::RenderTexture *texture;
-    texture->create(bW, bH);
-    
-    texture->draw(buttonLayout->getSprite());
-    texture->draw(text->getText());
-    Texture *t = new Texture(texture);
-    Sprite *target = new Sprite(t, bW, bH, 0, 0);
-    return target;
+void Button::draw(sf::RenderWindow *window){
+    window->draw(buttonLayout->getSprite());
+    window->draw(*text->getText());
 }

@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include "Sprite.h"
+#include <SFML/Graphics.hpp>
+
 
 class HUD {
     
@@ -12,25 +14,31 @@ class HUD {
         std::vector<Sprite*> *gunsOff;
         Sprite *playerHP;
         Sprite *bossHP;
+        Sprite *flash;
         Sprite *flashCooldown;
         
+        sf::Clock *clock;
+        
+        float timeFlash;
         int activeGun;
+        int maxLifeBoss;
+        int lifeBoss;
+        int maxLife;
+        int life;
         
     public:
-        HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite *pHP, Sprite *bHP, Sprite *fC);
+        HUD(Sprite *bg, std::vector<Sprite*> *gs, std::vector<Sprite*> *gsO, Sprite *pHP, Sprite *bHP, Sprite *fC, Sprite *fCO);
         virtual ~HUD();
         
         void changeActiveGun(int gun);
-        void changePlayerLife(int life);
-        void activeBossLife(int life);
-        void changeBossLife(int life);
-        void changeFlashCooldown();
         
-        bool drawHUD(sf::RenderWindow *window, int maxLife, int life,  int maxLifeBoss, int lifeBoss);
+        bool drawHUD(sf::RenderWindow *window);
         void drawGun(sf::RenderWindow *window);
-        void drawPlayerHP(sf::RenderWindow *window, int maxLife, int life);
-        void drawBossHP(sf::RenderWindow *window, int maxLifeBoss, int lifeBoss);
-
+        void drawPlayerHP(sf::RenderWindow *window);
+        void drawBossHP(sf::RenderWindow *window);
+        void drawFlash(sf::RenderWindow *window);
+        bool drawFlashCooldown(sf::RenderWindow *window);
+        void resetClock();
         
 };
 

@@ -1,40 +1,40 @@
 #include "Menu.h"
 
 Menu::Menu(Sprite* bg, Sprite *bLayout, Font* bFont, int numButtons) {
-    addedButtons = 0;
     background = bg;
     buttonLayout = bLayout;
     buttonFont = bFont;
-    //buttons = new std::vector<Button>(numButtons);
+    maxButtons = numButtons;
+    buttons = new std::vector<Button*>();
 }
 
 Menu::~Menu() {
 }
 
-bool Menu::addButton(std::string text, float x, float y, int w, int h){
-    if (addedButtons < maxButtons){
-        Button *button = new Button(text, x, y, w, h, buttonLayout);
-        //buttons->insert(addedButtons, button);
-        addedButtons++;
+bool Menu::addButton(std::string text, float x, float y, int w, int h, sf::Color color, int size){
+    if (buttons->size() < maxButtons){
+        Button *button = new Button(x, y, w, h, buttonLayout);
+        button->setText(text, color, buttonFont, size);
+        buttons->push_back(button);
         return true;
     } else return false;
 }
 
 void Menu::checkHover(Hitbox* mouse) {
-    for (int i=0; i<addedButtons; i++){
-        //buttons[i]->hover(mouse);
+    for (int i=0; i<buttons->size(); i++){
+        buttons->at(i)->hover(mouse);
     }
 }
 int Menu::checkClicks() {
-    for (int i=0; i<addedButtons; i++){
-        //if (buttons[i]->getHover()) return i;
+    for (int i=0; i<buttons->size(); i++){
+        if (buttons->at(i)->getHover()) return i;
     }
     return -1;
 }
 
 void Menu::drawMenu(sf::RenderWindow *window){
     window->draw(background->getSprite());
-    for (int i = 0; i<addedButtons; i++){
-        window->draw(buttons[i]->getSprite());
-    }
+    for (int i = 0; i<buttons->size(); i++){
+        buttons->at(i)->draw(window);
+    }  
 }

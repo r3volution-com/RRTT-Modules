@@ -36,6 +36,10 @@ void Sprite::move(float x, float y){
     sprite->move(x, y);
 }
 
+void Sprite::setPosition(float x, float y){
+    sprite->setPosition(x, y);
+}
+
 void Sprite::setSize(int w, int h){
     spriteRect->width = w;
     spriteRect->height = h;

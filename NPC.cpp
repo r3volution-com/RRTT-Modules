@@ -1,10 +1,11 @@
 #include "NPC.h"
 
-NPC::NPC(float x, float y, int w, int h, float sp) : Entity(x, y, w, h, sp) {
+NPC::NPC(float x, float y, int w, int h, float sp, Font *f, int size) : Entity(x, y, w, h, sp) {
     currentSentence=0;
     sentences = new std::vector<std::string>();
     sentencePosition = new std::vector<Coordinate *>();
-    currentText = new Text(std::string(), 0, 0, sf::Color::White);
+    font = f;
+    currentText = new Text(std::string(), 0, 0, sf::Color::Black, f, size);
 }
 
 NPC::~NPC() {

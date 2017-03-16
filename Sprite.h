@@ -16,11 +16,13 @@ class Sprite {
         virtual ~Sprite();
         
         void move(float x, float y);
+        void setPosition(float x, float y);
         void setSize(int w, int h);
         void changeSpriteRect(int cX, int cY, int w, int h);
         void restoreSize();
-        int getW(){return maxW;}
-        int getH(){return maxH;}
+        int getW(){return spriteRect->width;}
+        int getH(){return spriteRect->height;}
+        
         sf::Sprite getSprite() { return *sprite; }
         sf::IntRect getSpriteRect() { return *spriteRect; }
 };
