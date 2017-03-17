@@ -8,8 +8,9 @@ class Text {
     private:
         Font *font;
         sf::Text *text;
+        bool centerOrigin;
     public:
-        Text(std::string t, float x, float y, Font *f);
+        Text(std::string t, float x, float y, Font *f, bool centerOrigin);
         virtual ~Text();
         
         void setStyles(sf::Color color, sf::Color outlineColor, int outlineThickness, int size); 

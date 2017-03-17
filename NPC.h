@@ -18,7 +18,7 @@ class NPC : public Entity {
         void setTextParams(Font *f, int size, sf::Color fillColor, sf::Color outlineColor);
         void addSentence(std::string sentence, float x, float y);
         bool nextSentence();
-        std::string getName();
+        std::string getName() { return name; };
         std::string getCurrentSentenceText();
         Coordinate *getCurrentSentencePosition();
 };

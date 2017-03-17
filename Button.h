@@ -11,7 +11,7 @@ class Button {
         Hitbox *hitbox;
         Sprite *buttonLayout;
         
-        bool h;
+        bool ho;
     public:
         float bX, bY;
         int bW, bH;
@@ -21,7 +21,7 @@ class Button {
         
         void setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size);
         void hover(Hitbox *mouse);
-        bool getHover() { return h; }
+        bool getHover() { return ho; }
         void draw(sf::RenderWindow *window);
         
 };
