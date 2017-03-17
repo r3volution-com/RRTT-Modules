@@ -25,7 +25,7 @@ class Menu {
         void checkHover(Hitbox* mouse);
         int checkClicks();
         
-        void drawMenu(sf::RenderWindow *window); //ToDo: mejorar
+        void drawMenu(sf::RenderWindow *window); //ToDo: mejorar usando singleton
 };
 
 #endif /* MENU_H */
