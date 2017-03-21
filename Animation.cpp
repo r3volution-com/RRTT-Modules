@@ -49,6 +49,10 @@ Animation::~Animation() {
     rectSprite = NULL;
 }
 
+void Animation::setPosition(float x, float y){
+    sprites->setPosition(x, y);
+}
+
 void Animation::move(float x, float y){
     sprites->move(x, y);
 }

@@ -21,6 +21,7 @@ class Animation {
         Animation(Texture *t, int w, int h, int cX, int cY, int nS, float d);
         virtual ~Animation();
         
+        void setPosition(float x, float y);
         void move(float x, float y);
         void changeSpriteRect(int cX, int cY, int w, int h);
         
