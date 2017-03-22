@@ -15,20 +15,20 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "../Entity.h"
+#include "../Entity.h" //ToDo: cambiarlo por player
 using namespace std;
 
 /*
  * 
  */
 int main(int argc, char** argv) {
-     sf::RenderWindow window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
-     char direcY = 'z';
-     char direcX = 'z';
-     bool mov = true;
-     Texture *text = new Texture("resources/sprites.png");
-     Entity *rath = new Entity(320, 240, 128, 128, 1.0f);
-     rath->loadAnimation(text, 0, 0, 4, 0.1f);
+    sf::RenderWindow window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
+    char direcY = 'z';
+    char direcX = 'z'; //ToDo: integrar estas variables en player para tener acceso a la direccion del jugador
+    bool mov = true;
+    Texture *text = new Texture("resources/sprites.png");
+    Entity *rath = new Entity(320, 240, 128, 128, 1.0f); //ToDo: cambiarlo por Player
+    rath->loadAnimation(text, 0, 0, 4, 0.1f);
     window.setFramerateLimit(120);
     
     //Bucle del juego
