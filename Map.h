@@ -5,7 +5,7 @@ class Map {
     private:
 
     public:
-        Map();
+        Map(); //ToDo: map
         virtual ~Map();
 };
 

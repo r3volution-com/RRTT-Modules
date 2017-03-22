@@ -5,7 +5,7 @@ class Game {
     private:
         
     public:
-        Game();
+        Game(); //ToDo: game
         virtual ~Game();
 };
 

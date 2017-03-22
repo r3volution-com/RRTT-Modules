@@ -2,38 +2,35 @@
 
 #include <iostream>
 
-Button::Button(float x, float y, int w, int h, Sprite *bL) {
-    bX = x;
-    bY = y;
-    bW = w;
-    bH = h;
-    buttonLayout = bL;
-    hitbox = new Hitbox(x, y, w, h);
-    ho = false;
-    buttonLayout->setPosition(x,y);
+Button::Button(Coordinate *pos, Texture *bL, Rect *textureRect) {
+    buttonData = new Rect(pos->x, pos->y, textureRect->w, textureRect->h);
+    buttonLayout = new Sprite(bL, textureRect);
+    hitbox = new Hitbox(buttonData);
+    isHover = false;
+    buttonLayout->setPosition(pos->x, pos->y);
 }
 
 Button::~Button() {
 }
 
 void Button::setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size){
-    text = new Text(t, bX+(bW/2), bY+(bH), f, true);
+    text = new Text(t, buttonData->x+(buttonData->w/2), buttonData->y+(buttonData->h), f, true);
     text->setStyles(color, outlineColor, 1, size);
 }
 
 void Button::hover(Hitbox *mouse){
-    if (hitbox->checkCollision(mouse) && !ho){
-        int cX = buttonLayout->getSpriteRect().left+bW;
+    if (hitbox->checkCollision(mouse) && !isHover){
+        int cX = buttonLayout->getSpriteRect().left+rect->w;
         int cY = buttonLayout->getSpriteRect().top;
-        buttonLayout->changeSpriteRect(cX, cY, bW, bH);
+        buttonLayout->changeSpriteRect(cX, cY, rect->w, rect->h);
         
-        ho = true;
-    } else if (!hitbox->checkCollision(mouse) && ho){
-        int cX = buttonLayout->getSpriteRect().left-bW;
+        isHover = true;
+    } else if (!hitbox->checkCollision(mouse) && isHover){
+        int cX = buttonLayout->getSpriteRect().left-rect->w;
         int cY = buttonLayout->getSpriteRect().top;
-        buttonLayout->changeSpriteRect(cX, cY, bW, bH);
+        buttonLayout->changeSpriteRect(cX, cY, rect->w, rect->h);
         
-        ho = false;
+        isHover = false;
     }
 }
 

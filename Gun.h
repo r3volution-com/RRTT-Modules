@@ -7,6 +7,7 @@
 
 class Gun {
     private:
+        int width, height;
         bool active;
         
         int damage;
@@ -19,13 +20,13 @@ class Gun {
         
         //Ataque attack;
     public:
-        Gun(float x, float y, int w, int h, Animation *gA);
+        Gun(Coordinate *position, Rect *animRect, Texture *tex, int nS, float d);
         virtual ~Gun();
         
         void move(float dirX, float dirY);
         void attack();
         
-        void setPosition(float x, float y);//ToDo: Sustituir todos los sitios donde se pasa x e y por coordenada
+        void setPosition(Coordinate *coord);
         void setActive();
         void setAttackCooldown(float atkCooldown);
         void setDamage(int dmg) { damage = dmg; }
