@@ -13,6 +13,7 @@ class HUD {
     
     private:
         Sprite *background;
+        Sprite *hud;
         std::vector<Sprite*> *guns;
         std::vector<Sprite*> *gunsOff;
         std::vector<Sprite*> *gunsCooldown;
@@ -30,6 +31,8 @@ class HUD {
         Text *currentText;
         Font *font;
         
+        Text *lifePlayerText;
+        
         bool firstGunUsed;
         bool secondGunUsed;
         bool flashUsed;
@@ -45,7 +48,7 @@ class HUD {
         int lifePlayer;
         
     public:
-        HUD(Sprite *bg, Sprite *pHP, Sprite *bHP);
+        HUD(Sprite *bg, Sprite *hd, Sprite *pHP, Sprite *bHP, Font *f);
         virtual ~HUD();
         
         void changeActiveGun(int gun);
@@ -69,10 +72,12 @@ class HUD {
         Sprite* getSpriteFlash(){return flash;}
         Sprite* getSpriteFlashCooldown(){return flashCooldown;}*/
         
-        void setTextLayer(float x, float y, Sprite *sp, Font *f);
+        void setTextLayer(float x, float y, Sprite *sp);
         void setTLayerTalker(std::string s, float x, float y);
         void setTLayerText(std::string s, float x, float y);
         void setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor);
+        
+        void setTextLifePlayer();
         
         bool drawHUD(sf::RenderWindow *window);
         void drawGun(sf::RenderWindow *window);

@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Coordinate.h"
 
 Sprite::Sprite(Texture *texture, int w, int h, int cX, int cY) {
     //Copiamos las variables
@@ -66,4 +67,8 @@ void Sprite::restoreSize(){
     actW = maxW;
     actH = maxH;
     sprite->setTextureRect(*spriteRect);
+}
+
+Coordinate Sprite::getPosition(){
+    return Coordinate(sprite->getPosition().x, sprite->getPosition().y);
 }
