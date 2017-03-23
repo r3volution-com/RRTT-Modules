@@ -31,6 +31,7 @@ int main(int argc, char** argv) {
                         case sf::Keyboard::Escape:
                             window->close();
                         break;
+                        default:
                         break;
                     }
                 break;
