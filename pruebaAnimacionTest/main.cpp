@@ -36,9 +36,9 @@ int main(int argc, char** argv) {
     
     bool mov = true;
     Texture *text = new Texture("resources/sprites.png");
-    Entity *rath = new Entity(new Rect (128, 128, 320, 240), 1.0f);
-    Entity *scytheArm = new Entity(new Rect(128 ,128 ,320 ,240), 1.0f);
-    Entity *gunArm = new Entity(new Rect (128, 128, 320, 240), 1.0f);
+    Entity *rath = new Entity(new Rect (320, 240, 128, 128), 1.0f);
+    Entity *scytheArm = new Entity(new Rect(320 ,240, 128 ,128), 1.0f);
+    Entity *gunArm = new Entity(new Rect (320, 240, 128, 128), 1.0f);
     rath->loadAnimation(text, new Coordinate(0,0), 3, 0.5f);
     scytheArm->loadAnimation(text, new Coordinate(0, 512), 3, 0.5f);
     gunArm ->loadAnimation(text,new Coordinate(0, 640), 0, 0.5f);
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
             rath->move(1, 0);
             scytheArm->move(1, 0);
             if( animX !='r'){
-                rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));
+                rath->getAnimation()->changeSpriteRect(new Rect(128, 128, 0, 128));
             }
             direcX='r';
             animX='r';
@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
             rath->move(0, -1);
             scytheArm->move(0, -1);
             if( direcY != 'u'){
-                rath->getAnimation()->changeSpriteRect(new Rect(0, 256, 128, 128);
+                rath->getAnimation()->changeSpriteRect(new Rect(0, 256, 128, 128));
             }
             mov=true;
             direcY='u';
