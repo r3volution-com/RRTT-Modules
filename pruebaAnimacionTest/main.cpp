@@ -36,12 +36,12 @@ int main(int argc, char** argv) {
     
     bool mov = true;
     Texture *text = new Texture("resources/sprites.png");
-    Entity *rath = new Entity(320, 240, 128, 128, 1.0f);
-    Entity *scytheArm = new Entity(320, 240, 128, 128, 1.0f);
-    Entity *gunArm = new Entity(320, 240, 128, 128, 1.0f);
-    rath->loadAnimation(text, 0, 0, 3, 0.5f);
-    scytheArm->loadAnimation(text, 0, 512, 3, 0.5f);
-    gunArm ->loadAnimation(text, 0, 640, 0, 0.5f);
+    Entity *rath = new Entity(new Rect (128, 128, 320, 240), 1.0f);
+    Entity *scytheArm = new Entity(new Rect(128 ,128 ,320 ,240), 1.0f);
+    Entity *gunArm = new Entity(new Rect (128, 128, 320, 240), 1.0f);
+    rath->loadAnimation(text, new Coordinate(0,0), 3, 0.5f);
+    scytheArm->loadAnimation(text, new Coordinate(0, 512), 3, 0.5f);
+    gunArm ->loadAnimation(text,new Coordinate(0, 640), 0, 0.5f);
     window.setFramerateLimit(120);
     
     //Bucle del juego
@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
         float mouseAng = acos((mousePos[0]*mousePos[0]+hip*hip-mousePos[1]*mousePos[0])/(2*mousePos[0]*hip))*180/PI;
         
         if(mouseAng<=90 || mouseAng>=270){
-            gunArm->getAnimation()->changeSpriteRect(0, 128, 128, 128);
+            gunArm->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));
             sf::Transform gunArm(cos (mouseAng*PI/180), -sin (mouseAng*PI/180),0,
                                  sin (mouseAng*PI/180), -cos (mouseAng*PI/180),0,
                                  0,     0,      1);
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
             rath->move(1, 0);
             scytheArm->move(1, 0);
             if( animX !='r'){
-                rath->getAnimation()->changeSpriteRect(0, 128, 128, 128);
+                rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));
             }
             direcX='r';
             animX='r';
@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
             rath->move(-1, 0);
             scytheArm->move(-1, 0);
             if( animX !='l'){
-                rath->getAnimation()->changeSpriteRect(0, 384, 128, 128);
+                rath->getAnimation()->changeSpriteRect(new Rect(0, 384, 128, 128));
             }
             direcX='l';
             animX='l';
@@ -126,7 +126,7 @@ int main(int argc, char** argv) {
             rath->move(0, -1);
             scytheArm->move(0, -1);
             if( direcY != 'u'){
-                rath->getAnimation()->changeSpriteRect(0, 256, 128, 128);
+                rath->getAnimation()->changeSpriteRect(new Rect(0, 256, 128, 128);
             }
             mov=true;
             direcY='u';
@@ -137,7 +137,7 @@ int main(int argc, char** argv) {
             scytheArm->move(0, 1);
             if(direcY=='u' && direcY!='d'){
                 if(mov==false){
-                    rath->getAnimation()->changeSpriteRect(0, 128, 128, 128);  
+                    rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));  
                     direcY=='d';
                     mov=true;
                 }
@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
             else{
                 if(direcX=='l'&& direcY!='d'){
                     if(mov==false){
-                        rath->getAnimation()->changeSpriteRect(0, 384, 128, 128);
+                        rath->getAnimation()->changeSpriteRect(new Rect(0, 384, 128, 128));
                         direcY=='d';
                         mov=true;
                     }
@@ -153,7 +153,7 @@ int main(int argc, char** argv) {
                 else{
                     if(direcX=='r'&& direcY!='d'){
                         if(mov==false){
-                            rath->getAnimation()->changeSpriteRect(0, 128, 128, 128);
+                            rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));
                             direcY=='d';
                              mov=true;
                             }
@@ -168,7 +168,7 @@ int main(int argc, char** argv) {
                 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& mov==true){
                     direcY='I';
                     animX='I';
-                    rath->getAnimation()->changeSpriteRect(0,0,128,128);
+                    rath->getAnimation()->changeSpriteRect(new Rect(0,0,128,128));
                     mov=false;
             }
                 
