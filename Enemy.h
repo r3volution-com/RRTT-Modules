@@ -3,26 +3,26 @@
 
 #include "Entity.h"
 
-class Enemy {
+class Enemy : public Entity{
     private:
         int hp;
         int type;
         int maxHP;
-        int damage; //daño que hace
+        int dmg; //daño que hace
         int flashRange;
         void die();
         
     public:
-        Enemy(Rect *enemyData, float sp); //ToDo: enemy
+        Enemy(Rect<float> *enemyData, float sp); //ToDo: enemy
         virtual ~Enemy();
         
-        void move(float x, float y);
         void setMaxHP(int mhp) { maxHP = mhp; hp = maxHP; }
         void flash (float dirX, float dirY);
         void SetFlashRange(int range) { flashRange=range; }
+        void damage(int dm);
         
-        void getHP() {return hp; }
-        void getMaxHP() { return maxHP; }
+        int getHP() {return hp; }
+        int getMaxHP() { return maxHP; }
         
 };
 

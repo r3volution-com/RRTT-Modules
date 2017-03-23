@@ -38,12 +38,12 @@ sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT:
     
     //Die
     Coordinate *coor = new Coordinate(600.0, 600.0);
-    Rect *rect = new Rect(0, 0, 120, 30);
+    Rect<float> *rect = new Rect<float>(0, 0, 120, 30);
     
     //HUD
     HUD *hud = new HUD(tex7, tex8, tex9, tex2, f);
     hud->setButton(coor, tex10, rect);
-    Rect *rectPlayer = new Rect(0,0,100,50);
+    Rect<float> *rectPlayer = new Rect<float>(0,0,100,50);
     Player *player = new Player(rectPlayer, 5.0);
     Button *button = hud->getButton();
     sf::Vector2i pos = sf::Mouse::getPosition(*window);
