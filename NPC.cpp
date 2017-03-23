@@ -1,10 +1,10 @@
 #include "NPC.h"
 
-NPC::NPC(float x, float y, int w, int h, float sp, std::string n) : Entity(x, y, w, h, sp) {
+NPC::NPC(Rect *npcData, float sp, std::string npcName) : Entity(npcData, sp) {
     currentSentence=-1;
     sentences = new std::vector<std::string>();
     sentencePosition = new std::vector<Coordinate *>();
-    name = n;
+    name = npcName;
 }
 
 NPC::~NPC() {
@@ -12,9 +12,9 @@ NPC::~NPC() {
 /*
 
 */
-void NPC::addSentence(std::string sentence, float x, float y){
+void NPC::addSentence(std::string sentence, Coordinate *pos){
     sentences->push_back(sentence);
-    sentencePosition->push_back(new Coordinate(x, y));
+    sentencePosition->push_back(pos);
 }
 bool NPC::nextSentence(){
     if (currentSentence+1 < sentences->size()) {

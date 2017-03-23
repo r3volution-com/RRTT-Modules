@@ -1,23 +1,19 @@
 #include "Sprite.h"
 #include "Coordinate.h"
+#include "Rect.h"
 
-Sprite::Sprite(Texture *texture, int w, int h, int cX, int cY) {
+Sprite::Sprite(Texture *texture, Rect *spriteRect) {
     //Copiamos las variables
     tex = texture;
-    maxW = w;
-    maxH = h;
-    clipX = cX;
-    clipY = cY;
-    actW = maxW;
-    actH = maxH;
     
-    spriteRect = new sf::IntRect(clipX, clipY, w, h);
+    originalSpriteRect = new Rect(spriteRect->getRect());
+    actualSpriteRect = spriteRect;
     
     //Y creo el spritesheet a partir de la imagen anterior
     sprite = new sf::Sprite(*tex->getTexture());
     
     //Cojo el sprite que me interesa por defecto del sheet
-    sprite->setTextureRect(*spriteRect);
+    sprite->setTextureRect(actualSpriteRect->getRect());
     
     //Le pongo el centroide donde corresponde
     sprite->setOrigin(0,0);
@@ -29,44 +25,32 @@ Sprite::Sprite(Texture *texture, int w, int h, int cX, int cY) {
 Sprite::~Sprite() {
     delete tex;
     delete sprite;
-    delete spriteRect;
     tex = NULL;
     sprite = NULL;
-    spriteRect = NULL;
 }
 
 void Sprite::move(float x, float y){
     sprite->move(x, y);
 }
 
-void Sprite::setPosition(float x, float y){
-    sprite->setPosition(x, y);
+void Sprite::setPosition(Coordinate *pos){
+    sprite->setPosition(pos->x, pos->y);
 }
 
 void Sprite::setSize(float w, float h){
-    actW = w;
-    actH = h;
-    spriteRect->width = actW;
-    spriteRect->height = actH;
-    sprite->setTextureRect(*spriteRect);
+    actualSpriteRect->w = w;
+    actualSpriteRect->h = h;
+    sprite->setTextureRect(actualSpriteRect->getRect());
 }
 
-void Sprite::changeSpriteRect(int cX, int cY, int w, int h){
-    spriteRect->left = cX;
-    spriteRect->top = cY;
-    spriteRect->width = w;
-    spriteRect->height = h;
-    sprite->setTextureRect(*spriteRect);
+void Sprite::changeSpriteRect(Rect *spriteRect){
+    actualSpriteRect->setRect(spriteRect->getRect());
+    sprite->setTextureRect(actualSpriteRect->getRect());
 }
 
 void Sprite::restoreSize(){
-    spriteRect->left = clipX;
-    spriteRect->top = clipY;
-    spriteRect->width = maxW;
-    spriteRect->height = maxH;
-    actW = maxW;
-    actH = maxH;
-    sprite->setTextureRect(*spriteRect);
+    actualSpriteRect->setRect(originalSpriteRect->getRect());
+    sprite->setTextureRect(actualSpriteRect->getRect());
 }
 
 Coordinate Sprite::getPosition(){

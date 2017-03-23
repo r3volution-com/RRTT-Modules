@@ -13,7 +13,7 @@ class Menu {
         Sprite *background;
         Texture *buttonLayout;
         Rect *buttonTextureRect;
-        std::vector<Button*> *buttons;
+        std::vector<Button*> *buttons; 
         Font *buttonFont;
         
         int maxButtons;
@@ -21,7 +21,7 @@ class Menu {
         Menu(Texture *bg, Texture *bLayout, Rect *tRect, Font* bFont, int numButtons);
         virtual ~Menu();
         
-        bool addButton(std::string text, float x, float y, int w, int h, sf::Color color, sf::Color outlineColor, int size);
+        bool addButton(Coordinate *position, std::string text, sf::Color color, sf::Color outlineColor, int size);
         
         void checkHover(Hitbox* mouse);
         int checkClicks();

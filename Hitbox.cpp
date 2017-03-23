@@ -1,6 +1,4 @@
 #include "Hitbox.h"
-#include "Rect.h"
-#include "Coordinate.h"
 
 Hitbox::Hitbox(float x, float y, int w, int h) {
     hitbox = new sf::Rect<float>(x, y, w, h);

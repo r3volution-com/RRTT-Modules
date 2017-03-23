@@ -3,12 +3,14 @@
 
 #include <iostream>
 #include <cstddef>
-#include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics.hpp>
+#include "Rect.h"
+#include "Coordinate.h"
 
 class Hitbox {
     private:
     public:
-        sf::Rect *hitbox;
+        sf::Rect<float> *hitbox;
         
         Hitbox(float x, float y, int w, int h);
         Hitbox(Rect *h);
