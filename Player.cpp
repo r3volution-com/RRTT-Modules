@@ -11,6 +11,7 @@ void Player::setWeapon(Gun *wP){
     weapon = wP;
 }
 
+
 void Player::move(float x, float y){
     Entity::move(x, y);
     weapon->move(x, y);
@@ -43,7 +44,7 @@ void Player::die(){ //ToDo: pabloL
 }
 
 void Player::respawn(){ //ToDo: pabloL
-    
+    setPosition(50.0, 50.0);
 }
 
 void Player::setFlashCooldown(int cooldown){

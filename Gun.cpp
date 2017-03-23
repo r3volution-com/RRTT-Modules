@@ -20,6 +20,9 @@ void Gun::setPosition(Coordinate *position){
     hitbox->setPosition(position);
     gunAnimation->setPosition(position);
 }
+void Gun::setRotation(float r){
+    gunAnimation->setRotation(r);
+}
 void Gun::move(float x, float y){
     hitbox->move(x, y);
     gunAnimation->move(x, y);

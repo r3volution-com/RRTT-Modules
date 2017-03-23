@@ -40,6 +40,10 @@ void Sprite::setPosition(Coordinate *pos){
     delete pos;
 }
 
+void Sprite::setRotation(float r){
+    sprite->setRotation(r);
+}
+
 void Sprite::setSize(float w, float h){
     actualSpriteRect->w = w;
     actualSpriteRect->h = h;

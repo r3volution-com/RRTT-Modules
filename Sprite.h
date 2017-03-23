@@ -18,6 +18,7 @@ class Sprite {
         
         void move(float x, float y);
         void setPosition(Coordinate *pos);
+        void setRotation(float r);
         void setSize(float w, float h);
         void changeSpriteRect(Rect<float> *spriteRect);
         void restoreSize();

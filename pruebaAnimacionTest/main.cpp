@@ -14,11 +14,12 @@
 #include <cstdlib>
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include <math.h>
+#include <cmath>
 #include <vector>
-#include <stdio.h>
+#include <cstdio>
 
-#include "../Entity.h" //ToDo: cambiarlo por player
+#include "../Player.h"
+#include "../Gun.h"
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -36,13 +37,13 @@ int main(int argc, char** argv) {
     
     bool mov = true;
     Texture *text = new Texture("resources/sprites.png");
-    Entity *rath = new Entity(new Rect (320, 240, 128, 128), 1.0f);
-    Entity *scytheArm = new Entity(new Rect(320 ,240, 128 ,128), 1.0f);
-    Entity *gunArm = new Entity(new Rect (320, 240, 128, 128), 1.0f);
+    Player *rath = new Player(new Rect (320, 240, 128, 128), 1.0f);
+    Gun *scytheArm = new Gun(new Coordinate(320, 240 ),new Rect(0 ,512, 128 ,128), text, 3, 1.0f);
+    Gun *gunArm = new Gun(new Coordinate(320, 240),new Rect (0, 640, 128, 128), text, 3, 1.0f);
     rath->loadAnimation(text, new Coordinate(0,0), 3, 0.5f);
-    scytheArm->loadAnimation(text, new Coordinate(0, 512), 3, 0.5f);
-    gunArm ->loadAnimation(text,new Coordinate(0, 640), 0, 0.5f);
     window.setFramerateLimit(120);
+    rath->setWeapon(scytheArm);
+    rath->addGun(gunArm);
     
     //Bucle del juego
     while (window.isOpen()) {
@@ -71,17 +72,17 @@ int main(int argc, char** argv) {
         }
         mousePos[0]=sf::Mouse::getPosition().x-windowSize[0];
         mousePos[1]=(sf::Mouse::getPosition().y-windowSize[1])*-1;
-        float hip = sqrt(mousePos[0]*mousePos[0]+mousePos[1]*mousePos[1]);
+        float hip = std::sqrt(mousePos[0]*mousePos[0]+mousePos[1]*mousePos[1]);
         float mouseAng = acos((mousePos[0]*mousePos[0]+hip*hip-mousePos[1]*mousePos[0])/(2*mousePos[0]*hip))*180/PI;
         
         if(mouseAng<=90 || mouseAng>=270){
-            gunArm->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));
-            sf::Transform gunArm(cos (mouseAng*PI/180), -sin (mouseAng*PI/180),0,
-                                 sin (mouseAng*PI/180), -cos (mouseAng*PI/180),0,
-                                 0,     0,      1);
-        }   
-        if(mouseAng<270 && mouseAng>90){
-            
+        gunArm->getAnimation()->changeSpriteRect(new Rect(0, 768, 128, 128));
+        //sf::Transform Rotacion(cos (mouseAng*PI/180), -sin (mouseAng*PI/180),0,
+             //   sin (mouseAng*PI/180), -cos (mouseAng*PI/180),0,
+             //   0,     0,      1);
+        //   }   
+        //   if(mouseAng<270 && mouseAng>90){
+        gunArm->setRotation(mouseAng);
         }    
         
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
@@ -102,66 +103,63 @@ int main(int argc, char** argv) {
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             rath->move(1, 0);
-            scytheArm->move(1, 0);
             if( animX !='r'){
-                rath->getAnimation()->changeSpriteRect(new Rect(128, 128, 0, 128));
+                rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));
             }
             direcX='r';
             animX='r';
             mov=true;
         }
-        else{if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-            rath->move(-1, 0);
-            scytheArm->move(-1, 0);
-            if( animX !='l'){
-                rath->getAnimation()->changeSpriteRect(new Rect(0, 384, 128, 128));
+        else{
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+                rath->move(-1, 0);
+                if( animX !='l'){
+                    rath->getAnimation()->changeSpriteRect(new Rect(0, 384, 128, 128));
+                }
+                direcX='l';
+                animX='l';
+                mov=true;
             }
-            direcX='l';
-            animX='l';
-            mov=true;
-        }
         }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             rath->move(0, -1);
-            scytheArm->move(0, -1);
             if( direcY != 'u'){
                 rath->getAnimation()->changeSpriteRect(new Rect(0, 256, 128, 128));
-            }
-            mov=true;
-            direcY='u';
-        }
-        
-        else{if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-            rath->move(0, 1);
-            scytheArm->move(0, 1);
-            if(direcY=='u' && direcY!='d'){
-                if(mov==false){
-                    rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));  
-                    direcY=='d';
-                    mov=true;
                 }
+                mov=true;
+                direcY='u';
             }
-            else{
-                if(direcX=='l'&& direcY!='d'){
+            
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+                rath->move(0, 1);
+                if(direcX=='r' && direcY!='d'){
                     if(mov==false){
-                        rath->getAnimation()->changeSpriteRect(new Rect(0, 384, 128, 128));
+                        rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));  
                         direcY=='d';
                         mov=true;
                     }
                 }
                 else{
-                    if(direcX=='r'&& direcY!='d'){
+                    if(direcX=='l'&& direcY!='d'){
                         if(mov==false){
-                            rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));
+                            rath->getAnimation()->changeSpriteRect(new Rect(0, 384, 128, 128));
                             direcY=='d';
-                             mov=true;
+                            mov=true;
+                        }
+                    }
+                    else{
+                        if(direcX=='r'&& direcY!='d'){
+                            if(mov==false){
+                                rath->getAnimation()->changeSpriteRect(new Rect(0, 128, 128, 128));
+                                direcY=='d';
+                                mov=true;
+                                
                             }
                         }
                     }
                 }
             }
-        }
         if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) 
                 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) 
         && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
