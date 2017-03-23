@@ -94,11 +94,14 @@ class HUD {
         void drawGunCooldown(sf::RenderWindow *window);
         
         void setButton(Coordinate *coor, Texture* tex, Rect *rect);
-        void drawDie(sf::RenderWindow *window);
+        bool drawDie(sf::RenderWindow *window);
         
         void resetClockFlash();
         void resetClock();
         void resetStats();
+        
+        
+        Button* getButton() { return buttonDie; }
 };
 
 #endif /* HUD_H */

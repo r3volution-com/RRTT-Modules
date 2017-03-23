@@ -26,6 +26,7 @@ class Entity {
         
         void setSize(int w, int h) { width = w; height = h; }
         void setSpeed(float sp) { speed = sp; }
+        void setPosition(float x, float y){ coor->setCoordinate(x, y); }
         
         int getWidth() { return width; }
         int getHeight() { return height; }

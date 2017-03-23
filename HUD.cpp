@@ -173,11 +173,11 @@ void HUD::setTextLifePlayer(){
 bool HUD::drawHUD(sf::RenderWindow* window){
     window->draw(background->getSprite());
     window->draw(hud->getSprite());
-    drawGun(window);
+   /* drawGun(window);
     drawPlayerHP(window);
     drawBossHP(window);
     drawFlash(window);
-    window->draw(*lifePlayerText->getText());
+    window->draw(*lifePlayerText->getText());*/
 }
 
 void HUD::drawGun(sf::RenderWindow *window){
@@ -280,12 +280,16 @@ void HUD::setButton(Coordinate *coor, Texture* tex, Rect *rect){
     buttonDie = new Button(coor, tex, rect);
 }
 
-void HUD::drawDie(sf::RenderWindow *window){
-    if(lifePlayer == 0){
+bool HUD::drawDie(sf::RenderWindow *window){
+    std::cout<<lifePlayer<<"\n";
+    if(lifePlayer <= 0){
         window->draw(die->getSprite());
+        buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
         buttonDie->draw(window);
-        if(buttonDie->getHover() == true && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+        if(buttonDie->getHover() == true && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             resetStats();
+            return true;
         }
     }
+    return false;
 }

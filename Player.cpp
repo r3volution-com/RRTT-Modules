@@ -43,7 +43,7 @@ void Player::die(){ //ToDo: pabloL
 }
 
 void Player::respawn(){ //ToDo: pabloL
-    
+    setPosition(50.0, 50.0);
 }
 
 void Player::setFlashCooldown(int cooldown){
