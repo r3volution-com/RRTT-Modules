@@ -2,61 +2,41 @@
 #define GUN_H
 
 #include <SFML/Graphics.hpp>
-
-using namespace sf;
+#include "Animation.h"
+#include "Hitbox.h"
 
 class Gun {
     private:
+        int width, height;
         bool active;
-        
-        float posX;
-        float posY;
-        
-        float maxFlashCooldown;
-        float flashCooldown;
         
         int damage;
         
-        Texture texture;
-        //Sprite sprite[];
-        Rect<float> hitbox;
+        Animation *gunAnimation;
+        Hitbox *hitbox;
+        
+        float attackCooldown;
+        float maxAttackCooldown;
         
         //Ataque attack;
     public:
-        Gun();
+        Gun(Coordinate *position, Rect *animRect, Texture *tex, int nS, float d);
         virtual ~Gun();
         
-        void loadSprite(Texture texture);
         void move(float dirX, float dirY);
         void attack();
         
-        void setActive() {
-            if (active) active = false;
-            else active = true;
-        }
-        
-        void setPosition(int x, int y){
-            posX = x;
-            posY = y;
-        }
-        
-        void setFlashCooldown(int cooldown){
-            maxFlashCooldown = cooldown;
-            flashCooldown = cooldown;
-        }
-        
+        void setPosition(Coordinate *coord);
+        void setActive();
+        void setAttackCooldown(float atkCooldown);
         void setDamage(int dmg) { damage = dmg; }
         
         bool getActive() { return active; }
-        float getX() { return posX; }
-        float getY() { return posY; }
+        int getDamage() { return damage; }
+        float getAttackCooldown() { return attackCooldown; }
         
-        //float maxFlashCooldown;
-        //float flashCooldown;
-        //int damage;
-        
-        Rect<float> getHitbox() { return hitbox; }
-        //Sprite getSprite(){ return sprite; }
+        Hitbox *getHitbox() { return hitbox; }
+        Animation *getAnimation(){ return gunAnimation; }
         
 };
 

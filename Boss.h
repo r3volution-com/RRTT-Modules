@@ -7,7 +7,7 @@ class Boss {
     private:
 
     public:
-        Boss();
+        Boss(); //ToDo: boss
         virtual ~Boss();
 };
 

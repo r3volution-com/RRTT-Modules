@@ -1,28 +1,33 @@
 #include "NPC.h"
 
-NPC::NPC(float x, float y, int w, int h, float sp, Font *f, int size) : Entity(x, y, w, h, sp) {
-    currentSentence=0;
+NPC::NPC(Rect *npcData, float sp, std::string npcName) : Entity(npcData, sp) {
+    currentSentence=-1;
     sentences = new std::vector<std::string>();
     sentencePosition = new std::vector<Coordinate *>();
-    font = f;
-    currentText = new Text(std::string(), 0, 0, sf::Color::Black, f, size);
+    name = npcName;
 }
 
 NPC::~NPC() {
 }
+/*
 
-void NPC::addSentence(std::string sentence, float x, float y){
+*/
+void NPC::addSentence(std::string sentence, Coordinate *pos){
     sentences->push_back(sentence);
-    sentencePosition->push_back(new Coordinate(x, y));
+    sentencePosition->push_back(pos);
 }
 bool NPC::nextSentence(){
-    if (currentSentence < sentences->size()) {
+    if (currentSentence+1 < sentences->size()) {
         currentSentence++;
-        currentText->setText(sentences->at(currentSentence));
-        currentText->setPosition(sentencePosition->at(currentSentence)->x, sentencePosition->at(currentSentence)->y);
         return true;
-    } else return false;
+    } else {
+        currentSentence = -1;
+        return false;
+    }
 }
-Text *NPC::getCurrentSentence(){
-    return currentText;
+std::string NPC::getCurrentSentenceText(){
+    return sentences->at(currentSentence);
+}
+Coordinate *NPC::getCurrentSentencePosition(){
+    return sentencePosition->at(currentSentence);
 }

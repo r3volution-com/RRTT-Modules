@@ -5,7 +5,7 @@ class Bullet {
     private:
         
     public:
-        Bullet();
+        Bullet(); //ToDo: bullet
         Bullet(const Bullet& orig);
         virtual ~Bullet();
 };

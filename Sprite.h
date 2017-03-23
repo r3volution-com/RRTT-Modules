@@ -3,28 +3,29 @@
 
 #include <SFML/Graphics.hpp>
 #include "Texture.h"
+#include "Coordinate.h"
+#include "Rect.h"
 
 class Sprite {
     private:
         Texture *tex;
         sf::Sprite *sprite;
-        sf::IntRect *spriteRect;
-        int clipX, clipY;
-        int maxW, maxH;
+        Rect *actualSpriteRect;
+        Rect *originalSpriteRect;
     public:
-        Sprite(Texture *texture, int w, int h, int cX, int cY);
+        Sprite(Texture *texture, Rect *spriteRect);
         virtual ~Sprite();
         
         void move(float x, float y);
-        void setPosition(float x, float y);
-        void setSize(int w, int h);
-        void changeSpriteRect(int cX, int cY, int w, int h);
+        void setPosition(Coordinate *pos);
+        void setSize(float w, float h);
+        void changeSpriteRect(Rect *spriteRect);
         void restoreSize();
-        int getW(){return spriteRect->width;}
-        int getH(){return spriteRect->height;}
         
+        Coordinate getPosition();
         sf::Sprite getSprite() { return *sprite; }
-        sf::IntRect getSpriteRect() { return *spriteRect; }
+        Rect *getActualSpriteRect() { return actualSpriteRect; }
+        Rect *getOriginalSpriteRect() { return originalSpriteRect; }
 };
 
 #endif /* SPRITE_H */

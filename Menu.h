@@ -11,21 +11,22 @@
 class Menu {
     private:
         Sprite *background;
-        Sprite *buttonLayout;
-        std::vector<Button*> *buttons;
+        Texture *buttonLayout;
+        Rect *buttonTextureRect;
+        std::vector<Button*> *buttons; 
         Font *buttonFont;
         
         int maxButtons;
     public:
-        Menu(Sprite *bg, Sprite *bLayout, Font* bFont, int numButtons);
+        Menu(Texture *bg, Texture *bLayout, Rect *tRect, Font* bFont, int numButtons);
         virtual ~Menu();
         
-        bool addButton(std::string text, float x, float y, int w, int h, sf::Color color, int size);
+        bool addButton(Coordinate *position, std::string text, sf::Color color, sf::Color outlineColor, int size);
         
         void checkHover(Hitbox* mouse);
         int checkClicks();
         
-        void drawMenu(sf::RenderWindow *window); //ToDo: mejorar
+        void drawMenu(sf::RenderWindow *window); //ToDo: mejorar usando singleton
 };
 
 #endif /* MENU_H */

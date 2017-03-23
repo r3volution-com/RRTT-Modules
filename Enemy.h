@@ -7,7 +7,7 @@ class Enemy {
     private:
         
     public:
-        Enemy();
+        Enemy(); //ToDo: enemy
         virtual ~Enemy();
 };
 

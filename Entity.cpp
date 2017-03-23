@@ -2,20 +2,21 @@
 
 #include <iostream>
 
-Entity::Entity(float x, float y, int w, int h, float sp) {
-    coor = new InterpolatedCoordinate(x, y);
-    hitbox = new Hitbox(x, y, w, h);
-    width = w;
-    height = h;
+Entity::Entity(Rect* newRect, float sp) {
+    width = newRect->w;
+    height = newRect->h;
     speed = sp;
+    
+    coor = new InterpolatedCoordinate(newRect->x, newRect->y);
+    hitbox = new Hitbox(newRect->x, newRect->y, newRect->w, newRect->h);
 }
 
 Entity::~Entity() {
 }
 
-void Entity::loadAnimation(Texture *t, int cX, int cY, int nS, float d){
-    anim = new Animation(t, width, height, cX, cY, nS, d);
-    anim->move(coor->getCoordinate().x, coor->getCoordinate().y);
+void Entity::loadAnimation(Texture *t, Coordinate *clipCoord, int nS, float d){
+    anim = new Animation(t, new Rect(clipCoord->x, clipCoord->y, width, height), nS, d);
+    anim->setPosition(coor->getCoordinate());
 }
 
 void Entity::move(float dirX, float dirY){

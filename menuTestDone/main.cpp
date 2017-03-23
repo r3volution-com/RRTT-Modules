@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
     Font *fuente = new Font("resources/font.ttf");
     
     Menu *menu = new Menu(background, buttons, fuente, 1);
-    if (!menu->addButton("hola", 200, 200, 120, 25, sf::Color::Black, 15)) window->close();
+    if (!menu->addButton("hola", 200, 200, 120, 25, sf::Color::Black, sf::Color::White, 15)) window->close();
     
     sf::Vector2i pos = sf::Mouse::getPosition(*window);
     Hitbox *mouse = new Hitbox(pos.x, pos.y, 1, 1);

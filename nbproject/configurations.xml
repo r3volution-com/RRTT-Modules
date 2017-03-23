@@ -42,7 +42,7 @@
       <itemPath>Entity.cpp</itemPath>
       <itemPath>Font.cpp</itemPath>
       <itemPath>Game.cpp</itemPath>
-      <itemPath>Gun.h</itemPath>
+      <itemPath>Gun.cpp</itemPath>
       <itemPath>HUD.cpp</itemPath>
       <itemPath>Hitbox.cpp</itemPath>
       <itemPath>InterpolatedCoordinate.cpp</itemPath>
@@ -54,7 +54,7 @@
       <itemPath>Sprite.cpp</itemPath>
       <itemPath>Text.cpp</itemPath>
       <itemPath>Texture.cpp</itemPath>
-      <itemPath>npcTest/main.cpp</itemPath>
+      <itemPath>gunTest/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -180,7 +180,7 @@
       </item>
       <item path="Texture.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="npcTest/main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="gunTest/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -287,7 +287,7 @@
       </item>
       <item path="Texture.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="npcTest/main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="gunTest/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>

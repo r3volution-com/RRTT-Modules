@@ -1,30 +1,34 @@
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
+#include <string>
 
 #include "../Font.h"
 #include "../Sprite.h"
-#include "../Animation.h"
 #include "../Player.h"
-#include "../NPC.h"
-
+#include "../Note.h"
+#include "../Text.h"
 
 int main(int argc, char** argv) {
     bool showText = false;
+    bool taken = false;
     
-    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(640, 480), "RRTT: NPC Test");
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: Note Test");
+    
     Font *font = new Font("resources/font.ttf");
-    Texture *tex = new Texture("resources/sprites.png");
+    Texture *tex = new Texture("resources/Paper-Sprite.png");
+    Texture *tex2 = new Texture("resources/pergamino.jpg");
+    Texture *tex3 = new Texture("resources/sprites.png");
+    Sprite *sp = new Sprite(tex, 64, 60, 0, 0);
+    Sprite *sp2 = new Sprite(tex2, 608, 488, 0, 0);
+    sp2->move(350, 150);
+    Text *text =new Text("Hello World!", 650, 400, sf::Color::Black, font, 20);
+
     
     Player *rath = new Player(0, 0, 128, 128, 2);
-    rath->loadAnimation(tex, 0, 0, 3, 0.1f);
+    rath->loadAnimation(tex3, 0, 0, 3, 0.1f);
     
-    NPC *aldeano = new NPC(200, 200, 128, 128, 2, font, 15);
-    aldeano->loadAnimation(tex, 0, 128, 3, 0.1f);
-    aldeano->addSentence("probamos con esto", 0, 340);
+    Note *note = new Note(600, 350, 64, 60, sp, sp2);
     
-    Texture *tex2 = new Texture("resources/button-map.png");
-    Sprite *sp = new Sprite(tex2, 640, 150, 120, 0);
-    sp->move(0,330);
     
     window->setFramerateLimit(120);
     
@@ -67,20 +71,23 @@ int main(int argc, char** argv) {
             rath->move(1,0);
         }
      
-        if (rath->collision(aldeano->getHitbox()) && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && !showText){
+        if (rath->collision(note->getHitbox()) && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && !showText){
             showText = true;
+            taken=true;
         }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && showText){
-            aldeano->nextSentence();
+            showText=false;
         }
         
         window->clear();
+        if(taken==false){
+            window->draw(note->getNoteSprite()->getSprite());
+        }
         window->draw(rath->getAnimation()->getCurrentSprite());
-        window->draw(aldeano->getAnimation()->getCurrentSprite());
         if (showText) {
-            window->draw(sp->getSprite());
-            window->draw(*aldeano->getCurrentSentence()->getText());
+            window->draw(note->getBackgroundSprite()->getSprite());
+            window->draw(*text->getText());
         }
         window->display();
     }
