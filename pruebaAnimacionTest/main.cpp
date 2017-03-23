@@ -15,6 +15,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <math.h>
+#include <vector>
+#include <stdio.h>
 
 #include "../Entity.h" //ToDo: cambiarlo por player
 using namespace std;
@@ -27,6 +29,10 @@ int main(int argc, char** argv) {
     float PI = 3.14159265f;
     float mouseAng = 0.0f;
     float mousePos[2]={0,0};
+    float windowSize[2]={0,0};
+    windowSize[0]=window.getSize().x/2;
+    windowSize[1]=window.getSize().y/2;
+    
     
     bool mov = true;
     Texture *text = new Texture("resources/sprites.png");
@@ -35,7 +41,7 @@ int main(int argc, char** argv) {
     Entity *gunArm = new Entity(320, 240, 128, 128, 1.0f);
     rath->loadAnimation(text, 0, 0, 3, 0.5f);
     scytheArm->loadAnimation(text, 0, 512, 3, 0.5f);
-    gunArm ->loadAnimation(text, 0, 640, 3, 0.5f);
+    gunArm ->loadAnimation(text, 0, 640, 0, 0.5f);
     window.setFramerateLimit(120);
     
     //Bucle del juego
@@ -63,19 +69,22 @@ int main(int argc, char** argv) {
                 default: break;
             }
         }
-        
-        sf::vector2 mousePos=sf::Mouse::getPosition(Window&);
+        mousePos[0]=sf::Mouse::getPosition().x-windowSize[0];
+        mousePos[1]=(sf::Mouse::getPosition().y-windowSize[1])*-1;
         float hip = sqrt(mousePos[0]*mousePos[0]+mousePos[1]*mousePos[1]);
         float mouseAng = acos((mousePos[0]*mousePos[0]+hip*hip-mousePos[1]*mousePos[0])/(2*mousePos[0]*hip))*180/PI;
         
         if(mouseAng<=90 || mouseAng>=270){
-            gunArm->setRotation(float mouseAng);
+            gunArm->getAnimation()->changeSpriteRect(0, 128, 128, 128);
+            sf::Transform gunArm(cos (mouseAng*PI/180), -sin (mouseAng*PI/180),0,
+                                 sin (mouseAng*PI/180), -cos (mouseAng*PI/180),0,
+                                 0,     0,      1);
         }   
         if(mouseAng<270 && mouseAng>90){
             
         }    
         
-        if(sf::Mouse::isButtonPressed(Button Left)){
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             if((mouseAng>0 && mouseAng<45) || mouseAng > 315 && mouseAng < 360){
                 //derecha
                 
