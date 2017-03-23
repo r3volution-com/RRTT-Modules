@@ -67,7 +67,13 @@ int main(int argc, char** argv) {
                 case sf::Event::Closed:
                     window->close();
                     break;
-                //Se pulsó una tecla, imprimo su codigo
+                case sf::Event::MouseWheelMoved:
+                    if(event.mouseWheel.delta < 0){
+                        activeGun = 0;
+                    } else if(event.mouseWheel.delta > 0){
+                        activeGun = 1;
+                    }
+                    break;
                 case sf::Event::KeyPressed:
                     //Verifico si se pulsa alguna tecla de movimiento
                     switch(event.key.code) {
@@ -128,7 +134,6 @@ int main(int argc, char** argv) {
         hud->drawFlashCooldown(window);
         hud->drawGunCooldown(window);
         hud->setTextLifePlayer();
-        hud->drawDie(window);
         
         window->display();
         
