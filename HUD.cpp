@@ -2,6 +2,7 @@
 
 #include "HUD.h"
 #include "Coordinate.h"
+#include "Button.h"
 
 HUD::HUD(Sprite *bg, Sprite *hd, Sprite *pHP, Sprite *bHP, Font *f){
     background = bg;
@@ -215,6 +216,41 @@ void HUD::resetClock(){
             clockSecondGun->restart();
             secondGunUsed = true;
             gunsCooldown->at(activeGun)->restoreSize();
+        }
+    }
+}
+
+void HUD::resetStats(){
+    lifePlayer = maxLifePlayer;
+    lifeBoss = maxLifeBoss;
+
+    clockFlash->restart();
+    flashCooldown->restoreSize();
+    flashUsed = true;
+
+    clockFirstGun->restart();
+    firstGunUsed = true;
+    gunsCooldown->at(0)->restoreSize();
+
+    clockSecondGun->restart();
+    secondGunUsed = true;
+    gunsCooldown->at(1)->restoreSize();
+}
+
+void HUD::setSpriteDie(Sprite* sd){
+    die = sd;
+}
+
+void HUD::setButton(Coordinate *coor, Texture* tex, Rect *rect){
+    buttonDie = new Button(coor, tex, rect);
+}
+
+void HUD::drawDie(sf::RenderWindow *window){
+    if(lifePlayer == 0){
+        window->draw(die->getSprite());
+        buttonDie->draw(window);
+        if(buttonDie->getHover() == true && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+            resetStats();
         }
     }
 }
