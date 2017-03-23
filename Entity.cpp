@@ -15,7 +15,7 @@ Entity::~Entity() {
 }
 
 void Entity::loadAnimation(Texture *t, Coordinate *clipCoord, int nS, float d){
-    anim = new Animation(t, width, height, clipCoord->x, clipCoord->y, nS, d);
+    anim = new Animation(t, new Rect(clipCoord->x, clipCoord->y, width, height), nS, d);
     anim->setPosition(coor->getCoordinate());
 }
 

@@ -48,10 +48,10 @@ void HUD::changeMaxLifePlayer(int maxLife){
 
 void HUD::changeLifePlayer(int life){
     lifePlayer = life;
-    int newW = (lifePlayer*playerHP->getMaxW())/maxLifePlayer;
+    /*int newW = (lifePlayer*playerHP->getMaxW())/maxLifePlayer;
     if(newW < playerHP->getMaxW() && newW >= 0){
         playerHP->setSize(newW, playerHP->getMaxH());
-    }
+    }*/
 }
 
 void HUD::changeMaxLifeBoss(int maxLife){
@@ -60,10 +60,10 @@ void HUD::changeMaxLifeBoss(int maxLife){
 
 void HUD::changeLifeBoss(int life){
     lifeBoss = life;
-    int newW = (lifeBoss*bossHP->getMaxW())/maxLifeBoss;
+    /*int newW = (lifeBoss*bossHP->getMaxW())/maxLifeBoss;
     if(newW < bossHP->getMaxW() && newW >= 0){
         bossHP->setSize(newW, bossHP->getMaxH());
-    }
+    }*/
 }
 
 void HUD::changeFlashCooldown(int cooldown){
@@ -103,7 +103,7 @@ void HUD::setSpriteFlashCooldown(Sprite* cool){
 
 void HUD::setTextLayer(float x, float y, Sprite *sp){
     textSprite = sp;
-    textSprite->setPosition(x, y);
+    //textSprite->setPosition(x, y);
     currentText = new Text(std::string(), 0, 0, font, false);
     talker = new Text(std::string(), 0, 0, font, false);
 }
@@ -172,17 +172,17 @@ void HUD::drawFlash(sf::RenderWindow* window){
 
 void HUD::drawFlashCooldown(sf::RenderWindow *window){
     if(clockFlash->getElapsedTime().asSeconds() < timeFlash){
-        flashCooldown->setSize(flashCooldown->getW()-(flashCooldown->getMaxW()/(120.0f*timeFlash)), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+        //flashCooldown->setSize(flashCooldown->getW()-(flashCooldown->getMaxW()/(120.0f*timeFlash)), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
     } else flashUsed = false;
     if (flashUsed) window->draw(flashCooldown->getSprite());
 }
 void HUD::drawGunCooldown(sf::RenderWindow* window){
     if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
-        gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getW()-(gunsCooldown->at(0)->getMaxW()/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento  
+        //gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getW()-(gunsCooldown->at(0)->getMaxW()/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento  
     } else firstGunUsed = false;
     
     if(clockSecondGun->getElapsedTime().asSeconds() < secondGunCooldown){
-        gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getW()-(gunsCooldown->at(1)->getMaxW()/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+        //gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getW()-(gunsCooldown->at(1)->getMaxW()/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
     } else secondGunUsed = false;
     
     if(activeGun == 0 && firstGunUsed) window->draw(gunsCooldown->at(0)->getSprite());

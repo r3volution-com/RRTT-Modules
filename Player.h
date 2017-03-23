@@ -19,7 +19,7 @@ class Player : public Entity {
         
         void die();
     public:
-        Player(float x, float y, int w, int h, float sp);
+        Player(Rect *playerData, float sp);
         virtual ~Player();
         
         void setWeapon(Gun *wP);

@@ -16,7 +16,7 @@ class InterpolatedCoordinate {
         void setCoordinate(float x, float y);
         void setCoordinate(Coordinate *newCoord);
         
-        Coordinate getCoordinate() { return *act; }
+        Coordinate *getCoordinate() { return act; }
         Coordinate getIC();
 };
 

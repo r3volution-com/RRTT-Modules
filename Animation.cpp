@@ -1,6 +1,4 @@
 #include "Animation.h"
-#include "InterpolatedCoordinate.h"
-#include "Rect.h"
 
 /*
  * t = textura

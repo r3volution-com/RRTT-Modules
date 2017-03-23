@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(float x, float y, int w, int h, float sp) : Entity(x, y, w, h, sp){
+Player::Player(Rect *playerData, float sp) : Entity(playerData, sp){
     currentGun = -1;
 }
 

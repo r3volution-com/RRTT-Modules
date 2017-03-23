@@ -12,11 +12,11 @@ class NPC : public Entity {
         std::vector<Coordinate*> *sentencePosition;
         int currentSentence;
     public:
-        NPC(float x, float y, int w, int h, float sp, std::string n);
+        NPC(Rect *npcData, float sp, std::string n);
         virtual ~NPC();
         
         void setTextParams(Font *f, int size, sf::Color fillColor, sf::Color outlineColor);
-        void addSentence(std::string sentence, float x, float y);
+        void addSentence(std::string sentence, Coordinate *position);
         bool nextSentence();
         std::string getName() { return name; };
         std::string getCurrentSentenceText();

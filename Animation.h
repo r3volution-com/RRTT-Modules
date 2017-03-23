@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include "Coordinate.h"
 #include "Texture.h"
+#include "InterpolatedCoordinate.h"
+#include "Rect.h"
 
 class Animation {
     private:
