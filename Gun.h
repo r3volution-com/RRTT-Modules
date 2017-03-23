@@ -27,6 +27,7 @@ class Gun {
         void attack();
         
         void setPosition(Coordinate *coord);
+        void setRotation(float r);
         void setActive();
         void setAttackCooldown(float atkCooldown);
         void setDamage(int dmg) { damage = dmg; }

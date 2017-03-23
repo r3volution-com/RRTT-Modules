@@ -51,6 +51,9 @@ void Animation::setPosition(float x, float y){
 void Animation::setPosition(Coordinate *newCoord){
     sprites->setPosition(newCoord->x, newCoord->y);
 }
+void Animation::setRotation(float r){
+    sprites ->setRotation(r);
+}
 
 void Animation::move(float x, float y){
     sprites->move(x, y);
