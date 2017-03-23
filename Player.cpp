@@ -18,6 +18,12 @@ void Player::move(float x, float y){
     if (currentGun >= 0) guns->at(currentGun);
 }
 
+void Player::addGun(Gun* gun){
+    gun->setPosition(&getCoordinate());
+    guns->push_back(gun);
+    currentGun = guns->size();
+}
+
 bool Player::changeGun(int gun){
     if (gun >= 0 && gun < guns->size()){
         guns->at(currentGun)->setActive();
