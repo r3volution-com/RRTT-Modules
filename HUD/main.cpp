@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     
     //Die
     Coordinate *coor = new Coordinate(600.0, 600.0);
-    Rect *rect = new Rect(0, 0, 120, 30);
+    Rect<float> *rect = new Rect<float>(0, 0, 120, 30);
     
     //HUD
     HUD *hud = new HUD(tex7, tex8, tex9, tex2, f);
