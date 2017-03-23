@@ -23,7 +23,7 @@ class Rect {
             return sf::IntRect(x, y, w, h);
         }
         sf::FloatRect getFloatRect(){
-            return sf::IntRect(x, y, w, h);
+            return sf::FloatRect(x, y, w, h);
         }
 };
 
