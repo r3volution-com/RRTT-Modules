@@ -4,11 +4,21 @@
 #include "Coordinate.h"
 #include "Button.h"
 
-HUD::HUD(Sprite *bg, Sprite *hd, Sprite *pHP, Sprite *bHP, Font *f){
-    background = bg;
-    hud = hd;
-    playerHP = pHP;
-    bossHP = bHP;
+HUD::HUD(Texture *tex, Texture *tex2, Texture *tex3, Texture *tex4, Font *f){
+    
+    Rect *rectBack = new Rect(0, 0, 1280, 720);
+    background = new Sprite(tex, rectBack);
+    hud = new Sprite(tex2, rectBack);
+    die = new Sprite(tex3, rectBack);
+    Rect *rectLife = new Rect(0, 0, 194, 14);
+    playerHP = new Sprite(tex4, rectLife);
+    playerHP->move(300.0f,30.0f);
+    bossHP = new Sprite(tex4,rectLife);
+    bossHP->move(590.0f,680.0f);
+    
+    guns = new std::vector<Sprite*>();
+    gunsOff = new std::vector<Sprite*>();
+    gunsCooldown = new std::vector<Sprite*>();
     
     clockFlash = new sf::Clock;
     clockFirstGun = new sf::Clock;
@@ -79,27 +89,55 @@ void HUD::changeSecondGunCooldown(int cooldown){
     secondGunCooldown = cooldown;
 }
 
-void HUD::setSpriteGunsOn(std::vector<Sprite*>* gs){
-    guns = gs;
+void HUD::setSpriteGunsOn(Texture *tex, Texture *tex2){
+    Rect *rectGun = new Rect(0, 0, 80, 80);
+    Sprite *gun1 = new Sprite(tex, rectGun);
+    gun1->move(17.0f,18.0f);
+    Sprite *gun2 = new Sprite(tex2, rectGun);
+    gun2->move(17.0f,98.0f);
+    
+    guns->push_back(gun1);
+    guns->push_back(gun2);
+    
 }
 
-void HUD::setSpriteGunsOff(std::vector<Sprite*>* gsO){
-    gunsOff = gsO;
+void HUD::setSpriteGunsOff(Texture *tex, Texture *tex2){
+    Rect *rectGun = new Rect(0, 0, 80, 80);
+    Sprite *go1 = new Sprite(tex, rectGun);
+    go1->move(17.0f,18.0f);
+    Sprite *go2 = new Sprite(tex2, rectGun);
+    go2->move(17.0f,98.0f);
+    
+    gunsOff->push_back(go1);
+    gunsOff->push_back(go2);
 }
 
-void HUD::setSpriteGunsCooldown(std::vector<Sprite*>* gCd){
-    gunsCooldown = gCd;
-    for (int i = 0; i<gCd->size(); i++){
+void HUD::setSpriteGunsCooldown(Texture *tex){
+    Rect *rectGun = new Rect(0, 0, 80, 80);
+    Sprite *gc1 = new Sprite(tex, rectGun);
+    gc1->move(17.0f,18.0f);
+    Sprite *gc2 = new Sprite(tex, rectGun);
+    gc2->move(17.0f,98.0f);
+    
+    gunsCooldown->push_back(gc1);
+    gunsCooldown->push_back(gc2);
+    
+    for (int i = 0; i<gunsCooldown->size(); i++){
         gunsCooldown->at(i)->setSize(0,0);
+        std::cout<< gunsCooldown->at(i)->getOriginalSpriteRect();
     }
 }
 
-void HUD::setSpriteFlash(Sprite* fC){
-    flash = fC;
+void HUD::setSpriteFlash(Texture *tex){
+    Rect *rectFlash = new Rect(0, 0, 80, 80);
+    flash = new Sprite(tex,rectFlash);
+    flash->move(100.0f,18.0f);
 }
 
-void HUD::setSpriteFlashCooldown(Sprite* cool){
-    flashCooldown = cool;
+void HUD::setSpriteFlashCooldown(Texture *tex){
+    Rect *rectFlash = new Rect(0, 0, 80, 80);
+    flashCooldown = new Sprite(tex, rectFlash);
+    flashCooldown->move(100.0f,18.0f);
 }
 
 void HUD::setTextLayer(float x, float y, Sprite *sp){
@@ -179,6 +217,7 @@ void HUD::drawFlashCooldown(sf::RenderWindow *window){
 }
 void HUD::drawGunCooldown(sf::RenderWindow* window){
     if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
+        std::cout<<gunsCooldown->at(0)->getActualSpriteRect()->w << "-" << gunsCooldown->at(0)->getOriginalSpriteRect()->w << "/" << 120.0f*firstGunCooldown<<"\n";
         gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);  //ToDo mirar fps para un numero menor en caso del pc ir mas lento  
     } else firstGunUsed = false;
     
@@ -235,10 +274,6 @@ void HUD::resetStats(){
     clockSecondGun->restart();
     secondGunUsed = true;
     gunsCooldown->at(1)->restoreSize();
-}
-
-void HUD::setSpriteDie(Sprite* sd){
-    die = sd;
 }
 
 void HUD::setButton(Coordinate *coor, Texture* tex, Rect *rect){

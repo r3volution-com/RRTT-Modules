@@ -9,11 +9,13 @@ class Rect {
     public:
         int x, y, w, h;
         
-        Rect(int rX, int rY, int rW, int rH);
+        Rect(float rX, float rY, float rW, float rH);
+        Rect(sf::FloatRect rect);
         Rect(sf::IntRect rect);
         virtual ~Rect();
         
-        void setRect(int rX, int rY, int rW, int rH);
+        void setRect(float rX, float rY, float rW, float rH);
+        void setRect(sf::FloatRect rect);
         void setRect(sf::IntRect rect);
         
         sf::Rect<int> getRect(){

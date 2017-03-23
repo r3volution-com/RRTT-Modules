@@ -20,8 +20,8 @@ int main(int argc, char** argv) {
     Texture *tex0 = new Texture("resources/arma 1.png");
     Texture *tex1 = new Texture("resources/arma 2.png");
     Texture *tex2 = new Texture("resources/vida.png");
-    Texture *tex3 = new Texture("resources/cooldown_arma 2.png");
-    Texture *tex4 = new Texture("resources/cooldown_arma 1.png");
+    Texture *tex3 = new Texture("resources/no_usada_arma 2.png");
+    Texture *tex4 = new Texture("resources/no_usada_arma 1.png");
     Texture *tex5 = new Texture("resources/flash.png");
     Texture *tex6 = new Texture("resources/cooldown.png");
     Texture *tex7 = new Texture("resources/background.png");
@@ -33,89 +33,26 @@ int main(int argc, char** argv) {
     Font *f = new Font("resources/font.ttf");
     
     //Guns ON
-    Rect *rectGun = new Rect(0, 0, 80, 80);
-    Sprite *gun1 = new Sprite(tex0, rectGun);
-    gun1->move(17.0f,18.0f);
-    Sprite *gun2 = new Sprite(tex1, rectGun);
-    gun2->move(17.0f,98.0f);
-    /*Sprite *gun3 = new Sprite(tex3, 100, 100, 0, 0);
-    gun3->move(0.0f,200.0f);*/
-    
-    std::vector<Sprite*> *guns = new std::vector<Sprite*>();
-    guns->push_back(gun1);
-    guns->push_back(gun2);
-    //guns->push_back(gun3);
     
     int activeGun = 0;
     
-    //Guns Off
-    Sprite *go1 = new Sprite(tex4, rectGun);
-    go1->move(17.0f,18.0f);
-    Sprite *go2 = new Sprite(tex3, rectGun);
-    go2->move(17.0f,98.0f);
-    /*Sprite *go3 = new Sprite(tex6, 100, 100, 0, 0);
-    go3->move(0.0f,200.0f);*/
-    
-    std::vector<Sprite*> *gsO = new std::vector<Sprite*>();
-    gsO->push_back(go1);
-    gsO->push_back(go2);
-    //gsO->push_back(go3);
-    
-    //Guns Cooldown
-    Sprite *gc1 = new Sprite(tex6, rectGun);
-    gc1->move(17.0f,18.0f);
-    Sprite *gc2 = new Sprite(tex6, rectGun);
-    gc2->move(17.0f,98.0f);
-    /*Sprite *go3 = new Sprite(tex6, 100, 100, 0, 0);
-    go3->move(0.0f,200.0f);*/
-    
-    std::vector<Sprite*> *gsC = new std::vector<Sprite*>();
-    gsC->push_back(gc1);
-    gsC->push_back(gc2);
-    //gsO->push_back(go3);
-    
-    //Background
-    Rect *rectBack = new Rect(0, 0, 1280, 720);
-    Sprite *background = new Sprite(tex7, rectBack);
-    
-    //Background_HUD
-    Sprite *background_hud = new Sprite(tex8, rectBack);
-    
-    //Player
-    Rect *rectLife = new Rect(0, 0, 194, 14);
-    Sprite *plHP = new Sprite(tex2, rectLife);
-    plHP->move(200.0f,20.0f);
     
     int lifePlayer = 100;
     
     //Boss
-    Sprite *bHP = new Sprite(tex2,rectLife);
-    bHP->move(590.0f,680.0f);
-    
     int lifeBoss = 150;
     
-    //Flash
-    Sprite *fC = new Sprite(tex5,rectGun);
-    fC->move(100.0f,18.0f);
-    
-    //FlashOff
-    Sprite *fCO = new Sprite(tex6, rectGun);
-    fCO->move(100.0f,18.0f);
-    
     //Die
-    Sprite *sd = new Sprite(tex9, rectBack);
-    
     Coordinate *coor = new Coordinate(600.0, 600.0);
     Rect *rect = new Rect(0, 0, 120, 30);
     
     //HUD
-    HUD *hud = new HUD(background, background_hud, plHP, bHP, f);
-    hud->setSpriteFlash(fC);
-    hud->setSpriteFlashCooldown(fCO);
-    hud->setSpriteGunsCooldown(gsC);
-    hud->setSpriteGunsOff(gsO);
-    hud->setSpriteGunsOn(guns);
-    hud->setSpriteDie(sd);
+    HUD *hud = new HUD(tex7, tex8, tex9, tex2, f);
+    hud->setSpriteFlash(tex5);
+    hud->setSpriteFlashCooldown(tex6);
+    hud->setSpriteGunsCooldown(tex6);
+    hud->setSpriteGunsOff(tex4, tex3);
+    hud->setSpriteGunsOn(tex0, tex1);
     hud->setButton(coor, tex10, rect);
     
     window->setFramerateLimit(120);
