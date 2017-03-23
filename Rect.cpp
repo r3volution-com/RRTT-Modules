@@ -35,3 +35,6 @@ void Rect<T>::setRect(sf::Rect<T> rect){
     w = rect.width;
     h = rect.height;
 }
+
+template class Rect<int>;
+template class Rect<float>;
