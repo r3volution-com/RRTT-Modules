@@ -12,7 +12,7 @@ class NPC : public Entity {
         std::vector<Coordinate*> *sentencePosition;
         int currentSentence;
     public:
-        NPC(Rect *npcData, float sp, std::string n);
+        NPC(Rect<float> *npcData, float sp, std::string n);
         virtual ~NPC();
         
         void setTextParams(Font *f, int size, sf::Color fillColor, sf::Color outlineColor);

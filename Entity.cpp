@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Entity::Entity(Rect* newRect, float sp) {
+Entity::Entity(Rect<float> *newRect, float sp) {
     width = newRect->w;
     height = newRect->h;
     speed = sp;
@@ -15,7 +15,7 @@ Entity::~Entity() {
 }
 
 void Entity::loadAnimation(Texture *t, Coordinate *clipCoord, int nS, float d){
-    anim = new Animation(t, new Rect(clipCoord->x, clipCoord->y, width, height), nS, d);
+    anim = new Animation(t, new Rect<float>(clipCoord->x, clipCoord->y, width, height), nS, d);
     anim->setPosition(coor->getCoordinate());
 }
 

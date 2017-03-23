@@ -20,7 +20,7 @@ class Gun {
         
         //Ataque attack;
     public:
-        Gun(Coordinate *position, Rect *animRect, Texture *tex, int nS, float d);
+        Gun(Coordinate *position, Rect<float> *animRect, Texture *tex, int nS, float d);
         virtual ~Gun();
         
         void move(float dirX, float dirY);

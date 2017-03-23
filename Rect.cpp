@@ -1,42 +1,35 @@
 #include "Rect.h"
 
-Rect::Rect(float rX, float rY, float rW, float rH) {
+template <class T>
+Rect<T>::Rect(T rX, T rY, T rW, T rH) {
     x = rX;
     y = rY;
     w = rW;
     h = rH;
 }
-Rect::Rect(sf::FloatRect rect){
+template <class T>
+Rect<T>::Rect(sf::Rect<T> rect){
     x = rect.top;
     y = rect.left;
     w = rect.width;
     h = rect.height;
 }
 
-Rect::Rect(sf::IntRect rect){
-    x = rect.top;
-    y = rect.left;
-    w = rect.width;
-    h = rect.height;
-}
-
-Rect::~Rect() {
+template <class T>
+Rect<T>::~Rect() {
     
 }
-void Rect::setRect(float rX, float rY, float rW, float rH){
+
+template <class T>
+void Rect<T>::setRect(T rX, T rY, T rW, T rH){
     x = rX;
     y = rY;
     w = rW;
     h = rH;
 }
-void Rect::setRect(sf::FloatRect rect){
-    x = rect.top;
-    y = rect.left;
-    w = rect.width;
-    h = rect.height;
-}
 
-void Rect::setRect(sf::IntRect rect){
+template <class T>
+void Rect<T>::setRect(sf::Rect<T> rect){
     x = rect.top;
     y = rect.left;
     w = rect.width;

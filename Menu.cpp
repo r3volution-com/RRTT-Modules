@@ -1,7 +1,7 @@
 #include "Menu.h"
 
-Menu::Menu(Texture* bg, Texture *bLayout, Rect *tRect, Font* bFont, int numButtons) {
-    background = new Sprite(bg, new Rect(0, 0, 1280, 720)); //ToDo: tamaño sale del singleton
+Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons) {
+    background = new Sprite(bg, new Rect<float>(0, 0, 1280, 720)); //ToDo: tamaño sale del singleton
     buttonTextureRect = tRect;
     buttonLayout = bLayout;
     buttonFont = bFont;

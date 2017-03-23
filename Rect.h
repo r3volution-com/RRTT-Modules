@@ -3,23 +3,27 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
-
+template <class T>
 class Rect {
     private:
     public:
-        int x, y, w, h;
+        T x, y, w, h;
         
-        Rect(float rX, float rY, float rW, float rH);
-        Rect(sf::FloatRect rect);
-        Rect(sf::IntRect rect);
+        Rect(T rX, T rY, T rW, T rH);
+        Rect(sf::Rect<T> rect);
         virtual ~Rect();
         
-        void setRect(float rX, float rY, float rW, float rH);
-        void setRect(sf::FloatRect rect);
-        void setRect(sf::IntRect rect);
+        void setRect(T rX, T rY, T rW, T rH);
+        void setRect(sf::Rect<T> rect);
         
-        sf::Rect<int> getRect(){
-            return sf::Rect<int>(x, y, w, h);
+        sf::Rect<T> getRect(){
+            return sf::Rect<T>(x, y, w, h);
+        }
+        sf::IntRect getIntRect(){
+            return sf::IntRect(x, y, w, h);
+        }
+        sf::FloatRect getFloatRect(){
+            return sf::IntRect(x, y, w, h);
         }
 };
 

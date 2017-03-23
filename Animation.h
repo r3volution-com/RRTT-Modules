@@ -10,7 +10,7 @@
 class Animation {
     private:
         Texture *tex;
-        Rect *rectSprite;
+        Rect<float> *rectSprite;
         InterpolatedCoordinate *coordinate;
         Coordinate *clipCoordinate;
         sf::Sprite *sprites;
@@ -21,14 +21,14 @@ class Animation {
         
         void changeCurrentSprite();
     public:
-        Animation(Texture *t, Rect *tRect, int nS, float d);
+        Animation(Texture *t, Rect<float> *tRect, int nS, float d);
         virtual ~Animation();
         
         void setPosition(float x, float y);
         void setPosition(Coordinate *newCoord);
         
         void move(float x, float y);
-        void changeSpriteRect(Rect *newRect);
+        void changeSpriteRect(Rect<float> *newRect);
         
         sf::Sprite getCurrentSprite();
 };
