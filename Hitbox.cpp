@@ -4,7 +4,7 @@ Hitbox::Hitbox(float x, float y, int w, int h) {
     hitbox = new sf::Rect<float>(x, y, w, h);
 }
 
-Hitbox::Hitbox(Rect *nRect){
+Hitbox::Hitbox(Rect<float> *nRect){
     hitbox = new sf::Rect<float>(nRect->x, nRect->y, nRect->w, nRect->h);
 }
 

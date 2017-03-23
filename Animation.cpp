@@ -6,7 +6,7 @@
  * nS = numero de Sprites de la animacion
  * d = delay
  */
-Animation::Animation(Texture *t, Rect *tRect, int nS, float d) {
+Animation::Animation(Texture *t, Rect<float> *tRect, int nS, float d) {
     //Copiamos las variables
     tex = t;
     numSprites = nS;
@@ -24,7 +24,7 @@ Animation::Animation(Texture *t, Rect *tRect, int nS, float d) {
     sprites = new sf::Sprite(*tex->getTexture());
     
     //Cojo el sprite que me interesa por defecto del sheet
-    sprites->setTextureRect(rectSprite->getRect());
+    sprites->setTextureRect(rectSprite->getIntRect());
 
     //Le pongo el centroide donde corresponde
     sprites->setOrigin(0,0);
@@ -59,12 +59,12 @@ void Animation::move(float x, float y){
     sprites->move(x, y);
 }
 
-void Animation::changeSpriteRect(Rect *newRect){
+void Animation::changeSpriteRect(Rect<float> *newRect){
     rectSprite->x = newRect->x;
     rectSprite->y = newRect->y;
     rectSprite->w = newRect->w;
     rectSprite->h = newRect->h;
-    sprites->setTextureRect(rectSprite->getRect());
+    sprites->setTextureRect(rectSprite->getIntRect());
 }
 
 void Animation::changeCurrentSprite(){
@@ -72,7 +72,7 @@ void Animation::changeCurrentSprite(){
         if (currentSprite < numSprites) currentSprite++;
         else currentSprite = 0;
         rectSprite->x = rectSprite->w*currentSprite;
-        sprites->setTextureRect(rectSprite->getRect());
+        sprites->setTextureRect(rectSprite->getIntRect());
         clock->restart();
     }
 }

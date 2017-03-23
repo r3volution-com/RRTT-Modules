@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Font.h"
+#include "Coordinate.h"
 
 class Text {
     private:
@@ -10,12 +11,12 @@ class Text {
         sf::Text *text;
         bool centerOrigin;
     public:
-        Text(std::string t, float x, float y, Font *f, bool centerOrigin);
+        Text(std::string t, Coordinate *position, Font *f, bool centerOrigin);
         virtual ~Text();
         
         void setStyles(sf::Color color, sf::Color outlineColor, int outlineThickness, int size); 
         void setText(std::string t);
-        void setPosition(float x, float y) { text->setPosition(x, y); }
+        void setPosition(Coordinate *position) { text->setPosition(position->x, position->y); }
         sf::Text *getText();
 };
 

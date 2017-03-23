@@ -13,7 +13,7 @@ class Hitbox {
         sf::Rect<float> *hitbox;
         
         Hitbox(float x, float y, int w, int h);
-        Hitbox(Rect *h);
+        Hitbox(Rect<float> *h);
         virtual ~Hitbox();
         
         void setPosition(float x, float y);
