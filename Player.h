@@ -3,6 +3,7 @@
 
 #include "Gun.h"
 #include "Entity.h"
+#include "HUD.h"
 
 class Player : public Entity {
     private:
@@ -17,7 +18,6 @@ class Player : public Entity {
         std::vector<Gun*> *guns;
         int currentGun;
         
-        void die();
     public:
         Player(Rect<float> *playerData, float sp);
         virtual ~Player();
@@ -31,6 +31,7 @@ class Player : public Entity {
         void flash(int dirX, int dirY);
         void respawn();
         void damage(int dmg);
+        void die();
         
         void addGun(Gun *gun);
         void setMaxHP(int mhp) { maxHP = mhp; hp = maxHP; }
