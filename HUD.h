@@ -52,7 +52,7 @@ class HUD {
         int lifePlayer;
         
     public:
-        HUD(Sprite *bg, Sprite *hd, Sprite *pHP, Sprite *bHP, Font *f);
+        HUD(Texture *tex, Texture *tex2, Texture *tex3, Texture *tex4, Font *f);
         virtual ~HUD();
         
         void changeActiveGun(int gun);
@@ -64,11 +64,11 @@ class HUD {
         void changeFirstGunCooldown(int cooldown);
         void changeSecondGunCooldown(int cooldown);
         
-        void setSpriteGunsOn(std::vector<Sprite*> *gs);
-        void setSpriteGunsOff(std::vector<Sprite*> *gsO);
-        void setSpriteGunsCooldown(std::vector<Sprite*> *gCd);
-        void setSpriteFlash(Sprite *fC);
-        void setSpriteFlashCooldown(Sprite *cool);
+        void setSpriteGunsOn(Texture *tex, Texture *tex2);
+        void setSpriteGunsOff(Texture *tex, Texture *tex2);
+        void setSpriteGunsCooldown(Texture *tex);
+        void setSpriteFlash(Texture *tex);
+        void setSpriteFlashCooldown(Texture *tex);
         
         /*std::vector<Sprite*> getSpriteGunsOn(){return guns;}
         std::vector<Sprite*> getSpriteGunsOff(){return gunsOff;}
@@ -94,7 +94,6 @@ class HUD {
         void drawGunCooldown(sf::RenderWindow *window);
         
         void setButton(Coordinate *coor, Texture* tex, Rect *rect);
-        void setSpriteDie(Sprite *sd);
         void drawDie(sf::RenderWindow *window);
         
         void resetClockFlash();

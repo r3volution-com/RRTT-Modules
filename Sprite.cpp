@@ -7,7 +7,7 @@ Sprite::Sprite(Texture *texture, Rect *spriteRect) {
     tex = texture;
     
     originalSpriteRect = new Rect(spriteRect->getRect());
-    actualSpriteRect = spriteRect;
+    actualSpriteRect = new Rect(spriteRect->getRect());
     
     //Y creo el spritesheet a partir de la imagen anterior
     sprite = new sf::Sprite(*tex->getTexture());
