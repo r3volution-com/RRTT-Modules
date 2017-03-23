@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "Font.h"
 #include "Text.h"
+#include "Button.h"
 
 class HUD {
     
@@ -21,6 +22,7 @@ class HUD {
         Sprite *bossHP;
         Sprite *flash;
         Sprite *flashCooldown;
+        Sprite *die;
         
         sf::Clock *clockFlash;
         sf::Clock *clockFirstGun;
@@ -32,6 +34,8 @@ class HUD {
         Font *font;
         
         Text *lifePlayerText;
+        
+        Button *buttonDie;
         
         bool firstGunUsed;
         bool secondGunUsed;
@@ -89,8 +93,13 @@ class HUD {
         void drawFlashCooldown(sf::RenderWindow *window);
         void drawGunCooldown(sf::RenderWindow *window);
         
+        void setButton(Coordinate *coor, Texture* tex, Rect *rect);
+        void setSpriteDie(Sprite *sd);
+        void drawDie(sf::RenderWindow *window);
+        
         void resetClockFlash();
         void resetClock();
+        void resetStats();
 };
 
 #endif /* HUD_H */

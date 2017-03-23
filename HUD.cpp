@@ -2,6 +2,7 @@
 
 #include "HUD.h"
 #include "Coordinate.h"
+#include "Button.h"
 
 HUD::HUD(Sprite *bg, Sprite *hd, Sprite *pHP, Sprite *bHP, Font *f){
     background = bg;
@@ -48,10 +49,10 @@ void HUD::changeMaxLifePlayer(int maxLife){
 
 void HUD::changeLifePlayer(int life){
     lifePlayer = life;
-    /*int newW = (lifePlayer*playerHP->getMaxW())/maxLifePlayer;
-    if(newW < playerHP->getMaxW() && newW >= 0){
-        playerHP->setSize(newW, playerHP->getMaxH());
-    }*/
+    int newW = (lifePlayer*playerHP->getOriginalSpriteRect()->w)/maxLifePlayer;
+    if(newW < playerHP->getOriginalSpriteRect()->w && newW >= 0){
+        playerHP->setSize(newW, playerHP->getOriginalSpriteRect()->h);
+    }
 }
 
 void HUD::changeMaxLifeBoss(int maxLife){
@@ -60,10 +61,10 @@ void HUD::changeMaxLifeBoss(int maxLife){
 
 void HUD::changeLifeBoss(int life){
     lifeBoss = life;
-    /*int newW = (lifeBoss*bossHP->getMaxW())/maxLifeBoss;
-    if(newW < bossHP->getMaxW() && newW >= 0){
-        bossHP->setSize(newW, bossHP->getMaxH());
-    }*/
+    int newW = (lifeBoss*bossHP->getOriginalSpriteRect()->w)/maxLifeBoss;
+    if(newW < bossHP->getOriginalSpriteRect()->w && newW >= 0){
+        bossHP->setSize(newW, bossHP->getOriginalSpriteRect()->h);
+    }
 }
 
 void HUD::changeFlashCooldown(int cooldown){
@@ -172,17 +173,17 @@ void HUD::drawFlash(sf::RenderWindow* window){
 
 void HUD::drawFlashCooldown(sf::RenderWindow *window){
     if(clockFlash->getElapsedTime().asSeconds() < timeFlash){
-        //flashCooldown->setSize(flashCooldown->getW()-(flashCooldown->getMaxW()/(120.0f*timeFlash)), flashCooldown->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+        flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(120.0f*timeFlash)), flashCooldown->getActualSpriteRect()->h);  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
     } else flashUsed = false;
     if (flashUsed) window->draw(flashCooldown->getSprite());
 }
 void HUD::drawGunCooldown(sf::RenderWindow* window){
     if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
-        //gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getW()-(gunsCooldown->at(0)->getMaxW()/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento  
+        gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);  //ToDo mirar fps para un numero menor en caso del pc ir mas lento  
     } else firstGunUsed = false;
     
     if(clockSecondGun->getElapsedTime().asSeconds() < secondGunCooldown){
-        //gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getW()-(gunsCooldown->at(1)->getMaxW()/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getH());  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+        gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getActualSpriteRect()->w-(gunsCooldown->at(1)->getOriginalSpriteRect()->w/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getActualSpriteRect()->h);  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
     } else secondGunUsed = false;
     
     if(activeGun == 0 && firstGunUsed) window->draw(gunsCooldown->at(0)->getSprite());
@@ -215,6 +216,41 @@ void HUD::resetClock(){
             clockSecondGun->restart();
             secondGunUsed = true;
             gunsCooldown->at(activeGun)->restoreSize();
+        }
+    }
+}
+
+void HUD::resetStats(){
+    lifePlayer = maxLifePlayer;
+    lifeBoss = maxLifeBoss;
+
+    clockFlash->restart();
+    flashCooldown->restoreSize();
+    flashUsed = true;
+
+    clockFirstGun->restart();
+    firstGunUsed = true;
+    gunsCooldown->at(0)->restoreSize();
+
+    clockSecondGun->restart();
+    secondGunUsed = true;
+    gunsCooldown->at(1)->restoreSize();
+}
+
+void HUD::setSpriteDie(Sprite* sd){
+    die = sd;
+}
+
+void HUD::setButton(Coordinate *coor, Texture* tex, Rect *rect){
+    buttonDie = new Button(coor, tex, rect);
+}
+
+void HUD::drawDie(sf::RenderWindow *window){
+    if(lifePlayer == 0){
+        window->draw(die->getSprite());
+        buttonDie->draw(window);
+        if(buttonDie->getHover() == true && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+            resetStats();
         }
     }
 }
