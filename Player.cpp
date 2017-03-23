@@ -11,6 +11,7 @@ void Player::setWeapon(Gun *wP){
     weapon = wP;
 }
 
+
 void Player::move(float x, float y){
     Entity::move(x, y);
     weapon->move(x, y);
