@@ -1,6 +1,6 @@
 #include "NPC.h"
 
-NPC::NPC(Rect *npcData, float sp, std::string npcName) : Entity(npcData, sp) {
+NPC::NPC(Rect<float> *npcData, float sp, std::string npcName) : Entity(npcData, sp) {
     currentSentence=-1;
     sentences = new std::vector<std::string>();
     sentencePosition = new std::vector<Coordinate *>();

@@ -1,6 +1,6 @@
 #include "Gun.h"
 
-Gun::Gun(Coordinate *position, Rect *animRect, Texture *tex, int nS, float d) {
+Gun::Gun(Coordinate *position, Rect<float> *animRect, Texture *tex, int nS, float d) {
     width=animRect->w;
     height=animRect->h;
     hitbox = new Hitbox(position->x, position->y, animRect->w, animRect->h);
@@ -19,6 +19,9 @@ void Gun::attack(){
 void Gun::setPosition(Coordinate *position){
     hitbox->setPosition(position);
     gunAnimation->setPosition(position);
+}
+void Gun::setRotation(float r){
+    gunAnimation->setRotation(r);
 }
 void Gun::move(float x, float y){
     hitbox->move(x, y);

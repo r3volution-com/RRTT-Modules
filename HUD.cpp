@@ -6,11 +6,11 @@
 
 HUD::HUD(Texture *tex, Texture *tex2, Texture *tex3, Texture *tex4, Font *f){
     
-    Rect *rectBack = new Rect(0, 0, 1280, 720);
+    Rect<float> *rectBack = new Rect<float>(0, 0, 1280, 720);
     background = new Sprite(tex, rectBack);
     hud = new Sprite(tex2, rectBack);
     die = new Sprite(tex3, rectBack);
-    Rect *rectLife = new Rect(0, 0, 194, 14);
+    Rect<float> *rectLife = new Rect<float>(0, 0, 194, 14);
     playerHP = new Sprite(tex4, rectLife);
     playerHP->move(300.0f,30.0f);
     bossHP = new Sprite(tex4,rectLife);
@@ -29,7 +29,7 @@ HUD::HUD(Texture *tex, Texture *tex2, Texture *tex3, Texture *tex4, Font *f){
     secondGunCooldown = 2.0f;
     
     font = f;
-    lifePlayerText = new Text(std::string(), 0, 0, font, false);
+    lifePlayerText = new Text(std::string(), new Coordinate(0,0), font, false);
     sf::Color color = sf::Color::Black;
     lifePlayerText->setStyles(color, color, 0, 12);
 
@@ -90,7 +90,7 @@ void HUD::changeSecondGunCooldown(int cooldown){
 }
 
 void HUD::setSpriteGunsOn(Texture *tex, Texture *tex2){
-    Rect *rectGun = new Rect(0, 0, 80, 80);
+    Rect<float> *rectGun = new Rect<float>(0, 0, 80, 80);
     Sprite *gun1 = new Sprite(tex, rectGun);
     gun1->move(17.0f,18.0f);
     Sprite *gun2 = new Sprite(tex2, rectGun);
@@ -102,7 +102,7 @@ void HUD::setSpriteGunsOn(Texture *tex, Texture *tex2){
 }
 
 void HUD::setSpriteGunsOff(Texture *tex, Texture *tex2){
-    Rect *rectGun = new Rect(0, 0, 80, 80);
+    Rect<float> *rectGun = new Rect<float>(0, 0, 80, 80);
     Sprite *go1 = new Sprite(tex, rectGun);
     go1->move(17.0f,18.0f);
     Sprite *go2 = new Sprite(tex2, rectGun);
@@ -113,7 +113,7 @@ void HUD::setSpriteGunsOff(Texture *tex, Texture *tex2){
 }
 
 void HUD::setSpriteGunsCooldown(Texture *tex){
-    Rect *rectGun = new Rect(0, 0, 80, 80);
+    Rect<float> *rectGun = new Rect<float>(0, 0, 80, 80);
     Sprite *gc1 = new Sprite(tex, rectGun);
     gc1->move(17.0f,18.0f);
     Sprite *gc2 = new Sprite(tex, rectGun);
@@ -129,32 +129,32 @@ void HUD::setSpriteGunsCooldown(Texture *tex){
 }
 
 void HUD::setSpriteFlash(Texture *tex){
-    Rect *rectFlash = new Rect(0, 0, 80, 80);
+    Rect<float> *rectFlash = new Rect<float>(0, 0, 80, 80);
     flash = new Sprite(tex,rectFlash);
     flash->move(100.0f,18.0f);
 }
 
 void HUD::setSpriteFlashCooldown(Texture *tex){
-    Rect *rectFlash = new Rect(0, 0, 80, 80);
+    Rect<float> *rectFlash = new Rect<float>(0, 0, 80, 80);
     flashCooldown = new Sprite(tex, rectFlash);
     flashCooldown->move(100.0f,18.0f);
 }
 
 void HUD::setTextLayer(float x, float y, Sprite *sp){
     textSprite = sp;
-    //textSprite->setPosition(x, y);
-    currentText = new Text(std::string(), 0, 0, font, false);
-    talker = new Text(std::string(), 0, 0, font, false);
+    textSprite->setPosition(new Coordinate (x, y));
+    currentText = new Text(std::string(), new Coordinate(0,0), font, false);
+    talker = new Text(std::string(), new Coordinate(0,0), font, false);
 }
 
 void HUD::setTLayerTalker(std::string s, float x, float y){
     talker->setText(s);
-    talker->setPosition(x, y);
+    talker->setPosition(new Coordinate(x, y));
 }
 
 void HUD::setTLayerText(std::string s, float x, float y){
     currentText->setText(s);
-    currentText->setPosition(x, y);
+    currentText->setPosition(new Coordinate(x, y));
 }
 
 void HUD::setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor){
@@ -167,7 +167,7 @@ void HUD::setTextLifePlayer(){
     lifePlayerText->setText(life.str());
     float x = playerHP->getPosition().x ;
     float y = playerHP->getPosition().y;
-    lifePlayerText->setPosition(x, y);
+    lifePlayerText->setPosition(new Coordinate(x, y));
 }
 
 bool HUD::drawHUD(sf::RenderWindow* window){
@@ -276,7 +276,7 @@ void HUD::resetStats(){
     gunsCooldown->at(1)->restoreSize();
 }
 
-void HUD::setButton(Coordinate *coor, Texture* tex, Rect *rect){
+void HUD::setButton(Coordinate *coor, Texture* tex, Rect<float> *rect){
     buttonDie = new Button(coor, tex, rect);
 }
 

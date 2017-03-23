@@ -93,8 +93,8 @@ class HUD {
         void drawFlashCooldown(sf::RenderWindow *window);
         void drawGunCooldown(sf::RenderWindow *window);
         
-        void setButton(Coordinate *coor, Texture* tex, Rect *rect);
-        bool drawDie(sf::RenderWindow *window);
+        void setButton(Coordinate *coor, Texture* tex, Rect<float> *rect);
+        void drawDie(sf::RenderWindow *window);
         
         void resetClockFlash();
         void resetClock();

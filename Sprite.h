@@ -10,22 +10,23 @@ class Sprite {
     private:
         Texture *tex;
         sf::Sprite *sprite;
-        Rect *actualSpriteRect;
-        Rect *originalSpriteRect;
+        Rect<float> *actualSpriteRect;
+        Rect<float> *originalSpriteRect;
     public:
-        Sprite(Texture *texture, Rect *spriteRect);
+        Sprite(Texture *texture, Rect<float> *spriteRect);
         virtual ~Sprite();
         
         void move(float x, float y);
         void setPosition(Coordinate *pos);
+        void setRotation(float r);
         void setSize(float w, float h);
-        void changeSpriteRect(Rect *spriteRect);
+        void changeSpriteRect(Rect<float> *spriteRect);
         void restoreSize();
         
         Coordinate getPosition();
         sf::Sprite getSprite() { return *sprite; }
-        Rect *getActualSpriteRect() { return actualSpriteRect; }
-        Rect *getOriginalSpriteRect() { return originalSpriteRect; }
+        Rect<float> *getActualSpriteRect() { return actualSpriteRect; }
+        Rect<float> *getOriginalSpriteRect() { return originalSpriteRect; }
 };
 
 #endif /* SPRITE_H */

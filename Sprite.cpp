@@ -2,18 +2,20 @@
 #include "Coordinate.h"
 #include "Rect.h"
 
-Sprite::Sprite(Texture *texture, Rect *spriteRect) {
+Sprite::Sprite(Texture *texture, Rect<float> *spriteRect) {
     //Copiamos las variables
     tex = texture;
     
-    originalSpriteRect = new Rect(spriteRect->getRect());
-    actualSpriteRect = new Rect(spriteRect->getRect());
+    originalSpriteRect = new Rect<float>(spriteRect->getRect());
+    actualSpriteRect = new Rect<float>(spriteRect->getRect());
+    
+    delete spriteRect;
     
     //Y creo el spritesheet a partir de la imagen anterior
     sprite = new sf::Sprite(*tex->getTexture());
     
     //Cojo el sprite que me interesa por defecto del sheet
-    sprite->setTextureRect(actualSpriteRect->getRect());
+    sprite->setTextureRect(actualSpriteRect->getIntRect());
     
     //Le pongo el centroide donde corresponde
     sprite->setOrigin(0,0);
@@ -35,22 +37,28 @@ void Sprite::move(float x, float y){
 
 void Sprite::setPosition(Coordinate *pos){
     sprite->setPosition(pos->x, pos->y);
+    delete pos;
+}
+
+void Sprite::setRotation(float r){
+    sprite->setRotation(r);
 }
 
 void Sprite::setSize(float w, float h){
     actualSpriteRect->w = w;
     actualSpriteRect->h = h;
-    sprite->setTextureRect(actualSpriteRect->getRect());
+    sprite->setTextureRect(actualSpriteRect->getIntRect());
 }
 
-void Sprite::changeSpriteRect(Rect *spriteRect){
+void Sprite::changeSpriteRect(Rect<float> *spriteRect){
     actualSpriteRect->setRect(spriteRect->getRect());
-    sprite->setTextureRect(actualSpriteRect->getRect());
+    sprite->setTextureRect(actualSpriteRect->getIntRect());
+    delete spriteRect;
 }
 
 void Sprite::restoreSize(){
     actualSpriteRect->setRect(originalSpriteRect->getRect());
-    sprite->setTextureRect(actualSpriteRect->getRect());
+    sprite->setTextureRect(actualSpriteRect->getIntRect());
 }
 
 Coordinate Sprite::getPosition(){

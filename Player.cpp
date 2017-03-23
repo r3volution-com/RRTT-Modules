@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Rect *playerData, float sp) : Entity(playerData, sp){
+Player::Player(Rect<float> *playerData, float sp) : Entity(playerData, sp){
     currentGun = -1;
 }
 
@@ -10,6 +10,7 @@ Player::~Player() {
 void Player::setWeapon(Gun *wP){
     weapon = wP;
 }
+
 
 void Player::move(float x, float y){
     Entity::move(x, y);

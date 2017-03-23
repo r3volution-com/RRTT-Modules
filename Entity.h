@@ -17,7 +17,7 @@ class Entity {
         
         Animation *anim;
     public:
-        Entity(Rect* newRect, float sp);
+        Entity(Rect<float> *newRect, float sp);
         virtual ~Entity();
         
         void loadAnimation(Texture *t, Coordinate *clipCoord, int nS, float d);
