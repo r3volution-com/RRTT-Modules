@@ -2,28 +2,31 @@
 #define ANIMATION_H
 
 #include <SFML/Graphics.hpp>
+#include "Coordinate.h"
 #include "Texture.h"
 
 class Animation {
     private:
         Texture *tex;
+        Rect *rectSprite;
+        InterpolatedCoordinate *coordinate;
+        Coordinate *clipCoordinate;
         sf::Sprite *sprites;
-        sf::IntRect *rectSprite;
         sf::Clock *clock;
         float delay;
         int currentSprite;
         int numSprites;
-        int width, height;
-        int clipX, clipY;
         
         void changeCurrentSprite();
     public:
-        Animation(Texture *t, int w, int h, int cX, int cY, int nS, float d);
+        Animation(Texture *t, Rect *tRect, int nS, float d);
         virtual ~Animation();
         
         void setPosition(float x, float y);
+        void setPosition(Coordinate *newCoord);
+        
         void move(float x, float y);
-        void changeSpriteRect(int cX, int cY, int w, int h);
+        void changeSpriteRect(Rect *newRect);
         
         sf::Sprite getCurrentSprite();
 };

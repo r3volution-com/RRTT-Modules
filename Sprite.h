@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Texture.h"
+#include "Coordinate.h"
 
 class Sprite {
     private:
@@ -25,7 +26,7 @@ class Sprite {
         float getH(){return actH;}
         int getMaxW(){return maxW;}
         int getMaxH(){return maxH;}
-        
+        Coordinate getPosition();
         sf::Sprite getSprite() { return *sprite; }
         sf::IntRect getSpriteRect() { return *spriteRect; }
 };

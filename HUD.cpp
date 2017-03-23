@@ -1,7 +1,11 @@
-#include "HUD.h"
+#include <sstream>
 
-HUD::HUD(Sprite *bg, Sprite *pHP, Sprite *bHP){
+#include "HUD.h"
+#include "Coordinate.h"
+
+HUD::HUD(Sprite *bg, Sprite *hd, Sprite *pHP, Sprite *bHP, Font *f){
     background = bg;
+    hud = hd;
     playerHP = pHP;
     bossHP = bHP;
     
@@ -10,8 +14,14 @@ HUD::HUD(Sprite *bg, Sprite *pHP, Sprite *bHP){
     clockSecondGun = new sf::Clock;
     
     timeFlash = 4.0f;
-    firstGunCooldown = 10.0f;
+    firstGunCooldown = 5.0f;
     secondGunCooldown = 2.0f;
+    
+    font = f;
+    lifePlayerText = new Text(std::string(), 0, 0, font, false);
+    sf::Color color = sf::Color::Black;
+    lifePlayerText->setStyles(color, color, 0, 12);
+
     
     firstGunUsed = false;
     secondGunUsed = false;
@@ -91,12 +101,11 @@ void HUD::setSpriteFlashCooldown(Sprite* cool){
     flashCooldown = cool;
 }
 
-void HUD::setTextLayer(float x, float y, Sprite *sp, Font* f){
+void HUD::setTextLayer(float x, float y, Sprite *sp){
     textSprite = sp;
     textSprite->setPosition(x, y);
-    font = f;
-    currentText = new Text(std::string(), 0, 0, f, false);
-    talker = new Text(std::string(), 0, 0, f, false);
+    currentText = new Text(std::string(), 0, 0, font, false);
+    talker = new Text(std::string(), 0, 0, font, false);
 }
 
 void HUD::setTLayerTalker(std::string s, float x, float y){
@@ -113,12 +122,23 @@ void HUD::setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineCo
     currentText->setStyles(fillColor, outlineColor, 1, size);
 }
 
+void HUD::setTextLifePlayer(){
+    std::stringstream life;
+    life << lifePlayer << "/" << maxLifePlayer;
+    lifePlayerText->setText(life.str());
+    float x = playerHP->getPosition().x ;
+    float y = playerHP->getPosition().y;
+    lifePlayerText->setPosition(x, y);
+}
+
 bool HUD::drawHUD(sf::RenderWindow* window){
     window->draw(background->getSprite());
+    window->draw(hud->getSprite());
     drawGun(window);
     drawPlayerHP(window);
     drawBossHP(window);
     drawFlash(window);
+    window->draw(*lifePlayerText->getText());
 }
 
 void HUD::drawGun(sf::RenderWindow *window){

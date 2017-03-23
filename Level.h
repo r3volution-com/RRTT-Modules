@@ -7,7 +7,7 @@ class Level {
     private:
 
     public:
-        Level();
+        Level(); //ToDo: level
         void populate(std::vector<sf::RectangleShape*> *objects, float x, float y);
 };
 

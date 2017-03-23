@@ -10,18 +10,16 @@ class Button {
         Text *text;
         Hitbox *hitbox;
         Sprite *buttonLayout;
+        Rect *buttonData;
         
-        bool ho;
+        bool isHover;
     public:
-        float bX, bY;
-        int bW, bH;
-        
-        Button(float x, float y, int w, int h, Sprite *bL);
+        Button(Coordinate *pos, Texture *bL, Rect *textureRect);
         virtual ~Button();
         
         void setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size);
         void hover(Hitbox *mouse);
-        bool getHover() { return ho; }
+        bool getHover() { return isHover; }
         void draw(sf::RenderWindow *window);
         
 };

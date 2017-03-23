@@ -8,12 +8,14 @@
 class Hitbox {
     private:
     public:
-        sf::Rect<float> *hitbox;
+        sf::Rect *hitbox;
         
         Hitbox(float x, float y, int w, int h);
+        Hitbox(Rect *h);
         virtual ~Hitbox();
         
         void setPosition(float x, float y);
+        void setPosition(Coordinate *newCoor);
         void move(float x, float y);
         bool checkCollision(Hitbox *other);
 };

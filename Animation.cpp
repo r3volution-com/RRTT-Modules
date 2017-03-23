@@ -1,40 +1,37 @@
 #include "Animation.h"
+#include "InterpolatedCoordinate.h"
+#include "Rect.h"
 
 /*
  * t = textura
- * w = ancho 
- * h = alto
- * cX = coordenada X del primer sprite
- * cY = coordenada Y del primer sprite
+ * tRect = rectangulo del Sprite
  * nS = numero de Sprites de la animacion
  * d = delay
  */
-Animation::Animation(Texture *t, int w, int h, int cX, int cY, int nS, float d) {
+Animation::Animation(Texture *t, Rect *tRect, int nS, float d) {
     //Copiamos las variables
     tex = t;
-    width = w;
-    height = h;
-    clipX = cX;
-    clipY = cY;
     numSprites = nS;
-    currentSprite = 0;
     delay = d;
+    currentSprite = 0;
+    rectSprite = tRect;
     
-    clock = new sf::Clock;
+    //CoordenadaIntepolada
+    coordinate = new InterpolatedCoordinate(0,0);
     
-    //Creamos el cuadrado del sprite actual
-    rectSprite = new sf::IntRect(cX, cY, w, h);
+    //Inicializo el timer
+    clock = new sf::Clock();
     
     //Y creo el spritesheet a partir de la imagen anterior
     sprites = new sf::Sprite(*tex->getTexture());
     
     //Cojo el sprite que me interesa por defecto del sheet
-    sprites->setTextureRect(*rectSprite);
+    sprites->setTextureRect(rectSprite->getRect());
 
     //Le pongo el centroide donde corresponde
     sprites->setOrigin(0,0);
 
-    //Y lo colocamos provisionalmente
+    //Y lo coloco provisionalmente
     sprites->setPosition(0,0);
 }
 
@@ -53,24 +50,28 @@ void Animation::setPosition(float x, float y){
     sprites->setPosition(x, y);
 }
 
+void Animation::setPosition(Coordinate *newCoord){
+    sprites->setPosition(newCoord->x, newCoord->y);
+}
+
 void Animation::move(float x, float y){
     sprites->move(x, y);
 }
 
-void Animation::changeSpriteRect(int cX, int cY, int w, int h){
-    rectSprite->left = cX;
-    rectSprite->top = cY;
-    rectSprite->width = w;
-    rectSprite->height = h;
-    sprites->setTextureRect(*rectSprite);
+void Animation::changeSpriteRect(Rect *newRect){
+    rectSprite->x = newRect->x;
+    rectSprite->y = newRect->y;
+    rectSprite->w = newRect->w;
+    rectSprite->h = newRect->h;
+    sprites->setTextureRect(rectSprite->getRect());
 }
 
 void Animation::changeCurrentSprite(){
     if (clock->getElapsedTime().asSeconds() > delay){
         if (currentSprite < numSprites) currentSprite++;
         else currentSprite = 0;
-        rectSprite->left = width*currentSprite;
-        sprites->setTextureRect(*rectSprite);
+        rectSprite->x = rectSprite->w*currentSprite;
+        sprites->setTextureRect(rectSprite->getRect());
         clock->restart();
     }
 }

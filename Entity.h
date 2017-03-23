@@ -8,8 +8,7 @@
 
 class Entity {
     private:
-        int width;
-        int height;
+        int width, height;
         InterpolatedCoordinate *coor;
         
         float speed;
@@ -18,10 +17,10 @@ class Entity {
         
         Animation *anim;
     public:
-        Entity(float x, float y, int w, int h, float sp);
+        Entity(Rect* newRect, float sp);
         virtual ~Entity();
         
-        void loadAnimation(Texture *t, int cX, int cY, int nS, float d);
+        void loadAnimation(Texture *t, Coordinate *clipCoord, int nS, float d);
         void move(float dirX, float dirY);
         bool collision(Hitbox *other);
         
