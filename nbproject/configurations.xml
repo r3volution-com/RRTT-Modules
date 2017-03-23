@@ -24,6 +24,7 @@
       <itemPath>Player.h</itemPath>
       <itemPath>Sprite.h</itemPath>
       <itemPath>Text.h</itemPath>
+      <itemPath>Rect.h</itemPath>
       <itemPath>Texture.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -54,7 +55,8 @@
       <itemPath>Sprite.cpp</itemPath>
       <itemPath>Text.cpp</itemPath>
       <itemPath>Texture.cpp</itemPath>
-      <itemPath>gunTest/main.cpp</itemPath>
+      <itemPath>Rect.cpp</itemPath>
+      <itemPath>HUD/main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -132,6 +134,10 @@
       </item>
       <item path="Game.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Rect.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Rect.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Gun.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Gun.h" ex="false" tool="3" flavor2="0">
@@ -180,7 +186,7 @@
       </item>
       <item path="Texture.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="gunTest/main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="HUD/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -275,6 +281,10 @@
       </item>
       <item path="Player.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Rect.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Rect.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Sprite.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Sprite.h" ex="false" tool="3" flavor2="0">
@@ -287,7 +297,7 @@
       </item>
       <item path="Texture.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="gunTest/main.cpp" ex="false" tool="1" flavor2="0">
+      <item path="HUD/main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
   </confs>
