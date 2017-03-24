@@ -82,6 +82,10 @@ int main(int argc, char *argv[]) {
     
     //Creacion del array de sprites
     
+    Texture *_tilesetTexture = new Texture("resources/tileset3.png");
+    
+    Rect <float> *medidas = new Rect <float> (32, 32, 0, 0);
+    
     Sprite ****_tilemapSprite;
     
     _tilemapSprite = new Sprite***[_numLayers];
@@ -91,10 +95,39 @@ int main(int argc, char *argv[]) {
         for(int y=0; y<_height; y++){
             _tilemapSprite[l][y] = new Sprite*[_width];
             for(int x=0; x<_width; x++){
-                //Falta añadir new sprite
+                //Falta crear sprite con sus dimensiones
+                _tilemapSprite[l][y][x] = new Sprite (_tilesetTexture, medidas);
             }
         }
     }
+    
+    //Rellenando el array de sprites
+    
+    for(int l=0; l<_numLayers; l++){
+        for(int y=0; y<_height; y++){
+            for(int x=0; x<_width; x++){
+                int gid = _tilemap[l][y][x]-1;
+                Coordinate* coord = new Coordinate (x*_tileWidth, y*_tileHeight);
+                
+                if(gid>0){
+                    //Si fuera 0 no creo sprite...
+                    
+                    //Obtener getTextureRect
+                    /*_tilemapSprite[l][y][x] = new Sprite(_tilesetTexture, 
+                            medidas[gid]->getRect());*/
+                    
+                    _tilemapSprite[l][y][x]->setPosition(coord);
+                    
+                }else{
+                    _tilemapSprite[l][y][x] = NULL;
+                }
+            }
+        }
+    }
+    
+    
+    //Dibujando el mapa por pantalla (primera capa)
+    
     
     return 0;
 
