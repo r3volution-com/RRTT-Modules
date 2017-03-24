@@ -27,7 +27,7 @@ void InterpolatedCoordinate::setCoordinate(Coordinate* newCoord){
     act->setCoordinate(newCoord->x, newCoord->y);
 }
 
-Coordinate InterpolatedCoordinate::getIC(){
+Coordinate *InterpolatedCoordinate::getIC(){
     //ToDo: Calcular coordenada interpolada
-    return *act;
+    return act;
 }

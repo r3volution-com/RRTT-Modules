@@ -18,6 +18,8 @@ class Player : public Entity {
         std::vector<Gun*> *guns;
         int currentGun;
         
+        bool weaponLoaded;
+        
     public:
         Player(Rect<float> *playerData, float sp);
         virtual ~Player();

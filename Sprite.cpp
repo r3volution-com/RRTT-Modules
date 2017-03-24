@@ -9,8 +9,6 @@ Sprite::Sprite(Texture *texture, Rect<float> *spriteRect) {
     originalSpriteRect = new Rect<float>(spriteRect->getRect());
     actualSpriteRect = new Rect<float>(spriteRect->getRect());
     
-    delete spriteRect;
-    
     //Y creo el spritesheet a partir de la imagen anterior
     sprite = new sf::Sprite(*tex->getTexture());
     
@@ -53,7 +51,6 @@ void Sprite::setSize(float w, float h){
 void Sprite::changeSpriteRect(Rect<float> *spriteRect){
     actualSpriteRect->setRect(spriteRect->getRect());
     sprite->setTextureRect(actualSpriteRect->getIntRect());
-    delete spriteRect;
 }
 
 void Sprite::restoreSize(){

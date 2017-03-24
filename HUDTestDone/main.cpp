@@ -6,7 +6,7 @@
 #include "../HUD.h"
 #include "../Coordinate.h"
 #include "../Rect.h"
-#include "../Player.h"
+
 
 using namespace std;
 
@@ -14,10 +14,16 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: HUD Test");
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: HUD Test");
     
     //Texture
+    Texture *tex0 = new Texture("resources/arma 1.png");
+    Texture *tex1 = new Texture("resources/arma 2.png");
     Texture *tex2 = new Texture("resources/vida.png");
+    Texture *tex3 = new Texture("resources/no_usada_arma 2.png");
+    Texture *tex4 = new Texture("resources/no_usada_arma 1.png");
+    Texture *tex5 = new Texture("resources/flash.png");
+    Texture *tex6 = new Texture("resources/cooldown.png");
     Texture *tex7 = new Texture("resources/background.png");
     Texture *tex8 = new Texture("resources/hud.png");
     Texture *tex9 = new Texture("resources/semi transparente pantalla.png");
@@ -41,17 +47,13 @@ sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT:
     Rect<float> *rect = new Rect<float>(0, 0, 120, 30);
     
     //HUD
-    HUD *hud = new HUD(tex7, tex8, tex9, tex2, f);
+    HUD *hud = new HUD(tex7, tex8, tex2, f);
+    hud->setFlashSprites(tex5, tex6);
+    hud->setSpriteGunsCooldown(tex6);
+    hud->setSpriteGunsOff(tex4, tex3);
+    hud->setSpriteGunsOn(tex0, tex1);
     hud->setButton(coor, tex10, rect);
-    Rect<float> *rectPlayer = new Rect<float>(0,0,128,128);
-    Texture *tex = new Texture("resources/sprites.png");
-    Player *player = new Player(rectPlayer, 5.0);
-    player->loadAnimation(tex, new Coordinate(0,0), 3, 0.1f);
-    Button *button = hud->getButton();
-    sf::Vector2i pos = sf::Mouse::getPosition(*window);
-    Hitbox *mouse = new Hitbox(pos.x, pos.y, 1, 1);
-    
-    //Player
+    hud->setDieSprite(tex9);
     
     window->setFramerateLimit(120);
     
@@ -65,7 +67,13 @@ sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT:
                 case sf::Event::Closed:
                     window->close();
                     break;
-                //Se pulsó una tecla, imprimo su codigo
+                case sf::Event::MouseWheelMoved:
+                    if(event.mouseWheel.delta < 0){
+                        activeGun = 0;
+                    } else if(event.mouseWheel.delta > 0){
+                        activeGun = 1;
+                    }
+                    break;
                 case sf::Event::KeyPressed:
                     //Verifico si se pulsa alguna tecla de movimiento
                     switch(event.key.code) {
@@ -90,7 +98,6 @@ sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT:
             if(lifePlayer < 100){
                 lifePlayer = lifePlayer + 1;
                 hud->changeLifePlayer(lifePlayer);
-                player->damage(100-lifePlayer);
             }
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract)){
@@ -118,20 +125,16 @@ sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT:
             hud->resetClock();
         }
         
-        pos = sf::Mouse::getPosition(*window);
-        mouse->setPosition(pos.x, pos.y);
-        button->hover(mouse);
         
-        if(hud->checkDie() == true && button->getHover() == true && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-            hud->resetStats();
-            player->respawn();
-            lifePlayer = 100;
-        }
-        
+        hud->changeActiveGun(activeGun);        
+
         window->clear();
+        
         hud->drawHUD(window);
-        hud->drawDie(window);
-        window->draw(player->getAnimation()->getCurrentSprite());
+        hud->drawFlashCooldown(window);
+        hud->drawGunCooldown(window);
+        hud->setTextLifePlayer();
+        
         window->display();
         
     }

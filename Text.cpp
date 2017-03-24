@@ -10,7 +10,7 @@ Text::Text(std::string t, Coordinate *position, Font* f, bool cO) {
     text->setPosition(position->x, position->y);
     if (centerOrigin){
         sf::FloatRect textRect = text->getLocalBounds();
-        text->setOrigin(textRect.left + textRect.width/2.0f, textRect.top + textRect.height/2.0f);
+        text->setOrigin(textRect.width/2.0f, textRect.height/2.0f);
     }
 }
 
@@ -21,7 +21,7 @@ void Text::setText(std::string t){
     text->setString(t);
     if (centerOrigin){
         sf::FloatRect textRect = text->getLocalBounds();
-        text->setOrigin(textRect.left + textRect.width/2.0f, textRect.top + textRect.height/2.0f);
+        text->setOrigin(textRect.width/2.0f, textRect.height/2.0f);
     }
 }
 

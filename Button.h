@@ -23,6 +23,8 @@ class Button {
         bool getHover() { return isHover; }
         void draw(sf::RenderWindow *window);
         
+        Sprite *getSprite() {return buttonLayout;}
+        
 };
 
 #endif /* BUTTON_H */
