@@ -53,9 +53,26 @@ class HUD {
         
         bool dieBool;
         
+        bool flashModuleEnabled;
+        bool gunsModuleEnabled;
+        bool dieModuleEnabled;
+        bool textModuleEnabled;
+        
     public:
-        HUD(Texture *tex, Texture *tex2, Texture *tex3, Texture *tex4, Font *f);
+        HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f);
         virtual ~HUD();
+        
+        void setSpriteGunsOn(Texture *tex, Texture *tex2);
+        void setSpriteGunsOff(Texture *tex, Texture *tex2);
+        void setSpriteGunsCooldown(Texture *tex);
+        void setFlashSprites(Texture *tFlash, Texture *tCooldown);
+        void setDieSprite(Texture *dTex);
+        void setTextLayer(Coordinate *coord, Rect<float> *tRect, Texture *tTex);
+        void setTLayerTalker(std::string s, float x, float y);
+        void setTLayerText(std::string s, float x, float y);
+        void setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor);
+        void setTextLifePlayer();
+        void setButton(Coordinate *coor, Texture* tex, Rect<float> *rect);
         
         void changeActiveGun(int gun);
         void changeMaxLifePlayer(int maxLife);
@@ -66,24 +83,11 @@ class HUD {
         void changeFirstGunCooldown(int cooldown);
         void changeSecondGunCooldown(int cooldown);
         
-        void setSpriteGunsOn(Texture *tex, Texture *tex2);
-        void setSpriteGunsOff(Texture *tex, Texture *tex2);
-        void setSpriteGunsCooldown(Texture *tex);
-        void setSpriteFlash(Texture *tex);
-        void setSpriteFlashCooldown(Texture *tex);
-        
         /*std::vector<Sprite*> getSpriteGunsOn(){return guns;}
         std::vector<Sprite*> getSpriteGunsOff(){return gunsOff;}
         std::vector<Sprite*> getSpriteGunsCooldown(){return gunsCooldown;}
         Sprite* getSpriteFlash(){return flash;}
         Sprite* getSpriteFlashCooldown(){return flashCooldown;}*/
-        
-        void setTextLayer(float x, float y, Sprite *sp);
-        void setTLayerTalker(std::string s, float x, float y);
-        void setTLayerText(std::string s, float x, float y);
-        void setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor);
-        
-        void setTextLifePlayer();
         
         bool drawHUD(sf::RenderWindow *window);
         void drawGun(sf::RenderWindow *window);
@@ -91,18 +95,15 @@ class HUD {
         void drawBossHP(sf::RenderWindow *window);
         void drawFlash(sf::RenderWindow *window);
         void drawTextLayer(sf::RenderWindow *window);
-        
         void drawFlashCooldown(sf::RenderWindow *window);
         void drawGunCooldown(sf::RenderWindow *window);
-        
-        void setButton(Coordinate *coor, Texture* tex, Rect<float> *rect);
         void drawDie(sf::RenderWindow *window);
+        
         bool checkDie();
         
         void resetClockFlash();
         void resetClock();
         void resetStats();
-        
         
         Button* getButton() { return buttonDie; }
 };

@@ -9,8 +9,8 @@ Rect<T>::Rect(T rX, T rY, T rW, T rH) {
 }
 template <class T>
 Rect<T>::Rect(sf::Rect<T> rect){
-    x = rect.top;
-    y = rect.left;
+    x = rect.left;
+    y = rect.top;
     w = rect.width;
     h = rect.height;
 }
@@ -30,8 +30,8 @@ void Rect<T>::setRect(T rX, T rY, T rW, T rH){
 
 template <class T>
 void Rect<T>::setRect(sf::Rect<T> rect){
-    x = rect.top;
-    y = rect.left;
+    x = rect.left;
+    y = rect.top;
     w = rect.width;
     h = rect.height;
 }

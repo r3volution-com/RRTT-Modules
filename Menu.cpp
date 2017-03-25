@@ -34,7 +34,7 @@ int Menu::checkClicks() {
 }
 
 void Menu::drawMenu(sf::RenderWindow *window){
-    window->draw(background->getSprite());
+    window->draw(*background->getSprite());
     for (int i = 0; i<buttons->size(); i++){
         buttons->at(i)->draw(window);
     }  

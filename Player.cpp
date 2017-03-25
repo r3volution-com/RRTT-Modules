@@ -2,6 +2,7 @@
 
 Player::Player(Rect<float> *playerData, float sp) : Entity(playerData, sp){
     currentGun = -1;
+    weaponLoaded = false;
 }
 
 Player::~Player() {
@@ -9,17 +10,18 @@ Player::~Player() {
 
 void Player::setWeapon(Gun *wP){
     weapon = wP;
+    weaponLoaded = true;
 }
 
 
 void Player::move(float x, float y){
     Entity::move(x, y);
-    weapon->move(x, y);
+    if (weaponLoaded) weapon->move(x, y);
     if (currentGun >= 0) guns->at(currentGun);
 }
 
 void Player::addGun(Gun* gun){
-    gun->setPosition(&getCoordinate());
+    gun->setPosition(getCoordinate());
     guns->push_back(gun);
     currentGun = guns->size();
 }

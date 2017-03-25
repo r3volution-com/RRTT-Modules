@@ -16,31 +16,27 @@ int main(int argc, char** argv) {
     Font *font = new Font("resources/font.ttf");
     
     //Background
-    Texture *tex0 = new Texture("resources/pyramid-background.jpg");
-    Sprite *background = new Sprite(tex0, 1280, 720, 0, 0);
+    Texture *bTex = new Texture("resources/pyramid-background.jpg");
+    //Hud
+    Texture *hTex = new Texture("resources/hud.png");
     //Player
-    Texture *tex1 = new Texture("resources/white.png");
-    Sprite *plHP = new Sprite(tex1, 100, 15, 0, 0);
-    Sprite *bHP = new Sprite(tex1, 100, 20, 0, 0);
-    plHP->move(150.0f,10.0f);
-    bHP->move(590.0f,680.0f);
+    Texture *lTex = new Texture("resources/white.png");
     //Textbox
-    Texture *tex2 = new Texture("resources/textbox.png");
-    Sprite *sp = new Sprite(tex2, 1280, 300, 0, 0);
+    Texture *tTex = new Texture("resources/textbox.png");
     //HUD
-    HUD *hud = new HUD(background, plHP, bHP);
-    hud->setTextLayer(0, 420, sp, font);
-    hud->setTLayerTextParams(16, sf::Color::Black, sf::Color::White);
+    HUD *hud = new HUD(bTex, hTex, lTex, font);
+    hud->setTextLayer(new Coordinate (0,420), new Rect<float>(0,0,1280,300), tTex);
+    hud->setTLayerTextParams(20, sf::Color::Black, sf::Color::White);
     //Player
     Texture *tex = new Texture("resources/sprites.png");
-    Player *rath = new Player(0, 0, 128, 128, 2);
-    rath->loadAnimation(tex, 0, 0, 3, 0.1f);
+    Player *rath = new Player(new Rect<float>(0, 0, 128, 128), 2);
+    rath->loadAnimation(tex, new Coordinate(0, 0), 3, 0.1f);
     
-    NPC *aldeano = new NPC(200, 200, 128, 128, 2, "Jose");
-    aldeano->loadAnimation(tex, 0, 128, 3, 0.1f);
-    aldeano->addSentence("probamos con esto\n\nPulsa espacio para continuar", 20, 520);
-    aldeano->addSentence("probamos con esto otra ves\n\nPulsa espacio para continuar", 20, 520);
-    aldeano->addSentence("probamos con esto por ultima vez\n\nPulsa espacio para continuar", 20, 520);
+    NPC *aldeano = new NPC(new Rect<float>(200, 200, 128, 128), 2, "Jose");
+    aldeano->loadAnimation(tex, new Coordinate(0, 128), 3, 0.1f);
+    aldeano->addSentence("probamos con esto\n\nPulsa espacio para continuar", new Coordinate(20, 520));
+    aldeano->addSentence("probamos con esto otra vez\n\nPulsa espacio para continuar", new Coordinate(20, 520));
+    aldeano->addSentence("probamos con esto por ultima vez\n\nPulsa espacio para continuar", new Coordinate(20, 520));
     
     window->setFramerateLimit(120);
     

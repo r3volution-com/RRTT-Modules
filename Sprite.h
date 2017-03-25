@@ -24,7 +24,7 @@ class Sprite {
         void restoreSize();
         
         Coordinate getPosition();
-        sf::Sprite getSprite() { return *sprite; }
+        sf::Sprite *getSprite() { return sprite; }
         Rect<float> *getActualSpriteRect() { return actualSpriteRect; }
         Rect<float> *getOriginalSpriteRect() { return originalSpriteRect; }
 };
