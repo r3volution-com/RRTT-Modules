@@ -18,14 +18,14 @@ int main(int argc, char** argv) {
     Texture *tex = new Texture("resources/Paper-Sprite.png");
     Texture *tex2 = new Texture("resources/pergamino.jpg");
     Texture *tex3 = new Texture("resources/sprites.png");
-    Sprite *sp = new Sprite(tex, 64, 60, 0, 0);
-    Sprite *sp2 = new Sprite(tex2, 608, 488, 0, 0);
+    Sprite *sp = new Sprite(tex, new Rect<float>(0, 0, 64, 60));
+    Sprite *sp2 = new Sprite(tex2, new Rect<float>(0, 0, 608, 488));
     sp2->move(350, 150);
-    Text *text =new Text("Hello World!", 650, 400, sf::Color::Black, font, 20);
+    Text *text = new Text("Hello World!", new Coordinate(650, 400), font, true);
 
     
-    Player *rath = new Player(0, 0, 128, 128, 2);
-    rath->loadAnimation(tex3, 0, 0, 3, 0.1f);
+    Player *rath = new Player(new Rect<float>(0, 0, 128, 128), 2);
+    rath->loadAnimation(tex3, new Coordinate(0, 0), 3, 0.1f);
     
     Note *note = new Note(600, 350, 64, 60, sp, sp2);
     
@@ -82,11 +82,11 @@ int main(int argc, char** argv) {
         
         window->clear();
         if(taken==false){
-            window->draw(note->getNoteSprite()->getSprite());
+            window->draw(*note->getNoteSprite()->getSprite());
         }
         window->draw(rath->getAnimation()->getCurrentSprite());
         if (showText) {
-            window->draw(note->getBackgroundSprite()->getSprite());
+            window->draw(*note->getBackgroundSprite()->getSprite());
             window->draw(*text->getText());
         }
         window->display();
