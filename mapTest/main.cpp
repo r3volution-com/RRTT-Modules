@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <SFML/Graphics/VertexArray.hpp>
 #include "../tinyxml2/tinyxml2.h"
 #include "../Sprite.h"
 
@@ -11,10 +12,12 @@ using namespace tinyxml2;
 
 int main(int argc, char *argv[]) {
 
+    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1400, 900), "RRTT: Map Test");
+    
     XMLDocument doc;
     doc.LoadFile( "resources/bosque.tmx" );
     
-    cout << doc.ErrorID() << "\n";
+    cout << "0-> No ha habido errores cargando el mapa: " << doc.ErrorID() << "\n";
     
     XMLElement* map = doc.FirstChildElement("map");
     
@@ -45,13 +48,30 @@ int main(int argc, char *argv[]) {
 
     cout << "Numero de capas: " << _numLayers << "\n";
     
-    vector<XMLElement*> *data = new vector<XMLElement*>();
+    /*vector<XMLElement*> *data = new vector<XMLElement*>();
           
     for(int i=0; i<_numLayers;i++){
         data->push_back(map->FirstChildElement("layer")
         ->FirstChildElement("data")->FirstChildElement("tile"));
+    }*/
+    
+    
+    XMLElement *data[_numLayers];
+    
+    XMLElement *capas = map->FirstChildElement("layer");
+    
+    for(int i=0; i<_numLayers; i++){
+        data[i] = capas->FirstChildElement("data")->FirstChildElement("tile");
+        capas = capas->NextSiblingElement("layer");
     }
-   
+    
+    /*data[0] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
+    data[1] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
+    data[2] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
+    data[3] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
+    data[4] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
+   */
+    
     int ***_tilemap;
     
     _tilemap = new int**[_numLayers];
@@ -71,63 +91,135 @@ int main(int argc, char *argv[]) {
     for(int l=0; l<_numLayers; l++){
         for(int y=0; y<_height; y++){
             for(int x=0; x<_width; x++){
-                data->at(l)->QueryIntAttribute("gid", &_tilemap[l][y][x]);
+                data[l]->QueryIntAttribute("gid", &_tilemap[l][y][x]);
                 
-                data->at(l) = data->at(l)->NextSiblingElement("tile");
+                data[l] = data[l]->NextSiblingElement("tile");
                 
             }
         }
     }
     
-    
+    //Hacer matriz de sprites (_tilesetSprite) 3D en la que a la hora de crear el sprite se mustiplicase el rect por el gid al que pertenece
+    //Es de 
     //Creacion del array de sprites
     
     Texture *_tilesetTexture = new Texture("resources/tileset3.png");
     
-    Rect <float> *medidas = new Rect <float> (32, 32, 0, 0);
+    Rect <float> *medidas = new Rect <float> (448, 96, 32, 32);
     
     Sprite ****_tilemapSprite;
     
     _tilemapSprite = new Sprite***[_numLayers];
+    
+    /*for(int l=0; l<_numLayers; l++){
+        _tilemapSprite[l] = new Sprite**[_height];
+        for(int y=0; y<_height; y++){
+            _tilemapSprite[l][y] = new Sprite*[_width];
+            for(int x=0; x<_width; x++){
+                //Falta crear sprite con sus dimensiones         
+                _tilemapSprite[l][y][x] = new Sprite (_tilesetTexture, medidas);
+                
+                //cout << "Coordenada x: " << coord->x << " e y: " << coord->y << "\n";
+            }
+        }
+    }*/
+    
+    //Rellenando el array de sprites
     
     for(int l=0; l<_numLayers; l++){
         _tilemapSprite[l] = new Sprite**[_height];
         for(int y=0; y<_height; y++){
             _tilemapSprite[l][y] = new Sprite*[_width];
             for(int x=0; x<_width; x++){
-                //Falta crear sprite con sus dimensiones
-                _tilemapSprite[l][y][x] = new Sprite (_tilesetTexture, medidas);
-            }
-        }
-    }
-    
-    //Rellenando el array de sprites
-    
-    for(int l=0; l<_numLayers; l++){
-        for(int y=0; y<_height; y++){
-            for(int x=0; x<_width; x++){
-                int gid = _tilemap[l][y][x]-1;
-                Coordinate* coord = new Coordinate (x*_tileWidth, y*_tileHeight);
-                
+                int gid = _tilemap[l][y][x];               
+                    
                 if(gid>0){
+                    Coordinate* coord = new Coordinate (x*_tileWidth, y*_tileHeight);
+                    
+                    //Obtenemos nueva coordenada x e y del rect medidas
+                    int newY = (gid/16)*32;
+                    
+                    if(gid%16==0){
+                        newY = newY-1;
+                    }
+                    
+                    int newX = (gid/16);
+                    
+                    if(gid%16==0){
+                        newX = newX-1;
+                    }
+                    
+                    if(newX>0){
+                        newX = 32*(gid-(newX*16)); 
+                    }else{
+                        newX= 0;
+                    }
+                    
+                    medidas->setRect(newX-32, newY, 32, 32);
                     //Si fuera 0 no creo sprite...
                     
-                    //Obtener getTextureRect
-                    /*_tilemapSprite[l][y][x] = new Sprite(_tilesetTexture, 
-                            medidas[gid]->getRect());*/
+                    //Obtener getTextureRect de un vector/matriz de sprites donde cada sprite este asociado con su identificador de gid
+                    //Es decir el gid/sprite 79 estara en las cordenadas 64, 64, 64, 64 (por ejemplo)
+                    //Entonces a la hora de crear el mapa dependiendo del gid le pasariamos un rect float u otro, no siempre el mismo (como estoy haciendo ahora)
+                    _tilemapSprite[l][y][x] = new Sprite(_tilesetTexture, 
+                            medidas);
                     
                     _tilemapSprite[l][y][x]->setPosition(coord);
                     
-                }else{
+                }else{             
                     _tilemapSprite[l][y][x] = NULL;
                 }
             }
         }
     }
     
+    while (window->isOpen()) {
+        //Bucle de obtención de eventos
+        sf::Event event;
+        while (window->pollEvent(event)) {
+            switch(event.type) {
+                //Si se recibe el evento de cerrar la ventana la cierro
+                case sf::Event::Closed:
+                    window->close();
+                    break;
+                case sf::Event::MouseWheelMoved:
+                    break;
+                case sf::Event::KeyPressed:
+                    //Verifico si se pulsa alguna tecla de movimiento
+                    switch(event.key.code) {
+                        //Tecla ESC para salir
+                        case sf::Keyboard::Escape:
+                            window->close();
+                        break;
+                        default:
+                        break;
+                    }
+                break;
+                default: break;
+            }
+        }
     
-    //Dibujando el mapa por pantalla (primera capa)
+        //Seleccionamos la capa activa
+
+        //Dibujando el mapa por pantalla (primera capa)
     
+        window->clear();
+
+        for(int l=0; l<_numLayers; l++){
+            for(int y=0; y<_height; y++){
+                for(int x=0; x<_width; x++){
+                    if(_tilemapSprite[l][y][x]!=NULL){
+                        //Dibujamos todas las capas
+                        //Haciendo un metodo activeLayer podriamos elegir una sola capa
+                        window->draw(*_tilemapSprite[l][y][x]->getSprite());
+                    }
+                }
+            }
+        }
+
+        window->display();
+
+    }
     
     return 0;
 
