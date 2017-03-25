@@ -25,7 +25,7 @@ class Gun {
         virtual ~Gun();
         
         void move(float dirX, float dirY);
-        void attack();
+        void doAttack();
         
         void setPosition(Coordinate *coord);
         void setAttack(Bullet atk);

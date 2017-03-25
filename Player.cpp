@@ -37,14 +37,14 @@ bool Player::changeGun(int gun){
  
 void Player::weaponAttack(){
     if (weaponLoaded) {
-        weapon->attack();
+        weapon->doAttack();
         //ToDo: Mostrar animacion de ataque con arma primaria
     }
 }
 
 void Player::gunAttack(){
     if (currentGun>-1) {
-        guns->at(currentGun)->attack();
+        guns->at(currentGun)->doAttack();
         //ToDo: Mostrar animacion de ataque con arma secundaria
     }
 }
