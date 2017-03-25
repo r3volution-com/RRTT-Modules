@@ -12,8 +12,12 @@ Gun::Gun(Coordinate *position, Rect<float> *animRect, Texture *tex, int nS, floa
 Gun::~Gun() {
 }
 
+void Gun::setAttack(Bullet atk){
+    attack = atk;
+}
+
 void Gun::attack(){
-    
+    //LLamar a singleton e instanciar el ataque
 }
 
 void Gun::setPosition(Coordinate *position){

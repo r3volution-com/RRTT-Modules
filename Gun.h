@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Animation.h"
 #include "Hitbox.h"
+#include "Bullet.h"
 
 class Gun {
     private:
@@ -18,7 +19,7 @@ class Gun {
         float attackCooldown;
         float maxAttackCooldown;
         
-        //Ataque attack;
+        Bullet attack;
     public:
         Gun(Coordinate *position, Rect<float> *animRect, Texture *tex, int nS, float d);
         virtual ~Gun();
@@ -27,6 +28,7 @@ class Gun {
         void attack();
         
         void setPosition(Coordinate *coord);
+        void setAttack(Bullet atk);
         void setRotation(float r);
         void setActive();
         void setAttackCooldown(float atkCooldown);
