@@ -16,7 +16,7 @@ void Gun::setAttack(Bullet atk){
     attack = atk;
 }
 
-void Gun::attack(){
+void Gun::doAttack(){
     //LLamar a singleton e instanciar el ataque
 }
 
