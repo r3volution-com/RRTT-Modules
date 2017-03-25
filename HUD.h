@@ -51,6 +51,8 @@ class HUD {
         int maxLifePlayer;
         int lifePlayer;
         
+        bool dieBool;
+        
     public:
         HUD(Texture *tex, Texture *tex2, Texture *tex3, Texture *tex4, Font *f);
         virtual ~HUD();
@@ -94,7 +96,8 @@ class HUD {
         void drawGunCooldown(sf::RenderWindow *window);
         
         void setButton(Coordinate *coor, Texture* tex, Rect<float> *rect);
-        bool drawDie(sf::RenderWindow *window);
+        void drawDie(sf::RenderWindow *window);
+        bool checkDie();
         
         void resetClockFlash();
         void resetClock();

@@ -18,6 +18,12 @@ void Player::move(float x, float y){
     if (currentGun >= 0) guns->at(currentGun);
 }
 
+void Player::addGun(Gun* gun){
+    gun->setPosition(&getCoordinate());
+    guns->push_back(gun);
+    currentGun = guns->size();
+}
+
 bool Player::changeGun(int gun){
     if (gun >= 0 && gun < guns->size()){
         guns->at(currentGun)->setActive();
@@ -40,11 +46,11 @@ void Player::flash(int dirX, int dirY){ //ToDo: isma
 }
 
 void Player::die(){ //ToDo: pabloL
-    
+    hp = maxHP;
 }
 
 void Player::respawn(){ //ToDo: pabloL
-    setPosition(50.0, 50.0);
+    Entity::setPosition(500.0, 100.0);
 }
 
 void Player::setFlashCooldown(int cooldown){

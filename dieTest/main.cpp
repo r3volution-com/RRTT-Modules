@@ -43,11 +43,15 @@ sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT:
     //HUD
     HUD *hud = new HUD(tex7, tex8, tex9, tex2, f);
     hud->setButton(coor, tex10, rect);
-    Rect<float> *rectPlayer = new Rect<float>(0,0,100,50);
+    Rect<float> *rectPlayer = new Rect<float>(0,0,128,128);
+    Texture *tex = new Texture("resources/sprites.png");
     Player *player = new Player(rectPlayer, 5.0);
+    player->loadAnimation(tex, new Coordinate(0,0), 3, 0.1f);
     Button *button = hud->getButton();
     sf::Vector2i pos = sf::Mouse::getPosition(*window);
     Hitbox *mouse = new Hitbox(pos.x, pos.y, 1, 1);
+    
+    //Player
     
     window->setFramerateLimit(120);
     
@@ -113,14 +117,21 @@ sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT:
         if(sf::Mouse::isButtonPressed(sf::Mouse::Right)){
             hud->resetClock();
         }
+        
         pos = sf::Mouse::getPosition(*window);
         mouse->setPosition(pos.x, pos.y);
         button->hover(mouse);
         
+        if(hud->checkDie() == true && button->getHover() == true && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+            hud->resetStats();
+            player->respawn();
+            lifePlayer = 100;
+        }
+        
         window->clear();
         hud->drawHUD(window);
         hud->drawDie(window);
-        
+        window->draw(player->getAnimation()->getCurrentSprite());
         window->display();
         
     }

@@ -10,11 +10,10 @@ HUD::HUD(Texture *tex, Texture *tex2, Texture *tex3, Texture *tex4, Font *f){
     background = new Sprite(tex, rectBack);
     hud = new Sprite(tex2, rectBack);
     die = new Sprite(tex3, rectBack);
-    Rect<float> *rectLife = new Rect<float>(0, 0, 194, 14);
-    playerHP = new Sprite(tex4, rectLife);
-    playerHP->move(300.0f,30.0f);
-    bossHP = new Sprite(tex4,rectLife);
-    bossHP->move(590.0f,680.0f);
+    playerHP = new Sprite(tex4, new Rect<float>(0, 0, 194, 14));
+    playerHP->move(296.5f,30.0f);
+    bossHP = new Sprite(tex4, new Rect<float>(0, 0, 194, 14));
+    bossHP->move(528.0f,667.0f);
     
     guns = new std::vector<Sprite*>();
     gunsOff = new std::vector<Sprite*>();
@@ -43,6 +42,8 @@ HUD::HUD(Texture *tex, Texture *tex2, Texture *tex3, Texture *tex4, Font *f){
     lifeBoss = 150;
     maxLifePlayer = 100;
     lifePlayer = 100;
+    
+    dieBool = false;
 }
 
 HUD::~HUD(){
@@ -60,7 +61,7 @@ void HUD::changeMaxLifePlayer(int maxLife){
 void HUD::changeLifePlayer(int life){
     lifePlayer = life;
     int newW = (lifePlayer*playerHP->getOriginalSpriteRect()->w)/maxLifePlayer;
-    if(newW < playerHP->getOriginalSpriteRect()->w && newW >= 0){
+    if(newW <= playerHP->getOriginalSpriteRect()->w && newW >= 0){
         playerHP->setSize(newW, playerHP->getOriginalSpriteRect()->h);
     }
 }
@@ -72,7 +73,7 @@ void HUD::changeMaxLifeBoss(int maxLife){
 void HUD::changeLifeBoss(int life){
     lifeBoss = life;
     int newW = (lifeBoss*bossHP->getOriginalSpriteRect()->w)/maxLifeBoss;
-    if(newW < bossHP->getOriginalSpriteRect()->w && newW >= 0){
+    if(newW <= bossHP->getOriginalSpriteRect()->w && newW >= 0){
         bossHP->setSize(newW, bossHP->getOriginalSpriteRect()->h);
     }
 }
@@ -113,10 +114,9 @@ void HUD::setSpriteGunsOff(Texture *tex, Texture *tex2){
 }
 
 void HUD::setSpriteGunsCooldown(Texture *tex){
-    Rect<float> *rectGun = new Rect<float>(0, 0, 80, 80);
-    Sprite *gc1 = new Sprite(tex, rectGun);
+    Sprite *gc1 = new Sprite(tex, new Rect<float>(0, 0, 80, 80));
     gc1->move(17.0f,18.0f);
-    Sprite *gc2 = new Sprite(tex, rectGun);
+    Sprite *gc2 = new Sprite(tex, new Rect<float>(0, 0, 80, 80));
     gc2->move(17.0f,98.0f);
     
     gunsCooldown->push_back(gc1);
@@ -124,7 +124,6 @@ void HUD::setSpriteGunsCooldown(Texture *tex){
     
     for (int i = 0; i<gunsCooldown->size(); i++){
         gunsCooldown->at(i)->setSize(0,0);
-        std::cout<< gunsCooldown->at(i)->getOriginalSpriteRect();
     }
 }
 
@@ -165,7 +164,7 @@ void HUD::setTextLifePlayer(){
     std::stringstream life;
     life << lifePlayer << "/" << maxLifePlayer;
     lifePlayerText->setText(life.str());
-    float x = playerHP->getPosition().x ;
+    float x = playerHP->getPosition().x + 2*(playerHP->getOriginalSpriteRect()->w/5);
     float y = playerHP->getPosition().y;
     lifePlayerText->setPosition(new Coordinate(x, y));
 }
@@ -173,11 +172,11 @@ void HUD::setTextLifePlayer(){
 bool HUD::drawHUD(sf::RenderWindow* window){
     window->draw(background->getSprite());
     window->draw(hud->getSprite());
-   /* drawGun(window);
+    //drawGun(window);
     drawPlayerHP(window);
     drawBossHP(window);
-    drawFlash(window);
-    window->draw(*lifePlayerText->getText());*/
+    //drawFlash(window);
+    window->draw(*lifePlayerText->getText());
 }
 
 void HUD::drawGun(sf::RenderWindow *window){
@@ -217,7 +216,6 @@ void HUD::drawFlashCooldown(sf::RenderWindow *window){
 }
 void HUD::drawGunCooldown(sf::RenderWindow* window){
     if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
-        std::cout<<gunsCooldown->at(0)->getActualSpriteRect()->w << "-" << gunsCooldown->at(0)->getOriginalSpriteRect()->w << "/" << 120.0f*firstGunCooldown<<"\n";
         gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);  //ToDo mirar fps para un numero menor en caso del pc ir mas lento  
     } else firstGunUsed = false;
     
@@ -260,10 +258,13 @@ void HUD::resetClock(){
 }
 
 void HUD::resetStats(){
-    lifePlayer = maxLifePlayer;
-    lifeBoss = maxLifeBoss;
-
-    clockFlash->restart();
+    changeLifePlayer(maxLifePlayer);
+    changeLifeBoss(maxLifeBoss);
+    
+    playerHP->restoreSize();
+    bossHP->restoreSize();
+    
+    /*clockFlash->restart();
     flashCooldown->restoreSize();
     flashUsed = true;
 
@@ -273,23 +274,31 @@ void HUD::resetStats(){
 
     clockSecondGun->restart();
     secondGunUsed = true;
-    gunsCooldown->at(1)->restoreSize();
+    gunsCooldown->at(1)->restoreSize();*/
+    
+    dieBool = false;
 }
 
 void HUD::setButton(Coordinate *coor, Texture* tex, Rect<float> *rect){
     buttonDie = new Button(coor, tex, rect);
 }
 
-bool HUD::drawDie(sf::RenderWindow *window){
-    std::cout<<lifePlayer<<"\n";
+void HUD::drawDie(sf::RenderWindow *window){
     if(lifePlayer <= 0){
         window->draw(die->getSprite());
-        buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
         buttonDie->draw(window);
-        if(buttonDie->getHover() == true && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-            resetStats();
-            return true;
+    }
+    
+}
+
+bool HUD::checkDie(){
+    if(lifePlayer <= 0){
+        if(dieBool == false){
+            sf::sleep(sf::seconds(2));
+            dieBool = true;
         }
+        buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
+        return true;
     }
     return false;
 }
