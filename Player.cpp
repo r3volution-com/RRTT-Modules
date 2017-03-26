@@ -24,7 +24,7 @@ void Player::move(float x, float y){
 void Player::addGun(Gun* gun){
     gun->setPosition(getCoordinate());
     guns->push_back(gun);
-    currentGun = guns->size();
+    currentGun = guns->size()-1;
 }
 
 bool Player::changeGun(int gun){
