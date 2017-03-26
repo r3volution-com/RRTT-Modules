@@ -3,6 +3,7 @@
 Player::Player(Rect<float> *playerData, float sp) : Entity(playerData, sp){
     currentGun = -1;
     weaponLoaded = false;
+    guns = new std::vector<Gun*>();
 }
 
 Player::~Player() {
