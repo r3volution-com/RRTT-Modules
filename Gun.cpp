@@ -27,6 +27,9 @@ void Gun::setPosition(Coordinate *position){
 void Gun::setRotation(float r){
     gunAnimation->setRotation(r);
 }
+void Gun::setOrigin(float x, float y){
+    gunAnimation->setOrigin(x, y);
+}
 void Gun::move(float x, float y){
     hitbox->move(x, y);
     gunAnimation->move(x, y);

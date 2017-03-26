@@ -30,6 +30,7 @@ class Gun {
         void setPosition(Coordinate *coord);
         void setAttack(Bullet atk);
         void setRotation(float r);
+        void setOrigin(float x, float y);
         void setActive();
         void setAttackCooldown(float atkCooldown);
         void setDamage(int dmg) { damage = dmg; }

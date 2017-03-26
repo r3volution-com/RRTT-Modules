@@ -27,6 +27,7 @@ class Animation {
         void setPosition(float x, float y);
         void setPosition(Coordinate *newCoord);
         void setRotation(float r);
+        void setOrigin(float x, float y);
         
         void move(float x, float y);
         void changeSpriteRect(Rect<float> *newRect);
