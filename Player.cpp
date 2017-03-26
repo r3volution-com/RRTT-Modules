@@ -3,6 +3,7 @@
 Player::Player(Rect<float> *playerData, float sp) : Entity(playerData, sp){
     currentGun = -1;
     weaponLoaded = false;
+    guns = new std::vector<Gun*>();
 }
 
 Player::~Player() {
@@ -23,7 +24,7 @@ void Player::move(float x, float y){
 void Player::addGun(Gun* gun){
     gun->setPosition(getCoordinate());
     guns->push_back(gun);
-    currentGun = guns->size();
+    currentGun = guns->size()-1;
 }
 
 bool Player::changeGun(int gun){

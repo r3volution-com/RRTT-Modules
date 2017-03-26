@@ -7,7 +7,7 @@ Note::Note(float x, float y, int w, int h, Sprite *sp, Sprite *sp2) {
     height = h;
     noteSprite = sp;
     backgroundSprite = sp2;
-    sp->setPosition(x,y);
+    sp->setPosition(new Coordinate(x,y));
 }
 
 
