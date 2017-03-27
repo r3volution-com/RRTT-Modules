@@ -26,8 +26,8 @@ class Player : public Entity {
         
         void setWeapon(Gun *wP);
         bool changeGun(int gun);
-        void weaponAttack();
-        void gunAttack();
+        void weaponAttack(Rect<float> *Rect);
+        void gunAttack(Rect<float> *Rect);
         
         void move(float x, float y);
         void flash(int dirX, int dirY);
