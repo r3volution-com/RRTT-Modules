@@ -16,8 +16,9 @@ void Gun::setAttack(Bullet atk){
     attack = atk;
 }
 
-void Gun::doAttack(){
+void Gun::doAttack(Rect <float> *animRect){
     //LLamar a singleton e instanciar el ataque
+    gunAnimation->changeSpriteRect(animRect);
 }
 
 void Gun::setPosition(Coordinate *position){

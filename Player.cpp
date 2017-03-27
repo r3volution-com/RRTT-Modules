@@ -36,16 +36,16 @@ bool Player::changeGun(int gun){
     } else return false;
 }
  
-void Player::weaponAttack(){
+void Player::weaponAttack(Rect <float> *animRect){
     if (weaponLoaded) {
-        weapon->doAttack();
+        weapon->doAttack(animRect);
         //ToDo: Mostrar animacion de ataque con arma primaria
     }
 }
 
-void Player::gunAttack(){
+void Player::gunAttack(Rect <float> *animRect){
     if (currentGun>-1) {
-        guns->at(currentGun)->doAttack();
+        guns->at(currentGun)->doAttack(animRect);
         //ToDo: Mostrar animacion de ataque con arma secundaria
     }
 }

@@ -105,22 +105,21 @@ int main(int argc, char** argv) {
         gunArm->setRotation(mouseAng);    
         
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-            if(mousePos[0]>0 && (mousePos[1]>0 && mousePos[0]>mousePos[1]) || (mousePos[1]<0 && mousePos[0]>mousePos[1] && mousePos[1]<0)){
-                //derecha
-                //scytheArm->getAnimation()->changeSpriteRect(new Rect<float>(0, 896, 128, 128));
-                
+            if(mouseAng<315 && mouseAng>225){
+                //derecha BIEN
+                scytheArm->doAttack(new Rect<float>(0, 768, 128, 128));
             }
-            if(mousePos[1]>0 && (mousePos[0]>0 && mousePos[0]<mousePos[1]) || (mousePos[0]<0 && mousePos[0]<mousePos[1])){
-                //arriba
-                //scytheArm->getAnimation()->changeSpriteRect(new Rect<float>(256, 896, 128, 128));
+            if(mouseAng<225 && mouseAng>135){
+                //arriba BIEN
+                scytheArm->doAttack(new Rect<float>(0, 1152, 128, 128));
             }
-            if(mousePos[0]<0 && (mousePos[1]>0 && mousePos[0]>mousePos[1]) || (mousePos[1]<0 && mousePos[0]>mousePos[1])){
-                //izquierda
-                //scytheArm->getAnimation()->changeSpriteRect(new Rect<float>(0, 1024, 128, 128));
+            if(mouseAng<135 && mouseAng>45){
+                //izquierda BIEN
+                scytheArm->doAttack(new Rect<float>(0, 896, 128, 128));
             }
-            if(mousePos[1]<0 && (mousePos[0]<0 && mousePos[0]>mousePos[1]) || (mousePos[0]>1 && mousePos[0]<mousePos[1])){
-                //abajo
-                //scytheArm->getAnimation()->changeSpriteRect(new Rect<float>(256, 1024, 128, 128));
+            if(mouseAng<45 || mouseAng>315){
+                //abajo BIEN
+                scytheArm->doAttack(new Rect<float>(0, 1024, 128, 128));
             }
         }
         
