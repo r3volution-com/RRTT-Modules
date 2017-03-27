@@ -8,9 +8,9 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f){
     
     background = new Sprite(bTex, new Rect<float>(0, 0, 1280, 720));
     hud = new Sprite(hTex, new Rect<float>(0, 0, 1280, 720));
-    playerHP = new Sprite(lTex, new Rect<float>(0, 0, 194, 14));
+    playerHP = new Sprite(lTex, new Rect<float>(100, 230, 194, 14));
     playerHP->move(296.5f,30.0f);
-    bossHP = new Sprite(lTex, new Rect<float>(0, 0, 194, 14));
+    bossHP = new Sprite(lTex, new Rect<float>(100, 230, 194, 14));
     bossHP->move(528.0f,667.0f);
     
     guns = new std::vector<Sprite*>();
@@ -55,10 +55,11 @@ HUD::~HUD(){
 
 //ToDo pabloL: fusionar los 3 metodos de SpriteGun en 1 y buscar una forma de que use menos sprites (y usar solo una textura y Rects)
 void HUD::setSpriteGunsOn(Texture *tex, Texture *tex2){
-    Rect<float> *rectGun = new Rect<float>(0, 0, 80, 80);
+    Rect<float> *rectGun = new Rect<float>(10, 10, 80, 80);
     Sprite *gun1 = new Sprite(tex, rectGun);
     gun1->move(17.0f,18.0f);
-    Sprite *gun2 = new Sprite(tex2, rectGun);
+    Rect<float> *rectGun2 = new Rect<float>(100, 10, 80, 80);
+    Sprite *gun2 = new Sprite(tex2, rectGun2);
     gun2->move(17.0f,98.0f);
     
     guns->push_back(gun1);
@@ -67,10 +68,11 @@ void HUD::setSpriteGunsOn(Texture *tex, Texture *tex2){
 }
 
 void HUD::setSpriteGunsOff(Texture *tex, Texture *tex2){
-    Rect<float> *rectGun = new Rect<float>(0, 0, 80, 80);
+    Rect<float> *rectGun = new Rect<float>(10, 190, 80, 80);
     Sprite *go1 = new Sprite(tex, rectGun);
     go1->move(17.0f,18.0f);
-    Sprite *go2 = new Sprite(tex2, rectGun);
+    Rect<float> *rectGun2 = new Rect<float>(100, 140, 80, 80);
+    Sprite *go2 = new Sprite(tex2, rectGun2);
     go2->move(17.0f,98.0f);
     
     gunsOff->push_back(go1);
@@ -79,9 +81,9 @@ void HUD::setSpriteGunsOff(Texture *tex, Texture *tex2){
 }
 
 void HUD::setSpriteGunsCooldown(Texture *tex){
-    Sprite *gc1 = new Sprite(tex, new Rect<float>(0, 0, 80, 80));
+    Sprite *gc1 = new Sprite(tex, new Rect<float>(190, 10, 80, 80));
     gc1->move(17.0f,18.0f);
-    Sprite *gc2 = new Sprite(tex, new Rect<float>(0, 0, 80, 80));
+    Sprite *gc2 = new Sprite(tex, new Rect<float>(190, 10, 80, 80));
     gc2->move(17.0f,98.0f);
     
     gunsCooldown->push_back(gc1);
@@ -93,9 +95,9 @@ void HUD::setSpriteGunsCooldown(Texture *tex){
 }
 
 void HUD::setFlashSprites(Texture *tFlash, Texture *tCooldown){
-    flash = new Sprite(tFlash, new Rect<float>(0, 0, 80, 80));
+    flash = new Sprite(tFlash, new Rect<float>(10, 100, 80, 80));
     flash->move(100.0f,18.0f);
-    flashCooldown = new Sprite(tCooldown, new Rect<float>(0, 0, 80, 80));
+    flashCooldown = new Sprite(tCooldown, new Rect<float>(190, 10, 80, 80));
     flashCooldown->move(100.0f,18.0f);
     flashModuleEnabled = true;
 }

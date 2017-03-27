@@ -14,14 +14,13 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: HUD Test");
+sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: Die Test");
     
     //Texture
-    Texture *tex2 = new Texture("resources/vida.png");
-    Texture *tex7 = new Texture("resources/background.png");
-    Texture *tex8 = new Texture("resources/hud.png");
-    Texture *tex9 = new Texture("resources/semi transparente pantalla.png");
-    Texture *tex10 = new Texture("resources/boton die hud.png");
+    Texture *tex0 = new Texture("resources/sprites_hud.png");
+    Texture *tex1 = new Texture("resources/background.png");
+    Texture *tex2 = new Texture("resources/hud_die.png");
+    Texture *tex3 = new Texture("resources/die.png");
     
     //Font
     Font *f = new Font("resources/font.ttf");
@@ -38,12 +37,12 @@ sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT:
     
     //Die
     Coordinate *coor = new Coordinate(600.0, 600.0);
-    Rect<float> *rect = new Rect<float>(0, 0, 120, 30);
+    Rect<float> *rect = new Rect<float>(100, 100, 120, 30);
     
     //HUD
-    HUD *hud = new HUD(tex7, tex8, tex2, f);
-    hud->setButton(coor, tex10, rect);
-    hud->setDieSprite(tex9);
+    HUD *hud = new HUD(tex1, tex2, tex0, f);
+    hud->setButton(coor, tex0, rect);
+    hud->setDieSprite(tex3);
     Rect<float> *rectPlayer = new Rect<float>(0,0,128,128);
     Texture *tex = new Texture("resources/sprites.png");
     Player *player = new Player(rectPlayer, 5.0);

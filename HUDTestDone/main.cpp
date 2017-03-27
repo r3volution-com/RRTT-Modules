@@ -17,17 +17,9 @@ int main(int argc, char** argv) {
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: HUD Test");
     
     //Texture
-    Texture *tex0 = new Texture("resources/arma 1.png");
-    Texture *tex1 = new Texture("resources/arma 2.png");
-    Texture *tex2 = new Texture("resources/vida.png");
-    Texture *tex3 = new Texture("resources/no_usada_arma 2.png");
-    Texture *tex4 = new Texture("resources/no_usada_arma 1.png");
-    Texture *tex5 = new Texture("resources/flash.png");
-    Texture *tex6 = new Texture("resources/cooldown.png");
-    Texture *tex7 = new Texture("resources/background.png");
-    Texture *tex8 = new Texture("resources/hud.png");
-    Texture *tex9 = new Texture("resources/semi transparente pantalla.png");
-    Texture *tex10 = new Texture("resources/boton die hud.png");
+    Texture *tex = new Texture("resources/sprites_hud.png");
+    Texture *tex1 = new Texture("resources/background.png");
+    Texture *tex2 = new Texture("resources/hud.png");
     
     //Font
     Font *f = new Font("resources/font.ttf");
@@ -42,18 +34,12 @@ int main(int argc, char** argv) {
     //Boss
     int lifeBoss = 150;
     
-    //Die
-    Coordinate *coor = new Coordinate(600.0, 600.0);
-    Rect<float> *rect = new Rect<float>(0, 0, 120, 30);
-    
     //HUD
-    HUD *hud = new HUD(tex7, tex8, tex2, f);
-    hud->setFlashSprites(tex5, tex6);
-    hud->setSpriteGunsCooldown(tex6);
-    hud->setSpriteGunsOff(tex4, tex3);
-    hud->setSpriteGunsOn(tex0, tex1);
-    hud->setButton(coor, tex10, rect);
-    hud->setDieSprite(tex9);
+    HUD *hud = new HUD(tex1, tex2, tex, f);
+    hud->setFlashSprites(tex, tex);
+    hud->setSpriteGunsCooldown(tex);
+    hud->setSpriteGunsOff(tex, tex);
+    hud->setSpriteGunsOn(tex, tex);
     
     window->setFramerateLimit(120);
     
