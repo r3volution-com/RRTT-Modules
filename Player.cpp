@@ -18,7 +18,10 @@ void Player::setWeapon(Gun *wP){
 void Player::move(float x, float y){
     Entity::move(x, y);
     if (weaponLoaded) weapon->move(x, y);
-    if (currentGun >= 0) guns->at(currentGun);
+    if (currentGun >= 0){ 
+        guns->at(currentGun)->move(x, y);
+ 
+    }
 }
 
 void Player::addGun(Gun* gun){

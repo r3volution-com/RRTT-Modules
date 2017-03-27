@@ -107,25 +107,24 @@ int main(int argc, char** argv) {
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             if(mouseAng<315 && mouseAng>225){
                 //derecha BIEN
-                scytheArm->doAttack(new Rect<float>(0, 768, 128, 128));
+                rath->weaponAttack(new Rect<float>(0, 768, 128, 128));
             }
             if(mouseAng<225 && mouseAng>135){
                 //arriba BIEN
-                scytheArm->doAttack(new Rect<float>(0, 1152, 128, 128));
+                rath->weaponAttack(new Rect<float>(0, 1152, 128, 128));
             }
             if(mouseAng<135 && mouseAng>45){
                 //izquierda BIEN
-                scytheArm->doAttack(new Rect<float>(0, 896, 128, 128));
+                rath->weaponAttack(new Rect<float>(0, 896, 128, 128));
             }
             if(mouseAng<45 || mouseAng>315){
                 //abajo BIEN
-                scytheArm->doAttack(new Rect<float>(0, 1024, 128, 128));
+                rath->weaponAttack(new Rect<float>(0, 1024, 128, 128));
             }
         }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             rath->move(0, -1);
-            gunArm->move(0, -1);
             if( direc != 'u'){
                 rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 256, 128, 128));
                 }
@@ -135,7 +134,6 @@ int main(int argc, char** argv) {
             
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
                 rath->move(0, 1);
-                gunArm->move(0, 1);
                 if(direcX=='r' && direc!='d'){
                     if(direc!='d'){
                         rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 128, 128, 128));  
@@ -166,7 +164,6 @@ int main(int argc, char** argv) {
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             rath->move(1, 0);
-            gunArm->move(1, 0);
             if( direc !='r'){
                 rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 128, 128, 128));
             }
@@ -177,7 +174,6 @@ int main(int argc, char** argv) {
         else{
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
                 rath->move(-1, 0);
-                gunArm->move(-1,0);
                 if( direc !='l'){
                     rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 384, 128, 128));
                 }
