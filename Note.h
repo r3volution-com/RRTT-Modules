@@ -3,27 +3,31 @@
 
 #include "Hitbox.h"
 #include "Sprite.h"
+#include "Text.h"
 
 class Note {
 private:
-    int width;
-    int height;
-    float x;
-    float y;
     Hitbox *hitbox;
     Sprite *noteSprite;
     Sprite *backgroundSprite;
+    Text   *text;
     bool taken;
 public:
-    Note(float x, float y, int w, int h, Sprite *sp, Sprite *sp2);
+    Note(Texture *nTex, Rect<float> *nRect, Texture *bTex, Rect<float> *bRect, Font *f);
     virtual ~Note();
-    int getWidth() { return width; }
-    int getHeight() { return height; }
-    Hitbox *getHitbox() { return hitbox; }
+    
+    void setPosition(Coordinate *nCoor);
+    void setBackgroundPosition(Coordinate *bCoor);
+    void setText(std::string str, sf::Color color, sf::Color outlineColor, int outlineSize, int size);
+    void setTaken();
+    
     bool collision(Hitbox *other);
+    
+    Text   *getText() { return text; }
+    Hitbox *getHitbox() { return hitbox; }
     Sprite *getNoteSprite(){return noteSprite;}
     Sprite *getBackgroundSprite(){return backgroundSprite;}
+    bool getTaken() { return taken; }
 };
 
 #endif /* NOTE_H */
-

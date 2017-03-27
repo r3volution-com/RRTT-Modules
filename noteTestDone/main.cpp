@@ -10,7 +10,6 @@
 
 int main(int argc, char** argv) {
     bool showText = false;
-    bool taken = false;
     
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: Note Test");
     
@@ -18,17 +17,14 @@ int main(int argc, char** argv) {
     Texture *tex = new Texture("resources/Paper-Sprite.png");
     Texture *tex2 = new Texture("resources/pergamino.jpg");
     Texture *tex3 = new Texture("resources/sprites.png");
-    Sprite *sp = new Sprite(tex, new Rect<float>(0, 0, 64, 60));
-    Sprite *sp2 = new Sprite(tex2, new Rect<float>(0, 0, 608, 488));
-    sp2->move(350, 150);
-    Text *text = new Text("Hello World!", new Coordinate(650, 400), font, true);
 
-    
     Player *rath = new Player(new Rect<float>(0, 0, 128, 128), 2);
     rath->loadAnimation(tex3, new Coordinate(0, 0), 3, 0.1f);
     
-    Note *note = new Note(600, 350, 64, 60, sp, sp2);
-    
+    Note *note = new Note(tex, new Rect<float>(0, 0, 64, 60), tex2, new Rect<float>(0, 0, 608, 488), font);
+    note->setPosition(new Coordinate(350, 150));
+    note->setBackgroundPosition(new Coordinate(100, 100));
+    note->setText("Hola mundo!", sf::Color::Black, sf::Color::White, 1, 25);
     
     window->setFramerateLimit(120);
     
@@ -73,7 +69,7 @@ int main(int argc, char** argv) {
      
         if (rath->collision(note->getHitbox()) && sf::Keyboard::isKeyPressed(sf::Keyboard::E) && !showText){
             showText = true;
-            taken=true;
+            note->setTaken();
         }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && showText){
@@ -81,13 +77,13 @@ int main(int argc, char** argv) {
         }
         
         window->clear();
-        if(taken==false){
+        if(!note->getTaken()){
             window->draw(*note->getNoteSprite()->getSprite());
         }
         window->draw(rath->getAnimation()->getCurrentSprite());
         if (showText) {
             window->draw(*note->getBackgroundSprite()->getSprite());
-            window->draw(*text->getText());
+            window->draw(*note->getText()->getText());
         }
         window->display();
     }
