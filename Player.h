@@ -30,7 +30,7 @@ class Player : public Entity {
         void gunAttack(Rect<float> *Rect);
         
         void move(float x, float y);
-        void flash(int dirX, int dirY);
+        void flash(float dirX, float dirY);
         void respawn();
         void damage(int dmg);
         void die();

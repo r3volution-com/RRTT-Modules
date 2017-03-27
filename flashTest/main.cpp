@@ -9,22 +9,18 @@
 #include "../Text.h"
 
 int main(int argc, char** argv) {
-
+    
+    char dirH='I';
+    char dirV='I';
     
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1280, 720), "RRTT: Note Test");
     
-    Texture *tex = new Texture("resources/Paper-Sprite.png");
-    Texture *tex2 = new Texture("resources/pergamino.jpg");
-    Texture *tex3 = new Texture("resources/sprites.png");
-    Sprite *sp = new Sprite(tex, 64, 60, 0, 0);
-    Sprite *sp2 = new Sprite(tex2, 608, 488, 0, 0);
-    sp2->move(350, 150);
-
+    Texture *tex = new Texture("resources/sprites.png");
     
-    Player *rath = new Player(0, 0, 128, 128, 2);
-    rath->loadAnimation(tex3, 0, 0, 3, 0.1f);
-    
-    
+    Sprite *sp = new Sprite(tex, new Rect<float>(0,0, 64, 60));
+    Player *rath = new Player(new Rect<float>(0,0,128, 128), 2);
+    rath->loadAnimation(tex, new Coordinate(0,0),3, 0.1f); 
+    rath->setFlashRange(10);
     
     window->setFramerateLimit(120);
     
@@ -54,24 +50,45 @@ int main(int argc, char** argv) {
             }
         }
         
+        
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             rath->move(0,-1);
+            dirV='U';
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
             rath->move(0,1);
-        } 
+            dirV='D';
+        }
+        else{
+         dirV='I';   
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
             rath->move(-1,0);
+            dirH='L';
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             rath->move(1,0);
+            dirH='R';
         }
-     
+        else{
+         dirH='I';   
+        }
         
         
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-            
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)&&(dirH=='R')){
+            rath->flash(1,0);
         }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)&&(dirV=='U')){
+            rath->flash(0,-1);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)&&(dirV=='D')){
+            rath->flash(0,1);
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)&&(dirH=='L')){
+            rath->flash(-1,0);
+        }
+        
+        
         
         window->clear();
 

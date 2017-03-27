@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     
     Font *font = new Font("resources/font.ttf");
     Texture *tex = new Texture("resources/Paper-Sprite.png");
-    Texture *tex2 = new Texture("resources/pergamino.jpg");
+    Texture *tex2 = new Texture("resources/pergamino.png");
     Texture *tex3 = new Texture("resources/sprites.png");
 
     Player *rath = new Player(new Rect<float>(0, 0, 128, 128), 2);

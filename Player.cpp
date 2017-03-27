@@ -4,6 +4,7 @@ Player::Player(Rect<float> *playerData, float sp) : Entity(playerData, sp){
     currentGun = -1;
     weaponLoaded = false;
     guns = new std::vector<Gun*>();
+    flashRange=0;
 }
 
 Player::~Player() {
@@ -53,8 +54,8 @@ void Player::gunAttack(Rect <float> *animRect){
     }
 }
 
-void Player::flash(int dirX, int dirY){ //ToDo: isma
-    
+void Player::flash(float dirX, float dirY){ //ToDo: isma
+    Entity::move(flashRange*dirX, flashRange*dirY);
 }
 
 void Player::die(){
