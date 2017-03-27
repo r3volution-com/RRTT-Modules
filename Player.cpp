@@ -19,10 +19,7 @@ void Player::setWeapon(Gun *wP){
 void Player::move(float x, float y){
     Entity::move(x, y);
     if (weaponLoaded) weapon->move(x, y);
-    if (currentGun >= 0){ 
-        guns->at(currentGun)->move(x, y);
- 
-    }
+    if (currentGun >= 0) guns->at(currentGun)->move(x, y);
 }
 
 void Player::addGun(Gun* gun){
@@ -68,7 +65,8 @@ void Player::respawn(){
     Entity::setPosition(500.0, 100.0);
 }
 
-void Player::setFlashCooldown(int cooldown){ //ToDo pabloL, sincronizar con el timer de HUD
+void Player::setFlashCooldown(int cooldown){ 
+    //ToDo pabloL, sincronizar con el timer de HUD
     maxFlashCooldown = cooldown;
     flashCooldown = cooldown;
 }
