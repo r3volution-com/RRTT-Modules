@@ -11,7 +11,7 @@ Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int n
 
 Menu::~Menu() {
     delete background;
-    delete buttonLayout;
+    delete buttonLayout; //ToDo: no se si deberia borrarse aqui
     delete buttonTextureRect;
     delete buttons; 
     delete buttonFont;
