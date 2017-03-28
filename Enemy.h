@@ -13,9 +13,14 @@ class Enemy : public Entity{
         void die();
         
     public:
-        Enemy(Rect<float> *enemyData, float sp); //ToDo: enemy
+        Enemy(Coordinate position, Texture *t, Rect<float> newRect, float sp); //ToDo: enemy
         virtual ~Enemy();
         
+        
+        /**
+         * Establece la vida maxima
+         * @param mhp: valor entero de la vida
+         */
         void setMaxHP(int mhp) { maxHP = mhp; hp = maxHP; }
         void flash (float dirX, float dirY);
         void SetFlashRange(int range) { flashRange=range; }

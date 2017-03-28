@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons) {
-    background = new Sprite(bg, new Rect<float>(0, 0, 1280, 720)); //ToDo: tamaño sale del singleton
+    background = new Sprite(bg, Rect<float>(0, 0, 1280, 720)); //ToDo: tamaño sale del singleton
     buttonTextureRect = tRect;
     buttonLayout = bLayout;
     buttonFont = bFont;
@@ -12,9 +12,9 @@ Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int n
 Menu::~Menu() {
 }
 
-bool Menu::addButton(Coordinate *position, std::string text, sf::Color color, sf::Color outlineColor, int size){
+bool Menu::addButton(Coordinate position, std::string text, sf::Color color, sf::Color outlineColor, int size){
     if (buttons->size() < maxButtons){
-        Button *button = new Button(position, buttonLayout, buttonTextureRect);
+        Button *button = new Button(position, buttonLayout, *buttonTextureRect);
         button->setText(text, color, outlineColor, buttonFont, size);
         buttons->push_back(button);
         return true;

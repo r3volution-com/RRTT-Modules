@@ -21,13 +21,13 @@ class Player : public Entity {
         bool weaponLoaded;
         
     public:
-        Player(Rect<float> *playerData, float sp);
+        Player(Coordinate position, Texture *t, Rect<float> newRect, float sp);
         virtual ~Player();
         
         void setWeapon(Gun *wP);
         bool changeGun(int gun);
-        void weaponAttack(Rect<float> *Rect);
-        void gunAttack(Rect<float> *Rect);
+        void weaponAttack();
+        void gunAttack();
         
         void move(float x, float y);
         void flash(float dirX, float dirY);

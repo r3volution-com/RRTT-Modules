@@ -1,6 +1,7 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
+#include "Coordinate.h"
 #include "Hitbox.h"
 #include "Sprite.h"
 #include "Text.h"
@@ -15,7 +16,7 @@ class Button {
         
         bool isHover;
     public:
-        Button(Coordinate *pos, Texture *bL, Rect<float> *textureRect);
+        Button(Coordinate pos, Texture *bL, Rect<float> textureRect);
         virtual ~Button();
         
         void setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size);

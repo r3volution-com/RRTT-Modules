@@ -8,33 +8,26 @@
 
 class Entity {
     private:
-        int width, height;
         InterpolatedCoordinate *coor;
+        Hitbox *hitbox;
+        Animation *anim;
         
         float speed;
-        
-        Hitbox *hitbox;
-        
-        Animation *anim;
     public:
-        Entity(Rect<float> *newRect, float sp);
+        Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp);
         virtual ~Entity();
         
-        void loadAnimation(Texture *t, Coordinate *clipCoord, int nS, float d);
         void move(float dirX, float dirY);
         bool collision(Hitbox *other);
         
-        void setSize(int w, int h) { width = w; height = h; }
         void setSpeed(float sp) { speed = sp; }
-        void setPosition(float x, float y){ coor->setCoordinate(x, y); anim->setPosition(x, y);}
+        void setPosition(Coordinate newCoor){ coor->setCoordinate(newCoor); anim->setPosition(newCoor); hitbox->setPosition(newCoor);}
+        void setPosition(float x, float y){ coor->setCoordinate(x, y); anim->setPosition(x, y); hitbox->setPosition(x, y);}
         
-        int getWidth() { return width; }
-        int getHeight() { return height; }
         Coordinate *getCoordinate() { return coor->getIC(); }
-        float getSpeed() { return speed; }
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return anim; }
+        float getSpeed() { return speed; }
 };
 
 #endif /* Entity_H */
-

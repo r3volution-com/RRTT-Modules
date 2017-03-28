@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Rect<float> *playerData, float sp) : Entity(playerData, sp){
+Player::Player(Coordinate position, Texture *t, Rect<float> newRect, float sp) : Entity(position, t, newRect, sp){
     currentGun = -1;
     weaponLoaded = false;
     guns = new std::vector<Gun*>();
@@ -18,12 +18,12 @@ void Player::setWeapon(Gun *wP){
 
 void Player::move(float x, float y){
     Entity::move(x, y);
-    if (weaponLoaded) weapon->move(x, y);
-    if (currentGun >= 0) guns->at(currentGun)->move(x, y);
+    if (weaponLoaded) weapon->getAnimation()->setPosition(*Entity::getCoordinate());
+    if (currentGun >= 0) guns->at(currentGun)->getAnimation()->setPosition(*Entity::getCoordinate());
 }
 
 void Player::addGun(Gun* gun){
-    gun->setPosition(getCoordinate());
+    gun->setPosition(*Entity::getCoordinate());
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
@@ -37,16 +37,16 @@ bool Player::changeGun(int gun){
     } else return false;
 }
  
-void Player::weaponAttack(Rect <float> *animRect){
+void Player::weaponAttack(){
     if (weaponLoaded) {
-        weapon->doAttack(animRect);
+        weapon->doAttack();
         //ToDo: Mostrar animacion de ataque con arma primaria
     }
 }
 
-void Player::gunAttack(Rect <float> *animRect){
+void Player::gunAttack(){
     if (currentGun>-1) {
-        guns->at(currentGun)->doAttack(animRect);
+        guns->at(currentGun)->doAttack();
         //ToDo: Mostrar animacion de ataque con arma secundaria
     }
 }

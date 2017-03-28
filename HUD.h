@@ -67,12 +67,12 @@ class HUD {
         void setSpriteGunsCooldown(Texture *tex);
         void setFlashSprites(Texture *tFlash, Texture *tCooldown);
         void setDieSprite(Texture *dTex);
-        void setTextLayer(Coordinate *coord, Rect<float> *tRect, Texture *tTex);
+        void setTextLayer(Coordinate coord, Rect<float> tRect, Texture *tTex);
         void setTLayerTalker(std::string s, float x, float y);
         void setTLayerText(std::string s, float x, float y);
         void setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor);
         void setTextLifePlayer();
-        void setButton(Coordinate *coor, Texture* tex, Rect<float> *rect);
+        void setButton(Coordinate coor, Texture* tex, Rect<float> rect);
         
         void changeActiveGun(int gun);
         void changeMaxLifePlayer(int maxLife);

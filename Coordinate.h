@@ -8,9 +8,11 @@ class Coordinate {
         float x, y;
         
         Coordinate(float xC, float yC);
+        Coordinate(const Coordinate& coor);
         virtual ~Coordinate();
         
         void setCoordinate(float xC, float yC);
+        void setCoordinate(Coordinate coor);
 };
 
 #endif /* COORDINATE_H */

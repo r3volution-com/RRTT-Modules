@@ -13,11 +13,11 @@ private:
     Text   *text;
     bool taken;
 public:
-    Note(Texture *nTex, Rect<float> *nRect, Texture *bTex, Rect<float> *bRect, Font *f);
+    Note(Texture *nTex, Rect<float> nRect, Texture *bTex, Rect<float> bRect, Font *f);
     virtual ~Note();
     
-    void setPosition(Coordinate *nCoor);
-    void setBackgroundPosition(Coordinate *bCoor);
+    void setPosition(Coordinate nCoor);
+    void setBackgroundPosition(Coordinate bCoor);
     void setText(std::string str, sf::Color color, sf::Color outlineColor, int outlineSize, int size);
     void setTaken();
     

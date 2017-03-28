@@ -25,15 +25,21 @@ int main(int argc, char** argv) {
     Texture *tTex = new Texture("resources/textbox.png");
     //HUD
     HUD *hud = new HUD(bTex, hTex, lTex, font);
-    hud->setTextLayer(new Coordinate (0,420), new Rect<float>(0,0,1280,300), tTex);
+    hud->setTextLayer(Coordinate (0,420), Rect<float>(0,0,1280,300), tTex);
     hud->setTLayerTextParams(20, sf::Color::Black, sf::Color::White);
     //Player
     Texture *tex = new Texture("resources/sprites.png");
-    Player *rath = new Player(new Rect<float>(0, 0, 128, 128), 2);
-    rath->loadAnimation(tex, new Coordinate(0, 0), 3, 0.1f);
+    Player *rath = new Player(Coordinate(0,0), tex, Rect<float>(0, 0, 128, 128), 2);
+    rath->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 0.5f);
+    rath->getAnimation()->initAnimator();
+    rath->getAnimation()->changeAnimation("idle", false);
+    //rath->loadAnimation(tex, Coordinate(0, 0), 3, 0.1f);
     
-    NPC *aldeano = new NPC(new Rect<float>(200, 200, 128, 128), 2, "Jose");
-    aldeano->loadAnimation(tex, new Coordinate(0, 128), 3, 0.1f);
+    NPC *aldeano = new NPC(Coordinate(200,200), tex, Rect<float>(200, 200, 128, 128), 2, "Jose");
+    aldeano->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
+    aldeano->getAnimation()->initAnimator();
+    aldeano->getAnimation()->changeAnimation("idle", false);
+    //aldeano->loadAnimation(tex, Coordinate(0, 128), 3, 0.1f);
     aldeano->addSentence("probamos con esto\n\nPulsa espacio para continuar", new Coordinate(20, 520));
     aldeano->addSentence("probamos con esto otra vez\n\nPulsa espacio para continuar", new Coordinate(20, 520));
     aldeano->addSentence("probamos con esto por ultima vez\n\nPulsa espacio para continuar", new Coordinate(20, 520));
@@ -92,10 +98,11 @@ int main(int argc, char** argv) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             rath->move(1,0);
         }
-     
+        rath->getAnimation()->updateAnimator();
+        aldeano->getAnimation()->updateAnimator();
         window->clear();
-        window->draw(rath->getAnimation()->getCurrentSprite());
-        window->draw(aldeano->getAnimation()->getCurrentSprite());
+        window->draw(*rath->getAnimation()->getSprite());
+        window->draw(*aldeano->getAnimation()->getSprite());
         if (showText) {
             hud->drawTextLayer(window);
         }

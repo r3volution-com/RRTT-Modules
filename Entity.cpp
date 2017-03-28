@@ -2,27 +2,23 @@
 
 #include <iostream>
 
-Entity::Entity(Rect<float> *newRect, float sp) {
-    width = newRect->w;
-    height = newRect->h;
+Entity::Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp) {
     speed = sp;
     
-    coor = new InterpolatedCoordinate(newRect->x, newRect->y);
-    hitbox = new Hitbox(newRect->x, newRect->y, newRect->w, newRect->h);
+    coor = new InterpolatedCoordinate(position.x, position.y);
+    hitbox = new Hitbox(position.x, position.y, newRect.w, newRect.h);
+    hitbox->setPosition(position);
+    anim = new Animation(t, new Rect<float>(newRect.x, newRect.y, newRect.w, newRect.h));
+    anim->setPosition(position);
 }
 
 Entity::~Entity() {
 }
 
-void Entity::loadAnimation(Texture *t, Coordinate *clipCoord, int nS, float d){
-    anim = new Animation(t, new Rect<float>(clipCoord->x, clipCoord->y, width, height), nS, d);
-    anim->setPosition(coor->getCoordinate());
-}
-
 void Entity::move(float dirX, float dirY){
-    coor->setCoordinate(dirX*speed, dirY*speed);
-    anim->move(coor->getIC()->x, coor->getIC()->y);
-    hitbox->move(coor->getIC()->x, coor->getIC()->y);
+    coor->move(dirX*speed, dirY*speed);
+    anim->setPosition(coor->getIC()->x, coor->getIC()->y);
+    hitbox->setPosition(coor->getIC()->x, coor->getIC()->y);
 }
 
 bool Entity::collision(Hitbox *other){

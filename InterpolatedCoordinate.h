@@ -10,11 +10,14 @@ class InterpolatedCoordinate {
         Coordinate *last;
     public:
         InterpolatedCoordinate(float x, float y);
-        InterpolatedCoordinate(Coordinate *firstCoord);
+        InterpolatedCoordinate(Coordinate firstCoord);
         virtual ~InterpolatedCoordinate();
         
         void setCoordinate(float x, float y);
-        void setCoordinate(Coordinate *newCoord);
+        void setCoordinate(Coordinate newCoord);
+        
+        void move(float x, float y);
+        void move(Coordinate newCoord);
         
         Coordinate *getCoordinate() { return act; }
         Coordinate *getIC();

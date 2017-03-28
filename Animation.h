@@ -1,6 +1,7 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
+#include <Thor/Animations.hpp>
 #include <SFML/Graphics.hpp>
 #include "Coordinate.h"
 #include "Texture.h"
@@ -10,29 +11,33 @@
 class Animation {
     private:
         Texture *tex;
-        Rect<float> *rectSprite;
-        InterpolatedCoordinate *coordinate;
-        Coordinate *clipCoordinate;
-        sf::Sprite *sprites;
-        sf::Clock *clock;
-        float delay;
-        int currentSprite;
-        int numSprites;
+        Rect<float> *spriteRect;
         
-        void changeCurrentSprite();
+        sf::Sprite *sprite;
+        sf::Clock *clock;
+        
+        thor::AnimationMap<sf::Sprite, std::string> *animations;
+        thor::Animator<sf::Sprite, std::string> *animator;
     public:
-        Animation(Texture *t, Rect<float> *tRect, int nS, float d);
+        Animation(Texture *t, Rect<float> *tRect);
         virtual ~Animation();
         
+        void addAnimation(std::string name, Coordinate clipCoord, int nSprites, float duration);
+        void changeAnimation(std::string name, bool loop);
+        void queueAnimation(std::string name, bool loop);
+        
+        void initAnimator();
+        void updateAnimator();
+        
         void setPosition(float x, float y);
-        void setPosition(Coordinate *newCoord);
+        void setPosition(Coordinate newCoord);
         void setRotation(float r);
-        void setOrigin(float x, float y);
         
-        void move(float x, float y);
-        void changeSpriteRect(Rect<float> *newRect);
+        sf::Sprite *getSprite() { return sprite; }
+        thor::Animator<sf::Sprite, std::string> *getAnimator() { return animator; }
         
-        sf::Sprite getCurrentSprite();
+        /*void move(float x, float y);
+        void setOrigin(float x, float y);*/
 };
 
 #endif /* ANIMATION_H */

@@ -21,7 +21,7 @@ class Menu {
         Menu(Texture *bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons);
         virtual ~Menu();
         
-        bool addButton(Coordinate *position, std::string text, sf::Color color, sf::Color outlineColor, int size);
+        bool addButton(Coordinate position, std::string text, sf::Color color, sf::Color outlineColor, int size);
         
         void checkHover(Hitbox* mouse);
         int checkClicks();

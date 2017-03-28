@@ -2,12 +2,12 @@
 #include "Coordinate.h"
 #include "Rect.h"
 
-Sprite::Sprite(Texture *texture, Rect<float> *spriteRect) {
+Sprite::Sprite(Texture *texture, Rect<float> spriteRect) {
     //Copiamos las variables
     tex = texture;
     
-    originalSpriteRect = new Rect<float>(spriteRect->getRect());
-    actualSpriteRect = new Rect<float>(spriteRect->getRect());
+    originalSpriteRect = new Rect<float>(spriteRect.getRect());
+    actualSpriteRect = new Rect<float>(spriteRect.getRect());
     
     //Y creo el spritesheet a partir de la imagen anterior
     sprite = new sf::Sprite(*tex->getTexture());
@@ -25,17 +25,20 @@ Sprite::Sprite(Texture *texture, Rect<float> *spriteRect) {
 Sprite::~Sprite() {
     delete tex;
     delete sprite;
+    delete originalSpriteRect;
+    delete actualSpriteRect;
     tex = NULL;
     sprite = NULL;
+    originalSpriteRect = NULL;
+    actualSpriteRect = NULL;
 }
 
-void Sprite::move(float x, float y){
-    sprite->move(x, y);
+void Sprite::setPosition(float x, float y){
+    sprite->setPosition(x, y);
 }
 
-void Sprite::setPosition(Coordinate *pos){
-    sprite->setPosition(pos->x, pos->y);
-    delete pos;
+void Sprite::setPosition(Coordinate pos){
+    sprite->setPosition(pos.x, pos.y);
 }
 
 void Sprite::setRotation(float r){
@@ -48,8 +51,8 @@ void Sprite::setSize(float w, float h){
     sprite->setTextureRect(actualSpriteRect->getIntRect());
 }
 
-void Sprite::changeSpriteRect(Rect<float> *spriteRect){
-    actualSpriteRect->setRect(spriteRect->getRect());
+void Sprite::changeSpriteRect(Rect<float> spriteRect){
+    actualSpriteRect->setRect(spriteRect.getRect());
     sprite->setTextureRect(actualSpriteRect->getIntRect());
 }
 

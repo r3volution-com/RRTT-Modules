@@ -5,9 +5,9 @@ InterpolatedCoordinate::InterpolatedCoordinate(float x, float y) {
     last = new Coordinate(x, y);
 }
 
-InterpolatedCoordinate::InterpolatedCoordinate(Coordinate* firstCoord){
-    act = firstCoord;
-    last = firstCoord;
+InterpolatedCoordinate::InterpolatedCoordinate(Coordinate firstCoord){
+    act = new Coordinate(firstCoord.x, firstCoord.y);
+    last = new Coordinate(firstCoord.x, firstCoord.y);
 }
 
 InterpolatedCoordinate::~InterpolatedCoordinate() {
@@ -22,9 +22,19 @@ void InterpolatedCoordinate::setCoordinate(float x, float y){
     act->setCoordinate(x, y);
 }
 
-void InterpolatedCoordinate::setCoordinate(Coordinate* newCoord){
+void InterpolatedCoordinate::setCoordinate(Coordinate newCoord){
     last->setCoordinate(act->x, act->y);
-    act->setCoordinate(newCoord->x, newCoord->y);
+    act->setCoordinate(newCoord.x, newCoord.y);
+}
+
+void InterpolatedCoordinate::move(float x, float y){
+    last->setCoordinate(act->x, act->y);
+    act->setCoordinate(act->x+x, act->y+y);
+}
+
+void InterpolatedCoordinate::move(Coordinate newCoord){
+    last->setCoordinate(act->x, act->y);
+    act->setCoordinate(act->x+newCoord.x, act->y+newCoord.y);
 }
 
 Coordinate *InterpolatedCoordinate::getIC(){
