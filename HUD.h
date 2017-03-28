@@ -1,17 +1,17 @@
 #ifndef HUD_H
 #define HUD_H
+
 #include <iostream>
 #include <vector>
+#include <sstream>
 
 #include <SFML/Graphics.hpp>
 
-#include "Sprite.h"
-#include "Font.h"
-#include "Text.h"
 #include "Button.h"
+#include "Sprite.h"
+#include "Text.h"
 
 class HUD {
-    
     private:
         Sprite *background;
         Sprite *hud;

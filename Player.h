@@ -3,10 +3,12 @@
 
 #include "Gun.h"
 #include "Entity.h"
-#include "HUD.h"
 
 class Player : public Entity {
     private:
+        Gun *weapon;
+        std::vector<Gun*> *guns;
+        
         int hp;
         int maxHP;
         
@@ -14,12 +16,9 @@ class Player : public Entity {
         float flashCooldown;
         int flashRange;
         
-        Gun *weapon;
-        std::vector<Gun*> *guns;
-        int currentGun;
-        
         bool weaponLoaded;
         
+        int currentGun;
     public:
         Player(Coordinate position, Texture *t, Rect<float> newRect, float sp);
         virtual ~Player();

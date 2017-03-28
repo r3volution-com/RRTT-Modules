@@ -1,8 +1,4 @@
-#include <sstream>
-
 #include "HUD.h"
-#include "Coordinate.h"
-#include "Button.h"
 
 HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f){
     
@@ -30,7 +26,6 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f){
     sf::Color color = sf::Color::Black;
     lifePlayerText->setStyles(color, color, 0, 12);
 
-    
     firstGunUsed = false;
     secondGunUsed = false;
     flashUsed = false;
@@ -50,7 +45,7 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f){
 }
 
 HUD::~HUD(){
-
+    //ToDo pabloL: implementa el destructor (mirate alguno de otra clase)
 }
 
 //ToDo pabloL: fusionar los 3 metodos de SpriteGun en 1 y buscar una forma de que use menos sprites (y usar solo una textura y Rects)

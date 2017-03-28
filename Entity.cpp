@@ -1,7 +1,5 @@
 #include "Entity.h"
 
-#include <iostream>
-
 Entity::Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp) {
     speed = sp;
     
@@ -13,6 +11,12 @@ Entity::Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp) {
 }
 
 Entity::~Entity() {
+    delete coor;
+    delete hitbox;
+    delete anim;
+    coor = NULL;
+    hitbox = NULL;
+    anim = NULL;
 }
 
 void Entity::move(float dirX, float dirY){

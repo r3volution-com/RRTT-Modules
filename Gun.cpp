@@ -10,6 +10,12 @@ Gun::Gun(Coordinate position, Rect<float> *animRect, Texture *tex) {
 }
 
 Gun::~Gun() {
+    delete gunAnimation;
+    delete hitbox;
+    delete attack;
+    gunAnimation = NULL;
+    hitbox = NULL;
+    attack = NULL;
 }
 
 void Gun::setAttack(Bullet *atk){

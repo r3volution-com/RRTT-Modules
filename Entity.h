@@ -3,7 +3,6 @@
 
 #include "InterpolatedCoordinate.h"
 #include "Hitbox.h"
-#include "Texture.h"
 #include "Animation.h"
 
 class Entity {

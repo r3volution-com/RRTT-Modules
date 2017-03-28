@@ -8,6 +8,10 @@ NPC::NPC(Coordinate position, Texture *t, Rect<float> newRect, float sp, std::st
 }
 
 NPC::~NPC() {
+    delete sentences;
+    delete sentencePosition;
+    sentences = NULL;
+    sentencePosition = NULL;
 }
 /*
 

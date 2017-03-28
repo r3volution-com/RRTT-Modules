@@ -1,7 +1,6 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "Coordinate.h"
 #include "Text.h"
 #include "Entity.h"
 

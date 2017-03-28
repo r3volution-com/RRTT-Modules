@@ -1,7 +1,5 @@
 #include "Button.h"
 
-#include <iostream>
-
 Button::Button(Coordinate pos, Texture *bL, Rect<float> textureRect) {
     buttonLayout = new Sprite(bL, textureRect);
     buttonLayout->setPosition(pos);
@@ -11,6 +9,14 @@ Button::Button(Coordinate pos, Texture *bL, Rect<float> textureRect) {
 }
 
 Button::~Button() {
+    delete text;
+    delete hitbox;
+    delete buttonLayout;
+    delete buttonData;
+    text = NULL;
+    hitbox = NULL;
+    buttonLayout = NULL;
+    buttonData = NULL;
 }
 
 void Button::setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size){

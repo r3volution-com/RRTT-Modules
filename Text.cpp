@@ -1,5 +1,4 @@
 #include "Text.h"
-#include <sstream>
 
 Text::Text(std::string t, Coordinate position, Font* f, bool cO) {
     font = f;
@@ -15,6 +14,10 @@ Text::Text(std::string t, Coordinate position, Font* f, bool cO) {
 }
 
 Text::~Text() {
+    delete font; //ToDo: creo que font no debe vaciarse aqui
+    delete text;
+    font = NULL;
+    text = NULL;
 }
 
 void Text::setText(std::string t){

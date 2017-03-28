@@ -1,6 +1,7 @@
 #ifndef TEXT_H
 #define TEXT_H
 
+#include <sstream>
 #include <SFML/Graphics.hpp>
 #include "Font.h"
 #include "Coordinate.h"

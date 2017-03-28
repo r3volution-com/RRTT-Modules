@@ -1,6 +1,4 @@
 #include "Sprite.h"
-#include "Coordinate.h"
-#include "Rect.h"
 
 Sprite::Sprite(Texture *texture, Rect<float> spriteRect) {
     //Copiamos las variables
@@ -23,7 +21,7 @@ Sprite::Sprite(Texture *texture, Rect<float> spriteRect) {
 }
 
 Sprite::~Sprite() {
-    delete tex;
+    delete tex; //ToDo: no creo que texture no deberia vaciarse aqui
     delete sprite;
     delete originalSpriteRect;
     delete actualSpriteRect;

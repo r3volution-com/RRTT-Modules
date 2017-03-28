@@ -1,10 +1,9 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Coordinate.h"
+#include "Text.h"
 #include "Hitbox.h"
 #include "Sprite.h"
-#include "Text.h"
 #include "Rect.h"
 
 class Button {

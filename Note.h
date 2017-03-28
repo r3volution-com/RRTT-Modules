@@ -1,6 +1,8 @@
 #ifndef NOTE_H
 #define NOTE_H
 
+#include <iostream>
+
 #include "Hitbox.h"
 #include "Sprite.h"
 #include "Text.h"

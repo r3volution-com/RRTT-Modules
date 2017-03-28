@@ -1,5 +1,4 @@
 #include "Note.h"
-#include <iostream>
 
 Note::Note(Texture *nTex, Rect<float> nRect, Texture *bTex, Rect<float> bRect, Font *f) {
     hitbox = new Hitbox(0, 0, nRect.w, nRect.h);
@@ -11,7 +10,14 @@ Note::Note(Texture *nTex, Rect<float> nRect, Texture *bTex, Rect<float> bRect, F
 }
 
 Note::~Note() {
-    
+    delete hitbox;
+    delete noteSprite;
+    delete backgroundSprite;
+    delete text;
+    hitbox = NULL;
+    noteSprite = NULL;
+    backgroundSprite = NULL;
+    text = NULL;
 }
 
 void Note::setPosition(Coordinate pos){

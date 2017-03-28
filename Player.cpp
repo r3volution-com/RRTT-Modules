@@ -8,6 +8,10 @@ Player::Player(Coordinate position, Texture *t, Rect<float> newRect, float sp) :
 }
 
 Player::~Player() {
+    delete weapon;
+    delete guns;
+    weapon = NULL;
+    guns = NULL;
 }
 
 void Player::setWeapon(Gun *wP){
