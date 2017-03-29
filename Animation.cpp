@@ -13,7 +13,7 @@ Animation::Animation(Texture *t, Rect<float> *tRect) {
 }
 
 Animation::~Animation() {
-    delete tex; //ToDo: no se si tex deberia borrarse aqui
+    delete tex; //ToDo mario: no se si tex deberia borrarse aqui
     delete spriteRect;
     delete sprite;
     delete clock;

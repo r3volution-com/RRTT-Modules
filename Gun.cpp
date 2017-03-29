@@ -23,7 +23,7 @@ void Gun::setAttack(Bullet *atk){
 }
 
 void Gun::doAttack(){
-    //ToDo: LLamar a singleton e instanciar el ataque
+    //ToDo Sergio: LLamar a singleton e instanciar el ataque
     gunAnimation->changeAnimation("attack", true);
 }
 

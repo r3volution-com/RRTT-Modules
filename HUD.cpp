@@ -212,17 +212,17 @@ void HUD::drawFlash(sf::RenderWindow* window){
 
 void HUD::drawFlashCooldown(sf::RenderWindow *window){
     if(clockFlash->getElapsedTime().asSeconds() < timeFlash){
-        flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(120.0f*timeFlash)), flashCooldown->getActualSpriteRect()->h);  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+        flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(120.0f*timeFlash)), flashCooldown->getActualSpriteRect()->h);  //ToDo pabloL: mirar fps para un numero menor en caso del pc ir mas lento
     } else flashUsed = false;
     if (flashUsed) window->draw(*flashCooldown->getSprite());
 }
 void HUD::drawGunCooldown(sf::RenderWindow* window){
     if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
-        gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);  //ToDo mirar fps para un numero menor en caso del pc ir mas lento  
+        gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);  //ToDo pabloL: mirar fps para un numero menor en caso del pc ir mas lento  
     } else firstGunUsed = false;
     
     if(clockSecondGun->getElapsedTime().asSeconds() < secondGunCooldown){
-        gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getActualSpriteRect()->w-(gunsCooldown->at(1)->getOriginalSpriteRect()->w/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getActualSpriteRect()->h);  //ToDo mirar fps para un numero menor en caso del pc ir mas lento
+        gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getActualSpriteRect()->w-(gunsCooldown->at(1)->getOriginalSpriteRect()->w/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getActualSpriteRect()->h);  //ToDo pabloL: mirar fps para un numero menor en caso del pc ir mas lento
     } else secondGunUsed = false;
     
     if(activeGun == 0 && firstGunUsed) window->draw(*gunsCooldown->at(0)->getSprite());

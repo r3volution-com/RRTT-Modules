@@ -1,7 +1,7 @@
 #include "Menu.h"
 
 Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons) {
-    background = new Sprite(bg, Rect<float>(0, 0, 1280, 720)); //ToDo: tamaño sale del singleton
+    background = new Sprite(bg, Rect<float>(0, 0, 1280, 720)); //ToDo Sergio: tamaño sale del singleton
     buttonTextureRect = tRect;
     buttonLayout = bLayout;
     buttonFont = bFont;
@@ -11,7 +11,7 @@ Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int n
 
 Menu::~Menu() {
     delete background;
-    delete buttonLayout; //ToDo: no se si deberia borrarse aqui
+    delete buttonLayout; //ToDo mario: no se si deberia borrarse aqui
     delete buttonTextureRect;
     delete buttons; 
     delete buttonFont;

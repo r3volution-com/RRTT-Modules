@@ -44,18 +44,18 @@ bool Player::changeGun(int gun){
 void Player::weaponAttack(){
     if (weaponLoaded) {
         weapon->doAttack();
-        //ToDo: Mostrar animacion de ataque con arma primaria
+        //ToDo pabloF: Mostrar animacion de ataque con arma primaria
     }
 }
 
 void Player::gunAttack(){
     if (currentGun>-1) {
         guns->at(currentGun)->doAttack();
-        //ToDo: Mostrar animacion de ataque con arma secundaria
+        //ToDo pabloF: Mostrar animacion de ataque con arma secundaria
     }
 }
 
-void Player::flash(float dirX, float dirY){ //ToDo: isma
+void Player::flash(float dirX, float dirY){
     Entity::move(flashRange*dirX, flashRange*dirY);
 }
 
@@ -66,7 +66,7 @@ void Player::die(){
 void Player::respawn(){
     hp = maxHP;
     //ToDo pabloL: animacion de respawn
-    Entity::setPosition(500.0, 100.0);
+    Entity::setPosition(500.0, 100.0); //ToDo pabloL: por que numeros fijos?
 }
 
 void Player::setFlashCooldown(int cooldown){ 

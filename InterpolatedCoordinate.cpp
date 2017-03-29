@@ -38,6 +38,6 @@ void InterpolatedCoordinate::move(Coordinate newCoord){
 }
 
 Coordinate *InterpolatedCoordinate::getIC(){
-    //ToDo: Calcular coordenada interpolada
+    //ToDo pabloL: Calcular coordenada interpolada
     return act;
 }
