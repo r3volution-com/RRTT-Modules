@@ -35,8 +35,7 @@ class Animation {
         sf::Sprite *getSprite() { return sprite; }
         thor::Animator<sf::Sprite, std::string> *getAnimator() { return animator; }
         
-        /*void move(float x, float y);
-        void setOrigin(float x, float y);*/
+        /* void setOrigin(float x, float y); */
 };
 
 #endif /* ANIMATION_H */

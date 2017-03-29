@@ -1,6 +1,4 @@
 #include "Level.h"
-#include <vector>
-#include <SFML/Graphics.hpp>
 
 Level::Level(){
     
