@@ -2,6 +2,7 @@
 #define TEXTURE_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Texture {
     private:

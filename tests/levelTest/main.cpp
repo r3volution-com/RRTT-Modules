@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-#include "../Level.h"
+#include "../../Level.h"
 
 int main()
 {

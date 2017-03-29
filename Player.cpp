@@ -66,11 +66,11 @@ void Player::die(){
 void Player::respawn(){
     hp = maxHP;
     //ToDo pabloL: animacion de respawn
-    Entity::setPosition(500.0, 100.0); //ToDo pabloL: por que numeros fijos?
+    Entity::setPosition(500.0, 100.0); //ToDo pabloL: Sacar la posicion del Singleton
 }
 
 void Player::setFlashCooldown(int cooldown){ 
-    //ToDo pabloL, sincronizar con el timer de HUD
+    //ToDo pabloL, sincronizar con el timer de HUD y hacer la otra funcion para añadir el tiempo actual del flash (que el hud saque la info de aqui)
     maxFlashCooldown = cooldown;
     flashCooldown = cooldown;
 }

@@ -1,6 +1,7 @@
 #ifndef INTERPOLATEDCOORDINATE_H
 #define INTERPOLATEDCOORDINATE_H
 
+#include <cstdlib>
 #include "Coordinate.h"
 
 class InterpolatedCoordinate {
