@@ -2,8 +2,9 @@
 #define GUN_H
 
 #include <SFML/Graphics.hpp>
-#include "Animation.h"
-#include "Hitbox.h"
+
+#include "libs/Animation.h"
+#include "libs/Hitbox.h"
 #include "Bullet.h"
 
 class Gun {

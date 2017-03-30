@@ -13,13 +13,13 @@ Animation::Animation(Texture *t, Rect<float> *tRect) {
 }
 
 Animation::~Animation() {
-    delete tex; //ToDo mario: no se si tex deberia borrarse aqui
+    //delete tex;
     delete spriteRect;
     delete sprite;
     delete clock;
     delete animations;
     delete animator;
-    tex = NULL;
+    //tex = NULL;
     spriteRect = NULL;
     sprite = NULL;
     clock = NULL;
@@ -69,7 +69,4 @@ void Animation::setRotation(float r){
 /*
 void Animation::setOrigin(float x, float y){
     sprite->setOrigin(x, y);
-}
-void Animation::move(float x, float y){
-    sprite->move(x, y);
 }*/

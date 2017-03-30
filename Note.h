@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-#include "Hitbox.h"
-#include "Sprite.h"
-#include "Text.h"
+#include "libs/Hitbox.h"
+#include "libs/Sprite.h"
+#include "libs/Text.h"
 
 class Note {
 private:

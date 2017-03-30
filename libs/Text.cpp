@@ -14,9 +14,9 @@ Text::Text(std::string t, Coordinate position, Font* f, bool cO) {
 }
 
 Text::~Text() {
-    delete font; //ToDo mario: creo que font no debe vaciarse aqui
+    //delete font;
     delete text;
-    font = NULL;
+    //font = NULL;
     text = NULL;
 }
 
