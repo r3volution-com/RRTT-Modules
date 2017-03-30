@@ -1,6 +1,6 @@
 #include "HUD.h"
 
-HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f){
+HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF){
     
     background = new Sprite(bTex, Rect<float>(0, 0, 1280, 720));
     hud = new Sprite(hTex, Rect<float>(0, 0, 1280, 720));
@@ -13,9 +13,9 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f){
     gunsOff = new std::vector<Sprite*>();
     gunsCooldown = new std::vector<Sprite*>();
     
-    clockFlash = new sf::Clock;
-    clockFirstGun = new sf::Clock;
-    clockSecondGun = new sf::Clock;
+    clockFlash = new Time();
+    clockFirstGun = new Time();
+    clockSecondGun = new Time();
     
     timeFlash = 4.0f;
     firstGunCooldown = 5.0f;
@@ -48,37 +48,22 @@ HUD::~HUD(){
     //ToDo pabloL: implementa el destructor (mirate alguno de otra clase)
 }
 
-//ToDo pabloL: fusionar los 3 metodos de SpriteGun en 1 y buscar una forma de que use menos sprites (y usar solo una textura y Rects)
-void HUD::setSpriteGunsOn(Texture *tex, Texture *tex2){
-    Sprite *gun1 = new Sprite(tex, Rect<float>(10, 10, 80, 80));
-    gun1->setPosition(17.0f,18.0f);
-    Sprite *gun2 = new Sprite(tex2, Rect<float>(100, 10, 80, 80));
-    gun2->setPosition(17.0f,98.0f);
+void HUD::setSpriteGuns(Texture* tex){    
+    guns->push_back(new Sprite(tex, Rect<float>(10, 10, 80, 80)));
+    guns->at(0)->setPosition(17.0f,18.0f);
+    guns->push_back(new Sprite(tex, Rect<float>(100, 10, 80, 80)));
+    guns->at(1)->setPosition(17.0f,98.0f);
     
-    guns->push_back(gun1);
-    guns->push_back(gun2);
-    
-}
-
-void HUD::setSpriteGunsOff(Texture *tex, Texture *tex2){
-    Sprite *go1 = new Sprite(tex, Rect<float>(10, 190, 80, 80));
-    go1->setPosition(17.0f,18.0f);
-    Sprite *go2 = new Sprite(tex2, Rect<float>(100, 140, 80, 80));
-    go2->setPosition(17.0f,98.0f);
-    
-    gunsOff->push_back(go1);
-    gunsOff->push_back(go2);
+    gunsOff->push_back(new Sprite(tex, Rect<float>(10, 190, 80, 80)));
+    gunsOff->at(0)->setPosition(17.0f,18.0f);
+    gunsOff->push_back(new Sprite(tex, Rect<float>(100, 140, 80, 80)));
+    gunsOff->at(1)->setPosition(17.0f,98.0f);
     gunsModuleEnabled = true;
-}
-
-void HUD::setSpriteGunsCooldown(Texture *tex){
-    Sprite *gc1 = new Sprite(tex, Rect<float>(190, 10, 80, 80));
-    gc1->setPosition(17.0f,18.0f);
-    Sprite *gc2 = new Sprite(tex, Rect<float>(190, 10, 80, 80));
-    gc2->setPosition(17.0f,98.0f);
     
-    gunsCooldown->push_back(gc1);
-    gunsCooldown->push_back(gc2);
+    gunsCooldown->push_back(new Sprite(tex, Rect<float>(190, 10, 80, 80)));
+    gunsCooldown->at(0)->setPosition(17.0f,18.0f);
+    gunsCooldown->push_back(new Sprite(tex, Rect<float>(190, 10, 80, 80)));
+    gunsCooldown->at(1)->setPosition(17.0f,98.0f);
     
     for (int i = 0; i<gunsCooldown->size(); i++){
         gunsCooldown->at(i)->setSize(0,0);
@@ -211,17 +196,17 @@ void HUD::drawFlash(sf::RenderWindow* window){
 }
 
 void HUD::drawFlashCooldown(sf::RenderWindow *window){
-    if(clockFlash->getElapsedTime().asSeconds() < timeFlash){
+    if(clockFlash->getTime() < timeFlash){
         flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(120.0f*timeFlash)), flashCooldown->getActualSpriteRect()->h);  //ToDo pabloL: mirar fps para un numero menor en caso del pc ir mas lento
     } else flashUsed = false;
     if (flashUsed) window->draw(*flashCooldown->getSprite());
 }
 void HUD::drawGunCooldown(sf::RenderWindow* window){
-    if(clockFirstGun->getElapsedTime().asSeconds() < firstGunCooldown){
+    if(clockFirstGun->getTime() < firstGunCooldown){
         gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(120.0f*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);  //ToDo pabloL: mirar fps para un numero menor en caso del pc ir mas lento  
     } else firstGunUsed = false;
     
-    if(clockSecondGun->getElapsedTime().asSeconds() < secondGunCooldown){
+    if(clockSecondGun->getTime() < secondGunCooldown){
         gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getActualSpriteRect()->w-(gunsCooldown->at(1)->getOriginalSpriteRect()->w/(120.0f*secondGunCooldown)), gunsCooldown->at(1)->getActualSpriteRect()->h);  //ToDo pabloL: mirar fps para un numero menor en caso del pc ir mas lento
     } else secondGunUsed = false;
     

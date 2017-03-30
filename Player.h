@@ -3,6 +3,7 @@
 
 #include "Gun.h"
 #include "Entity.h"
+#include "libs/Animation.h"
 
 class Player : public Entity {
     private:
@@ -12,8 +13,7 @@ class Player : public Entity {
         int hp;
         int maxHP;
         
-        float maxFlashCooldown;
-        float flashCooldown;
+        Time *flashCooldown;
         int flashRange;
         
         bool weaponLoaded;
@@ -37,12 +37,13 @@ class Player : public Entity {
         void addGun(Gun *gun);
         void setMaxHP(int mhp) { maxHP = mhp; hp = maxHP; }
         void setFlashRange(int range) { flashRange = range; }
-        void setFlashCooldown(int cooldown);
+        void setFlashCooldown(Time *cooldown);
         
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
         Gun *getWeapon() { return weapon; }
         Gun *getCurrentGun() { return guns->at(currentGun); }
+        Time *getFlashCooldown() { return flashCooldown;}
 };
 
 #endif /* PROTAGONISTA_H */

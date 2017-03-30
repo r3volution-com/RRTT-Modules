@@ -2,10 +2,10 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "../Sprite.h"
-#include "../HUD.h"
-#include "../Coordinate.h"
-#include "../Rect.h"
+#include "../../libs/Sprite.h"
+#include "../../HUD.h"
+#include "../../libs/Coordinate.h"
+#include "../../libs/Rect.h"
 
 
 using namespace std;
@@ -37,9 +37,7 @@ int main(int argc, char** argv) {
     //HUD
     HUD *hud = new HUD(tex1, tex2, tex, f);
     hud->setFlashSprites(tex, tex);
-    hud->setSpriteGunsCooldown(tex);
-    hud->setSpriteGunsOff(tex, tex);
-    hud->setSpriteGunsOn(tex, tex);
+    hud->setSpriteGuns(tex);
     
     window->setFramerateLimit(120);
     
