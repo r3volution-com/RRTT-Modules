@@ -1,8 +1,8 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include <iostream>
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Texture {
     private:

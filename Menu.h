@@ -21,12 +21,12 @@ class Menu {
         Menu(Texture *bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons);
         virtual ~Menu();
         
-        bool addButton(Coordinate *position, std::string text, sf::Color color, sf::Color outlineColor, int size);
+        bool addButton(Coordinate position, std::string text, sf::Color color, sf::Color outlineColor, int size);
         
         void checkHover(Hitbox* mouse);
         int checkClicks();
         
-        void drawMenu(sf::RenderWindow *window); //ToDo: mejorar usando singleton
+        void drawMenu(sf::RenderWindow *window); //ToDo Sergio: mejorar usando singleton
 };
 
 #endif /* MENU_H */

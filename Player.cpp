@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(Rect<float> *playerData, float sp) : Entity(playerData, sp){
+Player::Player(Coordinate position, Texture *t, Rect<float> newRect, float sp) : Entity(position, t, newRect, sp){
     currentGun = -1;
     weaponLoaded = false;
     guns = new std::vector<Gun*>();
@@ -8,6 +8,10 @@ Player::Player(Rect<float> *playerData, float sp) : Entity(playerData, sp){
 }
 
 Player::~Player() {
+    delete weapon;
+    delete guns;
+    weapon = NULL;
+    guns = NULL;
 }
 
 void Player::setWeapon(Gun *wP){
@@ -18,15 +22,12 @@ void Player::setWeapon(Gun *wP){
 
 void Player::move(float x, float y){
     Entity::move(x, y);
-    if (weaponLoaded) weapon->move(x, y);
-    if (currentGun >= 0){ 
-        guns->at(currentGun)->move(x, y);
- 
-    }
+    if (weaponLoaded) weapon->getAnimation()->setPosition(*Entity::getCoordinate());
+    if (currentGun >= 0) guns->at(currentGun)->getAnimation()->setPosition(*Entity::getCoordinate());
 }
 
 void Player::addGun(Gun* gun){
-    gun->setPosition(getCoordinate());
+    gun->setPosition(*Entity::getCoordinate());
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
@@ -40,21 +41,21 @@ bool Player::changeGun(int gun){
     } else return false;
 }
  
-void Player::weaponAttack(Rect <float> *animRect){
+void Player::weaponAttack(){
     if (weaponLoaded) {
-        weapon->doAttack(animRect);
-        //ToDo: Mostrar animacion de ataque con arma primaria
+        weapon->doAttack();
+        //ToDo pabloF: Mostrar animacion de ataque con arma primaria
     }
 }
 
-void Player::gunAttack(Rect <float> *animRect){
+void Player::gunAttack(){
     if (currentGun>-1) {
-        guns->at(currentGun)->doAttack(animRect);
-        //ToDo: Mostrar animacion de ataque con arma secundaria
+        guns->at(currentGun)->doAttack();
+        //ToDo pabloF: Mostrar animacion de ataque con arma secundaria
     }
 }
 
-void Player::flash(float dirX, float dirY){ //ToDo: isma
+void Player::flash(float dirX, float dirY){
     Entity::move(flashRange*dirX, flashRange*dirY);
 }
 
@@ -65,10 +66,11 @@ void Player::die(){
 void Player::respawn(){
     hp = maxHP;
     //ToDo pabloL: animacion de respawn
-    Entity::setPosition(500.0, 100.0);
+    Entity::setPosition(500.0, 100.0); //ToDo pabloL: Sacar la posicion del Singleton
 }
 
-void Player::setFlashCooldown(int cooldown){ //ToDo pabloL, sincronizar con el timer de HUD
+void Player::setFlashCooldown(int cooldown){ 
+    //ToDo pabloL, sincronizar con el timer de HUD y hacer la otra funcion para añadir el tiempo actual del flash (que el hud saque la info de aqui)
     maxFlashCooldown = cooldown;
     flashCooldown = cooldown;
 }

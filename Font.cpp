@@ -9,4 +9,6 @@ Font::Font(std::string path) {
 }
 
 Font::~Font() {
+    delete font;
+    font = NULL;
 }

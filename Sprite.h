@@ -13,14 +13,15 @@ class Sprite {
         Rect<float> *actualSpriteRect;
         Rect<float> *originalSpriteRect;
     public:
-        Sprite(Texture *texture, Rect<float> *spriteRect);
+        Sprite(Texture *texture, Rect<float> spriteRect);
         virtual ~Sprite();
         
-        void move(float x, float y);
-        void setPosition(Coordinate *pos);
+        void setPosition(float x, float y);
+        void setPosition(Coordinate pos);
         void setRotation(float r);
         void setSize(float w, float h);
-        void changeSpriteRect(Rect<float> *spriteRect);
+        
+        void changeSpriteRect(Rect<float> spriteRect);
         void restoreSize();
         
         Coordinate getPosition();

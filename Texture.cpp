@@ -15,6 +15,10 @@ Texture::Texture(sf::RenderTexture *t){
 }
 
 Texture::~Texture() {
+    delete tex;
+    delete rTex;
+    tex = NULL;
+    rTex = NULL;
 }
 
 sf::RenderTexture *Texture::createRenderTexture(int w, int h) { 

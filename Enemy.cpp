@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy(Rect<float> *enemyData, float sp): Entity (enemyData, sp){
+Enemy::Enemy(Coordinate position, Texture *t, Rect<float> newRect, float sp): Entity (position, t, newRect, sp){
     
 }
 

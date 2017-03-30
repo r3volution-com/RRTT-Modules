@@ -1,13 +1,12 @@
 #include "Text.h"
-#include <sstream>
 
-Text::Text(std::string t, Coordinate *position, Font* f, bool cO) {
+Text::Text(std::string t, Coordinate position, Font* f, bool cO) {
     font = f;
     centerOrigin = cO;
     text = new sf::Text();
     text->setFont(*font->getFont());
     text->setString(t);
-    text->setPosition(position->x, position->y);
+    text->setPosition(position.x, position.y);
     if (centerOrigin){
         sf::FloatRect textRect = text->getLocalBounds();
         text->setOrigin(textRect.width/2.0f, textRect.height/2.0f);
@@ -15,6 +14,10 @@ Text::Text(std::string t, Coordinate *position, Font* f, bool cO) {
 }
 
 Text::~Text() {
+    delete font; //ToDo mario: creo que font no debe vaciarse aqui
+    delete text;
+    font = NULL;
+    text = NULL;
 }
 
 void Text::setText(std::string t){
