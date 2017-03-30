@@ -37,7 +37,9 @@ void InterpolatedCoordinate::move(Coordinate newCoord){
     act->setCoordinate(act->x+newCoord.x, act->y+newCoord.y);
 }
 
-Coordinate *InterpolatedCoordinate::getIC(){
-    //ToDo pabloL: Calcular coordenada interpolada
-    return act;
+Coordinate InterpolatedCoordinate::getIC(){
+    //ToDo pabloL: hacer el 4 ese con singleton
+    float x = (last->x-act->x)/4;
+    float y = (last->y-act->y)/4;
+    return Coordinate(x, y);
 }

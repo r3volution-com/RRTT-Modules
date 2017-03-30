@@ -71,6 +71,7 @@ void Player::respawn(){
 
 void Player::setFlashCooldown(Time *cooldown){ 
     //ToDo pabloL, sincronizar con el timer de HUD y hacer la otra funcion para añadir el tiempo actual del flash (que el hud saque la info de aqui)
+    //ToDo pabloL, los datos de flash de aqui y el HUD se envian desde el main. De main a ambos
     flashCooldown = cooldown;
 }
 
