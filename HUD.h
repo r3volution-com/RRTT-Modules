@@ -62,12 +62,42 @@ class HUD {
         bool textModuleEnabled;
         
     public:
+        /**
+         * Crea el objeto HUD
+         * @param bTex: Textura de fondo (puntero)
+         * @param hTex: Textura de los bordes (puntero)
+         * @param lTex: Textira de la vida (puntero)
+         * @param f: Fuente del texto (puntero)
+         * @param cF: Tiempo del flash (tipo time)
+         */
         HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF);
         virtual ~HUD();
         
+        /**
+         * Actualizar sprites de las armas
+         * @param tex: Textura de las armas (puntero)
+         */
         void setSpriteGuns(Texture *tex);
+        
+        /**
+         * Actualizar los sprites del flash
+         * @param tFlash: Textura del flash (puntero)
+         * @param tCooldown: Textura del tiempo de cooldown (puntero)
+         */
         void setFlashSprites(Texture *tFlash, Texture *tCooldown);
+        
+        /**
+         * Sprite de muerte
+         * @param dTex: Textura del sprite de muerte (puntero)
+         */
         void setDieSprite(Texture *dTex);
+        
+        /**
+         * Actualizar capa de texto
+         * @param coord: Coordenadas de la capa de texto (tipo coord)
+         * @param tRect: Zona en la que imprimir la capa de texto
+         * @param tTex: Textura de la capa de texto
+         */
         void setTextLayer(Coordinate coord, Rect<float> tRect, Texture *tTex);
         void setTLayerTalker(std::string s, float x, float y);
         void setTLayerText(std::string s, float x, float y);

@@ -20,16 +20,52 @@ class Gun {
         float attackCooldown;
         float attackMaxCooldown;
     public:
+        /**
+         * Crea objeto arma
+         * @param position: Posicion del arma 
+         * @param animRect: Zona de animacion del arma
+         * @param tex: Textura del arma
+         */
         Gun(Coordinate position, Rect<float> *animRect, Texture *tex);
         virtual ~Gun();
         
+        /**
+         * Metodo para realizar ataque
+         */
         void doAttack();
         
+        /**
+         * Actualiza la posicion del arma
+         * @param coord: Coordenadas de la posicion
+         */
         void setPosition(Coordinate coord);
+        
+        /**
+         * Actualiza el ataque del arma
+         * @param atk: Ataque del arma
+         */
         void setAttack(Bullet *atk);
+        
+        /**
+         * Define si el arma esta activa o no
+         */
         void setActive();
+        
+        /**
+         * Actualiza el enfriamiento del arma
+         * @param atkCooldown: Enfriamiento del ataque (tipo float)
+         */
         void setAttackCooldown(float atkCooldown) { attackCooldown = atkCooldown; }
+        
+        /**
+         * Actualiza el enfriamiento maximo del ataque
+         * @param atkMCooldown: Enfriamiento maximo del ataque (tipo float)
+         */
         void setAttackMaxCooldown(float atkMCooldown) { attackMaxCooldown = atkMCooldown; }
+        /**
+         * Actualiza el dano del arma
+         * @param dmg: Dano del arma
+         */
         void setDamage(int dmg) { damage = dmg; }
         
         bool getActive() { return active; }
