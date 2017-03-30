@@ -21,8 +21,8 @@ Entity::~Entity() {
 
 void Entity::move(float dirX, float dirY){
     coor->move(dirX*speed, dirY*speed);
-    anim->setPosition(coor->getIC()->x, coor->getIC()->y);
-    hitbox->setPosition(coor->getIC()->x, coor->getIC()->y);
+    anim->setPosition(coor->getIC().x, coor->getIC().y);
+    hitbox->setPosition(coor->getIC().x, coor->getIC().y);
 }
 
 bool Entity::collision(Hitbox *other){

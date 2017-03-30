@@ -22,12 +22,12 @@ void Player::setWeapon(Gun *wP){
 
 void Player::move(float xDir, float yDir){
     Entity::move(xDir, yDir);
-    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
-    if (currentGun >= 0) guns->at(currentGun)->setPosition(*Entity::getCoordinate());
+    if (weaponLoaded) weapon->setPosition(Entity::getCoordinate());
+    if (currentGun >= 0) guns->at(currentGun)->setPosition(Entity::getCoordinate());
 }
 
 void Player::addGun(Gun* gun){
-    gun->setPosition(*Entity::getCoordinate());
+    gun->setPosition(Entity::getCoordinate());
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
