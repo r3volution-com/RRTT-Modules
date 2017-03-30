@@ -21,11 +21,11 @@ Sprite::Sprite(Texture *texture, Rect<float> spriteRect) {
 }
 
 Sprite::~Sprite() {
-    delete tex; //ToDo mario: no creo que texture no deberia vaciarse aqui
+    //delete tex;
     delete sprite;
     delete originalSpriteRect;
     delete actualSpriteRect;
-    tex = NULL;
+    //tex = NULL;
     sprite = NULL;
     originalSpriteRect = NULL;
     actualSpriteRect = NULL;

@@ -7,6 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "libs/Sprite.h"
+#include "libs/Text.h"
 #include "Button.h"
 #include "Sprite.h"
 #include "Text.h"
@@ -24,9 +26,9 @@ class HUD {
         Sprite *flashCooldown;
         Sprite *die;
         
-        sf::Clock *clockFlash;
-        sf::Clock *clockFirstGun;
-        sf::Clock *clockSecondGun;
+        sf::Clock *clockFlash; //ToDo pablol: cambiar clock por Time.h
+        sf::Clock *clockFirstGun; //ToDo pablol: cambiar clock por Time.h
+        sf::Clock *clockSecondGun; //ToDo pablol: cambiar clock por Time.h
         
         Sprite *textSprite;
         Text *talker;

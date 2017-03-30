@@ -1,7 +1,7 @@
 #ifndef NPC_H
 #define NPC_H
 
-#include "Text.h"
+#include "libs/Text.h"
 #include "Entity.h"
 
 class NPC : public Entity {

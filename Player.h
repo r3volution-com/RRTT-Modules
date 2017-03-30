@@ -28,7 +28,7 @@ class Player : public Entity {
         void weaponAttack();
         void gunAttack();
         
-        void move(float x, float y);
+        void move(float xDir, float yDir);
         void flash(float dirX, float dirY);
         void respawn();
         void damage(int dmg);

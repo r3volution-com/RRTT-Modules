@@ -1,9 +1,9 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "InterpolatedCoordinate.h"
-#include "Hitbox.h"
-#include "Animation.h"
+#include "libs/InterpolatedCoordinate.h"
+#include "libs/Hitbox.h"
+#include "libs/Animation.h"
 
 class Entity {
     private:
@@ -20,6 +20,7 @@ class Entity {
          * @param newRect
          * @param sp
          */
+
         Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp);
         virtual ~Entity();
         

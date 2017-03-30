@@ -11,12 +11,12 @@ Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int n
 
 Menu::~Menu() {
     delete background;
-    delete buttonLayout; //ToDo mario: no se si deberia borrarse aqui
+    //delete buttonLayout;
     delete buttonTextureRect;
     delete buttons; 
     delete buttonFont;
     background = NULL;
-    buttonLayout = NULL;
+    //buttonLayout = NULL;
     buttonTextureRect = NULL;
     buttons = NULL;
     buttonFont = NULL;

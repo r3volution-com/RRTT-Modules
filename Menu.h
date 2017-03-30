@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <vector>
-#include "Font.h"
-#include "Hitbox.h"
-#include "Sprite.h"
+#include "libs/Font.h"
+#include "libs/Hitbox.h"
+#include "libs/Sprite.h"
 #include "Button.h"
 
 class Menu {

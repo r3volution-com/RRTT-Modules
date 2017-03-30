@@ -1,10 +1,10 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Text.h"
-#include "Hitbox.h"
-#include "Sprite.h"
-#include "Rect.h"
+#include "libs/Text.h"
+#include "libs/Hitbox.h"
+#include "libs/Sprite.h"
+#include "libs/Rect.h"
 
 class Button {
     private:
@@ -21,6 +21,7 @@ class Button {
          * @param bL: Puntero de textura del fondo del layout
          * @param textureRect: Zona a mostrar de la textura del boton
          */
+
         Button(Coordinate pos, Texture *bL, Rect<float> textureRect);
         virtual ~Button();
         

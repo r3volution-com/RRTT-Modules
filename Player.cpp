@@ -20,10 +20,10 @@ void Player::setWeapon(Gun *wP){
 }
 
 
-void Player::move(float x, float y){
-    Entity::move(x, y);
-    if (weaponLoaded) weapon->getAnimation()->setPosition(*Entity::getCoordinate());
-    if (currentGun >= 0) guns->at(currentGun)->getAnimation()->setPosition(*Entity::getCoordinate());
+void Player::move(float xDir, float yDir){
+    Entity::move(xDir, yDir);
+    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
+    if (currentGun >= 0) guns->at(currentGun)->setPosition(*Entity::getCoordinate());
 }
 
 void Player::addGun(Gun* gun){
