@@ -31,7 +31,7 @@ class Entity {
         void setPosition(Coordinate newCoor){ coor->setCoordinate(newCoor); anim->setPosition(newCoor); hitbox->setPosition(newCoor);}
         void setPosition(float x, float y){ coor->setCoordinate(x, y); anim->setPosition(x, y); hitbox->setPosition(x, y);}
         
-        Coordinate *getCoordinate() { return coor->getIC(); }
+        Coordinate getCoordinate() { return coor->getIC(); }
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return anim; }
         float getSpeed() { return speed; }

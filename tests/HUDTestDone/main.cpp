@@ -6,6 +6,7 @@
 #include "../../HUD.h"
 #include "../../libs/Coordinate.h"
 #include "../../libs/Rect.h"
+#include "../../libs/Time.h"
 
 
 using namespace std;
@@ -35,7 +36,8 @@ int main(int argc, char** argv) {
     int lifeBoss = 150;
     
     //HUD
-    HUD *hud = new HUD(tex1, tex2, tex, f);
+    Time *cF = new Time(); //ToDo PabloL, revisar este time
+    HUD *hud = new HUD(tex1, tex2, tex, f, cF);
     hud->setFlashSprites(tex, tex);
     hud->setSpriteGuns(tex);
     

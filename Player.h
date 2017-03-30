@@ -4,6 +4,7 @@
 #include "Gun.h"
 #include "Entity.h"
 #include "libs/Animation.h"
+#include "libs/Time.h"
 
 class Player : public Entity {
     private:
