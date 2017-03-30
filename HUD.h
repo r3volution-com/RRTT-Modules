@@ -9,6 +9,7 @@
 
 #include "libs/Sprite.h"
 #include "libs/Text.h"
+#include "libs/Time.h"
 #include "Button.h"
 
 class HUD {
@@ -24,9 +25,9 @@ class HUD {
         Sprite *flashCooldown;
         Sprite *die;
         
-        sf::Clock *clockFlash; //ToDo pablol: cambiar clock por Time.h
-        sf::Clock *clockFirstGun; //ToDo pablol: cambiar clock por Time.h
-        sf::Clock *clockSecondGun; //ToDo pablol: cambiar clock por Time.h
+        Time *clockFlash; 
+        Time *clockFirstGun; 
+        Time *clockSecondGun; 
         
         Sprite *textSprite;
         Text *talker;
@@ -59,12 +60,10 @@ class HUD {
         bool textModuleEnabled;
         
     public:
-        HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f);
+        HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF);
         virtual ~HUD();
         
-        void setSpriteGunsOn(Texture *tex, Texture *tex2);
-        void setSpriteGunsOff(Texture *tex, Texture *tex2);
-        void setSpriteGunsCooldown(Texture *tex);
+        void setSpriteGuns(Texture *tex);
         void setFlashSprites(Texture *tFlash, Texture *tCooldown);
         void setDieSprite(Texture *dTex);
         void setTextLayer(Coordinate coord, Rect<float> tRect, Texture *tTex);
