@@ -33,7 +33,7 @@ class Button {
          * @param f: Puntero a la fuente del texto
          * @param size: Tamano de la fuente del texto
          */
-        void setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size
+        void setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size);
         
         /**
          * Cuando el raton se halla sobre el boton
