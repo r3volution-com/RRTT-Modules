@@ -13,6 +13,14 @@ class Entity {
         
         float speed;
     public:
+        /**
+         * Creacion del objeto entidad
+         * @param position:
+         * @param t
+         * @param newRect
+         * @param sp
+         */
+
         Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp);
         virtual ~Entity();
         

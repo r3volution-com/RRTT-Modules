@@ -11,6 +11,8 @@
 #include "libs/Text.h"
 #include "libs/Time.h"
 #include "Button.h"
+#include "Sprite.h"
+#include "Text.h"
 
 class HUD {
     private:
