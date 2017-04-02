@@ -99,19 +99,90 @@ class HUD {
          * @param tTex: Textura de la capa de texto
          */
         void setTextLayer(Coordinate coord, Rect<float> tRect, Texture *tTex);
+        
+        /**
+         * Actualiza el texto que muestra el npc
+         * @param s: Texto que muestra el npc (tipo string)
+         * @param x: Posicion del texto en la coordenada x
+         * @param y: Posicion del texto en la coordenada y
+         */
         void setTLayerTalker(std::string s, float x, float y);
+        
+        /**
+         * Actualiza la capa de texto
+         * @param s: String a pasar por texto
+         * @param x: Coordenada x en la que situar el texto
+         * @param y: Coordenada y en la que situar el texto
+         */
         void setTLayerText(std::string s, float x, float y);
+        
+        /**
+         * Actualiza los parametros del texto
+         * @param size: Tamano del texto
+         * @param fillColor: Color del texto
+         * @param outlineColor: Color del bordeado del texto
+         */
         void setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor);
+        
+        /**
+         * Actualiza la vida del jugador
+         */
         void setTextLifePlayer();
+        
+        /**
+         * Actualiza un boton
+         * @param coor: Coordenadas del boton (tipo coord)
+         * @param tex: Textura del boton
+         * @param rect: Zona en la que imprimir el boton
+         */
         void setButton(Coordinate coor, Texture* tex, Rect<float> rect);
         
+        /**
+         * Cambia al arma activa
+         * @param gun: Arma (tipo int)
+         */
         void changeActiveGun(int gun);
+        
+        /**
+         * Cambia la vida maxima del jugador
+         * @param maxLife: Vida maxima (tipo int)
+         */
         void changeMaxLifePlayer(int maxLife);
+        
+        /**
+         * Cambia la vida del jugador
+         * @param life: Vida del jugador (tipo int)
+         */
         void changeLifePlayer(int life);
+        
+        /**
+         * Cambia la vida maxima del boss
+         * @param maxLife: Vida maxima del boss (tipo int)
+         */
         void changeMaxLifeBoss(int maxLife);
+        
+        /**
+         * Cambia la vida del boss
+         * @param life: Vida del boss (tipo int)
+         */
         void changeLifeBoss(int life);
+        
+        /**
+         * Cambia el cooldown del flash
+         * @param cooldown: Tiempo de cooldown (tipo int)
+         */
         void changeFlashCooldown(int cooldown);
+        
+        /**
+         * Cambia el cooldown del arma principal
+         * @param cooldown: Cooldown del arma principal (tipo int)
+         */
         void changeFirstGunCooldown(int cooldown);
+        
+        /**
+         * Cambia el cooldown del arma secundaria
+         * @param cooldown: Cooldown del arma secundaria (tipo int)
+         */
         void changeSecondGunCooldown(int cooldown);
         
         /*std::vector<Sprite*> getSpriteGunsOn(){return guns;}
@@ -120,20 +191,79 @@ class HUD {
         Sprite* getSpriteFlash(){return flash;}
         Sprite* getSpriteFlashCooldown(){return flashCooldown;}*/
         
+        /**
+         * Dibuja el hud
+         * @param window: Ventana en la que dibujar
+         * @return 
+         */
         bool drawHUD(sf::RenderWindow *window);
+        
+        /**
+         * Dibuja el arma
+         * @param window: Ventana en la que dibujar
+         */
         void drawGun(sf::RenderWindow *window);
+        
+        /**
+         * Dibuja la vida del jugador
+         * @param window: Ventana en la que dibujar
+         */
         void drawPlayerHP(sf::RenderWindow *window);
+        
+        /**
+         * Dibuja la vida del boss
+         * @param window: Ventana en la que dibujar
+         */
         void drawBossHP(sf::RenderWindow *window);
+        
+        /**
+         * Dibuja el flash
+         * @param window: Ventana en la que dibujar
+         */
         void drawFlash(sf::RenderWindow *window);
+        
+        /**
+         * Dibuja la capa de texto
+         * @param window: Ventana en la que dibujar
+         */
         void drawTextLayer(sf::RenderWindow *window);
+        
+        /**
+         * Dibuja el enfriamiento del flash
+         * @param window: Ventana en la que dibujar
+         */
         void drawFlashCooldown(sf::RenderWindow *window);
+        
+        /**
+         * Dibuja el enfriamiento del arma 
+         * @param window: Ventana en la que dibujar
+         */
         void drawGunCooldown(sf::RenderWindow *window);
+        
+        /**
+         * Dibuja la muerte del personaje
+         * @param window: Ventana en la que dibujar
+         */
         void drawDie(sf::RenderWindow *window);
         
+        /**
+         * Comprueba si el personaje esta muerto
+         */
         bool checkDie();
         
+        /**
+         * Reinicia el reloj del flash
+         */
         void resetClockFlash();
+        
+        /**
+         * Reinicia el reloj
+         */
         void resetClock();
+        
+        /**
+         * Reinicia los stats
+         */
         void resetStats();
         
         Button* getButton() { return buttonDie; }
