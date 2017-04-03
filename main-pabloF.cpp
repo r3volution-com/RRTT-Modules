@@ -13,14 +13,13 @@
 #include <vector>
 #include <cstdio>
 
-#include "../Enemy.h"
-#include "../Player.h"
-#include "../Gun.h"
+#include "Enemy.h"
+#include "Player.h"
+#include "Gun.h"
 using namespace std;
 
 int main(int argc, char** argv) {
     sf::RenderWindow window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
-    char direc = 'z';
     char direcX = 'z';
     float PI = 3.14159265f;
     float mouseAng = 0.0f;
@@ -32,19 +31,37 @@ int main(int argc, char** argv) {
     
     bool mov = true;
     Texture *text = new Texture("resources/sprites.png");
-    Player *rath = new Player(new Rect<float> (320, 240, 128, 128), 1.0f);
-    Gun *scytheArm = new Gun(new Coordinate(320, 240 ),new Rect<float>(0 ,512, 128 ,128), text, 1, 0.5f);
-    Gun *gunArm = new Gun(new Coordinate(600, 240),new Rect<float> (0, 640, 128, 128), text, 0, 1.0f);
-    gunArm->setOrigin(64,30);
-    rath->loadAnimation(text, new Coordinate(0,0), 3, 0.5f);
-    window.setFramerateLimit(120);
-    rath->setWeapon(scytheArm);
+    Player *rath = new Player(Coordinate(320,240), text,Rect<float> (0, 0, 128, 128), 1.0f);
+    //Gun *scytheArm = new Gun(new Coordinate(320, 240 ),new Rect<float>(0 ,512, 128 ,128), text, 1, 0.5f);
+    Gun *gunArm = new Gun(Coordinate(320, 240), new Rect<float> (0, 640, 128, 128), text);
+    //gunArm->setOrigin(64,30);
+    Enemy *enemy = new Enemy(Coordinate(600, 240), text, Rect<float> (0, 0, 128, 128), 1.0f);
+    rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 3, 0.5f);
+    rath->getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 3, 0.5f);
+    rath->getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 3, 0.5f);
+    rath->getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 384), 3, 0.5f);
+    rath->getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 1, 0.5f);
+    rath->getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.5f);
+    rath->getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 1, 0.5f);
+    rath->getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 1, 0.5f);
+    
+    gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 0.25f);
+    
+    enemy->getAnimation()->addAnimation("enemyIdle", Coordinate(0, 0), 1, 0.25f);
+    //rath->addAnimation('die', new Coordinate(X, X), 3, 0.5f);
+    //rath->addAnimation('respawn', new Coordinate(X, X), 3, 0.5f);
     rath->addGun(gunArm);
-    Enemy *enemy= new Enemy(new Rect<float> (100, 240, 128, 128), 1.0f);
-    enemy->loadAnimation(text, new Coordinate(0,0), 3, 0.5f);
-
+    window.setFramerateLimit(120);
+    //rath->setWeapon(scytheArm);
+    
     
     //Bucle del juego
+    rath->getAnimation()->initAnimator();
+    gunArm->getAnimation()->initAnimator();
+    enemy->getAnimation()->initAnimator();
+    rath->getAnimation()->changeAnimation("idle", true);
+    gunArm->getAnimation()->changeAnimation("armaIdle", true);
+    enemy->getAnimation()->changeAnimation("enemyIdle", true);
     while (window.isOpen()) {
         //Bucle de obtención de eventos
         sf::Event event;
@@ -76,10 +93,10 @@ int main(int argc, char** argv) {
         
         //if(mouseAng<=90 || mouseAng>=270){
         //gunArm->getAnimation()->changeSpriteRect(new Rect<float>(0, 640, 128, 128));
-
+        
         if(mousePos[0]>=0 && mousePos[1]>=0){
-        mouseAng=atan(mousePos[0]/mousePos[1])*180/PI+180;    
-        //derecha arriba
+            mouseAng=atan(mousePos[0]/mousePos[1])*180/PI+180;    
+            //derecha arriba
         }
         else{if(mousePos[0]<=0 && mousePos[1]>=0){
             mousePos[0]=0-mousePos[0];
@@ -100,82 +117,72 @@ int main(int argc, char** argv) {
         }
         }
         }
-        gunArm->setRotation(mouseAng);    
+        gunArm->getAnimation()->setRotation(mouseAng);    
         
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             if(mouseAng<315 && mouseAng>225){
                 //derecha BIEN
-                rath->weaponAttack(new Rect<float>(0, 768, 128, 128));
+                rath->weaponAttack();
+                rath->getAnimation()->changeAnimation("ataqueDerecha", false);
             }
             if(mouseAng<225 && mouseAng>135){
                 //arriba BIEN
-                rath->weaponAttack(new Rect<float>(0, 1152, 128, 128));
+                rath->weaponAttack();
+                rath->getAnimation()->changeAnimation("ataqueArriba", false);
             }
             if(mouseAng<135 && mouseAng>45){
                 //izquierda BIEN
-                rath->weaponAttack(new Rect<float>(0, 896, 128, 128));
+                rath->weaponAttack();
+                rath->getAnimation()->changeAnimation("ataqueIzquierda", false);
             }
             if(mouseAng<45 || mouseAng>315){
                 //abajo BIEN
-                rath->weaponAttack(new Rect<float>(0, 1024, 128, 128));
+                rath->weaponAttack();
+                rath->getAnimation()->changeAnimation("ataqueAbajo", false);
             }
         }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             rath->move(0, -1);
-            if( direc != 'u'){
-                rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 256, 128, 128));
-                }
+            rath->getAnimation()->changeAnimation("correrAbajo", true);
+        }
+        mov=true;
+        
+        
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+            //correr abajo
+            rath->move(0, 1);
+            if(direcX=='r'){
+                rath->getAnimation()->changeAnimation("correrDerecha", true);  
                 mov=true;
-                direc='u';
             }
-            
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-                rath->move(0, 1);
-                if(direcX=='r' && direc!='d'){
-                    if(direc!='d'){
-                        rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 128, 128, 128));  
-                        direc=='d';
-                        mov=true;
-                    }
+            else{
+                if(direcX=='l'){
+                    rath->getAnimation()->changeAnimation("correrIzquierda", true);
+                    mov=true;
                 }
+                
+                
                 else{
-                    if(direcX=='l'&& direc!='d'){
-                        if(direc!='d'){
-                            rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 384, 128, 128));
-                            direc=='d';
-                            mov=true;
-                        }
-                    }
-                    else{
-                        if(direcX=='r'&& direc!='d'){
-                            if(direc!='d'){
-                                rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 128, 128, 128));
-                                direc=='d';
-                                mov=true;
-                                
-                            }
-                        }
+                    if(direcX!='r'&& direcX!='l'){
+                        rath->getAnimation()->changeAnimation("correrDerecha", true);
+                        mov=true;
+                        
                     }
                 }
             }
+        }    
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             rath->move(1, 0);
-            if( direc !='r'){
-                rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 128, 128, 128));
-            }
-            direc='r';
+            rath->getAnimation()->changeAnimation("correrDerecha", true);
             direcX='r';
             mov=true;
         }
         else{
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
                 rath->move(-1, 0);
-                if( direc !='l'){
-                    rath->getAnimation()->changeSpriteRect(new Rect<float>(0, 384, 128, 128));
-                }
-                direc='l';
+                rath->getAnimation()->changeAnimation("correrIzquierda", true);
                 direcX='l';
                 mov=true;
             }
@@ -183,20 +190,20 @@ int main(int argc, char** argv) {
         
         if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Down) 
                 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) 
-        && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
+                && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
                 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& mov==true){
-                    direc='I';
-                    rath->getAnimation()->changeSpriteRect(new Rect<float>(0,0,128,128));
-                    mov=false;
-            }
-                
-        window.clear();
-        window.draw(gunArm->getAnimation()->getCurrentSprite());
-        window.draw(scytheArm->getAnimation()->getCurrentSprite());
-        window.draw(rath->getAnimation()->getCurrentSprite());
-        window.draw(enemy->getAnimation()->getCurrentSprite());
-        window.display();
+            rath->getAnimation()->changeAnimation("correrAbajo", true);
+            mov=false;
+        }
         
+        rath->getAnimation()->updateAnimator();
+        gunArm->getAnimation()->updateAnimator();
+        enemy->getAnimation()->updateAnimator();
+        window.clear();
+        window.draw(*gunArm->getAnimation()->getSprite());
+        window.draw(*rath->getAnimation()->getSprite());
+        window.draw(*enemy->getAnimation()->getSprite());
+        window.display();   
     }
     return 0;
 }
