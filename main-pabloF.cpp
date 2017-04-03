@@ -44,10 +44,16 @@ int main(int argc, char** argv) {
     rath->getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.5f);
     rath->getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 1, 0.5f);
     rath->getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 1, 0.5f);
+    rath->getAnimation()->initAnimator();
+    rath->getAnimation()->changeAnimation("idle", true);
     
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 0.25f);
+    gunArm->getAnimation()->initAnimator();    
+    gunArm->getAnimation()->changeAnimation("armaIdle", true);
     
     enemy->getAnimation()->addAnimation("enemyIdle", Coordinate(0, 0), 1, 0.25f);
+    enemy->getAnimation()->initAnimator();
+    enemy->getAnimation()->changeAnimation("enemyIdle", true);
     //rath->addAnimation('die', new Coordinate(X, X), 3, 0.5f);
     //rath->addAnimation('respawn', new Coordinate(X, X), 3, 0.5f);
     rath->addGun(gunArm);
@@ -56,12 +62,6 @@ int main(int argc, char** argv) {
     
     
     //Bucle del juego
-    rath->getAnimation()->initAnimator();
-    gunArm->getAnimation()->initAnimator();
-    enemy->getAnimation()->initAnimator();
-    rath->getAnimation()->changeAnimation("idle", true);
-    gunArm->getAnimation()->changeAnimation("armaIdle", true);
-    enemy->getAnimation()->changeAnimation("enemyIdle", true);
     while (window.isOpen()) {
         //Bucle de obtención de eventos
         sf::Event event;
