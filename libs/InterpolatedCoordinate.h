@@ -20,7 +20,7 @@ class InterpolatedCoordinate {
         void move(Coordinate newCoord);
         
         Coordinate *getCoordinate() { return act; }
-        Coordinate *getIC();
+        Coordinate getIC();
 };
 
 #endif /* INTERPOLATEDCOORDINATE_H */
