@@ -1,12 +1,12 @@
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
 
-#include "../Font.h"
-#include "../Sprite.h"
-#include "../Animation.h"
-#include "../Player.h"
-#include "../NPC.h"
-#include "../HUD.h"
+#include "../../libs/Font.h"
+#include "../../libs/Sprite.h"
+#include "../../libs/Animation.h"
+#include "../../Player.h"
+#include "../../NPC.h"
+//#include "../../HUD.h"
 
 
 int main(int argc, char** argv) {
@@ -24,9 +24,9 @@ int main(int argc, char** argv) {
     //Textbox
     Texture *tTex = new Texture("resources/textbox.png");
     //HUD
-    HUD *hud = new HUD(bTex, hTex, lTex, font);
-    hud->setTextLayer(Coordinate (0,420), Rect<float>(0,0,1280,300), tTex);
-    hud->setTLayerTextParams(20, sf::Color::Black, sf::Color::White);
+   // HUD *hud = new HUD(bTex, hTex, lTex, font);
+    //hud->setTextLayer(Coordinate (0,420), Rect<float>(0,0,1280,300), tTex);
+    //hud->setTLayerTextParams(20, sf::Color::Black, sf::Color::White);
     //Player
     Texture *tex = new Texture("resources/sprites.png");
     Player *rath = new Player(Coordinate(0,0), tex, Rect<float>(0, 0, 128, 128), 2);
@@ -68,14 +68,14 @@ int main(int argc, char** argv) {
                             if (rath->collision(aldeano->getHitbox()) && !showText){
                                 showText = true;
                                 aldeano->nextSentence();
-                                hud->setTLayerTalker(aldeano->getName(), 1140, 440);
-                                hud->setTLayerText(aldeano->getCurrentSentenceText(), aldeano->getCurrentSentencePosition()->x, aldeano->getCurrentSentencePosition()->y);
+                               // hud->setTLayerTalker(aldeano->getName(), 1140, 440);
+                                //hud->setTLayerText(aldeano->getCurrentSentenceText(), aldeano->getCurrentSentencePosition()->x, aldeano->getCurrentSentencePosition()->y);
                             }
                             break;
                         case sf::Keyboard::Space:
                             if (showText){
-                                if (!aldeano->nextSentence()) showText = false;
-                                else hud->setTLayerText(aldeano->getCurrentSentenceText(), aldeano->getCurrentSentencePosition()->x, aldeano->getCurrentSentencePosition()->y);
+                                //if (!aldeano->nextSentence()) showText = false;
+                                //else hud->setTLayerText(aldeano->getCurrentSentenceText(), aldeano->getCurrentSentencePosition()->x, aldeano->getCurrentSentencePosition()->y);
                             }
                             break;
                         default:
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
         window->draw(*rath->getAnimation()->getSprite());
         window->draw(*aldeano->getAnimation()->getSprite());
         if (showText) {
-            hud->drawTextLayer(window);
+            //hud->drawTextLayer(window);
         }
         window->display();
     }
