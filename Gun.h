@@ -45,7 +45,7 @@ class Gun {
          * @param atk: Ataque del arma
          */
         void setAttack(Bullet *atk);
-        
+
         /**
          * Define si el arma esta activa o no
          */

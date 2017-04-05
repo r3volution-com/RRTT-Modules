@@ -8,6 +8,7 @@ Entity::Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp) {
     hitbox->setPosition(position);
     anim = new Animation(t, new Rect<float>(newRect.x, newRect.y, newRect.w, newRect.h));
     anim->setPosition(position);
+
 }
 
 Entity::~Entity() {

@@ -6,7 +6,7 @@ Gun::Gun(Coordinate position, Rect<float> *animRect, Texture *tex) {
     gunAnimation->addAnimation("idle", Coordinate(animRect->x, animRect->y), 2, 1.0f);
     gunAnimation->addAnimation("attack", Coordinate(animRect->x, animRect->y+animRect->h), 2, 1.0f);
     gunAnimation->setPosition(position);
-    setPosition(position);
+    //setPosition(position);
 }
 
 Gun::~Gun() {

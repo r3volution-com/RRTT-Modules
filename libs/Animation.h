@@ -28,6 +28,7 @@ class Animation {
         void initAnimator();
         void updateAnimator();
         
+        void setOrigin(Coordinate newCoord);
         void setPosition(float x, float y);
         void setPosition(Coordinate newCoord);
         void setRotation(float r);

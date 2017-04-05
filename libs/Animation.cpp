@@ -55,7 +55,9 @@ void Animation::updateAnimator(){
     animator->animate(*sprite);
 }
 
-
+void Animation::setOrigin(Coordinate newCoord){
+    sprite->setOrigin(newCoord.x, newCoord.y);
+}
 //Sprite Funcions
 void Animation::setPosition(float x, float y){
     sprite->setPosition(x, y);

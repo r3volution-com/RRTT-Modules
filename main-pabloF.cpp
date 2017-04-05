@@ -20,7 +20,8 @@ using namespace std;
 
 int main(int argc, char** argv) {
     sf::RenderWindow window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
-    char direcX = 'z';
+    char direcX = 'r';
+    char direcNow = 'z';
     float PI = 3.14159265f;
     float mouseAng = 0.0f;
     float mousePos[2]={0,0};
@@ -31,29 +32,30 @@ int main(int argc, char** argv) {
     
     bool mov = true;
     Texture *text = new Texture("resources/sprites.png");
-    Player *rath = new Player(Coordinate(320,240), text,Rect<float> (0, 0, 128, 128), 1.0f);
+    Player *rath = new Player(Coordinate(320, 240), text,Rect<float> (0, 0, 128, 128), 1.0f);
     //Gun *scytheArm = new Gun(new Coordinate(320, 240 ),new Rect<float>(0 ,512, 128 ,128), text, 1, 0.5f);
-    Gun *gunArm = new Gun(Coordinate(320, 240), new Rect<float> (0, 640, 128, 128), text);
-    //gunArm->setOrigin(64,30);
+    Gun *gunArm = new Gun(Coordinate(300, 220), new Rect<float> (0, 640, 128, 128), text);
+    gunArm->getAnimation()->setOrigin(Coordinate(90,50));
     Enemy *enemy = new Enemy(Coordinate(600, 240), text, Rect<float> (0, 0, 128, 128), 1.0f);
-    rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 3, 0.5f);
-    rath->getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 3, 0.5f);
-    rath->getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 3, 0.5f);
-    rath->getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 384), 3, 0.5f);
-    rath->getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 1, 0.5f);
-    rath->getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.5f);
-    rath->getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 1, 0.5f);
-    rath->getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 1, 0.5f);
+    
+    rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
+    rath->getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
+    rath->getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
+    rath->getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 384), 4, 0.5f);
+    rath->getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 2, 0.5f);
+    rath->getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 2, 0.5f);
+    rath->getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 2, 0.5f);
+    rath->getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 2, 0.5f);
     rath->getAnimation()->initAnimator();
-    rath->getAnimation()->changeAnimation("idle", true);
+    rath->getAnimation()->changeAnimation("idle", false);
     
-    gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 0.25f);
+    gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
-    gunArm->getAnimation()->changeAnimation("armaIdle", true);
+    gunArm->getAnimation()->changeAnimation("armaIdle", false);
     
-    enemy->getAnimation()->addAnimation("enemyIdle", Coordinate(0, 0), 1, 0.25f);
+    enemy->getAnimation()->addAnimation("enemyIdle", Coordinate(0, 0), 2, 0.25f);
     enemy->getAnimation()->initAnimator();
-    enemy->getAnimation()->changeAnimation("enemyIdle", true);
+    enemy->getAnimation()->changeAnimation("enemyIdle", false);
     //rath->addAnimation('die', new Coordinate(X, X), 3, 0.5f);
     //rath->addAnimation('respawn', new Coordinate(X, X), 3, 0.5f);
     rath->addGun(gunArm);
@@ -123,67 +125,68 @@ int main(int argc, char** argv) {
             if(mouseAng<315 && mouseAng>225){
                 //derecha BIEN
                 rath->weaponAttack();
-                rath->getAnimation()->changeAnimation("ataqueDerecha", false);
+                rath->getAnimation()->changeAnimation("ataqueDerecha", true);
+                mov=true;
             }
             if(mouseAng<225 && mouseAng>135){
                 //arriba BIEN
                 rath->weaponAttack();
-                rath->getAnimation()->changeAnimation("ataqueArriba", false);
+                rath->getAnimation()->changeAnimation("ataqueArriba", true);
             }
             if(mouseAng<135 && mouseAng>45){
                 //izquierda BIEN
                 rath->weaponAttack();
-                rath->getAnimation()->changeAnimation("ataqueIzquierda", false);
+                rath->getAnimation()->changeAnimation("ataqueIzquierda", true);
             }
             if(mouseAng<45 || mouseAng>315){
                 //abajo BIEN
                 rath->weaponAttack();
-                rath->getAnimation()->changeAnimation("ataqueAbajo", false);
+                rath->getAnimation()->changeAnimation("ataqueAbajo", true);
             }
         }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             rath->move(0, -1);
-            rath->getAnimation()->changeAnimation("correrAbajo", true);
+            if(direcNow!='u')
+            rath->getAnimation()->changeAnimation("correrArriba", false);
+            direcNow='u';
+            mov=true;
         }
-        mov=true;
+
         
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
             //correr abajo
             rath->move(0, 1);
-            if(direcX=='r'){
-                rath->getAnimation()->changeAnimation("correrDerecha", true);  
+            if(direcX=='r' && direcNow!='d'){
+                rath->getAnimation()->changeAnimation("correrDerecha", false);  
                 mov=true;
+                direcNow='d';
             }
             else{
-                if(direcX=='l'){
-                    rath->getAnimation()->changeAnimation("correrIzquierda", true);
+                if(direcX=='l' && direcNow!='l'){
+                    rath->getAnimation()->changeAnimation("correrIzquierda", false);
                     mov=true;
-                }
-                
-                
-                else{
-                    if(direcX!='r'&& direcX!='l'){
-                        rath->getAnimation()->changeAnimation("correrDerecha", true);
-                        mov=true;
-                        
-                    }
+                    direcNow='d';
                 }
             }
         }    
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
             rath->move(1, 0);
-            rath->getAnimation()->changeAnimation("correrDerecha", true);
+            if(direcNow!='r')
+                rath->getAnimation()->changeAnimation("correrDerecha", false);
             direcX='r';
+            direcNow='r';
             mov=true;
         }
         else{
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
                 rath->move(-1, 0);
-                rath->getAnimation()->changeAnimation("correrIzquierda", true);
+                if(direcNow!='l')
+                rath->getAnimation()->changeAnimation("correrIzquierda", false);
                 direcX='l';
+                direcNow='l';
                 mov=true;
             }
         }
@@ -192,7 +195,7 @@ int main(int argc, char** argv) {
                 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) 
                 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
                 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& mov==true){
-            rath->getAnimation()->changeAnimation("correrAbajo", true);
+            rath->getAnimation()->changeAnimation("idle", false);
             mov=false;
         }
         

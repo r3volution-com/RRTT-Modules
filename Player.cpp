@@ -28,6 +28,7 @@ void Player::move(float xDir, float yDir){
 
 void Player::addGun(Gun* gun){
     gun->setPosition(Entity::getCoordinate());
+    //std::cout<<Entity::getCoordinate().x<< Entity::getCoordinate().y;
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
