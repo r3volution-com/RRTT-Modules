@@ -11,6 +11,8 @@
 class Game {
     private:
         static Game* pinstance;
+        int fps;
+        int iaps;
         LevelState *level;
         MenuState *menu;
         IntroState *intro;

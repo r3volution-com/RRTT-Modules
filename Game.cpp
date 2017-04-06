@@ -18,6 +18,8 @@ Game::Game(){
     level = new LevelState();
     menu = new MenuState();
     game = intro;
+    fps = 60;
+    iaps = 15;
     
 }
 
