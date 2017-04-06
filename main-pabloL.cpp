@@ -8,15 +8,16 @@ using namespace std;
 int main(int argc, char** argv) {
     
     Game *game = Game::Instance();
+    Time clock = new Time(1.0f/game->iaps);
     
     
-    while (window->isOpen()) {
-        //Bucle de obtención de eventos
+    while (game->window->isOpen()) {
         
-        
-        game->Input();
-        
-        game->Update();
+        if(clock->isExpired() == true){
+            game->Input();
+            game->Update();
+            clock->restart();
+        }
     
         game->Render();
     
