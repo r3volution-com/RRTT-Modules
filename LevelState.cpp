@@ -6,27 +6,27 @@ LevelState::LevelState(){
      
 }
 
-LevelState::Render(){
+void LevelState::Render(){
     
 }
 
-LevelState::Update(){
+void LevelState::Update(){
     
 }
 
-LevelState::Input(){
+void LevelState::Input(){
     
 }
 
-LevelState::Pause(){
+void LevelState::Pause(){
     
 }
 
-LevelState::Resume(){
+void LevelState::Resume(){
     
 }
 
-LevelState::CleanUp(){
+void LevelState::CleanUp(){
     
 }
 

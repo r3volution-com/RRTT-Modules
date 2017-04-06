@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "GameState.h"
 
 Game* Game::pinstance = 0;
 
@@ -14,26 +15,37 @@ Game* Game::Instance(){
 void Game::Game(){
     
     window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Rath's Revenge: The Twisted Timeline");
-    level = new Level();
-    menu = new Menu();
+    level = new LevelState();
+    menu = new MenuState();
     
 }
 
 void Game::Update(){
     
+    game->Update();
+    
 }
 
 void Game::Render(){
     
-    level->draw(window);
-    menu->drawMenu(window);
+    game->Render();
     
 }
 
 void Game::Input(){
     
+    game->Input();
+    
 }
 
-void Game::Init(){
+void Game::ChangeCurrentState(const std::string &state){
+    
+    if(state == "level"){
+        game = &level;
+    }else if(state == "menu"){
+        game = &menu;
+    }else if(state == "intro"){
+        game = &intro;
+    }
     
 }

@@ -10,20 +10,22 @@
 class Game {
     private:
         static Game* pinstance;
-        Level *level;
-        Menu *menu;
+        LevelState level;
+        MenuState menu;
+        IntroState intro;
+        GameState *game;
         
     public:
         static Game* Instance();
         void Render();
         void Update();
-        void Init();
         void Input();
+        void ChangeCurrentState(const std::string &state);
         
         sf::RenderWindow *window;
         
     protected:
-        Game();
+        Game() : game(&intro) {};
         Game(const Game & );
         Game &operator = (const Game & );
 };
