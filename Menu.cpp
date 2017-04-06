@@ -14,12 +14,10 @@ Menu::~Menu() {
     //delete buttonLayout;
     delete buttonTextureRect;
     delete buttons; 
-    delete buttonFont;
     background = NULL;
     //buttonLayout = NULL;
     buttonTextureRect = NULL;
     buttons = NULL;
-    buttonFont = NULL;
 }
 
 bool Menu::addButton(Coordinate position, std::string text, sf::Color color, sf::Color outlineColor, int size){
