@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "GameState.h"
 
 Game* Game::pinstance = 0;
 
@@ -17,10 +16,14 @@ Game::Game(){
     window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Rath's Revenge: The Twisted Timeline");
     level = new LevelState();
     menu = new MenuState();
+    intro = new IntroState();
     game = intro;
-    fps = 60;
-    iaps = 15;
     
+    iaSpeed = 4;
+    fps = 60;
+    iaps = fps/iaSpeed;
+    
+    fpsTimer = new Time(1);
 }
 
 void Game::Update(){
@@ -30,7 +33,12 @@ void Game::Update(){
 }
 
 void Game::Render(){
-    
+    fpsCounter++;
+    if (fpsTimer->isExpired()){
+        fps = fpsCounter;
+        iaps = fps/iaSpeed;
+        fpsCounter = 0;
+    }
     game->Render();
     
 }

@@ -1,25 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main-mario.cpp
- * Author: mario
- *
- * Created on 29 de marzo de 2017, 1:24
- */
-
 #include <cstdlib>
+#include "Game.h"
 
-using namespace std;
-
-/*
- * 
- */
 int main(int argc, char** argv) {
 
+    Game *p1 = Game::Instance();
+    
+    while (p1->window->isOpen()){
+        
+        p1->Input();
+        
+        p1->Update();
+        
+        p1->Render();
+        
+        std::cout << p1->fps << " " << p1->iaps << " ";
+    }
     return 0;
 }
-

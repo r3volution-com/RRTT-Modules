@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
+#include "GameState.h"
 #include "LevelState.h"
 #include "MenuState.h"
 #include "IntroState.h"
@@ -22,8 +23,14 @@ class Game {
         void Update();
         void Input();
         void ChangeCurrentState(const std::string &state);
+        void getCurrentFPS();
         
         sf::RenderWindow *window;
+        
+        int fpsCounter;
+        Time *fpsTimer;
+        
+        int iaSpeed;
         int fps;
         int iaps;
         
