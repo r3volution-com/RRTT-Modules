@@ -45,7 +45,52 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF){
 }
 
 HUD::~HUD(){
-    //ToDo pabloL: implementa el destructor (mirate alguno de otra clase)
+    delete background;
+    delete hud;
+    delete guns;
+    delete gunsOff;
+    delete gunsCooldown;
+    delete playerHP;
+    delete bossHP;
+    delete flash;
+    delete flashCooldown;
+    delete die;
+
+    delete clockFlash; 
+    delete clockFirstGun; 
+    delete clockSecondGun; 
+
+    delete textSprite;
+    delete talker;
+    delete currentText;
+
+    delete lifePlayerText;
+
+    delete buttonDie;
+    
+    
+    background = NULL;
+    hud = NULL;
+    guns = NULL;
+    gunsOff = NULL;
+    gunsCooldown = NULL;
+    playerHP = NULL;
+    bossHP = NULL;
+    flash = NULL;
+    flashCooldown = NULL;
+    die = NULL;
+
+    clockFlash = NULL; 
+    clockFirstGun = NULL; 
+    clockSecondGun = NULL; 
+
+    textSprite = NULL;
+    talker = NULL;
+    currentText = NULL;
+
+    lifePlayerText = NULL;
+
+    buttonDie = NULL;
 }
 
 void HUD::setSpriteGuns(Texture* tex){    
