@@ -1,7 +1,9 @@
 #ifndef MENUSTATE_H
 #define MENUSTATE_H
 
-class MenuState {
+#include "GameState.h"
+
+class MenuState : public GameState{
     public:
         MenuState();
         void Render ();
@@ -10,6 +12,8 @@ class MenuState {
         void Pause();
         void Resume();
         void CleanUp();
+        
+        virtual ~MenuState();
     
     private:
 

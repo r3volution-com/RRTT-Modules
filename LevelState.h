@@ -2,13 +2,13 @@
 #define LEVELSTATE_H
 
 #include <vector>
+#include "GameState.h"
 #include <SFML/Graphics.hpp>
 
 #include "HUD.h"
 
-class LevelState:public GameState {
+class LevelState : public GameState {
     private:
-        HUD hud;
         
     public:
         LevelState(); //ToDo: level
@@ -19,6 +19,8 @@ class LevelState:public GameState {
         void Resume();
         void CleanUp();
         void populate(std::vector<sf::RectangleShape*> *objects, float x, float y);
+        
+        virtual ~LevelState();
 };
 
 #endif /* LEVELSTATE_H */

@@ -26,3 +26,7 @@ void MenuState::Resume(){
 void MenuState::Update(){
     
 }
+
+MenuState::~MenuState(){
+    
+}

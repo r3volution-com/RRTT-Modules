@@ -12,11 +12,12 @@ Game* Game::Instance(){
     return pinstance;
 }
 
-void Game::Game(){
+Game::Game(){
     
     window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Rath's Revenge: The Twisted Timeline");
     level = new LevelState();
     menu = new MenuState();
+    game = intro;
     
 }
 
@@ -41,11 +42,11 @@ void Game::Input(){
 void Game::ChangeCurrentState(const std::string &state){
     
     if(state == "level"){
-        game = &level;
+        game = level;
     }else if(state == "menu"){
-        game = &menu;
+        game = menu;
     }else if(state == "intro"){
-        game = &intro;
+        game = intro;
     }
     
 }

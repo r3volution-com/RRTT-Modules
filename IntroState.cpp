@@ -27,3 +27,6 @@ void IntroState::Update(){
     
 }
 
+IntroState::~IntroState(){
+    
+}

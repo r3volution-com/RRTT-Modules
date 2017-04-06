@@ -1,7 +1,9 @@
 #ifndef INTROSTATE_H
 #define INTROSTATE_H
 
-class IntroState {
+#include "GameState.h"
+
+class IntroState : public GameState{
     public:
         IntroState();
         void Render ();
@@ -10,6 +12,8 @@ class IntroState {
         void Pause();
         void Resume();
         void CleanUp();
+        
+        virtual ~IntroState();
 
     private:
 

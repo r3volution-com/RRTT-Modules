@@ -1,8 +1,6 @@
 #include "LevelState.h"
 
-LevelState::LevelState(){
-    
-     hud = new HUD();
+LevelState::LevelState() : GameState(){
      
 }
 
@@ -36,4 +34,8 @@ void LevelState::populate(std::vector<sf::RectangleShape*> *objects, float x, fl
     s->setPosition(x, y);
     s->setFillColor(sf::Color::Green);
     objects->push_back(s);
+}
+
+LevelState::~LevelState(){
+    
 }

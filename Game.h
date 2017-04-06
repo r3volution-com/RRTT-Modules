@@ -4,15 +4,16 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "LevelState.h"
-#include "Menu.h"
+#include "MenuState.h"
+#include "IntroState.h"
 
 
 class Game {
     private:
         static Game* pinstance;
-        LevelState level;
-        MenuState menu;
-        IntroState intro;
+        LevelState *level;
+        MenuState *menu;
+        IntroState *intro;
         GameState *game;
         
     public:
@@ -25,7 +26,7 @@ class Game {
         sf::RenderWindow *window;
         
     protected:
-        Game() : game(&intro) {};
+        Game(); //: game(&intro) {}
         Game(const Game & );
         Game &operator = (const Game & );
 };
