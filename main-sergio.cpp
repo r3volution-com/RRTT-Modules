@@ -1,17 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main-sergio.cpp
- * Author: mario
- *
- * Created on 29 de marzo de 2017, 1:25
- */
-
 #include <cstdlib>
+#include <iostream>
+#include "Game.h"
 
 using namespace std;
 
@@ -20,6 +9,18 @@ using namespace std;
  */
 int main(int argc, char** argv) {
 
+    //Prueba clase Game (Singleton)
+    
+    Game *p1 = Game::Instance();
+    Game *p2 = p1->Instance();
+    Game *p3 = Game::Instance();
+    
+    //Update, render, init, input
+    
+    cout << "Variable p1: " << p1 << "\n";
+    cout << "Variable p2: " << p2 << "\n";
+    cout << "Variable p3: " << p3 << "\n";
+    
     return 0;
 }
 
