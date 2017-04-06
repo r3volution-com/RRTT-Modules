@@ -4,8 +4,8 @@
 #include <map>
 #include <vector>
 #include <SFML/Graphics/VertexArray.hpp>
-#include "../tinyxml2/tinyxml2.h"
-#include "../Sprite.h"
+#include "../../tinyxml2/tinyxml2.h"
+#include "../../libs/Sprite.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -162,9 +162,9 @@ int main(int argc, char *argv[]) {
                     //Es decir el gid/sprite 79 estara en las cordenadas 64, 64, 64, 64 (por ejemplo)
                     //Entonces a la hora de crear el mapa dependiendo del gid le pasariamos un rect float u otro, no siempre el mismo (como estoy haciendo ahora)
                     _tilemapSprite[l][y][x] = new Sprite(_tilesetTexture, 
-                            medidas);
+                            *medidas);
                     
-                    _tilemapSprite[l][y][x]->setPosition(coord);
+                    _tilemapSprite[l][y][x]->setPosition(*coord);
                     
                 }else{             
                     _tilemapSprite[l][y][x] = NULL;

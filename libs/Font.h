@@ -4,6 +4,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+using namespace std;
+
 class Font {
     private:
         sf::Font *font;
