@@ -11,8 +11,6 @@
 class Game {
     private:
         static Game* pinstance;
-        int fps;
-        int iaps;
         LevelState *level;
         MenuState *menu;
         IntroState *intro;
@@ -26,6 +24,8 @@ class Game {
         void ChangeCurrentState(const std::string &state);
         
         sf::RenderWindow *window;
+        int fps;
+        int iaps;
         
     protected:
         Game(); //: game(&intro) {}
