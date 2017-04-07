@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include <Thor/Input.hpp>
 
 class Input {

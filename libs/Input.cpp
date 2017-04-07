@@ -12,7 +12,7 @@ void Input::addAction(std::string name, thor::Action act){
 
 void Input::addActionCallback(std::string name, thor::Action act, std::function< void()> nullaryListener){
     map[name] = act;
-    system.connect(name, nullaryListener);
+    system.connect0(name, nullaryListener);
 }
 
 void Input::update(sf::Window window){

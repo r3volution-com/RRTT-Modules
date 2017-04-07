@@ -39,6 +39,7 @@ void Game::Render(){
         fps = fpsCounter;
         iaps = fps/iaSpeed;
         fpsCounter = 0;
+        fpsTimer->restart();
     }
     
     window->clear();
