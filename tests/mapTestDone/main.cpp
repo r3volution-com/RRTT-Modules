@@ -6,6 +6,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 #include "../../tinyxml2/tinyxml2.h"
 #include "../../libs/Sprite.h"
+#include "../../Map.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -14,7 +15,22 @@ int main(int argc, char *argv[]) {
 
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1400, 900), "RRTT: Map Test");
     
-    XMLDocument doc;
+    //INICIO PRUEBAS
+    
+    Map *mapa = new Map("resources/bosque.tmx");
+           
+    cout << "0-> No ha habido errores cargando el mapa: " << mapa->doc.ErrorID() << "\n";
+    
+    cout << "Anchura: " << mapa->_width << "\n";
+    cout << "ALtura: " << mapa->_height << "\n";
+    cout << "TileWidth: " << mapa->_tileWidth << "\n";
+    cout << "TIleHeight: " << mapa->_tileHeight << "\n";
+    
+    cout << "Nombre de la imagen tileset: " << mapa->filename << "\n";
+    
+    cout << "Numero de capas: " << mapa->_numLayers << "\n";
+    
+    /*XMLDocument doc;
     doc.LoadFile( "resources/bosque.tmx" );
     
     cout << "0-> No ha habido errores cargando el mapa: " << doc.ErrorID() << "\n";
@@ -48,13 +64,7 @@ int main(int argc, char *argv[]) {
 
     cout << "Numero de capas: " << _numLayers << "\n";
     
-    /*vector<XMLElement*> *data = new vector<XMLElement*>();
-          
-    for(int i=0; i<_numLayers;i++){
-        data->push_back(map->FirstChildElement("layer")
-        ->FirstChildElement("data")->FirstChildElement("tile"));
-    }*/
-    
+    //FIN PRUEBAS
     
     XMLElement *data[_numLayers];
     
@@ -65,12 +75,7 @@ int main(int argc, char *argv[]) {
         capas = capas->NextSiblingElement("layer");
     }
     
-    /*data[0] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
-    data[1] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
-    data[2] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
-    data[3] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
-    data[4] = map->FirstChildElement("layer")->FirstChildElement("data")->FirstChildElement("tile");
-   */
+    
     
     int ***_tilemap;
     
@@ -100,7 +105,6 @@ int main(int argc, char *argv[]) {
     }
     
     //Hacer matriz de sprites (_tilesetSprite) 3D en la que a la hora de crear el sprite se mustiplicase el rect por el gid al que pertenece
-    //Es de 
     //Creacion del array de sprites
     
     Texture *_tilesetTexture = new Texture("resources/tileset3.png");
@@ -110,19 +114,6 @@ int main(int argc, char *argv[]) {
     Sprite ****_tilemapSprite;
     
     _tilemapSprite = new Sprite***[_numLayers];
-    
-    /*for(int l=0; l<_numLayers; l++){
-        _tilemapSprite[l] = new Sprite**[_height];
-        for(int y=0; y<_height; y++){
-            _tilemapSprite[l][y] = new Sprite*[_width];
-            for(int x=0; x<_width; x++){
-                //Falta crear sprite con sus dimensiones         
-                _tilemapSprite[l][y][x] = new Sprite (_tilesetTexture, medidas);
-                
-                //cout << "Coordenada x: " << coord->x << " e y: " << coord->y << "\n";
-            }
-        }
-    }*/
     
     //Rellenando el array de sprites
     
@@ -136,7 +127,7 @@ int main(int argc, char *argv[]) {
                 if(gid>0){
                     Coordinate* coord = new Coordinate (x*_tileWidth, y*_tileHeight);
                     
-                    //Obtenemos nueva coordenada x e y del rect medidas
+                    //Obtenemos nueva coordenada x e y del rect medidas                   
                     int newY = (gid/16)*32;
                     
                     if(gid%16==0){
@@ -220,7 +211,6 @@ int main(int argc, char *argv[]) {
         window->display();
 
     }
-    
+    */
     return 0;
-
 }
