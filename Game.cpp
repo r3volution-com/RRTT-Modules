@@ -24,6 +24,7 @@ Game::Game(){
     iaps = fps/iaSpeed;
     
     fpsTimer = new Time(1);
+    fpsTimer->restart();
 }
 
 void Game::Update(){
@@ -39,11 +40,39 @@ void Game::Render(){
         iaps = fps/iaSpeed;
         fpsCounter = 0;
     }
+    
+    window->clear();
+    
     game->Render();
+    
+    window->display();
     
 }
 
 void Game::Input(){
+    
+       sf::Event event;
+        while (window->pollEvent(event)) {
+            switch(event.type) {
+                //Si se recibe el evento de cerrar la ventana la cierro
+                case sf::Event::Closed:
+                    window->close();
+                    break;
+                //Se pulsó una tecla, imprimo su codigo
+                case sf::Event::KeyPressed:
+                    //Verifico si se pulsa alguna tecla de movimiento
+                    switch(event.key.code) {
+                        //Tecla ESC para salir
+                        case sf::Keyboard::Escape:
+                            window->close();
+                        break;
+                        default:
+                        break;
+                    }
+                break;
+                default: break;
+            }
+        }
     
     game->Input();
     

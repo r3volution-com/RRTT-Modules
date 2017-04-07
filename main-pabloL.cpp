@@ -1,25 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   main-pabloL.cpp
- * Author: mario
- *
- * Created on 29 de marzo de 2017, 1:24
- */
 
 #include <cstdlib>
+#include "Game.h"
 
 using namespace std;
 
-/*
- * 
- */
-int main(int argc, char** argv) {
 
+int main(int argc, char** argv) {
+    
+    Game *game = Game::Instance();
+    Time clock = new Time(1.0f/game->iaps);
+    
+    
+    while (game->window->isOpen()) {
+        
+        if(clock->isExpired() == true){
+            game->Input();
+            game->Update();
+            clock->restart();
+        }
+    
+        game->Render();
+    
+    }    
+    
     return 0;
 }
 

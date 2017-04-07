@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
         
         p1->Render();
         
-        std::cout << p1->fps << " " << p1->iaps << " ";
+        std::cout << "fps: " << p1->fps << " iaps: " << p1->iaps << "\n";
     }
     return 0;
 }
