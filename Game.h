@@ -32,8 +32,10 @@ class Game {
         Coordinate *screenSize;
         sf::RenderWindow *window;
         
-        int fpsCounter;
+        ResourceManager *rM;
+        Event *iM;
         
+        int fpsCounter;
         int iaSpeed;
         int fps;
         int iaps;

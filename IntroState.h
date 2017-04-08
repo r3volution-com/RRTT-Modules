@@ -8,9 +8,7 @@
 
 class IntroState : public GameState{
     private:
-        ResourceManager *rM;
         Sprite *background;
-        Event *iM;
     public:
         IntroState();
         void Init();

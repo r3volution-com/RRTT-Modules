@@ -67,7 +67,7 @@ void Player::die(){
 void Player::respawn(){
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
-    Entity::setPosition(500.0, 100.0); //ToDo pabloL: Sacar la posicion del Singleton
+    Entity::setPosition(500.0, 100.0); //ToDo pabloL: Pasar la posicion por parametro
 }
 
 void Player::setFlashCooldown(Time *cooldown){ 

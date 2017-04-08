@@ -2,7 +2,7 @@
 #include "Game.h"
 
 Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons) {
-    background = new Sprite(bg, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y)); //ToDo Sergio: tamaño sale del singleton
+    background = new Sprite(bg, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
     buttonTextureRect = tRect;
     buttonLayout = bLayout;
     buttonFont = bFont;
@@ -40,9 +40,9 @@ int Menu::checkClicks() {
     return -1;
 }
 
-void Menu::drawMenu(sf::RenderWindow *window){
-    window->draw(*background->getSprite());
+void Menu::drawMenu(){
+    Game::Instance()->window->draw(*background->getSprite());
     for (int i = 0; i<buttons->size(); i++){
-        buttons->at(i)->draw(window);
+        buttons->at(i)->draw();
     }  
 }

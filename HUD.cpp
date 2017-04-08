@@ -202,7 +202,7 @@ void HUD::changeSecondGunCooldown(int cooldown){
 
 
 
-bool HUD::drawHUD(sf::RenderWindow* window){
+bool HUD::drawHUD(sf::RenderWindow* window){//ToDo: pabloL usar singleton
     window->draw(*background->getSprite());
     window->draw(*hud->getSprite());
     drawPlayerHP(window);
@@ -212,7 +212,7 @@ bool HUD::drawHUD(sf::RenderWindow* window){
     if (flashModuleEnabled) drawFlash(window);
 }
 
-void HUD::drawGun(sf::RenderWindow *window){
+void HUD::drawGun(sf::RenderWindow *window){//ToDo: pabloL usar singleton
     if(activeGun == 0){
         window->draw(*guns->at(0)->getSprite());
         window->draw(*gunsOff->at(1)->getSprite());
@@ -229,25 +229,25 @@ void HUD::drawGun(sf::RenderWindow *window){
     }*/
 }
 
-void HUD::drawPlayerHP(sf::RenderWindow *window){
+void HUD::drawPlayerHP(sf::RenderWindow *window){//ToDo: pabloL usar singleton
     window->draw(*playerHP->getSprite());
 }
 
-void HUD::drawBossHP(sf::RenderWindow *window){
+void HUD::drawBossHP(sf::RenderWindow *window){//ToDo: pabloL usar singleton
     window->draw(*bossHP->getSprite());
 }
 
-void HUD::drawFlash(sf::RenderWindow* window){
+void HUD::drawFlash(sf::RenderWindow* window){//ToDo: pabloL usar singleton
     window->draw(*flash->getSprite());
 }
 
-void HUD::drawFlashCooldown(sf::RenderWindow *window){
+void HUD::drawFlashCooldown(sf::RenderWindow *window){//ToDo: pabloL usar singleton
     if(clockFlash->getTime() < timeFlash){
         flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(Game::Instance()->fps*timeFlash)), flashCooldown->getActualSpriteRect()->h);
     } else flashUsed = false;
     if (flashUsed) window->draw(*flashCooldown->getSprite());
 }
-void HUD::drawGunCooldown(sf::RenderWindow* window){
+void HUD::drawGunCooldown(sf::RenderWindow* window){//ToDo: pabloL usar singleton
     if(clockFirstGun->getTime() < firstGunCooldown){
         gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(Game::Instance()->fps*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);
     } else firstGunUsed = false;
@@ -260,7 +260,7 @@ void HUD::drawGunCooldown(sf::RenderWindow* window){
     else if(activeGun == 1 && secondGunUsed) window->draw(*gunsCooldown->at(1)->getSprite());
 }
 
-void HUD::drawTextLayer(sf::RenderWindow *window){
+void HUD::drawTextLayer(sf::RenderWindow *window){//ToDo: pabloL usar singleton
     window->draw(*textSprite->getSprite());
     window->draw(*talker->getText());
     window->draw(*currentText->getText());
@@ -316,10 +316,10 @@ void HUD::setButton(Coordinate coor, Texture* tex, Rect<float> rect){
     buttonDie = new Button(coor, tex, rect);
 }
 
-void HUD::drawDie(sf::RenderWindow *window){
+void HUD::drawDie(sf::RenderWindow *window){ //ToDo: pabloL usar singleton
     if(lifePlayer <= 0){
         window->draw(*die->getSprite());
-        buttonDie->draw(window);
+        buttonDie->draw();
     }
     
 }

@@ -2,9 +2,7 @@
 #include "Game.h"
 
 IntroState::IntroState() {
-    rM = new ResourceManager();
-    rM->loadTexture("background", "resources/background-intro.png");
-    iM = new Event();
+    
 }
 
 IntroState::~IntroState(){
@@ -12,18 +10,18 @@ IntroState::~IntroState(){
 }
 
 void IntroState::Init(){
-    background = new Sprite(rM->getTexture("background"), Rect<float>(0,0,Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
-    iM->addAction("skip", thor::Action(sf::Keyboard::Space));
-    iM->addAction("close", thor::Action(sf::Keyboard::Escape, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
+    Game::Instance()->rM->loadTexture("background", "resources/background-intro.png");
+    background = new Sprite(Game::Instance()->rM->getTexture("background"), Rect<float>(0,0,Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
+    
+    Game::Instance()->iM->addAction("skip-intro", thor::Action(sf::Keyboard::Space));
 }
 
 void IntroState::Input(){
-    if (iM->isActive("skip")) Game::Instance()->ChangeCurrentState("menu");
-    if (iM->isActive("close")) Game::Instance()->window->close();
+    if (Game::Instance()->iM->isActive("skip-intro")) Game::Instance()->ChangeCurrentState("menu");
 }
 
 void IntroState::Update(){
-    iM->update();
+    
 }
 
 void IntroState::Render(){
@@ -31,5 +29,6 @@ void IntroState::Render(){
 }
 
 void IntroState::CleanUp(){
-    
+    Game::Instance()->rM->releaseTexture("background");
+    delete background;
 }

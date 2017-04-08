@@ -7,9 +7,11 @@ Texture::Texture(const char *path) {
         exit(0);
     }
     render = false;
+    rTex = 0;
 }
 
 Texture::Texture(sf::RenderTexture *t){
+    tex = 0;
     rTex=t;
     render = true;
 }
