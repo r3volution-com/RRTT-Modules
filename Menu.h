@@ -56,7 +56,7 @@ class Menu {
          * Dibuja el menu
          * @param window: Ventana en la que dibujar
          */
-        void drawMenu(); //ToDo Sergio: mejorar usando singleton
+        void drawMenu();
 };
 
 #endif /* MENU_H */
