@@ -1,9 +1,14 @@
 #include "MenuState.h"
 
 MenuState::MenuState() {
+    
 }
 
-void MenuState::CleanUp(){
+MenuState::~MenuState(){
+    
+}
+
+void MenuState::Init(){
     
 }
 
@@ -11,7 +16,7 @@ void MenuState::Input(){
     
 }
 
-void MenuState::Pause(){
+void MenuState::Update(){
     
 }
 
@@ -19,14 +24,6 @@ void MenuState::Render(){
     
 }
 
-void MenuState::Resume(){
-    
-}
-
-void MenuState::Update(){
-    
-}
-
-MenuState::~MenuState(){
+void MenuState::CleanUp(){
     
 }

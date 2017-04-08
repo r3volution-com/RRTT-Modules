@@ -6,11 +6,10 @@
 class MenuState : public GameState{
     public:
         MenuState();
-        void Render ();
-        void Update();
+        void Init();
         void Input();
-        void Pause();
-        void Resume();
+        void Update();
+        void Render();
         void CleanUp();
         
         virtual ~MenuState();

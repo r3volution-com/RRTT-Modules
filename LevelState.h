@@ -5,20 +5,22 @@
 #include "GameState.h"
 #include <SFML/Graphics.hpp>
 
+#include "libs/ResourceManager.h"
 #include "HUD.h"
+#include "Player.h"
 
 class LevelState : public GameState {
     private:
-        
+        ResourceManager *rM;
+        Texture *playerTexture;
+        Player *rath;
     public:
         LevelState(); //ToDo: level
-        void Render ();
-        void Update();
+        void Init();
         void Input();
-        void Pause();
-        void Resume();
+        void Update();
+        void Render();
         void CleanUp();
-        void populate(std::vector<sf::RectangleShape*> *objects, float x, float y);
         
         virtual ~LevelState();
 };

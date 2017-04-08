@@ -1,7 +1,8 @@
 #include "Menu.h"
+#include "Game.h"
 
 Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons) {
-    background = new Sprite(bg, Rect<float>(0, 0, 1280, 720)); //ToDo Sergio: tamaño sale del singleton
+    background = new Sprite(bg, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y)); //ToDo Sergio: tamaño sale del singleton
     buttonTextureRect = tRect;
     buttonLayout = bLayout;
     buttonFont = bFont;
@@ -11,11 +12,9 @@ Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int n
 
 Menu::~Menu() {
     delete background;
-    //delete buttonLayout;
     delete buttonTextureRect;
     delete buttons; 
     background = NULL;
-    //buttonLayout = NULL;
     buttonTextureRect = NULL;
     buttons = NULL;
 }

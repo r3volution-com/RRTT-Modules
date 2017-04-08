@@ -1,5 +1,6 @@
 #include "InterpolatedCoordinate.h"
 #include <iostream>
+#include "../Game.h"
 
 InterpolatedCoordinate::InterpolatedCoordinate(float x, float y) {
     act = new Coordinate(x, y);
@@ -40,10 +41,8 @@ void InterpolatedCoordinate::move(Coordinate newCoord){
 }
 
 Coordinate InterpolatedCoordinate::getIC(){
-
-    //ToDo pabloL: hacer el 4 ese con singleton
-    float x = (last->x-act->x)/4;
-    float y = (last->y-act->y)/4;
+    float x = (last->x-act->x)/Game::Instance()->iaSpeed;
+    float y = (last->y-act->y)/Game::Instance()->iaSpeed;
 
     return Coordinate(act->x+x,act->y+y);
 }

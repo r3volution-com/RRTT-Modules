@@ -7,6 +7,8 @@
 #include "LevelState.h"
 #include "MenuState.h"
 #include "IntroState.h"
+#include "libs/Coordinate.h"
+#include "libs/Time.h"
 
 
 class Game {
@@ -17,18 +19,20 @@ class Game {
         IntroState *intro;
         GameState *game;
         
+        Time *fpsTimer;
     public:
         static Game* Instance();
+        void Init();
         void Render();
-        void Update();
         void Input();
+        void Update();
         void ChangeCurrentState(const std::string &state);
         void getCurrentFPS();
         
+        Coordinate *screenSize;
         sf::RenderWindow *window;
         
         int fpsCounter;
-        Time *fpsTimer;
         
         int iaSpeed;
         int fps;

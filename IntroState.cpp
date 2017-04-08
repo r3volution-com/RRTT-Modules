@@ -3,39 +3,33 @@
 
 IntroState::IntroState() {
     rM = new ResourceManager();
-    rM->loadTexture("player", "resources/sprites.png");
-    playerTexture = rM->getTexture("player");
-    rath = new Player(Coordinate(0,0), playerTexture, Rect<float>(0,0, 128, 128), 2);
-    rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
-    rath->getAnimation()->initAnimator();
-    rath->getAnimation()->changeAnimation("idle", false);
-}
-
-void IntroState::CleanUp(){
-    
-}
-
-void IntroState::Input(){
-    std::cout << "ye";
-}
-
-void IntroState::Pause(){
-    
-}
-
-void IntroState::Render(){
-    Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
-    
-}
-
-void IntroState::Resume(){
-    
-}
-
-void IntroState::Update(){
-    rath->getAnimation()->updateAnimator();
+    rM->loadTexture("background", "resources/background-intro.png");
+    iM = new Event();
 }
 
 IntroState::~IntroState(){
+    
+}
+
+void IntroState::Init(){
+    background = new Sprite(rM->getTexture("background"), Rect<float>(0,0,Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
+    iM->addAction("skip", thor::Action(sf::Keyboard::Space));
+    iM->addAction("close", thor::Action(sf::Keyboard::Escape, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
+}
+
+void IntroState::Input(){
+    if (iM->isActive("skip")) Game::Instance()->ChangeCurrentState("menu");
+    if (iM->isActive("close")) Game::Instance()->window->close();
+}
+
+void IntroState::Update(){
+    iM->update();
+}
+
+void IntroState::Render(){
+    Game::Instance()->window->draw(*background->getSprite());
+}
+
+void IntroState::CleanUp(){
     
 }

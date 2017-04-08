@@ -2,21 +2,21 @@
 #define INTROSTATE_H
 
 #include "libs/ResourceManager.h"
+#include "libs/Sprite.h"
+#include "libs/Event.h"
 #include "GameState.h"
-#include "Player.h"
 
 class IntroState : public GameState{
     private:
         ResourceManager *rM;
-        Texture *playerTexture;
-        Player *rath;
+        Sprite *background;
+        Event *iM;
     public:
         IntroState();
-        void Render();
-        void Update();
+        void Init();
         void Input();
-        void Pause();
-        void Resume();
+        void Update();
+        void Render();
         void CleanUp();
         
         virtual ~IntroState();
