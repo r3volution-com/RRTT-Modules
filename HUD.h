@@ -77,7 +77,7 @@ class HUD {
          * Actualizar sprites de las armas
          * @param tex: Textura de las armas (puntero)
          */
-        void setSpriteGuns(Texture *tex);
+        void setGuns(Texture *tex, Time *g1, Time *g2);
         
         /**
          * Actualizar los sprites del flash
@@ -167,17 +167,7 @@ class HUD {
          */
         void changeLifeBoss(int life);
         
-        /**
-         * Cambia el cooldown del flash
-         * @param cooldown: Tiempo de cooldown (tipo int)
-         */
-        void changeFirstGunCooldown(int cooldown);
         
-        /**
-         * Cambia el cooldown del arma secundaria
-         * @param cooldown: Cooldown del arma secundaria (tipo int)
-         */
-        void changeSecondGunCooldown(int cooldown);
         
         /*std::vector<Sprite*> getSpriteGunsOn(){return guns;}
         std::vector<Sprite*> getSpriteGunsOff(){return gunsOff;}
