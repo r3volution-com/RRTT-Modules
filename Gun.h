@@ -15,6 +15,7 @@ class Gun {
         
         bool active;
         
+        Time *gunCooldown;
         int damage;
         
         float attackCooldown;
@@ -32,6 +33,9 @@ class Gun {
         /**
          * Metodo para realizar ataque
          */
+        
+        void setGunCooldown(Time *gc);
+        
         void doAttack();
         
         /**

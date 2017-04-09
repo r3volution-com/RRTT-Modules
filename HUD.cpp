@@ -70,6 +70,8 @@ HUD::~HUD(){
 
     delete buttonDie;
     
+    delete game;
+    delete window;
     
     background = NULL;
     hud = NULL;
@@ -93,9 +95,12 @@ HUD::~HUD(){
     lifePlayerText = NULL;
 
     buttonDie = NULL;
+    
+    game = NULL;
+    window = NULL;
 }
 
-void HUD::setSpriteGuns(Texture* tex){    
+void HUD::setGuns(Texture* tex, Time *g1, Time *g2){    
     guns->push_back(new Sprite(tex, Rect<float>(10, 10, 80, 80)));
     guns->at(0)->setPosition(17.0f,18.0f);
     guns->push_back(new Sprite(tex, Rect<float>(100, 10, 80, 80)));
@@ -115,6 +120,12 @@ void HUD::setSpriteGuns(Texture* tex){
     for (int i = 0; i<gunsCooldown->size(); i++){
         gunsCooldown->at(i)->setSize(0,0);
     }
+    //ToDo PabloL: HECHO, lo mismo que con flash
+    clockFirstGun = g1;
+    clockSecondGun = g2;
+    
+    firstGunCooldown = g1->getTime();
+    secondGunCooldown = g2->getTime();
 }
 
 void HUD::setFlash(Texture *tFlash, Texture *tCooldown, Time *f){
@@ -191,14 +202,6 @@ void HUD::changeLifeBoss(int life){
     }
 }
 
-void HUD::changeFirstGunCooldown(int cooldown){
-    firstGunCooldown = cooldown;
-}
-
-void HUD::changeSecondGunCooldown(int cooldown){
-    secondGunCooldown = cooldown;
-}
-
 bool HUD::drawHUD(){
     window->draw(*background->getSprite());
     window->draw(*hud->getSprite());
@@ -264,22 +267,20 @@ void HUD::drawTextLayer(){
 }
 
 void HUD::resetClockFlash(){
-    if (clockFlash->getTime() >= timeFlash){ //ToDo PabloL: Hecho -> mirar si esta bien usado el get
+    if (clockFlash->getTime() == 0){ //ToDo PabloL: HECHO -> mirar si esta bien usado el get O LO PONGO COMO = 0??
         flashCooldown->restoreSize();
-        
+        flashUsed = true;
     }
 }
 
-void HUD::resetClock(){
+void HUD::resetClock(){ //ToDo PabloL: HECHO, LO MISMO QUE CON FLASH
     if(activeGun == 0){
-        if (!firstGunUsed) {
-            clockFirstGun->restart();
+        if (clockFirstGun->getTime() == 0) {
             firstGunUsed = true;
             gunsCooldown->at(activeGun)->restoreSize();
         }
     }else if(activeGun == 1){
-        if (!secondGunUsed){
-            clockSecondGun->restart();
+        if (clockSecondGun->getTime() == 0){
             secondGunUsed = true;
             gunsCooldown->at(activeGun)->restoreSize();
         }
