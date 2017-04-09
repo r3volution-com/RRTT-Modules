@@ -16,6 +16,9 @@
 
 class HUD {
     private:
+        Game *game;
+        sf::RenderWindow *window;
+        
         Sprite *background;
         Sprite *hud;
         std::vector<Sprite*> *guns;
@@ -84,7 +87,7 @@ class HUD {
          * @param tFlash: Textura del flash (puntero)
          * @param tCooldown: Textura del tiempo de cooldown (puntero)
          */
-        void setFlashSprites(Texture *tFlash, Texture *tCooldown);
+        void setFlash(Texture *tFlash, Texture *tCooldown, Time *f);
         
         /**
          * Sprite de muerte
@@ -170,12 +173,6 @@ class HUD {
         /**
          * Cambia el cooldown del flash
          * @param cooldown: Tiempo de cooldown (tipo int)
-         */
-        void changeFlashCooldown(int cooldown);
-        
-        /**
-         * Cambia el cooldown del arma principal
-         * @param cooldown: Cooldown del arma principal (tipo int)
          */
         void changeFirstGunCooldown(int cooldown);
         

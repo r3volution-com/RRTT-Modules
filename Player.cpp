@@ -58,21 +58,22 @@ void Player::gunAttack(){
 
 void Player::flash(float dirX, float dirY){
     Entity::move(flashRange*dirX, flashRange*dirY);
+    flashCooldown->restart();
 }
 
 void Player::die(){
     Entity::getAnimation()->changeAnimation("die",false);
 }
 
-void Player::respawn(){
+void Player::respawn(Coordinate coor){
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
-    Entity::setPosition(500.0, 100.0); //ToDo pabloL: Pasar la posicion por parametro
+    Entity::setPosition(coor->x, coor->y); 
 }
 
 void Player::setFlashCooldown(Time *cooldown){ 
     //ToDo pabloL, sincronizar con el timer de HUD y hacer la otra funcion para añadir el tiempo actual del flash (que el hud saque la info de aqui)
-    //ToDo pabloL, los datos de flash de aqui y el HUD se envian desde el main. De main a ambos
+    //ToDo pabloL, HECHO
     flashCooldown = cooldown;
 }
 

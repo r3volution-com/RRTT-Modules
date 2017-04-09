@@ -18,7 +18,6 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF){
     clockFirstGun = new Time();
     clockSecondGun = new Time();
     
-    timeFlash = 4.0f;
     firstGunCooldown = 5.0f;
     secondGunCooldown = 2.0f;
     
@@ -43,6 +42,8 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF){
     gunsModuleEnabled = false;
     dieModuleEnabled = false;
     textModuleEnabled = false;
+    
+    window = game->window;
 }
 
 HUD::~HUD(){
@@ -116,12 +117,14 @@ void HUD::setSpriteGuns(Texture* tex){
     }
 }
 
-void HUD::setFlashSprites(Texture *tFlash, Texture *tCooldown){
+void HUD::setFlash(Texture *tFlash, Texture *tCooldown, Time *f){
     flash = new Sprite(tFlash, Rect<float>(10, 100, 80, 80));
     flash->setPosition(100.0f,18.0f);
     flashCooldown = new Sprite(tCooldown, Rect<float>(190, 10, 80, 80));
     flashCooldown->setPosition(100.0f,18.0f);
     flashModuleEnabled = true;
+    clockFlash = f;
+    timeFlash = f->getTime(); //ToDo PabloL: Para llenar el float y saber el tiempo siempre
 }
 
 void HUD::setDieSprite(Texture *dTex){
@@ -188,10 +191,6 @@ void HUD::changeLifeBoss(int life){
     }
 }
 
-void HUD::changeFlashCooldown(int cooldown){
-    timeFlash = cooldown;
-}
-
 void HUD::changeFirstGunCooldown(int cooldown){
     firstGunCooldown = cooldown;
 }
@@ -200,9 +199,7 @@ void HUD::changeSecondGunCooldown(int cooldown){
     secondGunCooldown = cooldown;
 }
 
-
-
-bool HUD::drawHUD(sf::RenderWindow* window){//ToDo: pabloL usar singleton
+bool HUD::drawHUD(){
     window->draw(*background->getSprite());
     window->draw(*hud->getSprite());
     drawPlayerHP(window);
@@ -212,7 +209,7 @@ bool HUD::drawHUD(sf::RenderWindow* window){//ToDo: pabloL usar singleton
     if (flashModuleEnabled) drawFlash(window);
 }
 
-void HUD::drawGun(sf::RenderWindow *window){//ToDo: pabloL usar singleton
+void HUD::drawGun(){
     if(activeGun == 0){
         window->draw(*guns->at(0)->getSprite());
         window->draw(*gunsOff->at(1)->getSprite());
@@ -229,25 +226,25 @@ void HUD::drawGun(sf::RenderWindow *window){//ToDo: pabloL usar singleton
     }*/
 }
 
-void HUD::drawPlayerHP(sf::RenderWindow *window){//ToDo: pabloL usar singleton
+void HUD::drawPlayerHP(){
     window->draw(*playerHP->getSprite());
 }
 
-void HUD::drawBossHP(sf::RenderWindow *window){//ToDo: pabloL usar singleton
+void HUD::drawBossHP(){
     window->draw(*bossHP->getSprite());
 }
 
-void HUD::drawFlash(sf::RenderWindow* window){//ToDo: pabloL usar singleton
+void HUD::drawFlash(){
     window->draw(*flash->getSprite());
 }
 
-void HUD::drawFlashCooldown(sf::RenderWindow *window){//ToDo: pabloL usar singleton
+void HUD::drawFlashCooldown(){
     if(clockFlash->getTime() < timeFlash){
         flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(Game::Instance()->fps*timeFlash)), flashCooldown->getActualSpriteRect()->h);
     } else flashUsed = false;
     if (flashUsed) window->draw(*flashCooldown->getSprite());
 }
-void HUD::drawGunCooldown(sf::RenderWindow* window){//ToDo: pabloL usar singleton
+void HUD::drawGunCooldown(){
     if(clockFirstGun->getTime() < firstGunCooldown){
         gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(Game::Instance()->fps*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);
     } else firstGunUsed = false;
@@ -260,17 +257,16 @@ void HUD::drawGunCooldown(sf::RenderWindow* window){//ToDo: pabloL usar singleto
     else if(activeGun == 1 && secondGunUsed) window->draw(*gunsCooldown->at(1)->getSprite());
 }
 
-void HUD::drawTextLayer(sf::RenderWindow *window){//ToDo: pabloL usar singleton
+void HUD::drawTextLayer(){
     window->draw(*textSprite->getSprite());
     window->draw(*talker->getText());
     window->draw(*currentText->getText());
 }
 
 void HUD::resetClockFlash(){
-    if (!flashUsed){
-        clockFlash->restart();
+    if (clockFlash->getTime() >= timeFlash){ //ToDo PabloL: Hecho -> mirar si esta bien usado el get
         flashCooldown->restoreSize();
-        flashUsed = true;
+        
     }
 }
 
@@ -316,7 +312,7 @@ void HUD::setButton(Coordinate coor, Texture* tex, Rect<float> rect){
     buttonDie = new Button(coor, tex, rect);
 }
 
-void HUD::drawDie(sf::RenderWindow *window){ //ToDo: pabloL usar singleton
+void HUD::drawDie(){
     if(lifePlayer <= 0){
         window->draw(*die->getSprite());
         buttonDie->draw();
