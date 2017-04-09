@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
     
     Game *game = Game::Instance();
     Time clock = new Time(1.0f/game->iaps);
-    
+    game->Init();
     
     while (game->window->isOpen()) {
         
