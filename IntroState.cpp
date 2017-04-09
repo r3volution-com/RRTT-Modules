@@ -17,7 +17,7 @@ void IntroState::Init(){
 }
 
 void IntroState::Input(){
-    if (Game::Instance()->iM->isActive("skip-intro")) Game::Instance()->ChangeCurrentState("menu");
+    if (Game::Instance()->iM->isActive("skip-intro")) Game::Instance()->ChangeCurrentState("level");
 }
 
 void IntroState::Update(){

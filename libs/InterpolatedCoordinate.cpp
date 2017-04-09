@@ -41,8 +41,15 @@ void InterpolatedCoordinate::move(Coordinate newCoord){
 }
 
 Coordinate InterpolatedCoordinate::getIC(){
-    float x = (last->x-act->x)/Game::Instance()->iaSpeed;
+    std::cout<<last->x<<endl;
+    std::cout<<last->y<<endl;
+    float x = last->x+(Game::Instance()->iaSpeed*(1.0f/Game::Instance()->iaps));
+    float y = last->y+(Game::Instance()->iaSpeed*(1.0f/Game::Instance()->iaps));
+    
+    return Coordinate(x, y);
+    
+    /*float x = (last->x-act->x)/Game::Instance()->iaSpeed;
     float y = (last->y-act->y)/Game::Instance()->iaSpeed;
 
-    return Coordinate(act->x+x,act->y+y);
+    return Coordinate(act->x+x,act->y+y);*/
 }

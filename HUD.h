@@ -27,6 +27,8 @@ class HUD {
         Sprite *flashCooldown;
         Sprite *die;
         
+        Texture *tex;
+        
         Time *clockFlash; 
         Time *clockFirstGun; 
         Time *clockSecondGun; 
@@ -39,10 +41,6 @@ class HUD {
         Text *lifePlayerText;
         
         Button *buttonDie;
-        
-        bool firstGunUsed;
-        bool secondGunUsed;
-        bool flashUsed;
         
         float timeFlash;
         float firstGunCooldown;
@@ -60,6 +58,7 @@ class HUD {
         bool gunsModuleEnabled;
         bool dieModuleEnabled;
         bool textModuleEnabled;
+        bool bossModuleEnable;
         
     public:
         /**
@@ -70,21 +69,21 @@ class HUD {
          * @param f: Fuente del texto (puntero)
          * @param cF: Tiempo del flash (tipo time)
          */
-        HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF);
+        HUD(Texture *hTex, Texture *lTex, Rect<float> lRect, Font *f, Time *cF);
         virtual ~HUD();
         
         /**
          * Actualizar sprites de las armas
          * @param tex: Textura de las armas (puntero)
          */
-        void setGuns(Texture *tex, Time *g1, Time *g2);
+        void setGuns(Rect<float> rect, Time *g1, Time *g2);
         
         /**
          * Actualizar los sprites del flash
          * @param tFlash: Textura del flash (puntero)
          * @param tCooldown: Textura del tiempo de cooldown (puntero)
          */
-        void setFlash(Texture *tFlash, Texture *tCooldown, Time *f);
+        void setFlash(Rect<float> rect, Time *f);
         
         /**
          * Sprite de muerte
@@ -99,6 +98,8 @@ class HUD {
          * @param tTex: Textura de la capa de texto
          */
         void setTextLayer(Coordinate coord, Rect<float> tRect, Texture *tTex);
+        
+        void setBossLife(Rect<float> tRect);
         
         /**
          * Actualiza el texto que muestra el npc

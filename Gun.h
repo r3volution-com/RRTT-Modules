@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "libs/Time.h"
 #include "libs/Animation.h"
 #include "libs/Hitbox.h"
 #include "Bullet.h"

@@ -1,14 +1,14 @@
 #include "HUD.h"
 #include "Game.h"
 
-HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF){
+HUD::HUD(Texture *hTex, Texture *lTex, Rect<float> lRect, Font *f, Time *cF){
     
-    background = new Sprite(bTex, Rect<float>(0, 0, 1280, 720));
-    hud = new Sprite(hTex, Rect<float>(0, 0, 1280, 720));
-    playerHP = new Sprite(lTex, Rect<float>(100, 230, 194, 14));
+    tex = lTex;
+    
+    hud = new Sprite(hTex, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
+    playerHP = new Sprite(tex, lRect);
     playerHP->setPosition(296.5f,30.0f);
-    bossHP = new Sprite(lTex, Rect<float>(100, 230, 194, 14));
-    bossHP->setPosition(528.0f,667.0f);
+    
     
     guns = new std::vector<Sprite*>();
     gunsOff = new std::vector<Sprite*>();
@@ -25,10 +25,6 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF){
     lifePlayerText = new Text(std::string(), Coordinate(0,0), font, false);
     sf::Color color = sf::Color::Black;
     lifePlayerText->setStyles(color, color, 0, 12);
-
-    firstGunUsed = false;
-    secondGunUsed = false;
-    flashUsed = false;
     
     activeGun = 0;
     maxLifeBoss = 100;
@@ -42,8 +38,8 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF){
     gunsModuleEnabled = false;
     dieModuleEnabled = false;
     textModuleEnabled = false;
+    bossModuleEnable = false;
     
-    //Game::Instance()->window = game->window;
 }
 
 HUD::~HUD(){
@@ -70,9 +66,6 @@ HUD::~HUD(){
 
     delete buttonDie;
     
-    delete game;
-    delete window;
-    
     background = NULL;
     hud = NULL;
     guns = NULL;
@@ -96,31 +89,29 @@ HUD::~HUD(){
 
     buttonDie = NULL;
     
-    game = NULL;
-    window = NULL;
 }
 
-void HUD::setGuns(Texture* tex, Time *g1, Time *g2){    
-    guns->push_back(new Sprite(tex, Rect<float>(10, 10, 80, 80)));
+void HUD::setGuns(Rect<float> rect, Time *g1, Time *g2){    
+    guns->push_back(new Sprite(tex, Rect<float>(rect.x, rect.y, rect.w, rect.h)));
     guns->at(0)->setPosition(17.0f,18.0f);
-    guns->push_back(new Sprite(tex, Rect<float>(100, 10, 80, 80)));
+    guns->push_back(new Sprite(tex, Rect<float>(rect.x+80, rect.y, rect.w, rect.h)));
     guns->at(1)->setPosition(17.0f,98.0f);
     
-    gunsOff->push_back(new Sprite(tex, Rect<float>(10, 190, 80, 80)));
+    gunsOff->push_back(new Sprite(tex, Rect<float>(rect.x+160, rect.y, rect.w, rect.h)));
     gunsOff->at(0)->setPosition(17.0f,18.0f);
-    gunsOff->push_back(new Sprite(tex, Rect<float>(100, 140, 80, 80)));
+    gunsOff->push_back(new Sprite(tex, Rect<float>(rect.x+240, rect.y, rect.w, rect.h)));
     gunsOff->at(1)->setPosition(17.0f,98.0f);
     gunsModuleEnabled = true;
     
-    gunsCooldown->push_back(new Sprite(tex, Rect<float>(190, 10, 80, 80)));
+    gunsCooldown->push_back(new Sprite(tex, Rect<float>(rect.x+320, rect.y, rect.w, rect.h)));
     gunsCooldown->at(0)->setPosition(17.0f,18.0f);
-    gunsCooldown->push_back(new Sprite(tex, Rect<float>(190, 10, 80, 80)));
+    gunsCooldown->push_back(new Sprite(tex, Rect<float>(rect.x+400, rect.y, rect.w, rect.h)));
     gunsCooldown->at(1)->setPosition(17.0f,98.0f);
     
     for (int i = 0; i<gunsCooldown->size(); i++){
         gunsCooldown->at(i)->setSize(0,0);
     }
-    //ToDo PabloL: HECHO, lo mismo que con flash
+    //ToDo PabloL: MIRAR PARA HACERLO MODULAR (VECTOR)
     clockFirstGun = g1;
     clockSecondGun = g2;
     
@@ -128,19 +119,25 @@ void HUD::setGuns(Texture* tex, Time *g1, Time *g2){
     secondGunCooldown = g2->getTime();
 }
 
-void HUD::setFlash(Texture *tFlash, Texture *tCooldown, Time *f){
-    flash = new Sprite(tFlash, Rect<float>(10, 100, 80, 80));
+void HUD::setFlash(Rect<float> rect, Time *f){
+    flash = new Sprite(tex, Rect<float>(rect.x, rect.y+80, rect.w, rect.h));
     flash->setPosition(100.0f,18.0f);
-    flashCooldown = new Sprite(tCooldown, Rect<float>(190, 10, 80, 80));
+    flashCooldown = new Sprite(tex, Rect<float>(rect.x+80, rect.y+80, rect.w, rect.h));
     flashCooldown->setPosition(100.0f,18.0f);
     flashModuleEnabled = true;
     clockFlash = f;
-    timeFlash = f->getTime(); //ToDo PabloL: Para llenar el float y saber el tiempo siempre
+    timeFlash = f->getTime(); 
 }
 
 void HUD::setDieSprite(Texture *dTex){
-    die = new Sprite(dTex, Rect<float>(0, 0, 1280, 720));
+    die = new Sprite(dTex, Rect<float> (0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
     dieModuleEnabled = true;
+}
+
+void HUD::setBossLife(Rect<float> tRect){
+    bossHP = new Sprite(tex, tRect);
+    bossHP->setPosition(528.0f,667.0f); 
+    bossModuleEnable = true;
 }
 
 void HUD::setTextLayer(Coordinate coord, Rect<float> tRect, Texture *tTex){
@@ -207,7 +204,7 @@ bool HUD::drawHUD(){
     Game::Instance()->window->draw(*hud->getSprite());
     drawPlayerHP();
     Game::Instance()->window->draw(*lifePlayerText->getText());
-    drawBossHP(); //ToDo: PabloL modular, el boss no se esta mostrando siempre
+    if (bossModuleEnable) drawBossHP(); 
     if (gunsModuleEnabled) drawGun();
     if (flashModuleEnabled) drawFlash();
 }
@@ -244,22 +241,28 @@ void HUD::drawFlash(){
 void HUD::drawFlashCooldown(){
     if(clockFlash->getTime() < timeFlash){
         flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(Game::Instance()->fps*timeFlash)), flashCooldown->getActualSpriteRect()->h);
-    } else flashUsed = false;
-    if (flashUsed) Game::Instance()->window->draw(*flashCooldown->getSprite());
+    } else {
+        clockFlash->pause();
+    }
+    if (clockFlash->isRunning()) Game::Instance()->window->draw(*flashCooldown->getSprite());
 }
 void HUD::drawGunCooldown(){
     if(clockFirstGun->getTime() < firstGunCooldown){
         gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(Game::Instance()->fps*firstGunCooldown)), 
                 gunsCooldown->at(0)->getActualSpriteRect()->h);
-    } else firstGunUsed = false;
+    } else {
+       clockFirstGun->pause();
+    }
     
     if(clockSecondGun->getTime() < secondGunCooldown){
         gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getActualSpriteRect()->w-(gunsCooldown->at(1)->getOriginalSpriteRect()->w/(Game::Instance()->fps*secondGunCooldown)), 
                 gunsCooldown->at(1)->getActualSpriteRect()->h);
-    } else secondGunUsed = false;
+    } else {
+        clockSecondGun->pause();
+    }
     
-    if(activeGun == 0 && firstGunUsed) Game::Instance()->window->draw(*gunsCooldown->at(0)->getSprite());
-    else if(activeGun == 1 && secondGunUsed) Game::Instance()->window->draw(*gunsCooldown->at(1)->getSprite());
+    if(activeGun == 0 && clockFirstGun->isRunning()) Game::Instance()->window->draw(*gunsCooldown->at(0)->getSprite());
+    else if(activeGun == 1 && clockSecondGun->isRunning()) Game::Instance()->window->draw(*gunsCooldown->at(1)->getSprite());
 }
 
 void HUD::drawTextLayer(){
@@ -269,21 +272,18 @@ void HUD::drawTextLayer(){
 }
 
 void HUD::resetClockFlash(){
-    if (clockFlash->getTime() == 0){ //ToDo PabloL: HECHO -> mirar si esta bien usado el get O LO PONGO COMO = 0??
+    if (clockFlash->getTime() == 0){ 
         flashCooldown->restoreSize();
-        flashUsed = true;
     }
 }
 
-void HUD::resetClock(){ //ToDo PabloL: HECHO, LO MISMO QUE CON FLASH
+void HUD::resetClock(){ 
     if(activeGun == 0){
         if (clockFirstGun->getTime() == 0) {
-            firstGunUsed = true;
             gunsCooldown->at(activeGun)->restoreSize();
         }
     }else if(activeGun == 1){
         if (clockSecondGun->getTime() == 0){
-            secondGunUsed = true;
             gunsCooldown->at(activeGun)->restoreSize();
         }
     }
@@ -295,18 +295,6 @@ void HUD::resetStats(){
     
     playerHP->restoreSize();
     bossHP->restoreSize();
-    
-    /*clockFlash->restart();
-    flashCooldown->restoreSize();
-    flashUsed = true;
-
-    clockFirstGun->restart();
-    firstGunUsed = true;
-    gunsCooldown->at(0)->restoreSize();
-
-    clockSecondGun->restart();
-    secondGunUsed = true;
-    gunsCooldown->at(1)->restoreSize();*/
     
     dieBool = false;
 }

@@ -35,7 +35,6 @@ void Gun::setPosition(Coordinate position){
 }
 
 void Gun::setGunCooldown(Time* gc){
-    //ToDo PabloL: Lo mismo qu con flash HECHO, REVISAR
     gunCooldown = gc;
 }
 

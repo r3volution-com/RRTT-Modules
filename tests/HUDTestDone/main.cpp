@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     int lifeBoss = 150;
     
     //HUD
-    Time *cF = new Time(); //ToDo PabloL, revisar este time
+    Time *cF = new Time(); 
     HUD *hud = new HUD(tex1, tex2, tex, f, cF);
     hud->setFlashSprites(tex, tex);
     hud->setSpriteGuns(tex);

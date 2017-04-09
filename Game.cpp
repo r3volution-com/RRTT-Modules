@@ -32,7 +32,7 @@ Game::Game(){
 }
 
 void Game::Init(){
-    fpsTimer->restart();
+    fpsTimer->start();
     iM->addAction("close", thor::Action(sf::Keyboard::Escape, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
     game->Init();
 }
@@ -58,7 +58,6 @@ void Game::Render(){
         iaps = fps/iaSpeed;
         fpsCounter = 0;
         fpsTimer->restart();
-        std::cout << "fps: " << fps << " iaps: " << iaps << "\n";
     }
     
     window->clear();
@@ -80,5 +79,5 @@ void Game::ChangeCurrentState(const std::string &state){
     }else if(state == "intro"){
         game = intro;
     }
-    
+    game->Init();
 }

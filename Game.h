@@ -27,7 +27,6 @@ class Game {
         void Input();
         void Update();
         void ChangeCurrentState(const std::string &state);
-        void getCurrentFPS();
         
         Coordinate *screenSize;
         sf::RenderWindow *window;

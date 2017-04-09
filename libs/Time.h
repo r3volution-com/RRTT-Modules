@@ -22,6 +22,8 @@ class Time {
         void pause();
         void reset();
         void restart();
+        void reset(float newTime);
+        void restart(float newTime);
         
         float getTime();
         bool isRunning();
