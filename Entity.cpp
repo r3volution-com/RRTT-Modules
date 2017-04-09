@@ -3,7 +3,8 @@
 Entity::Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp) {
     speed = sp;
     
-    coor = new InterpolatedCoordinate(position.x, position.y);
+    coor = new Coordinate(position.x, position.y);
+    state = new InterpolatedCoordinate(position.x, position.y);
     hitbox = new Hitbox(position.x, position.y, newRect.w, newRect.h);
     hitbox->setPosition(position);
     anim = new Animation(t, new Rect<float>(newRect.x, newRect.y, newRect.w, newRect.h));

@@ -7,7 +7,8 @@
 
 class Entity {
     private:
-        InterpolatedCoordinate *coor;
+        Coordinate *coor;
+        InterpolatedCoordinate *state;
         Hitbox *hitbox;
         Animation *anim;
         
