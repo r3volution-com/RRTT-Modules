@@ -15,10 +15,7 @@
 #include "libs/Text.h"
 
 class HUD {
-    private:
-        Game *game;
-        sf::RenderWindow *window;
-        
+    private:        
         Sprite *background;
         Sprite *hud;
         std::vector<Sprite*> *guns;
@@ -183,55 +180,55 @@ class HUD {
          * @param window: Ventana en la que dibujar
          * @return 
          */
-        bool drawHUD(sf::RenderWindow *window);
+        bool drawHUD();
         
         /**
          * Dibuja el arma
          * @param window: Ventana en la que dibujar
          */
-        void drawGun(sf::RenderWindow *window);
+        void drawGun();
         
         /**
          * Dibuja la vida del jugador
          * @param window: Ventana en la que dibujar
          */
-        void drawPlayerHP(sf::RenderWindow *window);
+        void drawPlayerHP();
         
         /**
          * Dibuja la vida del boss
          * @param window: Ventana en la que dibujar
          */
-        void drawBossHP(sf::RenderWindow *window);
+        void drawBossHP();
         
         /**
          * Dibuja el flash
          * @param window: Ventana en la que dibujar
          */
-        void drawFlash(sf::RenderWindow *window);
+        void drawFlash();
         
         /**
          * Dibuja la capa de texto
          * @param window: Ventana en la que dibujar
          */
-        void drawTextLayer(sf::RenderWindow *window);
+        void drawTextLayer();
         
         /**
          * Dibuja el enfriamiento del flash
          * @param window: Ventana en la que dibujar
          */
-        void drawFlashCooldown(sf::RenderWindow *window);
+        void drawFlashCooldown();
         
         /**
          * Dibuja el enfriamiento del arma 
          * @param window: Ventana en la que dibujar
          */
-        void drawGunCooldown(sf::RenderWindow *window);
+        void drawGunCooldown();
         
         /**
          * Dibuja la muerte del personaje
          * @param window: Ventana en la que dibujar
          */
-        void drawDie(sf::RenderWindow *window);
+        void drawDie();
         
         /**
          * Comprueba si el personaje esta muerto

@@ -43,7 +43,7 @@ HUD::HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF){
     dieModuleEnabled = false;
     textModuleEnabled = false;
     
-    window = game->window;
+    //Game::Instance()->window = game->window;
 }
 
 HUD::~HUD(){
@@ -203,23 +203,23 @@ void HUD::changeLifeBoss(int life){
 }
 
 bool HUD::drawHUD(){
-    window->draw(*background->getSprite());
-    window->draw(*hud->getSprite());
-    drawPlayerHP(window);
-    window->draw(*lifePlayerText->getText());
-    drawBossHP(window);
-    if (gunsModuleEnabled) drawGun(window);
-    if (flashModuleEnabled) drawFlash(window);
+    Game::Instance()->window->draw(*background->getSprite());
+    Game::Instance()->window->draw(*hud->getSprite());
+    drawPlayerHP();
+    Game::Instance()->window->draw(*lifePlayerText->getText());
+    drawBossHP(); //ToDo: PabloL modular, el boss no se esta mostrando siempre
+    if (gunsModuleEnabled) drawGun();
+    if (flashModuleEnabled) drawFlash();
 }
 
 void HUD::drawGun(){
     if(activeGun == 0){
-        window->draw(*guns->at(0)->getSprite());
-        window->draw(*gunsOff->at(1)->getSprite());
+        Game::Instance()->window->draw(*guns->at(0)->getSprite());
+        Game::Instance()->window->draw(*gunsOff->at(1)->getSprite());
         //window->draw(gunsOff->at(2)->getSprite());
     }else if(activeGun == 1){
-        window->draw(*guns->at(1)->getSprite());
-        window->draw(*gunsOff->at(0)->getSprite());
+        Game::Instance()->window->draw(*guns->at(1)->getSprite());
+        Game::Instance()->window->draw(*gunsOff->at(0)->getSprite());
         //window->draw(gunsOff->at(2)->getSprite());
     }/*else if(activeGun == 2){
         window->draw(guns->at(2)->getSprite());
@@ -230,40 +230,42 @@ void HUD::drawGun(){
 }
 
 void HUD::drawPlayerHP(){
-    window->draw(*playerHP->getSprite());
+    Game::Instance()->window->draw(*playerHP->getSprite());
 }
 
 void HUD::drawBossHP(){
-    window->draw(*bossHP->getSprite());
+    Game::Instance()->window->draw(*bossHP->getSprite());
 }
 
 void HUD::drawFlash(){
-    window->draw(*flash->getSprite());
+    Game::Instance()->window->draw(*flash->getSprite());
 }
 
 void HUD::drawFlashCooldown(){
     if(clockFlash->getTime() < timeFlash){
         flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(Game::Instance()->fps*timeFlash)), flashCooldown->getActualSpriteRect()->h);
     } else flashUsed = false;
-    if (flashUsed) window->draw(*flashCooldown->getSprite());
+    if (flashUsed) Game::Instance()->window->draw(*flashCooldown->getSprite());
 }
 void HUD::drawGunCooldown(){
     if(clockFirstGun->getTime() < firstGunCooldown){
-        gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(Game::Instance()->fps*firstGunCooldown)), gunsCooldown->at(0)->getActualSpriteRect()->h);
+        gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-(gunsCooldown->at(0)->getOriginalSpriteRect()->w/(Game::Instance()->fps*firstGunCooldown)), 
+                gunsCooldown->at(0)->getActualSpriteRect()->h);
     } else firstGunUsed = false;
     
     if(clockSecondGun->getTime() < secondGunCooldown){
-        gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getActualSpriteRect()->w-(gunsCooldown->at(1)->getOriginalSpriteRect()->w/(Game::Instance()->fps*secondGunCooldown)), gunsCooldown->at(1)->getActualSpriteRect()->h);
+        gunsCooldown->at(1)->setSize(gunsCooldown->at(1)->getActualSpriteRect()->w-(gunsCooldown->at(1)->getOriginalSpriteRect()->w/(Game::Instance()->fps*secondGunCooldown)), 
+                gunsCooldown->at(1)->getActualSpriteRect()->h);
     } else secondGunUsed = false;
     
-    if(activeGun == 0 && firstGunUsed) window->draw(*gunsCooldown->at(0)->getSprite());
-    else if(activeGun == 1 && secondGunUsed) window->draw(*gunsCooldown->at(1)->getSprite());
+    if(activeGun == 0 && firstGunUsed) Game::Instance()->window->draw(*gunsCooldown->at(0)->getSprite());
+    else if(activeGun == 1 && secondGunUsed) Game::Instance()->window->draw(*gunsCooldown->at(1)->getSprite());
 }
 
 void HUD::drawTextLayer(){
-    window->draw(*textSprite->getSprite());
-    window->draw(*talker->getText());
-    window->draw(*currentText->getText());
+    Game::Instance()->window->draw(*textSprite->getSprite());
+    Game::Instance()->window->draw(*talker->getText());
+    Game::Instance()->window->draw(*currentText->getText());
 }
 
 void HUD::resetClockFlash(){
@@ -315,7 +317,7 @@ void HUD::setButton(Coordinate coor, Texture* tex, Rect<float> rect){
 
 void HUD::drawDie(){
     if(lifePlayer <= 0){
-        window->draw(*die->getSprite());
+        Game::Instance()->window->draw(*die->getSprite());
         buttonDie->draw();
     }
     
