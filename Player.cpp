@@ -28,7 +28,6 @@ void Player::move(float xDir, float yDir){
 
 void Player::addGun(Gun* gun){
     gun->setPosition(Entity::getCoordinate());
-    //std::cout<<Entity::getCoordinate().x<< Entity::getCoordinate().y;
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
@@ -68,12 +67,10 @@ void Player::die(){
 void Player::respawn(Coordinate coor){
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
-    Entity::setPosition(coor->x, coor->y); 
+    Entity::setPosition(coor.x, coor.y); 
 }
 
 void Player::setFlashCooldown(Time *cooldown){ 
-    //ToDo pabloL, sincronizar con el timer de HUD y hacer la otra funcion para añadir el tiempo actual del flash (que el hud saque la info de aqui)
-    //ToDo pabloL, HECHO
     flashCooldown = cooldown;
 }
 
