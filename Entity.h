@@ -7,8 +7,7 @@
 
 class Entity {
     private:
-        Coordinate *coor;
-        InterpolatedCoordinate *state;
+        InterpolatedCoordinate *coor;
         Hitbox *hitbox;
         Animation *anim;
         
@@ -45,15 +44,16 @@ class Entity {
          * Actualiza la posicion de la entidad
          * @param newCoor: Nueva coordenada de posicion
          */
-        void setPosition(Coordinate newCoor){ coor->setCoordinate(newCoor); anim->setPosition(newCoor); hitbox->setPosition(newCoor);}
+        void setPosition(Coordinate newCoor);
         /**
          * Actualiza la posicion de la entidad
          * @param x: Coordenada X de la posicion
          * @param y: Coordenada Y de la posicion
          */
-        void setPosition(float x, float y){ coor->setCoordinate(x, y); anim->setPosition(x, y); hitbox->setPosition(x, y);}
+        void setPosition(float x, float y);
         
-        Coordinate getCoordinate() { return coor->getIC(); }
+        InterpolatedCoordinate *getState() { return coor; }
+        Coordinate *getCoordinate() { return coor->getCoordinate(); }
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return anim; }
         float getSpeed() { return speed; }

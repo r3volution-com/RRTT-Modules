@@ -28,7 +28,7 @@ class Gun {
          * @param animRect: Zona de animacion del arma
          * @param tex: Textura del arma
          */
-        Gun(Coordinate position, Rect<float> *animRect, Texture *tex);
+        Gun(Coordinate position, Rect<float> animRect, Texture *tex);
         virtual ~Gun();
         
         /**

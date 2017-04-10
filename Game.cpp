@@ -23,6 +23,7 @@ Game::Game(){
     
     iaSpeed = 15;
     fps = 60;
+    iaps = fps/iaSpeed;
     fpsTimer = new Time(1);
     
     rM = new ResourceManager();
@@ -54,6 +55,7 @@ void Game::Render(){
     fpsCounter++;
     if (fpsTimer->isExpired()){
         fps = fpsCounter;
+        iaps = fps/iaSpeed;
         fpsCounter = 0;
         fpsTimer->restart();
     }

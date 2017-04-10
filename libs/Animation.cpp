@@ -1,15 +1,14 @@
 #include "Animation.h"
 
-Animation::Animation(Texture *t, Rect<float> *tRect) {
+Animation::Animation(Texture *t, Rect<float> tRect) {
     //Copiamos las variables
     tex = t;
-    spriteRect = tRect;
-    
+    spriteRect = new Rect<float>(tRect.x, tRect.y, tRect.w, tRect.h);
     //Creamos la animacion
     animations = new thor::AnimationMap<sf::Sprite, std::string>();
     
     //Creamos el sprite que va a usar
-    sprite = new sf::Sprite(*tex->getTexture(), tRect->getIntRect());
+    sprite = new sf::Sprite(*tex->getTexture(), tRect.getIntRect());
 }
 
 Animation::~Animation() {

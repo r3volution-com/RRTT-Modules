@@ -11,7 +11,7 @@ LevelState::~LevelState(){
 
 void LevelState::Init(){
     Game::Instance()->rM->loadTexture("player", "resources/sprites.png");
-    rath = new Player(Coordinate(0,0), Game::Instance()->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
+    rath = new Player(Coordinate(0,0), Game::Instance()->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 10);
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
     rath->getAnimation()->initAnimator();
     rath->getAnimation()->changeAnimation("idle", false);
@@ -33,6 +33,8 @@ void LevelState::Input(){
 }
 
 void LevelState::Render(){
+    Coordinate inc(rath->getState()->getIC());
+    rath->setPosition(inc.x, inc.y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
 }
 

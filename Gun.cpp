@@ -1,11 +1,11 @@
 #include "Gun.h"
 #include "libs/Time.h"
 
-Gun::Gun(Coordinate position, Rect<float> *animRect, Texture *tex) {
-    hitbox = new Hitbox(position.x, position.y, animRect->w, animRect->h);
+Gun::Gun(Coordinate position, Rect<float> animRect, Texture *tex) {
+    hitbox = new Hitbox(position.x, position.y, animRect.w, animRect.h);
     gunAnimation = new Animation(tex, animRect);
-    gunAnimation->addAnimation("idle", Coordinate(animRect->x, animRect->y), 2, 1.0f);
-    gunAnimation->addAnimation("attack", Coordinate(animRect->x, animRect->y+animRect->h), 2, 1.0f);
+    gunAnimation->addAnimation("idle", Coordinate(animRect.x, animRect.y), 2, 1.0f);
+    gunAnimation->addAnimation("attack", Coordinate(animRect.x, animRect.y+animRect.h), 2, 1.0f);
     gunAnimation->setPosition(position);
     //setPosition(position);
 }
