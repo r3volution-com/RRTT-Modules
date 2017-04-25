@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
     Time *clock = new Time(1.0f/game->iaSpeed);
     game->Init();
     clock->start();
-    game->window->setFramerateLimit(30);
+    game->window->setFramerateLimit(15);
     while (game->window->isOpen()) {
         if(clock->isExpired() == true){
             game->Input();
