@@ -19,7 +19,7 @@ Game::Game(){
     intro = new IntroState();
     menu = new MenuState();
     level = new LevelState();
-    game = intro;
+    game = level;
     
     iaSpeed = 15;
     fps = 60;
