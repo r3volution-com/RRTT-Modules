@@ -1,13 +1,31 @@
 #include "Level.h"
 
-Level::Level(){
+Level::Level(int numLevel) {
+    
+    //Guardamos el nivel a cargar
+    level = numLevel;
+    
+    //Cargamos todos los elementos del juego
+    loadMap();
     
 }
 
-void Level::populate(std::vector<sf::RectangleShape*> *objects, float x, float y)
-{
-    sf::RectangleShape *s = new sf::RectangleShape(sf::Vector2f(20, 20));
-    s->setPosition(x, y);
-    s->setFillColor(sf::Color::Green);
-    objects->push_back(s);
+void Level::loadMap(){
+    
+    //Cargamos bosque
+    if(level==1){
+        map = new Map("resources/bosque.tmx");
+    }
+    //Hacer coindiciones para el resto de mapas cuando esten creados
+}
+
+void Level::loadPlayer(){
+    
+}
+
+void Level::drawAll(sf::RenderWindow *window){
+    
+    //Dibujamos todos los elementos
+    map->dibujarMapa(window);
+    
 }

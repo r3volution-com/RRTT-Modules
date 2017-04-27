@@ -7,6 +7,7 @@
 #include "tinyxml2/tinyxml2.h"
 #include "libs/Sprite.h"
 #include "Map.h"
+#include "Level.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -17,9 +18,13 @@ int main(int argc, char *argv[]) {
     sf::View view(sf::FloatRect(0,0,4096,4096));
     //INICIO PRUEBAS
     
-    Map *mapa = new Map("resources/bosque.tmx");
+    Level *level = new Level (1);
            
-    cout << "0-> No ha habido errores cargando el mapa: " << mapa->doc.ErrorID() << "\n";
+    /*COMPROBACIONES MAPA
+     * 
+     * Map *map = new Map("resources/bosque.tmx");
+     * 
+     * cout << "0-> No ha habido errores cargando el mapa: " << mapa->doc.ErrorID() << "\n";
     
     cout << "Anchura: " << mapa->_width << "\n";
     cout << "ALtura: " << mapa->_height << "\n";
@@ -28,7 +33,7 @@ int main(int argc, char *argv[]) {
     
     cout << "Nombre de la imagen tileset: " << mapa->filename << "\n";
     
-    cout << "Numero de capas: " << mapa->_numLayers << "\n";
+    cout << "Numero de capas: " << mapa->_numLayers << "\n";*/
     
         while (window->isOpen()) {
         //Bucle de obtención de eventos
@@ -68,7 +73,8 @@ int main(int argc, char *argv[]) {
         
         //Llamamos a dibujarMapa
         window->setView(view);
-        mapa->dibujarMapa(window);
+        //Dibujamos el mapa map->dibujarMapa(window);
+        level->drawAll(window);
         
         window->display();
 
