@@ -1,6 +1,8 @@
 #include "LevelState.h"
 #include "Game.h"
 
+#define PI 3,14159265f;
+
 LevelState::LevelState() : GameState(){
     
 }
@@ -19,16 +21,57 @@ void LevelState::Init(){
     Game::Instance()->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
     Game::Instance()->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
     Game::Instance()->iM->addAction("player-left", thor::Action(sf::Keyboard::Left));
+    Game::Instance()->iM->addAction("player-Lclick", thor::Action(sf::Mouse::Left));
 }
 
 void LevelState::Update(){
 }
 
 void LevelState::Input(){
-    if (Game::Instance()->iM->isActive("player-up")) rath->move(0,-1);
-    if (Game::Instance()->iM->isActive("player-down")) rath->move(0,1);
-    if (Game::Instance()->iM->isActive("player-left")) rath->move(-1,0);
-    if (Game::Instance()->iM->isActive("player-right")) rath->move(1,0);
+    if (Game::Instance()->iM->isActive("player-up")){ 
+        rath->move(0,-1);
+        if(direcNow!='u'){
+                rath->getAnimation()->changeAnimation("correrArriba", false);
+            }
+            direcNow='u';
+            mov=true;
+    }
+    if (Game::Instance()->iM->isActive("player-down")){ 
+        rath->move(0,1);
+        if(direcX=='r' && direcNow!='d'){
+         rath->getAnimation()->changeAnimation("correrDerecha", false);  
+                mov=true;
+                direcNow='d';
+                }
+            else{
+                if(direcX=='l' && direcNow!='l'){
+                    rath->getAnimation()->changeAnimation("correrIzquierda", false);
+                    mov=true;
+                    direcNow='d';
+                }
+            }
+    }
+    if (Game::Instance()->iM->isActive("player-left")){
+        rath->move(-1,0);
+                if(direcNow!='l'){
+                    rath->getAnimation()->changeAnimation("correrIzquierda", false);
+                }
+                direcX='l';
+                direcNow='l';
+                mov=true;
+    }
+    if (Game::Instance()->iM->isActive("player-right")){
+        rath->move(1,0);
+        if(direcNow!='r'){
+                rath->getAnimation()->changeAnimation("correrDerecha", false);
+            }
+            direcX='r';
+            direcNow='r';
+            mov=true;
+    }
+    if (Game::Instance()->iM->isActive("player-Lclick")){
+        
+    }
 }
 
 void LevelState::Render(){

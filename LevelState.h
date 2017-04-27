@@ -14,6 +14,9 @@ class LevelState : public GameState {
         ResourceManager *rM;
         Texture *playerTexture;
         Player *rath;
+        int direcX = 'r';
+        int direcNow = 'z';
+        bool mov = false;
     public:
         LevelState(); //ToDo: level
         void Init();
