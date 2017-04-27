@@ -2,13 +2,21 @@
 #define BOSS_H
 
 #include "Enemy.h"
+#include "Gun.h"
 
-class Boss {
+
+class Boss : public Enemy{
     private:
-
+        std::vector<Gun*> *guns;
+        int state;
+        int currentGun;
     public:
-        Boss(); //ToDo: boss
+        Boss(Coordinate position, Texture *t, Rect<float> newRect, float sp); //ToDo: boss
         virtual ~Boss();
+        void changeState(int s);
+        void gunAttack();
+        void addGun(Gun* gun);
+        bool changeGun(int gun);
 };
 
 #endif /* BOSS_H */
