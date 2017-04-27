@@ -54,6 +54,8 @@ Map::Map(const char* ruta) {
         }
     }
     
+    //Creamos el array de rects
+    
     //Creamos el array de sprites
     matrizSprites();
     
@@ -74,9 +76,9 @@ void Map::dataTiles(){
 
 void Map::matrizSprites(){
     
-    Texture *_tilesetTexture = new Texture("resources/tileset3.png");
+    Texture *_tilesetTexture = new Texture("resources/oj.png");
     
-    Rect <float> *medidas = new Rect <float> (448, 96, 32, 32);
+    Rect <float> *medidas = new Rect <float> (0, 0, 32, 32);
     
     _tilemapSprite = new Sprite***[_numLayers];
     
@@ -119,16 +121,14 @@ void Map::matrizSprites(){
 
 int Map::NewCoordX(int gid){
     
-    int newX = (gid/16);
+    int newX = (gid/64);
                     
-    if(gid%16==0){
+    if(gid%64==0){
         newX = newX-1;
     }
 
     if(newX>0){
-        newX = 32*(gid-(newX*16)); 
-    }else{
-        newX= 0;
+        newX = 32*(gid-(newX*64)); 
     }
     
     return newX;
@@ -136,10 +136,10 @@ int Map::NewCoordX(int gid){
 
 int Map::NewCoordY(int gid){
     
-    int newY = (gid/16)*32;
+    int newY = (gid/64)*32;
                     
-    if(gid%16==0){
-        newY = newY-1;
+    if(gid%64==0){
+        newY = newY-32;
     }
     
     return newY;

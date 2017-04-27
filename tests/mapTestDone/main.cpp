@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     
     //INICIO PRUEBAS
     
-    Map *mapa = new Map("resources/bosque.tmx");
+    Map *mapa = new Map("resources/test.tmx");
            
     cout << "0-> No ha habido errores cargando el mapa: " << mapa->doc.ErrorID() << "\n";
     
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
         
         //Seleccionamos capa a mostrar, en caso de no elegir ninguna 
         //no hariamos la llamada y mostrariamos todo el mapa
-        //mapa->setActiveLayer(2);
+        //mapa->setActiveLayer(3);
         
         //Llamamos a dibujarMapa
         mapa->dibujarMapa(window);
