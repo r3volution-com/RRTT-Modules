@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="1">
- <tileset firstgid="1" name="oj" tilewidth="32" tileheight="32" tilecount="4096" columns="64">
-  <image source="Tileset/oj.png" width="2048" height="2048"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="128" tileheight="128" nextobjectid="1">
+ <tileset firstgid="1" name="oj" tilewidth="128" tileheight="128" tilecount="4096" columns="64">
+  <image source="Tileset/oj.png" width="8192" height="8192"/>
  </tileset>
  <layer name="Suelo" width="32" height="32">
   <data>
@@ -10983,16 +10983,16 @@
    <tile gid="1718"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="1610615294"/>
-   <tile gid="1610615358"/>
-   <tile gid="1610615422"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="2684356278"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="1610615294"/>
-   <tile gid="1610615358"/>
-   <tile gid="1610615422"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -11048,7 +11048,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="1610615295"/>
-   <tile gid="1610615359"/>
+   <tile gid="0"/>
    <tile gid="1610615423"/>
    <tile gid="0"/>
    <tile gid="2684356278"/>
@@ -11060,8 +11060,6 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="1610615295"/>
-   <tile gid="1610615359"/>
-   <tile gid="1610615423"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -11079,9 +11077,11 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="1610615294"/>
-   <tile gid="1610615358"/>
-   <tile gid="1610615422"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="2684356278"/>
@@ -11091,9 +11091,9 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="1610615294"/>
-   <tile gid="1610615358"/>
-   <tile gid="1610615422"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
+   <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
