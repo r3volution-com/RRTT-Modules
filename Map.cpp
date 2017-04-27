@@ -129,6 +129,8 @@ int Map::NewCoordX(int gid){
 
     if(newX>0){
         newX = 32*(gid-(newX*64)); 
+    }else{
+        newX = (gid*32);
     }
     
     return newX;
@@ -136,7 +138,9 @@ int Map::NewCoordX(int gid){
 
 int Map::NewCoordY(int gid){
     
-    int newY = (gid/64)*32;
+    int newY;
+    
+    newY = (gid/64)*32;
                     
     if(gid%64==0){
         newY = newY-32;
