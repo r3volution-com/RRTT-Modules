@@ -34,10 +34,10 @@ class Game {
         ResourceManager *rM;
         Event *iM;
         
-        int fpsCounter;
-        int iaSpeed;
-        int fps;
-        int iaps;
+        Time *clock;
+        
+        float currentTime;
+        float deltaTime;
         
     protected:
         Game(); //: game(&intro) {}

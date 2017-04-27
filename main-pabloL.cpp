@@ -4,11 +4,9 @@
 
 using namespace std;
 
-
 int main(int argc, char** argv) {
     
     Game *game = Game::Instance();
-    Time *clock = new Time(1.0f/game->iaSpeed);
     game->Init();
     clock->start();
     game->window->setFramerateLimit(30);

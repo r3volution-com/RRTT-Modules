@@ -12,7 +12,6 @@ Game* Game::Instance(){
 }
 
 Game::Game(){
-    
     screenSize = new Coordinate(1280, 720);
     window = new sf::RenderWindow(sf::VideoMode(screenSize->x, screenSize->y), "Rath's Revenge: The Twisted Timeline");
     
@@ -21,10 +20,8 @@ Game::Game(){
     level = new LevelState();
     game = intro;
     
-    iaSpeed = 15;
-    fps = 60;
-    iaps = fps/iaSpeed;
-    fpsTimer = new Time(1);
+    clock = new Time(1.0f/game->iaSpeed);
+    deltaTime = 0;
     
     rM = new ResourceManager();
     
@@ -35,6 +32,7 @@ void Game::Init(){
     fpsTimer->start();
     iM->addAction("close", thor::Action(sf::Keyboard::Escape, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
     game->Init();
+    fpsTimer->start();
 }
 
 void Game::Input(){
@@ -52,20 +50,14 @@ void Game::Update(){
 }
 
 void Game::Render(){
-    fpsCounter++;
-    if (fpsTimer->isExpired()){
-        fps = fpsCounter;
-        iaps = fps/iaSpeed;
-        fpsCounter = 0;
-        fpsTimer->restart();
-    }
+    deltaTime = fpsTimer->getTime()-currentTime;
+    currentTime = fpsTimer->getTime();
     
     window->clear();
     
     game->Render();
     
     window->display();
-    
 }
 
 void Game::ChangeCurrentState(const std::string &state){
