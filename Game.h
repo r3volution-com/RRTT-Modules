@@ -34,10 +34,15 @@ class Game {
         ResourceManager *rM;
         Event *iM;
         
-        int fpsCounter;
-        int iaSpeed;
+        Time *iaTimer;
+        int iaPS;
         int fps;
-        int iaps;
+        int fpsCounter;
+        
+        float maxTime;
+        float currentTime;
+        float deltaTime;
+        float interpolation;
         
     protected:
         Game(); //: game(&intro) {}

@@ -44,23 +44,20 @@ void InterpolatedCoordinate::move(Coordinate newCoord){
 }
 
 bool InterpolatedCoordinate::areEquals(float a, float b){
-    //cout << fabs(a - b) << " " << std::numeric_limits<float>::epsilon()*100<<"\n";
     return (fabs(a - b) < std::numeric_limits<float>::epsilon()*1000);
 }
 
 Coordinate InterpolatedCoordinate::getIC(){
-    //std::cout << act->x << " != " << next->x << " || "<< act->y << " != " << next->y<<"\n";
-    if (!areEquals(act->x, next->x) || !areEquals(act->y, next->y)){
-        //std::cout << "Entro \n";
-        float newx = act->x+((next->x-last->x)/Game::Instance()->iaps);
-        float newy = act->y+((next->y-last->y)/Game::Instance()->iaps);
-        act->setCoordinate(newx, newy);
-        
-    } 
+    //if (!areEquals(act->x, next->x) || !areEquals(act->y, next->y)){
+    //float newx = act->x+((next->x-last->x)/Game::Instance()->iaps);
+    //float newy = act->y+((next->y-last->y)/Game::Instance()->iaps);
+    
+    float newx = (act->x*(1-Game::Instance()->interpolation))+(next->x*Game::Instance()->interpolation);
+    float newy = (act->y*(1-Game::Instance()->interpolation))+(next->y*Game::Instance()->interpolation);
+    
+    //cout << newx << " " << newy << endl;
+    
+    act->setCoordinate(newx, newy);
+       
     return *act;
-    
-    
-    /*float x = act->x * Game::Instance()->iaSpeed + last->x * (1 - Game::Instance()->iaSpeed);
-    float y = act->y * Game::Instance()->iaSpeed + last->y * (1 - Game::Instance()->iaSpeed);
-    return Coordinate(x, y);*/
 }
