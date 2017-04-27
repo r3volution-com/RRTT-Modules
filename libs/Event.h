@@ -2,15 +2,16 @@
 #define INPUT_H
 
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include <Thor/Input.hpp>
 
-class Input {
+class Event {
     private:
         thor::ActionMap<std::string> map;
         thor::ActionMap<std::string>::CallbackSystem system;
     public:
-        Input();
-        virtual ~Input();
+        Event();
+        virtual ~Event();
         
         /**
          * Anade una accion
@@ -31,13 +32,7 @@ class Input {
          * Comprueba las acciones registradas
          * @param window: Ventana
          */
-        void update(sf::Window window);
-        
-        /**
-         * Invoca a todos los callbacks registrados
-         * @param window: Ventana
-         */
-        void callbacks(sf::Window window);
+        void update();
         
         /**
          * Comprueba si se esta pulsando esa combinacion de teclas

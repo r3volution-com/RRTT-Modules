@@ -22,13 +22,12 @@ void Player::setWeapon(Gun *wP){
 
 void Player::move(float xDir, float yDir){
     Entity::move(xDir, yDir);
-    if (weaponLoaded) weapon->setPosition(Entity::getCoordinate());
-    if (currentGun >= 0) guns->at(currentGun)->setPosition(Entity::getCoordinate());
+    //if (weaponLoaded) weapon->setPosition(Entity::getCoordinate());
+    //if (currentGun >= 0) guns->at(currentGun)->setPosition(Entity::getCoordinate());
 }
 
 void Player::addGun(Gun* gun){
-    gun->setPosition(Entity::getCoordinate());
-    //std::cout<<Entity::getCoordinate().x<< Entity::getCoordinate().y;
+    gun->setPosition(*Entity::getCoordinate());
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
@@ -58,21 +57,20 @@ void Player::gunAttack(){
 
 void Player::flash(float dirX, float dirY){
     Entity::move(flashRange*dirX, flashRange*dirY);
+    flashCooldown->restart();
 }
 
 void Player::die(){
     Entity::getAnimation()->changeAnimation("die",false);
 }
 
-void Player::respawn(){
+void Player::respawn(Coordinate coor){
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
-    Entity::setPosition(500.0, 100.0); //ToDo pabloL: Sacar la posicion del Singleton
+    Entity::setPosition(coor.x, coor.y); 
 }
 
 void Player::setFlashCooldown(Time *cooldown){ 
-    //ToDo pabloL, sincronizar con el timer de HUD y hacer la otra funcion para añadir el tiempo actual del flash (que el hud saque la info de aqui)
-    //ToDo pabloL, los datos de flash de aqui y el HUD se envian desde el main. De main a ambos
     flashCooldown = cooldown;
 }
 

@@ -46,7 +46,7 @@ class Button {
          * Dibuja el boton en la ventana actual
          * @param window: Puntero que hace referencia a la ventana actual
          */
-        void draw(sf::RenderWindow *window);
+        void draw();
         
         Sprite *getSprite() {return buttonLayout;}
         

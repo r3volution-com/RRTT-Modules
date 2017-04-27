@@ -18,7 +18,7 @@ class Animation {
         thor::AnimationMap<sf::Sprite, std::string> *animations;
         thor::Animator<sf::Sprite, std::string> *animator;
     public:
-        Animation(Texture *t, Rect<float> *tRect);
+        Animation(Texture *t, Rect<float> tRect);
         virtual ~Animation();
         
         void addAnimation(std::string name, Coordinate clipCoord, int nSprites, float duration);

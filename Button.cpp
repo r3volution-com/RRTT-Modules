@@ -1,4 +1,5 @@
 #include "Button.h"
+#include "Game.h"
 
 Button::Button(Coordinate pos, Texture *bL, Rect<float> textureRect) {
     buttonLayout = new Sprite(bL, textureRect);
@@ -36,7 +37,7 @@ void Button::hover(Hitbox *mouse){
     }
 }
 
-void Button::draw(sf::RenderWindow *window){
-    window->draw(*buttonLayout->getSprite());
-    window->draw(*text->getText());
+void Button::draw(){
+    Game::Instance()->window->draw(*buttonLayout->getSprite());
+    Game::Instance()->window->draw(*text->getText());
 }

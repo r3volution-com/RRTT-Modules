@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "libs/Time.h"
 #include "libs/Animation.h"
 #include "libs/Hitbox.h"
 #include "Bullet.h"
@@ -15,6 +16,7 @@ class Gun {
         
         bool active;
         
+        Time *gunCooldown;
         int damage;
         
         float attackCooldown;
@@ -26,12 +28,15 @@ class Gun {
          * @param animRect: Zona de animacion del arma
          * @param tex: Textura del arma
          */
-        Gun(Coordinate position, Rect<float> *animRect, Texture *tex);
+        Gun(Coordinate position, Rect<float> animRect, Texture *tex);
         virtual ~Gun();
         
         /**
          * Metodo para realizar ataque
          */
+        
+        void setGunCooldown(Time *gc);
+        
         void doAttack();
         
         /**

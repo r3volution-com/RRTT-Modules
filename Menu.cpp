@@ -1,7 +1,8 @@
 #include "Menu.h"
+#include "Game.h"
 
 Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons) {
-    background = new Sprite(bg, Rect<float>(0, 0, 1280, 720)); //ToDo Sergio: tamaño sale del singleton
+    background = new Sprite(bg, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
     buttonTextureRect = tRect;
     buttonLayout = bLayout;
     buttonFont = bFont;
@@ -11,15 +12,11 @@ Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int n
 
 Menu::~Menu() {
     delete background;
-    //delete buttonLayout;
     delete buttonTextureRect;
     delete buttons; 
-    delete buttonFont;
     background = NULL;
-    //buttonLayout = NULL;
     buttonTextureRect = NULL;
     buttons = NULL;
-    buttonFont = NULL;
 }
 
 bool Menu::addButton(Coordinate position, std::string text, sf::Color color, sf::Color outlineColor, int size){
@@ -43,9 +40,9 @@ int Menu::checkClicks() {
     return -1;
 }
 
-void Menu::drawMenu(sf::RenderWindow *window){
-    window->draw(*background->getSprite());
+void Menu::drawMenu(){
+    Game::Instance()->window->draw(*background->getSprite());
     for (int i = 0; i<buttons->size(); i++){
-        buttons->at(i)->draw(window);
+        buttons->at(i)->draw();
     }  
 }

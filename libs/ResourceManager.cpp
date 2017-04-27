@@ -13,15 +13,15 @@ ResourceManager::~ResourceManager() {
 }
         
 thor::ResourceLoader<Texture> loadT(const char* filename) {
-     return thor::ResourceLoader<Texture>(
-          [=] () { return std::unique_ptr<Texture>(new Texture(filename)); },
-          filename);
+    return thor::ResourceLoader<Texture>([=] () { 
+        return std::unique_ptr<Texture>(new Texture(filename));
+    }, filename);
 }
 
 thor::ResourceLoader<Font> loadF(const char* filename) {
-     return thor::ResourceLoader<Font>(
-          [=] () { return std::unique_ptr<Font>(new Font(filename)); },
-          filename);
+    return thor::ResourceLoader<Font>([=] () { 
+        return std::unique_ptr<Font>(new Font(filename)); 
+    },filename);
 }
 
 void ResourceManager::loadTexture(std::string name, const char* path) {

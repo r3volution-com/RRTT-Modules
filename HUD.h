@@ -15,7 +15,7 @@
 #include "libs/Text.h"
 
 class HUD {
-    private:
+    private:        
         Sprite *background;
         Sprite *hud;
         std::vector<Sprite*> *guns;
@@ -26,6 +26,8 @@ class HUD {
         Sprite *flash;
         Sprite *flashCooldown;
         Sprite *die;
+        
+        Texture *tex;
         
         Time *clockFlash; 
         Time *clockFirstGun; 
@@ -39,10 +41,6 @@ class HUD {
         Text *lifePlayerText;
         
         Button *buttonDie;
-        
-        bool firstGunUsed;
-        bool secondGunUsed;
-        bool flashUsed;
         
         float timeFlash;
         float firstGunCooldown;
@@ -60,6 +58,7 @@ class HUD {
         bool gunsModuleEnabled;
         bool dieModuleEnabled;
         bool textModuleEnabled;
+        bool bossModuleEnable;
         
     public:
         /**
@@ -70,21 +69,21 @@ class HUD {
          * @param f: Fuente del texto (puntero)
          * @param cF: Tiempo del flash (tipo time)
          */
-        HUD(Texture *bTex, Texture *hTex, Texture *lTex, Font *f, Time *cF);
+        HUD(Texture *hTex, Texture *lTex, Rect<float> lRect, Font *f, Time *cF);
         virtual ~HUD();
         
         /**
          * Actualizar sprites de las armas
          * @param tex: Textura de las armas (puntero)
          */
-        void setSpriteGuns(Texture *tex);
+        void setGuns(Rect<float> rect, Time *g1, Time *g2);
         
         /**
          * Actualizar los sprites del flash
          * @param tFlash: Textura del flash (puntero)
          * @param tCooldown: Textura del tiempo de cooldown (puntero)
          */
-        void setFlashSprites(Texture *tFlash, Texture *tCooldown);
+        void setFlash(Rect<float> rect, Time *f);
         
         /**
          * Sprite de muerte
@@ -99,6 +98,8 @@ class HUD {
          * @param tTex: Textura de la capa de texto
          */
         void setTextLayer(Coordinate coord, Rect<float> tRect, Texture *tTex);
+        
+        void setBossLife(Rect<float> tRect);
         
         /**
          * Actualiza el texto que muestra el npc
@@ -167,23 +168,7 @@ class HUD {
          */
         void changeLifeBoss(int life);
         
-        /**
-         * Cambia el cooldown del flash
-         * @param cooldown: Tiempo de cooldown (tipo int)
-         */
-        void changeFlashCooldown(int cooldown);
         
-        /**
-         * Cambia el cooldown del arma principal
-         * @param cooldown: Cooldown del arma principal (tipo int)
-         */
-        void changeFirstGunCooldown(int cooldown);
-        
-        /**
-         * Cambia el cooldown del arma secundaria
-         * @param cooldown: Cooldown del arma secundaria (tipo int)
-         */
-        void changeSecondGunCooldown(int cooldown);
         
         /*std::vector<Sprite*> getSpriteGunsOn(){return guns;}
         std::vector<Sprite*> getSpriteGunsOff(){return gunsOff;}
@@ -196,55 +181,55 @@ class HUD {
          * @param window: Ventana en la que dibujar
          * @return 
          */
-        bool drawHUD(sf::RenderWindow *window);
+        bool drawHUD();
         
         /**
          * Dibuja el arma
          * @param window: Ventana en la que dibujar
          */
-        void drawGun(sf::RenderWindow *window);
+        void drawGun();
         
         /**
          * Dibuja la vida del jugador
          * @param window: Ventana en la que dibujar
          */
-        void drawPlayerHP(sf::RenderWindow *window);
+        void drawPlayerHP();
         
         /**
          * Dibuja la vida del boss
          * @param window: Ventana en la que dibujar
          */
-        void drawBossHP(sf::RenderWindow *window);
+        void drawBossHP();
         
         /**
          * Dibuja el flash
          * @param window: Ventana en la que dibujar
          */
-        void drawFlash(sf::RenderWindow *window);
+        void drawFlash();
         
         /**
          * Dibuja la capa de texto
          * @param window: Ventana en la que dibujar
          */
-        void drawTextLayer(sf::RenderWindow *window);
+        void drawTextLayer();
         
         /**
          * Dibuja el enfriamiento del flash
          * @param window: Ventana en la que dibujar
          */
-        void drawFlashCooldown(sf::RenderWindow *window);
+        void drawFlashCooldown();
         
         /**
          * Dibuja el enfriamiento del arma 
          * @param window: Ventana en la que dibujar
          */
-        void drawGunCooldown(sf::RenderWindow *window);
+        void drawGunCooldown();
         
         /**
          * Dibuja la muerte del personaje
          * @param window: Ventana en la que dibujar
          */
-        void drawDie(sf::RenderWindow *window);
+        void drawDie();
         
         /**
          * Comprueba si el personaje esta muerto

@@ -99,7 +99,38 @@ void Time::restart(){
         default: break;
     }
 }
-
+void Time::reset(float newTime){
+    switch(type){
+        case 0:
+            clock->reset();
+        break;
+        case 1:
+            timer->reset(sf::seconds(newTime));
+            timerTime = newTime;
+        break;
+        case 2:
+            cTimer->reset(sf::seconds(newTime));
+            timerTime = newTime;
+        break;
+        default: break;
+    }
+}
+void Time::restart(float newTime){
+    switch(type){
+        case 0:
+            clock->restart();
+        break;
+        case 1:
+            timer->restart(sf::seconds(newTime));
+            timerTime = newTime;
+        break;
+        case 2:
+            cTimer->restart(sf::seconds(newTime));
+            timerTime = newTime;
+        break;
+        default: break;
+    }
+}
 float Time::getTime(){
     switch(type){
         case 0:
