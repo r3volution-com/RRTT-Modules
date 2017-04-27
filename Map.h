@@ -3,6 +3,7 @@
 
 #include "tinyxml2/tinyxml2.h"
 #include "libs/Sprite.h"
+#include "Enemy.h"
 
 using namespace tinyxml2;
 
@@ -47,6 +48,9 @@ class Map {
         
         //Hacemos el draw del mapa y lo mostramos por pantalla
         void dibujarMapa(sf::RenderWindow *window);
+        
+        //Acceder al gid del tile en el que se encuentra el enemigo.
+        int getGid(Enemy *enemy, int id1, int id2);
 };
 
 #endif /* MAP_H */

@@ -14,10 +14,10 @@ using namespace tinyxml2;
 int main(int argc, char *argv[]) {
 
     sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode(1400, 900), "RRTT: Map Test");
-    
+    sf::View view(sf::FloatRect(0,0,4096,4096));
     //INICIO PRUEBAS
     
-    Map *mapa = new Map("resources/bosque2.tmx");
+    Map *mapa = new Map("resources/bosque.tmx");
            
     cout << "0-> No ha habido errores cargando el mapa: " << mapa->doc.ErrorID() << "\n";
     
@@ -67,6 +67,7 @@ int main(int argc, char *argv[]) {
         //mapa->setActiveLayer(3);
         
         //Llamamos a dibujarMapa
+        window->setView(view);
         mapa->dibujarMapa(window);
         
         window->display();

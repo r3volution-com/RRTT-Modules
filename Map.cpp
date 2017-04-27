@@ -76,9 +76,9 @@ void Map::dataTiles(){
 
 void Map::matrizSprites(){
     
-    Texture *_tilesetTexture = new Texture("resources/oj.png");
+    Texture *_tilesetTexture = new Texture("resources/oj2.png");
     
-    Rect <float> *medidas = new Rect <float> (0, 0, 32, 32);
+    Rect <float> *medidas = new Rect <float> (0, 0, 128, 128);
     
     _tilemapSprite = new Sprite***[_numLayers];
     
@@ -100,7 +100,7 @@ void Map::matrizSprites(){
                     newX = NewCoordX(gid);
                     newY = NewCoordY(gid);
 
-                    medidas->setRect(newX-32, newY, 32, 32);
+                    medidas->setRect(newX-128, newY, 128, 128);
                     //Si fuera 0 no creo sprite...
                     
                     //Obtener getTextureRect de un vector/matriz de sprites donde cada sprite este asociado con su identificador de gid
@@ -128,9 +128,9 @@ int Map::NewCoordX(int gid){
     }
 
     if(newX>0){
-        newX = 32*(gid-(newX*64)); 
+        newX = 128*(gid-(newX*64)); 
     }else{
-        newX = (gid*32);
+        newX = (gid*128);
     }
     
     return newX;
@@ -140,10 +140,10 @@ int Map::NewCoordY(int gid){
     
     int newY;
     
-    newY = (gid/64)*32;
+    newY = (gid/64)*128;
                     
     if(gid%64==0){
-        newY = newY-32;
+        newY = newY-128;
     }
     
     return newY;
@@ -187,4 +187,24 @@ void Map::dibujarMapa(sf::RenderWindow *window){
             }
         }
     }
+}
+
+int Map::getGid(Enemy *enemy, int id1, int id2){
+    
+    //Obtenemos las coordenadas del enemigo
+    Coordinate* coord = new Coordinate (enemy->getCoordinate()->x, enemy->getCoordinate()->y);
+    
+    //Acceder al gid del tile mediante las coord del enemigo
+    // if _tilemapSprite[l][x][y] equals coord
+    
+    for(int l=0; l<_numLayers; l++){
+        for(int y=0; y<_height; y++){
+            for(int x=0; x<_width; x++){
+                //Vamos comparando
+            }
+        }
+    }
+    
+    return 0;
+    
 }
