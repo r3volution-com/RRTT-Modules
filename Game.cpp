@@ -18,7 +18,7 @@ Game::Game(){
     intro = new IntroState();
     menu = new MenuState();
     level = new LevelState();
-    game = intro;
+    game = level;
     
     clock = new Time(1.0f/game->iaSpeed);
     deltaTime = 0;

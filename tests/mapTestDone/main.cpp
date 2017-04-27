@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     
     //INICIO PRUEBAS
     
-    Map *mapa = new Map("resources/bosque.tmx");
+    Map *mapa = new Map("resources/test.tmx");
            
     cout << "0-> No ha habido errores cargando el mapa: " << mapa->doc.ErrorID() << "\n";
     
@@ -29,6 +29,49 @@ int main(int argc, char *argv[]) {
     cout << "Nombre de la imagen tileset: " << mapa->filename << "\n";
     
     cout << "Numero de capas: " << mapa->_numLayers << "\n";
+    
+        while (window->isOpen()) {
+        //Bucle de obtención de eventos
+        sf::Event event;
+        while (window->pollEvent(event)) {
+            switch(event.type) {
+                //Si se recibe el evento de cerrar la ventana la cierro
+                case sf::Event::Closed:
+                    window->close();
+                    break;
+                case sf::Event::MouseWheelMoved:
+                    break;
+                case sf::Event::KeyPressed:
+                    //Verifico si se pulsa alguna tecla de movimiento
+                    switch(event.key.code) {
+                        //Tecla ESC para salir
+                        case sf::Keyboard::Escape:
+                            window->close();
+                        break;
+                        default:
+                        break;
+                    }
+                break;
+                default: break;
+            }
+        }
+    
+        //Seleccionamos la capa activa
+
+        //Dibujando el mapa por pantalla (primera capa)
+    
+        window->clear();
+        
+        //Seleccionamos capa a mostrar, en caso de no elegir ninguna 
+        //no hariamos la llamada y mostrariamos todo el mapa
+        //mapa->setActiveLayer(3);
+        
+        //Llamamos a dibujarMapa
+        mapa->dibujarMapa(window);
+        
+        window->display();
+
+    }
     
     /*XMLDocument doc;
     doc.LoadFile( "resources/bosque.tmx" );

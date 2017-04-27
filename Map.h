@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "tinyxml2/tinyxml2.h"
+#include "libs/Sprite.h"
 
 using namespace tinyxml2;
 
@@ -13,13 +14,17 @@ class Map {
         XMLElement *layer;
         XMLElement **data;
         XMLElement *capas;
-        int ***_tilemap;
+        int ***_tilemap;        
         
     public:
         XMLDocument doc;
         int _width, _height, _tileWidth, _tileHeight;
         const char *filename;
         int _numLayers;
+        int _activeLayer;
+        //Para saber si mostrar todo el mapa o solo una capa
+        bool todo=true;
+        Sprite ****_tilemapSprite;
         
         Map(const char* ruta); //ToDo: Sergio map
         
@@ -27,12 +32,21 @@ class Map {
         //todas las etiquetas tile
         void dataTiles();
         
+        //Hacer matriz de sprites (_tilesetSprite) 3D en la que a la hora de crear 
+        //el sprite se mustiplicase el rect por el gid al que pertenece
+        void matrizSprites();
+        
         //Obtenemos nueva coordenada X para el sprite del tile
         int NewCoordX(int gid);
         //Obtenemos nueva coordenada Y para el sprite del tile
         int NewCoordY(int gid);
-        //Numero de capas que tiene el mapa
-        void setNumLayers(int _numlayers);
+        
+        //Seleccionar capa a mostrar, en caso de pasarle por parametro un número superior
+        //al numero de capas almacenadas, se mostrará por defecto la capa 0
+        void setActiveLayer(int layer);
+        
+        //Hacemos el draw del mapa y lo mostramos por pantalla
+        void dibujarMapa(sf::RenderWindow *window);
 };
 
 #endif /* MAP_H */

@@ -2,6 +2,8 @@
 #define ENEMY_H
 
 #include "Entity.h"
+#include "libs/Animation.h"
+#include "libs/Time.h"
 
 class Enemy : public Entity{
     private:
@@ -10,7 +12,7 @@ class Enemy : public Entity{
         int maxHP;
         int dmg; //daño que hace
         int flashRange;
-        void die();
+        Time *flashCooldown;
         
     public: 
         /**
@@ -49,8 +51,15 @@ class Enemy : public Entity{
          */
         void damage(int dm);
         
+        void move(float xDir, float yDir);
+        
+        void die();
+        
+        void setFlashCooldown(Time *cooldown);
+        
         int getHP() {return hp; }
         int getMaxHP() { return maxHP; }
+        Time *getFlashCooldown() { return flashCooldown;}
         
 };
 

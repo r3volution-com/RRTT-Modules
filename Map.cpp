@@ -54,6 +54,11 @@ Map::Map(const char* ruta) {
         }
     }
     
+    //Creamos el array de rects
+    
+    //Creamos el array de sprites
+    matrizSprites();
+    
 }
 
 void Map::dataTiles(){
@@ -69,16 +74,113 @@ void Map::dataTiles(){
     
 }
 
+void Map::matrizSprites(){
+    
+    Texture *_tilesetTexture = new Texture("resources/oj.png");
+    
+    Rect <float> *medidas = new Rect <float> (0, 0, 32, 32);
+    
+    _tilemapSprite = new Sprite***[_numLayers];
+    
+    //Rellenando el array de sprites
+    
+    for(int l=0; l<_numLayers; l++){
+        _tilemapSprite[l] = new Sprite**[_height];
+        for(int y=0; y<_height; y++){
+            _tilemapSprite[l][y] = new Sprite*[_width];
+            for(int x=0; x<_width; x++){
+                int gid = _tilemap[l][y][x];               
+                    
+                if(gid>0){
+                    Coordinate* coord = new Coordinate (x*_tileWidth, y*_tileHeight);
+                    
+                    int newX, newY;                    
+                    
+                    //Obtenemos nueva coordenada x e y del rect medidas
+                    newX = NewCoordX(gid);
+                    newY = NewCoordY(gid);
+
+                    medidas->setRect(newX-32, newY, 32, 32);
+                    //Si fuera 0 no creo sprite...
+                    
+                    //Obtener getTextureRect de un vector/matriz de sprites donde cada sprite este asociado con su identificador de gid
+                    //Es decir el gid/sprite 79 estara en las cordenadas 64, 64, 64, 64 (por ejemplo)
+                    //Entonces a la hora de crear el mapa dependiendo del gid le pasariamos un rect float u otro, no siempre el mismo (como estoy haciendo ahora)
+                    _tilemapSprite[l][y][x] = new Sprite(_tilesetTexture, 
+                            *medidas);
+                    
+                    _tilemapSprite[l][y][x]->setPosition(*coord);
+                    
+                }else{             
+                    _tilemapSprite[l][y][x] = NULL;
+                }
+            }
+        }
+    }
+}
+
 int Map::NewCoordX(int gid){
     
+    int newX = (gid/64);
+                    
+    if(gid%64==0){
+        newX = newX-1;
+    }
+
+    if(newX>0){
+        newX = 32*(gid-(newX*64)); 
+    }
     
-    
+    return newX;
 }
 
 int Map::NewCoordY(int gid){
     
+    int newY = (gid/64)*32;
+                    
+    if(gid%64==0){
+        newY = newY-32;
+    }
+    
+    return newY;
 }
 
-void Map::setNumLayers(int _numlayers){
+void Map::setActiveLayer(int layer){
     
+    todo = false;
+    
+    if(_numLayers>layer){
+        _activeLayer = layer;
+    }else{
+        _activeLayer = 0;
+    }
+}
+
+void Map::dibujarMapa(sf::RenderWindow *window){
+     
+    if(todo==false){
+        //Se muestra solo la capa seleccionada
+        for(int y=0; y<_height; y++){
+            for(int x=0; x<_width; x++){
+                if(_tilemapSprite[_activeLayer][y][x]!=NULL){
+                    //Dibujamos todas las capas
+                    //Haciendo un metodo activeLayer podriamos elegir una sola capa
+                    window->draw(*_tilemapSprite[_activeLayer][y][x]->getSprite());
+                }
+            }
+        }
+    }else{
+        //Se muestra todo el mapa
+        for(int l=0; l<_numLayers; l++){
+            for(int y=0; y<_height; y++){
+                for(int x=0; x<_width; x++){
+                    if(_tilemapSprite[l][y][x]!=NULL){
+                        //Dibujamos todas las capas
+                        //Haciendo un metodo activeLayer podriamos elegir una sola capa
+                        window->draw(*_tilemapSprite[l][y][x]->getSprite());
+                    }
+                }
+            }
+        }
+    }
 }
