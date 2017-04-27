@@ -22,13 +22,18 @@ void LevelState::Init(){
     Game::Instance()->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
     Game::Instance()->iM->addAction("player-left", thor::Action(sf::Keyboard::Left));
     Game::Instance()->iM->addAction("player-Lclick", thor::Action(sf::Mouse::Left));
+    
+    Game::Instance()->iM->addAction("player-up-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Up));
+    Game::Instance()->iM->addAction("player-up-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Up));
+    Game::Instance()->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
+    Game::Instance()->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
 }
 
 void LevelState::Update(){
 }
 
 void LevelState::Input(){
-    if (Game::Instance()->iM->isActive("player-up")){ 
+    /*if (Game::Instance()->iM->isActive("player-up")){ 
         rath->move(0,-1);
         if(direcNow!='u'){
                 rath->getAnimation()->changeAnimation("correrArriba", false);
@@ -72,12 +77,16 @@ void LevelState::Input(){
     if (Game::Instance()->iM->isActive("player-Lclick")){
         
     }
+    */
     
-    
-    if (Game::Instance()->iM->isActive("player-up") && Game::Instance()->iM->isActive("player-left")) rath->move(-1,-1);
+    /*if (Game::Instance()->iM->isActive("player-up") && Game::Instance()->iM->isActive("player-left")) rath->move(-1,-1);
     if (Game::Instance()->iM->isActive("player-up") && Game::Instance()->iM->isActive("player-right")) rath->move(1,-1);
     if (Game::Instance()->iM->isActive("player-down") && Game::Instance()->iM->isActive("player-left")) rath->move(-1,1);
-    if (Game::Instance()->iM->isActive("player-down") && Game::Instance()->iM->isActive("player-right")) rath->move(1,1);
+    if (Game::Instance()->iM->isActive("player-down") && Game::Instance()->iM->isActive("player-right")) rath->move(1,1);*/
+    if(Game::Instance()->iM->isActive("player-up-left")) rath->move(-1,-1);
+    if(Game::Instance()->iM->isActive("player-up-right")) rath->move(1,-1);
+    if(Game::Instance()->iM->isActive("player-down-left")) rath->move(-1,1);
+    if(Game::Instance()->iM->isActive("player-down-right")) rath->move(1,1);
 }
 
 void LevelState::Render(){
