@@ -18,10 +18,18 @@ Game::Game(){
     intro = new IntroState();
     menu = new MenuState();
     level = new LevelState();
-    game = level;
+    game = level; //ToDo: Cambiar
     
-    clock = new Time(1.0f/game->iaSpeed);
+    fpsTimer = new Time(1);
+    fps = 60;
+    fpsCounter = 0;
+    
+    iaPS = 15;
+    maxTime = 1.0f/iaPS;
+    iaTimer = new Time(maxTime);
     deltaTime = 0;
+    currentTime = 1.0f/iaPS;
+    interpolation = 0;
     
     rM = new ResourceManager();
     
@@ -29,29 +37,36 @@ Game::Game(){
 }
 
 void Game::Init(){
-    fpsTimer->start();
     iM->addAction("close", thor::Action(sf::Keyboard::Escape, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
     game->Init();
     fpsTimer->start();
+    iaTimer->start();
 }
 
 void Game::Input(){
-    
     if (iM->isActive("close")) Game::Instance()->window->close();
     game->Input();
-    
 }
 
 void Game::Update(){
-    
     iM->update();
     game->Update();
-    
 }
 
 void Game::Render(){
-    deltaTime = fpsTimer->getTime()-currentTime;
-    currentTime = fpsTimer->getTime();
+    deltaTime = currentTime-iaTimer->getTime();
+    currentTime = iaTimer->getTime();
+    interpolation = currentTime / maxTime;
+    
+    fpsCounter++;
+    if (fpsTimer->isExpired()){
+        fps = fpsCounter;
+        fpsCounter = 0;
+        fpsTimer->restart();
+    }
+    
+    //cout << "RenderTime: " << currentTime << endl;
+    //cout << "DeltaTime: " << deltaTime << endl;
     
     window->clear();
     
