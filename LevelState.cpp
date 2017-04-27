@@ -22,7 +22,6 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
-    rath->getAnimation()->updateAnimator();
 }
 
 void LevelState::Input(){
@@ -34,6 +33,8 @@ void LevelState::Input(){
 
 void LevelState::Render(){
     Coordinate inc(rath->getState()->getIC());
+    //cout << inc;
+    rath->getAnimation()->updateAnimator();
     rath->setPosition(inc.x, inc.y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
 }

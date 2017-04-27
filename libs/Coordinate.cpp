@@ -23,3 +23,12 @@ void Coordinate::setCoordinate(Coordinate coor){
 Coordinate::~Coordinate(){
     
 }
+
+bool Coordinate::operator == (const Coordinate &p) const {
+    return this->x == p.x && this->y == p.y;
+}
+
+/*std::ostream& operator << (std::ostream &o,const Coordinate &p) {
+    o << "(" << p.x << ", " << p.y << ")";
+    return o;
+} */

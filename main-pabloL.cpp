@@ -4,25 +4,19 @@
 
 using namespace std;
 
-
 int main(int argc, char** argv) {
-    
     Game *game = Game::Instance();
-    Time *clock = new Time(1.0f/game->iaSpeed);
     game->Init();
-    clock->start();
-    game->window->setFramerateLimit(60);
+    //game->window->setFramerateLimit(60);
     while (game->window->isOpen()) {
-        if(clock->isExpired() == true){
+        if(game->iaTimer->isExpired() == true){
             game->Input();
             game->Update();
-            clock->restart();
+            game->iaTimer->restart();
+            game->currentTime = 1.0f/game->iaPS;
         }
-    
         game->Render();
-    
-    }    
-    
+    }
     return 0;
 }
 
