@@ -31,6 +31,7 @@ int main(int argc, char** argv) {
     
     
     bool mov = true;
+    bool ata = true;
     Texture *text = new Texture("resources/sprites.png");
     Player *rath = new Player(Coordinate(320, 240), text,Rect<float> (0, 0, 128, 128), 1.0f);
     //Gun *scytheArm = new Gun(new Coordinate(320, 240 ),new Rect<float>(0 ,512, 128 ,128), text, 1, 0.5f);
@@ -126,22 +127,25 @@ int main(int argc, char** argv) {
                 //derecha BIEN
                 rath->weaponAttack();
                 rath->getAnimation()->changeAnimation("ataqueDerecha", true);
-                mov=true;
+                ata=true;
             }
             if(mouseAng<225 && mouseAng>135){
                 //arriba BIEN
                 rath->weaponAttack();
                 rath->getAnimation()->changeAnimation("ataqueArriba", true);
+                ata=true;
             }
             if(mouseAng<135 && mouseAng>45){
                 //izquierda BIEN
                 rath->weaponAttack();
                 rath->getAnimation()->changeAnimation("ataqueIzquierda", true);
+                ata=true;
             }
             if(mouseAng<45 || mouseAng>315){
                 //abajo BIEN
                 rath->weaponAttack();
                 rath->getAnimation()->changeAnimation("ataqueAbajo", true);
+                ata=true;
             }
         }
         
@@ -197,6 +201,11 @@ int main(int argc, char** argv) {
                 && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& mov==true){
             rath->getAnimation()->changeAnimation("idle", false);
             mov=false;
+            direcNow='i';
+        }
+        if(ata==true){
+            rath->getAnimation()->queueAnimation("idle", false);
+            ata=false;
         }
         
         rath->getAnimation()->updateAnimator();
