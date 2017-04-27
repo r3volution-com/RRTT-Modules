@@ -72,6 +72,12 @@ void LevelState::Input(){
     if (Game::Instance()->iM->isActive("player-Lclick")){
         
     }
+    
+    
+    if (Game::Instance()->iM->isActive("player-up") && Game::Instance()->iM->isActive("player-left")) rath->move(-1,-1);
+    if (Game::Instance()->iM->isActive("player-up") && Game::Instance()->iM->isActive("player-right")) rath->move(1,-1);
+    if (Game::Instance()->iM->isActive("player-down") && Game::Instance()->iM->isActive("player-left")) rath->move(-1,1);
+    if (Game::Instance()->iM->isActive("player-down") && Game::Instance()->iM->isActive("player-right")) rath->move(1,1);
 }
 
 void LevelState::Render(){
