@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
     Texture *text = new Texture("resources/sprites.png");
     Player *rath = new Player(Coordinate(320, 240), text,Rect<float> (0, 0, 128, 128), 1.0f);
     //Gun *scytheArm = new Gun(new Coordinate(320, 240 ),new Rect<float>(0 ,512, 128 ,128), text, 1, 0.5f);
-    Gun *gunArm = new Gun(Coordinate(300, 220), new Rect<float> (0, 640, 128, 128), text);
+    Gun *gunArm = new Gun(Coordinate(300, 220), Rect<float> (0, 640, 128, 128), text);
     gunArm->getAnimation()->setOrigin(Coordinate(90,50));
     Enemy *enemy = new Enemy(Coordinate(600, 240), text, Rect<float> (0, 0, 128, 128), 1.0f);
     
