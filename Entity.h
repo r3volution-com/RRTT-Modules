@@ -10,7 +10,7 @@ class Entity {
         InterpolatedCoordinate *coor;
         Hitbox *hitbox;
         Animation *anim;
-        
+        Coordinate *initial;
         float speed;
     public:
         /**
@@ -57,6 +57,7 @@ class Entity {
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return anim; }
         float getSpeed() { return speed; }
+        Coordinate *getInitialCoordinate() { return initial;}
 };
 
 #endif /* Entity_H */

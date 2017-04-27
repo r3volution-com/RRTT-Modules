@@ -2,8 +2,10 @@
 #define ENEMY_H
 
 #include "Entity.h"
+#include "Player.h"
 #include "libs/Animation.h"
 #include "libs/Time.h"
+#include "libs/Trigonometry.h"
 
 class Enemy : public Entity{
     private:
@@ -13,6 +15,8 @@ class Enemy : public Entity{
         int dmg; //daño que hace
         int flashRange;
         Time *flashCooldown;
+        Trigonometry *tri;
+
         
     public: 
         /**
@@ -61,6 +65,7 @@ class Enemy : public Entity{
         int getMaxHP() { return maxHP; }
         Time *getFlashCooldown() { return flashCooldown;}
         
+        void AI(Player *rath);
 };
 
 #endif /* ENEMY_H */
