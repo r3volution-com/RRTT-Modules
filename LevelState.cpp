@@ -33,7 +33,7 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
-    /*if (Game::Instance()->iM->isActive("player-up")){ 
+    if (Game::Instance()->iM->isActive("player-up")){ 
         rath->move(0,-1);
         if(direcNow!='u'){
                 rath->getAnimation()->changeAnimation("correrArriba", false);
@@ -77,12 +77,7 @@ void LevelState::Input(){
     if (Game::Instance()->iM->isActive("player-Lclick")){
         
     }
-    */
     
-    /*if (Game::Instance()->iM->isActive("player-up") && Game::Instance()->iM->isActive("player-left")) rath->move(-1,-1);
-    if (Game::Instance()->iM->isActive("player-up") && Game::Instance()->iM->isActive("player-right")) rath->move(1,-1);
-    if (Game::Instance()->iM->isActive("player-down") && Game::Instance()->iM->isActive("player-left")) rath->move(-1,1);
-    if (Game::Instance()->iM->isActive("player-down") && Game::Instance()->iM->isActive("player-right")) rath->move(1,1);*/
     if(Game::Instance()->iM->isActive("player-up-left")) rath->move(-1,-1);
     if(Game::Instance()->iM->isActive("player-up-right")) rath->move(1,-1);
     if(Game::Instance()->iM->isActive("player-down-left")) rath->move(-1,1);
