@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
     //Gun *scytheArm = new Gun(new Coordinate(320, 240 ),new Rect<float>(0 ,512, 128 ,128), text, 1, 0.5f);
     Gun *gunArm = new Gun(Coordinate(300, 220), Rect<float> (0, 640, 128, 128), text);
     gunArm->getAnimation()->setOrigin(Coordinate(90,50));
-    Enemy *enemy = new Enemy(Coordinate(600, 240), text, Rect<float> (0, 0, 128, 128), 1.0f);
+    Enemy *enemy = new Enemy(Coordinate(500, 240), text, Rect<float> (0, 0, 128, 128), 1.0f);
     
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
     rath->getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
@@ -91,12 +91,6 @@ int main(int argc, char** argv) {
         }
         mousePos[0]=sf::Mouse::getPosition(window).x-windowSize[0];
         mousePos[1]=(sf::Mouse::getPosition(window).y-windowSize[1])*-1;
-        //float hip = std::sqrt(mousePos[0]*mousePos[0]+mousePos[1]*mousePos[1]);
-        //float mouseAng = acos((mousePos[0]*mousePos[0]+hip*hip-mousePos[1]*mousePos[0])/(2*mousePos[0]*hip))*180/PI;
-        
-        //if(mouseAng<=90 || mouseAng>=270){
-        //gunArm->getAnimation()->changeSpriteRect(new Rect<float>(0, 640, 128, 128));
-        
         if(mousePos[0]>=0 && mousePos[1]>=0){
             mouseAng=atan(mousePos[0]/mousePos[1])*180/PI+180;    
             //derecha arriba
@@ -152,7 +146,7 @@ int main(int argc, char** argv) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
             rath->move(0, -1);
             if(direcNow!='u')
-            rath->getAnimation()->changeAnimation("correrArriba", false);
+                rath->getAnimation()->changeAnimation("correrArriba", false);
             direcNow='u';
             mov=true;
         }
