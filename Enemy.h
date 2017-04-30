@@ -15,7 +15,12 @@ class Enemy : public Entity{
         int dmg; //daño que hace
         int flashRange;
         Time *flashCooldown;
+        float maxFlashCooldown;
         Trigonometry *tri;
+        
+        Time *cd;
+        
+        bool home;
 
         
     public: 
@@ -64,7 +69,7 @@ class Enemy : public Entity{
         int getHP() {return hp; }
         int getMaxHP() { return maxHP; }
         Time *getFlashCooldown() { return flashCooldown;}
-        
+        void setType(int num) {type = num;}
         void AI(Player *rath);
 };
 
