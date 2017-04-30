@@ -21,6 +21,7 @@ class Enemy : public Entity{
         Time *cd;
         
         bool home;
+        int dmgHit;
 
         
     public: 
@@ -70,6 +71,7 @@ class Enemy : public Entity{
         int getMaxHP() { return maxHP; }
         Time *getFlashCooldown() { return flashCooldown;}
         void setType(int num) {type = num;}
+        void setDmgHit(int num) {dmgHit = num;}
         void AI(Player *rath);
 };
 

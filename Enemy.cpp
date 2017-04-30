@@ -14,7 +14,6 @@ Enemy::~Enemy() {
 }
 
 void Enemy::flash(float dirX, float dirY){
-    flashCooldown->start();
     if(flashCooldown->isExpired()){
         Entity::move(flashRange*dirX, flashRange*dirY);
         flashCooldown->restart();
@@ -37,6 +36,7 @@ void Enemy::move(float xDir, float yDir){
 void Enemy::setFlashCooldown(Time *cooldown){ 
     flashCooldown = cooldown;
     maxFlashCooldown = cooldown->getTime();
+    flashCooldown->start();
 }
 
 
@@ -47,29 +47,36 @@ void Enemy::AI(Player* rath){
     float distanceIni = tri->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
     Coordinate *dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());
     Coordinate *ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
-    srand (time(NULL));
-    int num = rand() % 3;
-    
-        std::cout<<distanceIni<<"\n";
     if(distance < 300){
+        
         if(distanceIni <= 500 && home == true){
-            Entity::setSpeed(3.0f);
+            Entity::setSpeed(4.0f);
             Entity::move(dir->x, dir->y);
             if(type == 2){
+                int num;
+                if(flashCooldown->isExpired()){
+                    srand (time(NULL));
+                    num = rand() % 3;
+                }else{
+                    num = 0;
+                }
                 if(num == 2){
-                    flash(dir->x, dir->y);  
+                    if(((Entity::getCoordinate()->x+dir->x*flashRange) < rath->getCoordinate()->x-128) || ((Entity::getCoordinate()->x+dir->x*flashRange) > rath->getCoordinate()->x+128)){
+                        if(((Entity::getCoordinate()->y+dir->y*flashRange) < rath->getCoordinate()->y-128) || ((Entity::getCoordinate()->y+dir->y*flashRange) > rath->getCoordinate()->y+128)){
+                            flash(dir->x, dir->y); 
+                        } 
+                    }
                 }
             }
             cd->start();
             if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
-                std::cout<<"pegando"<<"\n";
-                rath->damage(30);
+                rath->damage(dmgHit);
                 cd->restart();
             }
         }else if(distanceIni >= 500 || home == false){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni != 0){
-                Entity::setSpeed(5.0f);
+                Entity::setSpeed(7.0f);
                 Entity::move(ini->x, ini->y);
             }else{
                 home = true;
@@ -78,7 +85,7 @@ void Enemy::AI(Player* rath){
     }else if(distanceIni >= 500 || home == false){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni != 0){
-                Entity::setSpeed(5.0f);
+                Entity::setSpeed(7.0f);
                 Entity::move(ini->x, ini->y);
             }else{
                 home = true;
