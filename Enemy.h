@@ -71,7 +71,7 @@ class Enemy : public Entity{
         int getMaxHP() { return maxHP; }
         Time *getFlashCooldown() { return flashCooldown;}
         void setType(int num) {type = num;}
-        void setDmgHit(int num) {dmgHit = num;}
+        void setDmgHit(int num) {dmgHit = num; cd->start();}
         void AI(Player *rath);
 };
 
