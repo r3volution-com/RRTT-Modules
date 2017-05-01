@@ -16,8 +16,9 @@ public:
      * @param end: Coordenada final Tipo Coordinate
      * @return 
      */
-    float angle(Coordinate *initial, Coordinate *end);
+    float angle(Coordinate initial, Coordinate end);
     
+    float angleWindow(Coordinate end);
     /**
      * Calcula la distancia
      * @param initial: Distancia inicial, Tipo Coordinate

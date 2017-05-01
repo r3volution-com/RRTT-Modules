@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <SFML/Graphics/Rect.hpp>
+#include <iostream>
 
 template <class T>
 class Rect {
