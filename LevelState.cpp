@@ -14,6 +14,7 @@ LevelState::~LevelState(){
 }
 
 void LevelState::Init(){
+    tri = new Trigonometry();
     level = new Level(1);
     
     Game *game = Game::Instance();
@@ -49,10 +50,11 @@ void LevelState::Init(){
 
     console = new Console(Coordinate(0,500), game->rM->getTexture("console-bg"), Rect<float>(0,0,1280,220), game->rM->getFont("console"));
 
-    Gun *gunArm = new Gun(Coordinate(3900, 2700), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
+    Gun *gunArm = new Gun(Coordinate(0, 0), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
+    gunArm->getAnimation()->setOrigin(Coordinate(64,30));
     
     enemy2 = new Enemy(Coordinate(2500,2300), game->rM->getTexture("Bloque"), Rect<float>(0,0,512,512), 10);
     enemy2->getAnimation()->addAnimation("idle", Coordinate(0,0),1,10.0f);
@@ -68,27 +70,9 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
-    //mousePos[0]=sf::Mouse::getPosition(window).x-windowSize[0];
-    //mousePos[1]=(sf::Mouse::getPosition(window).y-windowSize[1])*-1;
-    
-    /*if(mousePos[0]>=0 && mousePos[1]>=0){
-        mouseAng=atan(mousePos[0]/mousePos[1])*180/PI+180;    
-        //derecha arriba
-    } else if(mousePos[0]<=0 && mousePos[1]>=0){
-        mousePos[0]=0-mousePos[0];
-        mouseAng=atan(mousePos[1]/mousePos[0])*180/PI+90;
-        //izquierda arriba
-    } else if(mousePos[0]<0 && mousePos[1]<0){
-        mousePos[0]=0-mousePos[0];
-        mousePos[1]=0-mousePos[1];
-        mouseAng=atan(mousePos[0]/mousePos[1])*180/PI;
-        //izquierda abajo
-    } else if(mousePos[0]>0 && mousePos[1]<0){
-        mousePos[1]=0-mousePos[1];
-        mouseAng=atan(mousePos[1]/mousePos[0])*180/PI+270;
-        //derecha abajo
-    }
-    gunArm->getAnimation()->setRotation(mouseAng); */
+    Coordinate coor = Coordinate(Game::Instance()->mouse->hitbox->left, Game::Instance()->mouse->hitbox->top);
+    float mouseAng = tri->angleWindow(coor);
+    rath->getCurrentGun()->getAnimation()->setRotation(mouseAng); 
         
     if (Game::Instance()->iM->isActive("player-up")){
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
@@ -245,6 +229,7 @@ void LevelState::Render(){
     //cout << inc;
     rath->getAnimation()->updateAnimator();
     rath->setPosition(inc.x, inc.y);
+    Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     console->drawConsole();
     Coordinate inc2(enemy2->getState()->getIC());

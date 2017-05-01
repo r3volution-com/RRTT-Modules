@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "libs/ResourceManager.h"
+#include "libs/Trigonometry.h"
 #include "HUD.h"
 #include "Player.h"
 #include "Level.h"
@@ -26,6 +27,7 @@ class LevelState : public GameState {
         float mousePos[2]={0,0};
         //float windowSize[2]={Game::Instance()->window->getSize().x/2, Game::Instance()->window->getSize().y/2};
         bool ata=false;
+        Trigonometry *tri;
     public:
         LevelState(); //ToDo: level
         void Init();
