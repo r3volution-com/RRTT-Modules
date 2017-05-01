@@ -68,6 +68,9 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
+    
+    if (Game::Instance()->iM->isActive("console")) console->toggleActive();
+    
     //mousePos[0]=sf::Mouse::getPosition(window).x-windowSize[0];
     //mousePos[1]=(sf::Mouse::getPosition(window).y-windowSize[1])*-1;
     
@@ -233,25 +236,24 @@ void LevelState::Input(){
 }
 
 void LevelState::Render(){
+    rath->getAnimation()->updateAnimator();
+    enemy2->getAnimation()->updateAnimator();
+    
+    Coordinate inc(rath->getState()->getIC());
+    Coordinate inc2(enemy2->getState()->getIC());
+    
+    rath->setPosition(inc.x, inc.y);
+    enemy2->setPosition(inc2.x, inc2.y);
+    
     Game::Instance()->window->setView(Game::Instance()->view);
     
     level->drawAll();
     
     Game::Instance()->view.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
-    
-    Game::Instance()->window->setView(Game::Instance()->view);
-    
-    Coordinate inc(rath->getState()->getIC());
-    //cout << inc;
-    rath->getAnimation()->updateAnimator();
-    rath->setPosition(inc.x, inc.y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
-    console->drawConsole();
-    Coordinate inc2(enemy2->getState()->getIC());
-    //cout << inc;
-    enemy2->getAnimation()->updateAnimator();
-    enemy2->setPosition(inc2.x, inc2.y);
     Game::Instance()->window->draw(*enemy2->getAnimation()->getSprite());
+    
+    console->drawConsole();
 }
 
 void LevelState::CleanUp(){
