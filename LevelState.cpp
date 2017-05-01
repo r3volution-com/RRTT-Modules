@@ -40,12 +40,6 @@ void LevelState::Init(){
     Game *game = Game::Instance();
     
     game->rM->loadTexture("player", "resources/sprites.png");
-<<<<<<< HEAD
-=======
-    game->rM->loadTexture("console-bg", "resources/console-bg.png");
-    
-    game->rM->loadFont("console", "resources/font.ttf");
->>>>>>> origin/master
     
     rath = new Player(Coordinate(3900,2700), game->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
@@ -284,12 +278,7 @@ void LevelState::Render(){
     Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y); //ToDo: inutil
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
     
-<<<<<<< HEAD
     Game::Instance()->console->drawConsole();
-=======
-    
-    console->drawConsole();
->>>>>>> origin/master
 }
 
 void LevelState::CleanUp(){
