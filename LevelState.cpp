@@ -71,7 +71,7 @@ void LevelState::Input(){
     //mousePos[0]=sf::Mouse::getPosition(window).x-windowSize[0];
     //mousePos[1]=(sf::Mouse::getPosition(window).y-windowSize[1])*-1;
     
-    if(mousePos[0]>=0 && mousePos[1]>=0){
+    /*if(mousePos[0]>=0 && mousePos[1]>=0){
         mouseAng=atan(mousePos[0]/mousePos[1])*180/PI+180;    
         //derecha arriba
     } else if(mousePos[0]<=0 && mousePos[1]>=0){
@@ -88,7 +88,7 @@ void LevelState::Input(){
         mouseAng=atan(mousePos[1]/mousePos[0])*180/PI+270;
         //derecha abajo
     }
-    gunArm->getAnimation()->setRotation(mouseAng); 
+    gunArm->getAnimation()->setRotation(mouseAng); */
         
     if (Game::Instance()->iM->isActive("player-up")){
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
@@ -156,9 +156,9 @@ void LevelState::Input(){
         direcNow='r';
         mov=true;
     }
-    /*if (Game::Instance()->iM->isActive("player-Lclick")){
+    if (Game::Instance()->iM->isActive("player-Lclick")){
         
-    }*/
+    }
     
     if(Game::Instance()->iM->isActive("player-up-left")){ 
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
@@ -236,6 +236,10 @@ void LevelState::Render(){
     Game::Instance()->window->setView(Game::Instance()->view);
     
     level->drawAll();
+    
+    Game::Instance()->view.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    
+    Game::Instance()->window->setView(Game::Instance()->view);
     
     Coordinate inc(rath->getState()->getIC());
     //cout << inc;
