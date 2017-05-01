@@ -16,7 +16,6 @@
 
 class HUD {
     private:        
-        Sprite *background;
         Sprite *hud;
         std::vector<Sprite*> *guns;
         std::vector<Sprite*> *gunsOff;

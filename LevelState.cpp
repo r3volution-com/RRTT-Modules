@@ -22,6 +22,7 @@ void LevelState::Init(){
     
     game->rM->loadTexture("player", "resources/sprites.png");
     game->rM->loadTexture("console-bg", "resources/console-bg.png");
+    
     game->rM->loadFont("console", "resources/font.ttf");
     
     rath = new Player(Coordinate(3900,2700), game->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
@@ -63,6 +64,7 @@ void LevelState::Init(){
     enemy2->getAnimation()->initAnimator();
     enemy2->getAnimation()->changeAnimation("idle",false);
     rath->addGun(gunArm);
+    
 }
 
 void LevelState::Update(){
@@ -165,7 +167,7 @@ void LevelState::Input(){
                 rath->getAnimation()->changeAnimation("ataqueAbajo", true);
                 ata=true;
             }
-    }else if(Game::Instance()->iM->isActive("player-up-left")){ 
+    } if(Game::Instance()->iM->isActive("player-up-left")){ 
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
             colision='q'; 
             rath->move(1,1);
@@ -253,7 +255,7 @@ void LevelState::Render(){
     enemy2->setPosition(inc2.x, inc2.y);
     
     /***RENDER***/
-    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    Game::Instance()->cameraView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->setView(Game::Instance()->cameraView);
     
     level->drawAll();
@@ -264,6 +266,7 @@ void LevelState::Render(){
     
     Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
+    
     
     console->drawConsole();
 }

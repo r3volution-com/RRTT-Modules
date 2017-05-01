@@ -43,7 +43,6 @@ HUD::HUD(Texture *hTex, Texture *lTex, Rect<float> lRect, Font *f, Time *cF){
 }
 
 HUD::~HUD(){
-    delete background;
     delete hud;
     delete guns;
     delete gunsOff;
@@ -66,7 +65,6 @@ HUD::~HUD(){
 
     delete buttonDie;
     
-    background = NULL;
     hud = NULL;
     guns = NULL;
     gunsOff = NULL;
@@ -200,7 +198,6 @@ void HUD::changeLifeBoss(int life){
 }
 
 bool HUD::drawHUD(){
-    Game::Instance()->window->draw(*background->getSprite());
     Game::Instance()->window->draw(*hud->getSprite());
     drawPlayerHP();
     Game::Instance()->window->draw(*lifePlayerText->getText());
