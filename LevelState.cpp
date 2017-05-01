@@ -221,6 +221,13 @@ void LevelState::Input(){
 }
 
 void LevelState::Render(){
+    
+    sf::View view = sf::View(sf::FloatRect(0,0,1280,720));
+    
+    Game::Instance()->window->setView(view);
+    
+    Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
+    
     rath->getAnimation()->updateAnimator();
     enemy2->getAnimation()->updateAnimator();
     
