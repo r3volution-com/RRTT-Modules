@@ -47,6 +47,8 @@ void Level::loadEnemy(){
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
         enemy->getAnimation()->initAnimator();
         enemy->getAnimation()->changeAnimation("idle", false);
+        enemy->setDistanceEnemyHome(1000);
+        enemy->setDistancePlayerEnemy(500);
     }
 }
 

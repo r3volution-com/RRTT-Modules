@@ -49,7 +49,6 @@ void Enemy::AI(Player* rath){
     float distanceIni = tri->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
     Coordinate *dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());
     Coordinate *ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
-    std::cout<<rath->getSpeed()<<"\n";
     if(freeze == true || (cd->isExpired() && hits == 1)){
         rath->setSpeed(rath->getSpeed()+dmgFreeze);
         hits = 0;
@@ -57,7 +56,6 @@ void Enemy::AI(Player* rath){
     }
     if(distance < disPlayerEnemy){
         if(distanceIni <= disEnemyHome && home == true){
-            Entity::setSpeed(2.0f);
             Entity::move(dir->x, dir->y);
             if(type == 2){
                 int num;
@@ -95,7 +93,6 @@ void Enemy::AI(Player* rath){
         }else{
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                Entity::setSpeed(5.0f);
                 Entity::move(ini->x, ini->y);
             }else{
                 home = true;
@@ -104,14 +101,12 @@ void Enemy::AI(Player* rath){
     }else if(distanceIni >= disEnemyHome || home == false){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                Entity::setSpeed(7.0f);
                 Entity::move(ini->x, ini->y);
             }else{
                 home = true;//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
             }
     }else{
         if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-            Entity::setSpeed(7.0f);
             Entity::move(ini->x, ini->y);
         }else{
             home = true;
