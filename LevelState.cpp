@@ -145,7 +145,30 @@ void LevelState::Input(){
         mov=true;
     }
     if (Game::Instance()->iM->isActive("player-Lclick")){
-        
+        if(mouseAng<315 && mouseAng>225 && ata == false){
+                //derecha BIEN
+                rath->weaponAttack();
+                rath->getAnimation()->changeAnimation("ataqueDerecha", true);
+                ata=true;
+            }
+            if(mouseAng<225 && mouseAng>135 && ata == false){
+                //arriba BIEN
+                rath->weaponAttack();
+                rath->getAnimation()->changeAnimation("ataqueArriba", true);
+                ata=true;
+            }
+            if(mouseAng<135 && mouseAng>45 && ata == false){
+                //izquierda BIEN
+                rath->weaponAttack();
+                rath->getAnimation()->changeAnimation("ataqueIzquierda", true);
+                ata=true;
+            }
+            if(mouseAng<45 || mouseAng>315 && ata == false){
+                //abajo BIEN
+                rath->weaponAttack();
+                rath->getAnimation()->changeAnimation("ataqueAbajo", true);
+                ata=true;
+            }
     }
     
     if(Game::Instance()->iM->isActive("player-up-left")){ 
@@ -213,11 +236,16 @@ void LevelState::Input(){
         mov=true;
     }
     if(!Game::Instance()->iM->isActive("player-up") && !Game::Instance()->iM->isActive("player-down") && 
-        !Game::Instance()->iM->isActive("player-left") && !Game::Instance()->iM->isActive("player-right")){
+        !Game::Instance()->iM->isActive("player-left") && !Game::Instance()->iM->isActive("player-right") && mov == true){
         rath->getAnimation()->changeAnimation("idle", false);
         mov=false;
         direcNow='i';
-    }   
+    }
+    if(ata==true){
+        rath->getAnimation()->queueAnimation("idle", false);
+        if(!sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        ata=false;
+    }
 }
 
 void LevelState::Render(){
@@ -234,7 +262,7 @@ void LevelState::Render(){
     Coordinate inc(rath->getState()->getIC());
     Coordinate inc2(enemy2->getState()->getIC());
     
-    rath->setPosition(inc.x, inc.y);
+    rath->setPosition(Coordinate(inc.x, inc.y));
     enemy2->setPosition(inc2.x, inc2.y);
     
     Game::Instance()->window->setView(Game::Instance()->view);
