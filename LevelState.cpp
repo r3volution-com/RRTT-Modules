@@ -23,7 +23,6 @@ void LevelState::Init(){
     game->rM->loadTexture("player", "resources/sprites.png");
     game->rM->loadTexture("console-bg", "resources/console-bg.png");
     game->rM->loadFont("console", "resources/font.ttf");
-    game->rM->loadTexture("crystal", "resources/Crystal.png");
     
     rath = new Player(Coordinate(3900,2700), game->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
@@ -64,7 +63,7 @@ void LevelState::Init(){
     enemy2->getAnimation()->initAnimator();
     enemy2->getAnimation()->changeAnimation("idle",false);
     rath->addGun(gunArm);
-    
+   
     
 }
 

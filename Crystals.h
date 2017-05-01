@@ -14,7 +14,7 @@ private:
     Sprite *sprite;
     bool touched;
 public:
-    Crystals(Texture *sprite, Rect<float> rect);
+    Crystals(Texture *tex, Rect<float> rect);
     virtual ~Crystals();
     
     /**
