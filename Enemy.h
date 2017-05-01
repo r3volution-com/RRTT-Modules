@@ -78,6 +78,7 @@ class Enemy : public Entity{
         Time *getFlashCooldown() { return flashCooldown;}
         void setType(int num) {type = num;}
         void setDmgHit(int num) {dmgHit = num; cd->start();}
+        void setHitCooldown(Time *cool) {cd = cool ; cd->start();}
         void setDistancePlayerEnemy(int dis) { disPlayerEnemy = dis;}
         void setDistanceEnemyHome(int dis) { disEnemyHome = dis;}
         /**
