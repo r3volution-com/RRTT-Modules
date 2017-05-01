@@ -10,6 +10,10 @@ class Font {
     private:
         sf::Font *font;
     public:
+        /**
+         * Creacion del objeto fuente
+         * @param path: Ruta de la fuente
+         */
         Font(std::string path);
         virtual ~Font();
         

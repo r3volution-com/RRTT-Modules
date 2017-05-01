@@ -10,7 +10,20 @@ public:
     Trigonometry();
     virtual ~Trigonometry();
     
+    /**
+     * Calcula el angulo
+     * @param initial: Coordenada inicial Tipo Coordinate
+     * @param end: Coordenada final Tipo Coordinate
+     * @return 
+     */
     float angle(Coordinate *initial, Coordinate *end);
+    
+    /**
+     * Calcula la distancia
+     * @param initial: Distancia inicial, Tipo Coordinate
+     * @param end: Distancia final, Tipo Coordinate
+     * @return 
+     */
     float distance(Coordinate *initial, Coordinate *end);
     std::vector<float> distance(std::vector<Coordinate*> *initial, Coordinate *end);
     Coordinate* direction(Coordinate *initial, Coordinate *end);
