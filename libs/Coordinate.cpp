@@ -38,6 +38,14 @@ bool Coordinate::operator == (const Coordinate &p) const {
     return this->x == p.x && this->y == p.y;
 }
 
+Coordinate Coordinate::operator + (const Coordinate &p) const {
+    return Coordinate(this->x+p.x, this->y+p.y);
+}
+
+Coordinate Coordinate::operator + (const float &p) const {
+    return Coordinate(this->x+p, this->y+p);
+}
+
 /*std::ostream& operator << (std::ostream &o,const Coordinate &p) {
     o << "(" << p.x << ", " << p.y << ")";
     return o;

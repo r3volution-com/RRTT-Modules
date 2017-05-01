@@ -30,7 +30,10 @@ void MenuState::Input(){
                 Game::Instance()->ChangeCurrentState("level");
             break;
             case 1:
-                //Salir
+                //Ir al menu opciones
+            break;
+            case 2:
+                Game::Instance()->window->close();
             break;
             default: break;
         }
@@ -39,7 +42,6 @@ void MenuState::Input(){
 
 void MenuState::Update(){
     principal->checkHover(Game::Instance()->mouse);
-    
 }
 
 void MenuState::Render(){
@@ -47,5 +49,9 @@ void MenuState::Render(){
 }
 
 void MenuState::CleanUp(){
-    
+    Game::Instance()->rM->releaseTexture("menu-background");
+    Game::Instance()->rM->releaseTexture("button-layout");
+    Game::Instance()->rM->releaseFont("menu");
+    delete principal;
+    principal = NULL;
 }
