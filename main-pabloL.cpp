@@ -3,6 +3,7 @@
 #include "Game.h"
 
 using namespace std;
+using namespace tinyxml2;
 
 int main(int argc, char** argv) {
     Game *game = Game::Instance();
