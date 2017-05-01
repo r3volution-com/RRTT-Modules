@@ -3,7 +3,7 @@
 #include "Level.h"
 #include "Console.h"
 
-#define PI 3,14159265f;
+#define PI 3,14159265;
 
 LevelState::LevelState() : GameState(){
     

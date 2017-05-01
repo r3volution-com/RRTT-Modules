@@ -28,6 +28,7 @@ class LevelState : public GameState {
         //float windowSize[2]={Game::Instance()->window->getSize().x/2, Game::Instance()->window->getSize().y/2};
         bool ata=false;
         Trigonometry *tri;
+        Enemy *enemy2;
     public:
         LevelState(); //ToDo: level
         void Init();
@@ -35,7 +36,6 @@ class LevelState : public GameState {
         void Update();
         void Render();
         void CleanUp();
-            Enemy *enemy2;
         
         virtual ~LevelState();
 };
