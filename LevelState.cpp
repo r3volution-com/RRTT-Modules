@@ -33,7 +33,8 @@ void LevelState::Init(){
     rath->getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 2, 0.5f);
     rath->getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 2, 0.5f);
     rath->getAnimation()->initAnimator();
-    rath->getAnimation()->changeAnimation("idle", false);  
+    rath->getAnimation()->changeAnimation("idle", false); 
+    rath->setMaxHP(70);
     
     game->iM->addAction("player-up", thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
@@ -228,7 +229,7 @@ void LevelState::Render(){
     Coordinate inc(rath->getState()->getIC());
     //cout << inc;
     rath->getAnimation()->updateAnimator();
-    rath->setPosition(inc.x, inc.y);
+    rath->setPosition(Coordinate(inc.x, inc.y));
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     console->drawConsole();

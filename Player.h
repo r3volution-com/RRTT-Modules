@@ -108,6 +108,8 @@ class Player : public Entity {
          */
         void setFlashCooldown(Time *cooldown);
         
+        void setPosition(Coordinate newCoor);
+        
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
         Gun *getWeapon() { return weapon; }
