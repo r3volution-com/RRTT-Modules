@@ -42,6 +42,8 @@ class Coordinate {
         void setCoordinate(Coordinate coor);
         
         bool operator ==(const Coordinate &p) const;
+        Coordinate operator +(const Coordinate &p) const;
+        Coordinate operator +(const float &num) const;
         
         friend std::ostream& operator << (std::ostream &o,const Coordinate &p);
 };
