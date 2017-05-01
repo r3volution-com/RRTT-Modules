@@ -1,6 +1,7 @@
 #ifndef RECT_H
 #define RECT_H
 
+#include <iostream>
 #include <SFML/Graphics/Rect.hpp>
 #include <iostream>
 

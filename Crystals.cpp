@@ -1,9 +1,9 @@
 #include "Crystals.h"
 
-Crystals::Crystals(Texture sprite, Rect<float> rect) {
+Crystals::Crystals(Texture *sprit, Rect<float> rect) {
     hitbox = new Hitbox(0, 0, rect.w, rect.h);
     
-    sprite = new Sprite(sprite, rect);
+    sprite = new Sprite(sprit, rect);
     touched = false;
 }
 

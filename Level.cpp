@@ -38,6 +38,16 @@ void Level::loadNote(){
     
 }
 
+void Level::loadCrystal(){
+    
+    if(level==1){
+        Texture *tex = new Texture("resources/Crystal.png");
+        
+        Crystals *crystal = new Crystals(tex, Rect<float>(0, 0, 64, 60));
+        crystal->setPosition(Coordinate(350, 150));
+    }
+}
+
 void Level::loadEnemy(){
     
     if(level==1){
@@ -51,7 +61,7 @@ void Level::loadEnemy(){
         enemy->setDistanceEnemyHome(1000);
         enemy->setDistancePlayerEnemy(500);
         enemy->setDmgHit(30);
-        enemy->setHitCooldown(new Time(3));
+        enemy->setHitCooldown(new Time(0.5));
         enemy->setType(3);
         enemy->setFreeze(7);
         
@@ -65,6 +75,10 @@ void Level::drawAll(){
     
     if(!note->getTaken()){
        Game::Instance()->window->draw(*note->getNoteSprite()->getSprite());
+    }
+    
+    if(!crystal->getTouched()){
+        //Game::Instance()->window->draw(*crystal->getCrystalSprite()->getSprite());
     }
     
     Coordinate inc(enemy->getState()->getIC());
