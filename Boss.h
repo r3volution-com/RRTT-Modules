@@ -17,6 +17,7 @@ class Boss : public Enemy{
         void gunAttack();
         void addGun(Gun* gun);
         bool changeGun(int gun);
+        //Gun *getCurrentGun() { return guns->at(currentGun); }
 };
 
 #endif /* BOSS_H */
