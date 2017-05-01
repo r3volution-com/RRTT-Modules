@@ -14,7 +14,8 @@ public:
     int level;
     
     Level(int numLevel);
-    void drawAll(sf::RenderWindow *window);
+    void drawAll();
+    void enemyAI(Player *rath){enemy->AI(rath);}
 
 private:
 
@@ -30,9 +31,13 @@ private:
     
     //Cargo el mapa
     void loadMap();
-    void loadPlayer();
+    //Cargamos las notas
+    void loadNote();
+    //Cargamos los enemigos
+    void loadEnemy();
+    //
     
-    Player *player;
+    //Player se carga en levelState   
     Note *note;
     Boss *boss;
     Enemy *enemy;
