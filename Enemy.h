@@ -21,7 +21,10 @@ class Enemy : public Entity{
         Time *cd;
         
         bool home;
+        bool freeze;
+        int dmgFreeze;
         int dmgHit;
+        int hits;
 
         
     public: 
@@ -72,6 +75,11 @@ class Enemy : public Entity{
         Time *getFlashCooldown() { return flashCooldown;}
         void setType(int num) {type = num;}
         void setDmgHit(int num) {dmgHit = num; cd->start();}
+        /**
+         * Relentizacion del enemigo, solo para los tipo 3
+         * @param num: Relentizacion (tipo int)
+         */
+        void setFreeze(int num) {dmgFreeze = num;}
         void AI(Player *rath);
 };
 
