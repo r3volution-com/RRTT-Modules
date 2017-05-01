@@ -86,7 +86,7 @@ void Enemy::AI(Player* rath){
                     num = 0;
                 }
                 if(distance < disPlayerEnemy && num == 2 && distance > disPlayerEnemy/2 && cd->isExpired()){
-                    //rath->damage(dmgHit);
+                    rath->damage(dmgHit);
                     cd->restart();
                     freeze = true;
                     if(freeze == true && hits == 0){
@@ -96,8 +96,7 @@ void Enemy::AI(Player* rath){
                 }
             }
             if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
-                
-                //rath->damage(dmgHit);
+                rath->damage(dmgHit);
                 cd->restart();
             }
         }else{
