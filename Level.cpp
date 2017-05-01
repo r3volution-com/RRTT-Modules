@@ -62,7 +62,7 @@ void Level::loadEnemy(){
         enemy->setDistanceEnemyHome(1000);
         enemy->setDistancePlayerEnemy(500);
         enemy->setDmgHit(30);
-        enemy->setHitCooldown(new Time(3));
+        enemy->setHitCooldown(new Time(0.5));
         enemy->setType(3);
         enemy->setFreeze(7);
         

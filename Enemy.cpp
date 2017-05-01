@@ -54,7 +54,7 @@ void Enemy::AI(Player* rath){
         hits = 0;
         freeze = false;
     }
-    if(distance < disPlayerEnemy && distance >= 128){
+    if(distance < disPlayerEnemy && distance >= 100){
         if(distanceIni <= disEnemyHome && home == true){
             int num;
                 
@@ -86,7 +86,6 @@ void Enemy::AI(Player* rath){
                     num = 0;
                 }
                 if(distance < disPlayerEnemy && num == 2 && distance > disPlayerEnemy/2 && cd->isExpired()){
-                    rath->damage(dmgHit);
                     cd->restart();
                     freeze = true;
                     if(freeze == true && hits == 0){
@@ -96,6 +95,7 @@ void Enemy::AI(Player* rath){
                 }
             }
             if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
+                std::cout<<"si"<<"\n";
                 rath->damage(dmgHit);
                 cd->restart();
             }
@@ -122,7 +122,7 @@ void Enemy::AI(Player* rath){
         }else{
             home = true;
         }
-    }else if(distance < 120){
+    }else if(distance < 100){
         if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
             Entity::move(ini->x, ini->y);
         }else{
