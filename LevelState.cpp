@@ -48,7 +48,7 @@ void LevelState::Init(){
     game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
     
-    game->iM->addAction("console", thor::Action(sf::Keyboard::F12));
+    game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
 
     console = new Console(Coordinate(0,500), game->rM->getTexture("console-bg"), Rect<float>(0,0,1280,220), game->rM->getFont("console"));
 
@@ -246,15 +246,11 @@ void LevelState::Input(){
         if(!sf::Mouse::isButtonPressed(sf::Mouse::Left))
         ata=false;
     }
+    
+    if (Game::Instance()->iM->isActive("console")) console->toggleActive();
 }
 
 void LevelState::Render(){
-    
-    sf::View view = sf::View(sf::FloatRect(0,0,1280,720));
-    
-    Game::Instance()->window->setView(view);
-    
-    Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     
     rath->getAnimation()->updateAnimator();
     enemy2->getAnimation()->updateAnimator();
@@ -265,14 +261,18 @@ void LevelState::Render(){
     rath->setPosition(Coordinate(inc.x, inc.y));
     enemy2->setPosition(inc2.x, inc2.y);
     
-    Game::Instance()->window->setView(Game::Instance()->view);
+    /***RENDER***/
+    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    Game::Instance()->window->setView(Game::Instance()->cameraView);
     
     level->drawAll();
     
-    Game::Instance()->view.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     Game::Instance()->window->draw(*enemy2->getAnimation()->getSprite());
+    
+    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
     
     console->drawConsole();
 }
