@@ -7,6 +7,7 @@
 #include "LevelState.h"
 #include "MenuState.h"
 #include "IntroState.h"
+#include "Bullet.h"
 #include "libs/Coordinate.h"
 #include "libs/Time.h"
 
@@ -45,6 +46,9 @@ class Game {
         float currentTime;
         float deltaTime;
         float interpolation;
+        
+        
+        std::vector<Bullet*> *bullets;
         
     protected:
         Game(); //: game(&intro) {}

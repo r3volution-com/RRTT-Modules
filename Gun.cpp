@@ -1,5 +1,6 @@
 #include "Gun.h"
 #include "libs/Time.h"
+#include "Game.h"
 
 Gun::Gun(Coordinate position, Rect<float> animRect, Texture *tex) {
     hitbox = new Hitbox(position.x, position.y, animRect.w, animRect.h);
@@ -7,7 +8,6 @@ Gun::Gun(Coordinate position, Rect<float> animRect, Texture *tex) {
     gunAnimation->addAnimation("idle", Coordinate(animRect.x, animRect.y), 2, 1.0f);
     gunAnimation->addAnimation("attack", Coordinate(animRect.x, animRect.y+animRect.h), 2, 1.0f);
     gunAnimation->setPosition(position);
-    //setPosition(position);
 }
 
 Gun::~Gun() {
@@ -24,9 +24,13 @@ void Gun::setAttack(Bullet *atk){
 }
 
 void Gun::doAttack(){
-    //ToDo Sergio: LLamar a singleton e instanciar el ataque
-    gunAnimation->changeAnimation("attack", true);
-    gunCooldown->restart();
+    if(gunCooldown->isExpired()){
+        //ToDo Sergio: LLamar a singleton e instanciar el ataque
+        //Game::Instance()->bullets->push_back(attack);
+        gunAnimation->changeAnimation("attack", true);
+        
+        gunCooldown->restart();
+    }
 }
 
 void Gun::setPosition(Coordinate position){
