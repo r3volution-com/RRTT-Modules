@@ -3,7 +3,7 @@
 #include "Level.h"
 #include "Console.h"
 
-#define PI 3,14159265f;
+#define PI 3,14159265;
 
 LevelState::LevelState() : GameState(){
     
@@ -88,7 +88,7 @@ void LevelState::Input(){
         mouseAng=atan(mousePos[1]/mousePos[0])*180/PI+270;
         //derecha abajo
     }
-    gunArm->getAnimation()->setRotation(mouseAng); 
+    //gunArm->getAnimation()->setRotation(mouseAng); 
         
     if (Game::Instance()->iM->isActive("player-up")){
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){

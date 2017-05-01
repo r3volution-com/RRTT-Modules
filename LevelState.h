@@ -26,6 +26,7 @@ class LevelState : public GameState {
         float mousePos[2]={0,0};
         //float windowSize[2]={Game::Instance()->window->getSize().x/2, Game::Instance()->window->getSize().y/2};
         bool ata=false;
+        Enemy *enemy2;
     public:
         LevelState(); //ToDo: level
         void Init();
@@ -33,7 +34,6 @@ class LevelState : public GameState {
         void Update();
         void Render();
         void CleanUp();
-            Enemy *enemy2;
         
         virtual ~LevelState();
 };
