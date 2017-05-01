@@ -26,7 +26,7 @@ class Event {
          * @param act: Tecla a pulsar
          * @param nullaryListener: Accion a realizar
          */
-        void addActionCallback(std::string name, thor::Action act, std::function< void()> nullaryListener);
+        void addActionCallback(std::string name, thor::Action act, std::function<void(thor::ActionContext<std::string>)> unaryListener);
         
         /**
          * Comprueba las acciones registradas

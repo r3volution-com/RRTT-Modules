@@ -11,9 +11,9 @@ void Event::addAction(std::string name, thor::Action act){
     map[name] = act;
 }
 
-void Event::addActionCallback(std::string name, thor::Action act, std::function< void()> nullaryListener){
+void Event::addActionCallback(std::string name, thor::Action act, std::function<void(thor::ActionContext<std::string>)> unaryListener){
     map[name] = act;
-    system.connect0(name, nullaryListener);
+    system.connect(name, unaryListener);
 }
 
 void Event::update(){

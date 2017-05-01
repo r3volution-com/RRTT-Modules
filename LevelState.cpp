@@ -6,6 +6,25 @@
 
 #define PI 3,14159265;
 
+void onTextEntered(thor::ActionContext<std::string> context) {
+    if (Game::Instance()->console->isActive()){
+        if (context.event->text.unicode < 128 && (context.event->text.unicode != 13 && context.event->text.unicode != 9 && context.event->text.unicode != 8)) {
+            sf::Uint32 character = context.event->text.unicode;
+            std::ostringstream ch;
+            ch << static_cast<char>(character);
+            Game::Instance()->temp += ch.str();
+            //Game::Instance()->temp << (std::string)ch.str();
+            Game::Instance()->console->writeCommand(Game::Instance()->temp);
+        } else if (context.event->text.unicode == 8 && Game::Instance()->temp.length() > 0){
+            Game::Instance()->temp.resize(Game::Instance()->temp.length()-1);
+            Game::Instance()->console->writeCommand(Game::Instance()->temp);
+        } else if (context.event->text.unicode == 13){
+            Game::Instance()->console->sendCommand(Game::Instance()->temp);
+            Game::Instance()->temp = "";
+        }
+    }
+}
+
 LevelState::LevelState() : GameState(){
     
 }
@@ -21,8 +40,6 @@ void LevelState::Init(){
     Game *game = Game::Instance();
     
     game->rM->loadTexture("player", "resources/sprites.png");
-    game->rM->loadTexture("console-bg", "resources/console-bg.png");
-    game->rM->loadFont("console", "resources/font.ttf");
     
     rath = new Player(Coordinate(3900,2700), game->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
@@ -49,8 +66,7 @@ void LevelState::Init(){
     game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
     
     game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
-
-    console = new Console(Coordinate(0,500), game->rM->getTexture("console-bg"), Rect<float>(0,0,1280,220), game->rM->getFont("console"));
+    game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
 
     Gun *gunArm = new Gun(Coordinate(0, 0), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
@@ -238,7 +254,8 @@ void LevelState::Input(){
         ata=false;
     }
     
-    if (Game::Instance()->iM->isActive("console")) console->toggleActive();
+    if (Game::Instance()->iM->isActive("console")) Game::Instance()->console->toggleActive();
+    //if (Game::Instance()->iM->isActive("text")) 
 }
 
 void LevelState::Render(){
@@ -262,10 +279,10 @@ void LevelState::Render(){
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     Game::Instance()->window->draw(*enemy2->getAnimation()->getSprite());
     
-    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y); //ToDo: inutil
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
     
-    console->drawConsole();
+    Game::Instance()->console->drawConsole();
 }
 
 void LevelState::CleanUp(){

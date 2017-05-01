@@ -8,8 +8,8 @@ Console::Console(Coordinate coor, Texture *bg, Rect<float> rect, Font *f) {
     background = new Sprite(bg, rect);
     background->setPosition(coor);
     
-    backlog = new Text("", (coor+10), f, false);
-    actual = new Text("", (coor+(rect.h-25)), f, false);
+    backlog = new Text("---", (coor+10), f, false);
+    actual = new Text(">", Coordinate(coor.x+5, coor.y+175), f, false);
     
     backlog->setStyles(sf::Color::Black, sf::Color::White, 1, 20);
     actual->setStyles(sf::Color::Black, sf::Color::White, 1, 20);
@@ -31,6 +31,7 @@ void Console::writeCommand(std::string text){
 }
 
 void Console::sendCommand(std::string command){
+    actual->setText("");
     std::ostringstream os;
     os << (std::string)backlog->getText()->getString() << "\n" << command;
     backlog->setText(os.str());
@@ -44,7 +45,6 @@ void Console::toggleActive(){
 
 void Console::drawConsole(){
     if (active){
-        cout << "esto es mierda";
         Game::Instance()->window->draw(*background->getSprite());
         Game::Instance()->window->draw(*backlog->getText());
         Game::Instance()->window->draw(*actual->getText());

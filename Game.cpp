@@ -15,7 +15,7 @@ Game::Game(){
     screenSize = new Coordinate(1280, 720);
     window = new sf::RenderWindow(sf::VideoMode(screenSize->x, screenSize->y), "Rath's Revenge: The Twisted Timeline");
     cameraView = sf::View(sf::FloatRect(0,0,2048,2048));
-    screenView = sf::View(sf::FloatRect(0,0,1280,720));
+    screenView = sf::View(sf::FloatRect(0,0,1280,720)); //ToDo: inutil
     
     intro = new IntroState();
     menu = new MenuState();
@@ -43,6 +43,9 @@ void Game::Init(){
     game->Init();
     fpsTimer->start();
     iaTimer->start();
+    rM->loadTexture("console-bg", "resources/console-bg.png");
+    rM->loadFont("console", "resources/font.ttf");
+    console = new Console(Coordinate(0,500), rM->getTexture("console-bg"), Rect<float>(0,0,1280,220), rM->getFont("console"));
 }
 
 void Game::Input(){

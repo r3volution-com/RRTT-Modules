@@ -37,6 +37,8 @@ class Game {
         ResourceManager *rM;
         Event *iM;
         Hitbox *mouse;
+        Console *console;
+        std::string temp;
         
         Time *iaTimer;
         int iaPS;

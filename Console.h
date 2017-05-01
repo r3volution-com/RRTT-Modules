@@ -27,6 +27,8 @@ public:
     void drawConsole();
     
     void toggleActive();
+    
+    bool isActive() { return active; }
 };
 
 #endif /* CONSOLE_H */
