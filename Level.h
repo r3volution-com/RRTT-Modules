@@ -16,6 +16,7 @@ public:
     Level(int numLevel);
     void drawAll();
     void enemyAI(Player *rath){enemy->AI(rath);}
+    Enemy *enemy;
 
 private:
 
@@ -40,7 +41,6 @@ private:
     //Player se carga en levelState   
     Note *note;
     Boss *boss;
-    Enemy *enemy;
     NPC *npc;
     Map *map;
     Gun *gun;
