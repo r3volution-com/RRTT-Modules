@@ -21,6 +21,11 @@ class LevelState : public GameState {
         int direcX = 'r';
         int direcNow = 'z';
         bool mov = false;
+        char colision = 'z';
+        float mouseAng = 0.0f;
+        float mousePos[2]={0,0};
+        //float windowSize[2]={Game::Instance()->window->getSize().x/2, Game::Instance()->window->getSize().y/2};
+        bool ata=false;
     public:
         LevelState(); //ToDo: level
         void Init();
@@ -28,6 +33,7 @@ class LevelState : public GameState {
         void Update();
         void Render();
         void CleanUp();
+            Enemy *enemy2;
         
         virtual ~LevelState();
 };

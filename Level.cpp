@@ -42,6 +42,7 @@ void Level::loadEnemy(){
     
     if(level==1){
         Game::Instance()->rM->loadTexture("enemy", "resources/sprites.png");
+        Game::Instance()->rM->loadTexture("Bloque", "resources/Bloque.jpg");
 
         enemy = new Enemy(Coordinate(2900,1900), Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128), 10);
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
@@ -66,4 +67,5 @@ void Level::drawAll(){
     enemy->getAnimation()->updateAnimator();
     enemy->setPosition(inc.x, inc.y);
     Game::Instance()->window->draw(*enemy->getAnimation()->getSprite());
+
 }
