@@ -44,7 +44,7 @@ void Enemy::setFlashCooldown(Time *cooldown){
 
 
 void Enemy::AI(Player* rath){
-    float angle = tri->angle(rath->getCoordinate(), Entity::getCoordinate());
+    //float angle = tri->angle(rath->getCoordinate(), Entity::getCoordinate());
     float distance = tri->distance(rath->getCoordinate(), Entity::getCoordinate());
     float distanceIni = tri->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
     Coordinate *dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());

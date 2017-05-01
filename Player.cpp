@@ -22,8 +22,6 @@ void Player::setWeapon(Gun *wP){
 
 void Player::move(float xDir, float yDir){
     Entity::move(xDir, yDir);
-    //if (weaponLoaded) weapon->setPosition(Entity::getCoordinate());
-    //if (currentGun >= 0) guns->at(currentGun)->setPosition(Entity::getCoordinate());
 }
 
 void Player::addGun(Gun* gun){
@@ -77,4 +75,10 @@ void Player::setFlashCooldown(Time *cooldown){
 void Player::damage(int dmg){
     if (hp-dmg <= 0) die();
     else hp -= dmg;
+}
+void Player::setPosition(Coordinate newCoor){
+    Entity::getAnimation()->setPosition(newCoor);
+    Entity::getHitbox()->setPosition(newCoor);
+    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
+    if (currentGun >= 0) guns->at(currentGun)->setPosition(*Entity::getCoordinate());
 }

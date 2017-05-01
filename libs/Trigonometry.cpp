@@ -1,7 +1,9 @@
 #include "Trigonometry.h"
 #include "Coordinate.h"
+#include "../Game.h"
 #include <cmath>
 #include <vector>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 
 Trigonometry::Trigonometry() {
@@ -12,13 +14,47 @@ Trigonometry::Trigonometry() {
 Trigonometry::~Trigonometry() {
 }
 
-float Trigonometry::angle(Coordinate *initial, Coordinate *end){
+float Trigonometry::angle(Coordinate initial, Coordinate end){
     
-    posI[0]=initial->x;
-    posI[1]=initial->y;
+    posI[0]=initial.x;
+    posI[1]=initial.y;
     
-    posF[0]=end->x-posI[0];
-    posF[1]=(end->y-posI[1])*-1;
+    posF[0]=end.x-posI[0];
+    posF[1]=(end.y-posI[1])*-1;
+    
+    if(posF[0]>=0 && posF[1]>=0){
+        ang=std::atan(posF[0]/posF[1])*180/PI+180;    
+        //derecha arriba
+    }else{
+        if(posF[0]<=0 && posF[1]>=0){
+        posF[0]=0-posF[0];
+        ang=std::atan(posF[1]/posF[0])*180/PI+90;
+        //izquierda arriba
+        }else{
+            if(posF[0]<0 && posF[1]<0){
+            posF[0]=0-posF[0];
+            posF[1]=0-posF[1];
+            ang=std::atan(posF[0]/posF[1])*180/PI;
+            //izquierda abajo
+            }else{
+                if(posF[0]>0 && posF[1]<0){
+                posF[1]=0-posF[1];
+                ang=std::atan(posF[1]/posF[0])*180/PI+270;
+                //derecha abajo
+                }
+            }
+        }
+    }
+    return ang;
+}
+
+float Trigonometry::angleWindow(Coordinate end){
+    
+    posI[0]=Game::Instance()->window->getSize().x/2;
+    posI[1]=Game::Instance()->window->getSize().y/2;
+    
+    posF[0]=end.x-posI[0];
+    posF[1]=(end.y-posI[1])*-1;
     
     if(posF[0]>=0 && posF[1]>=0){
         ang=std::atan(posF[0]/posF[1])*180/PI+180;    
