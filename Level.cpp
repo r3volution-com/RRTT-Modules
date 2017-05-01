@@ -44,8 +44,8 @@ void Level::loadCrystal(){
     if(level==1){
         Game::Instance()->rM->loadTexture("crystal", "resources/Crystal.png");
         
-        crystal = new Crystals(Game::Instance()->rM->getTexture("crystal"), Rect<float>(0, 0, 64, 60));
-        crystal->setPosition(Coordinate(350, 150));
+        crystal = new Crystals(Game::Instance()->rM->getTexture("crystal"), Rect<float>(0, 0, 174, 290));
+        crystal->setPosition(Coordinate(3000, 3000));
     }
 }
 

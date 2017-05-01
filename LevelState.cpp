@@ -70,7 +70,9 @@ void LevelState::Init(){
 void LevelState::Update(){
     
     level->enemyAI(rath);
-    
+    if(crystal->collision(rath->getHitbox())){
+        crystal->setTouched();
+    }
 }
 
 void LevelState::Input(){
