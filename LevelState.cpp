@@ -1,5 +1,6 @@
 #include "LevelState.h"
 #include "Game.h"
+#include "Level.h"
 
 #define PI 3,14159265f;
 
@@ -12,11 +13,15 @@ LevelState::~LevelState(){
 }
 
 void LevelState::Init(){
+    
+    level = new Level(1);
+    
     Game::Instance()->rM->loadTexture("player", "resources/sprites.png");
-    rath = new Player(Coordinate(0,0), Game::Instance()->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 10);
+    rath = new Player(Coordinate(3900,2700), Game::Instance()->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
     rath->getAnimation()->initAnimator();
     rath->getAnimation()->changeAnimation("idle", false);
+    
     Game::Instance()->iM->addAction("player-up", thor::Action(sf::Keyboard::Up));
     Game::Instance()->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
     Game::Instance()->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
@@ -30,10 +35,13 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
+    
+    level->enemyAI(rath);
+    
 }
 
 void LevelState::Input(){
-    if (Game::Instance()->iM->isActive("player-up")){ 
+    /*if (Game::Instance()->iM->isActive("player-up")){ 
         rath->move(0,-1);
         if(direcNow!='u'){
                 rath->getAnimation()->changeAnimation("correrArriba", false);
@@ -76,7 +84,7 @@ void LevelState::Input(){
     }
     if (Game::Instance()->iM->isActive("player-Lclick")){
         
-    }
+    }*/
     
     if(Game::Instance()->iM->isActive("player-up-left")) rath->move(-1,-1);
     if(Game::Instance()->iM->isActive("player-up-right")) rath->move(1,-1);
@@ -85,6 +93,10 @@ void LevelState::Input(){
 }
 
 void LevelState::Render(){
+    Game::Instance()->window->setView(Game::Instance()->view);
+    
+    level->drawAll();
+    
     Coordinate inc(rath->getState()->getIC());
     //cout << inc;
     rath->getAnimation()->updateAnimator();
