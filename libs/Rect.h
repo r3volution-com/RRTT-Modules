@@ -8,12 +8,35 @@ class Rect {
     private:
     public:
         T x, y, w, h;
-        
+        /**
+         * Crea un objeto zona de impresion
+         * @param rX: Coordenada x
+         * @param rY: Coordenada y
+         * @param rW: Ancho
+         * @param rH: Alto
+         */
         Rect(T rX, T rY, T rW, T rH);
+        
+        /**
+         * Crea un objeto zona de impresion
+         * @param rect: Zona a imprimir
+         */
         Rect(sf::Rect<T> rect);
         virtual ~Rect();
         
+        /**
+         * Establece la zona de corte
+         * @param rX: Coordenada x
+         * @param rY: Coordenada y
+         * @param rW: Ancho
+         * @param rH: Alto
+         */
         void setRect(T rX, T rY, T rW, T rH);
+        
+        /**
+         * Establece la zona de corte
+         * @param rect: Zona de core
+         */
         void setRect(sf::Rect<T> rect);
         
         sf::Rect<T> getRect(){

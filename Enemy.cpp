@@ -49,18 +49,17 @@ void Enemy::AI(Player* rath){
     float distanceIni = tri->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
     Coordinate *dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());
     Coordinate *ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
-    std::cout<<rath->getSpeed()<<"\n";
-    if(freeze == true || (cd->isExpired() && hits == 1)){
+    if(freeze == true && (cd->isExpired() && hits == 1)){
         rath->setSpeed(rath->getSpeed()+dmgFreeze);
         hits = 0;
         freeze = false;
     }
-    if(distance < 300){
-        if(distanceIni <= 500 && home == true){
-            Entity::setSpeed(2.0f);
+    if(distance < disPlayerEnemy && distance >= 128){
+        if(distanceIni <= disEnemyHome && home == true){
+            int num;
+                
             Entity::move(dir->x, dir->y);
             if(type == 2){
-                int num;
                 if(flashCooldown->isExpired()){
                     srand (time(NULL));
                     num = rand() % 3;
@@ -79,36 +78,53 @@ void Enemy::AI(Player* rath){
                     }
                 }
             }
-            if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
-                if(type == 3){
-                    if(freeze == false && hits == 0){
+            else if(type == 3){
+                if(cd->isExpired()){
+                    srand (time(NULL));
+                    num = rand() % 3;
+                }else{
+                    num = 0;
+                }
+                if(distance < disPlayerEnemy && num == 2 && distance > disPlayerEnemy/2 && cd->isExpired()){
+                    //rath->damage(dmgHit);
+                    cd->restart();
+                    freeze = true;
+                    if(freeze == true && hits == 0){
                         hits++;
                         rath->setSpeed(rath->getSpeed()-dmgFreeze);//ToDo PabloL: Relentiza 3 puntos
                     }
                 }
+            }
+            if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
+                
                 //rath->damage(dmgHit);
                 cd->restart();
             }
         }else{
+            if(distanceIni >= disEnemyHome || home == false){
             home = false;
-            if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                Entity::setSpeed(5.0f);
-                Entity::move(ini->x, ini->y);
-            }else{
-                home = true;
+                if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
+                    Entity::move(ini->x, ini->y);
+                }else{
+                    home = true;//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
+                }
             }
         }
-    }else if(distanceIni >= 500 || home == false){
+    }else if(distanceIni >= disEnemyHome || home == false && distance > 128){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                Entity::setSpeed(7.0f);
                 Entity::move(ini->x, ini->y);
             }else{
                 home = true;//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
             }
-    }else{
-        if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-            Entity::setSpeed(7.0f);
+    }else if(distance > 128){
+        if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
+            Entity::move(ini->x, ini->y);
+        }else{
+            home = true;
+        }
+    }else if(distance < 120){
+        if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
             Entity::move(ini->x, ini->y);
         }else{
             home = true;

@@ -25,14 +25,17 @@ class Enemy : public Entity{
         int dmgFreeze;
         int dmgHit;
         int hits;
+        
+        int disPlayerEnemy;
+        int disEnemyHome;
 
         
     public: 
         /**
-         * Se crea el objeto enemigo
+         * Se crea el objeto enemona a mostrar de la textura del enemigoigo
          * @param position: Se le otorga una posicion al enemigo de tipo coordenada
          * @param t: Puntero con referencia a la textura del enemigo
-         * @param newRect: Zona a mostrar de la textura del enemigo
+         * @param newRect: Z
          * @param sp: Velocidad del enemigo
          */
         Enemy(Coordinate position, Texture *t, Rect<float> newRect, float sp); //ToDo: enemy
@@ -75,6 +78,9 @@ class Enemy : public Entity{
         Time *getFlashCooldown() { return flashCooldown;}
         void setType(int num) {type = num;}
         void setDmgHit(int num) {dmgHit = num; cd->start();}
+        void setHitCooldown(Time *cool) {cd = cool ; cd->start();}
+        void setDistancePlayerEnemy(int dis) { disPlayerEnemy = dis;}
+        void setDistanceEnemyHome(int dis) { disEnemyHome = dis;}
         /**
          * Relentizacion del enemigo, solo para los tipo 3
          * @param num: Relentizacion (tipo int)
