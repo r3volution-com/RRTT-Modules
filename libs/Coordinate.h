@@ -9,14 +9,36 @@ class Coordinate {
 
     public:
         float x, y;
-        
+        /**
+         * Crea el objeto coordenada
+         * @param xC: coordenada x
+         * @param yC: coordenada y
+         */
         Coordinate(float xC, float yC);
+        /**
+         * Crea una vector de coordenadas
+         * @param coor: coordenadas
+         */
         Coordinate(sf::Vector2i coor);
+        /**
+         * Crea una vector de coordenadas
+         * @param coor: coordenadas
+         */
         Coordinate(sf::Vector2f coor);
         Coordinate(const Coordinate& coor);
         virtual ~Coordinate();
         
+        /**
+         * Establece las coordenadas
+         * @param xC: Coordenada x
+         * @param yC: Coordenada y
+         */
         void setCoordinate(float xC, float yC);
+        
+        /**
+         * Establece las coordenadas
+         * @param coor: Tipo Coordinate, coordenadas
+         */
         void setCoordinate(Coordinate coor);
         
         bool operator ==(const Coordinate &p) const;
