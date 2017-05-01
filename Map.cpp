@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Game.h"
 #include <iostream>
 
 using namespace std;
@@ -207,4 +208,45 @@ int Map::getGid(Enemy *enemy, int id1, int id2){
     
     return 0;
     
+}
+
+
+bool Map::putHitbox(Player *rath){
+    
+    colisiona = false;
+    
+    for(int y=0; y<_height; y++){
+        for(int x=0; x<_width; x++){
+            //Recorremos la capa hitbox
+            int gid = _tilemap[1][y][x];
+                    
+            if(gid>0){
+                //Metemos las hitbox
+                
+               Coordinate prueba = Coordinate(_tilemapSprite[1][y][x]->getPosition());
+      
+               //Primera -> sup.Izq
+               //Segunda -> inf.izq
+               //Tercera -> inf.der
+               //Cuarta -> sup.der
+               
+               /*if(((prueba.x==rath->getCoordinate()->x) && (prueba.y<rath->getCoordinate()->y) && (prueba.y+128>rath->getCoordinate()->y))
+                       || (prueba.y==rath->getCoordinate()->y) && (prueba.x<rath->getCoordinate()->x)){*/
+               
+               //x rath < x pared, x pared < x rath+128 | y rath < y pared, y pared < y rath128
+               //x rath < x pared, x pared < x rath+128 | y rath < y pared+128, y pared+128 < y rath+128
+               //x rath < x pared+128, x pared+128 < x rath+128 | y rath < y pared+128, y pared+128 < y rath+128
+               //x rath < x pared+128, x pared+128 < x rath+128 | y rath < y pared, y pared < y rath+128
+               
+               if(((prueba.x > rath->getCoordinate()->x) && (prueba.x < rath->getCoordinate()->x+128) && (prueba.y > rath->getCoordinate()->y) && (prueba.y < rath->getCoordinate()->y+128)) 
+                       || ((prueba.x > rath->getCoordinate()->x) && (prueba.x < rath->getCoordinate()->x+128) && (prueba.y+128 > rath->getCoordinate()->y) && (prueba.y+128 < rath->getCoordinate()->y+128))
+                       || ((prueba.x+128 > rath->getCoordinate()->x) && (prueba.x+128 < rath->getCoordinate()->x+128) && (prueba.y+128 > rath->getCoordinate()->y) && (prueba.y+128 < rath->getCoordinate()->y+128))
+                       || ((prueba.x+128 > rath->getCoordinate()->x) && (prueba.x+128 < rath->getCoordinate()->x+128) && (prueba.y > rath->getCoordinate()->y) && (prueba.y < rath->getCoordinate()->y+128))){
+                   colisiona = true;
+               }
+            }
+        }
+    }
+    
+    return colisiona;
 }

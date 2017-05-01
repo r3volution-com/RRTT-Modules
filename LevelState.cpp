@@ -58,10 +58,6 @@ void LevelState::Init(){
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(64,30));
     
-    enemy2 = new Enemy(Coordinate(2500,2300), game->rM->getTexture("Bloque"), Rect<float>(0,0,512,512), 10);
-    enemy2->getAnimation()->addAnimation("idle", Coordinate(0,0),1,10.0f);
-    enemy2->getAnimation()->initAnimator();
-    enemy2->getAnimation()->changeAnimation("idle",false);
     rath->addGun(gunArm);
    
     
@@ -79,11 +75,11 @@ void LevelState::Input(){
     rath->getCurrentGun()->getAnimation()->setRotation(mouseAng);
         
     if (Game::Instance()->iM->isActive("player-up")){
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
+        if(level->map->putHitbox(rath)==true){
             colision='a'; 
             rath->move(0,1);
         }
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==false && colision!='a'){
+        if(level->map->putHitbox(rath)==false && colision!='a'){
             rath->move(0,-1);
             colision='z';
         }
@@ -93,11 +89,11 @@ void LevelState::Input(){
         direcNow='u';
         mov=true;
     }else if (Game::Instance()->iM->isActive("player-down")){
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
+        if(level->map->putHitbox(rath)==true){
             colision='b'; 
             rath->move(0,-1);
         }
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==false && colision!='b'){
+        if(level->map->putHitbox(rath)==false && colision!='b'){
             rath->move(0,1);
             colision='z';
         }
@@ -111,11 +107,11 @@ void LevelState::Input(){
             direcNow='d';
         }
     }else if (Game::Instance()->iM->isActive("player-left")){
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
+        if(level->map->putHitbox(rath)==true){
             colision='i'; 
             rath->move(1,0);
         }
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==false && colision!='i'){
+        if(level->map->putHitbox(rath)==false && colision!='i'){
             rath->move(-1,0);
             colision='z';
         }
@@ -126,11 +122,11 @@ void LevelState::Input(){
         direcNow='l';
         mov=true;
     }else if (Game::Instance()->iM->isActive("player-right")){
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
+        if(level->map->putHitbox(rath)==true){
             colision='d'; 
             rath->move(-1,0);
         }
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==false && colision!='d'){
+        if(level->map->putHitbox(rath)==false && colision!='d'){
             rath->move(1,0);
             colision='z';
         }        
@@ -166,11 +162,11 @@ void LevelState::Input(){
                 ata=true;
             }
     }else if(Game::Instance()->iM->isActive("player-up-left")){ 
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
+        if(level->map->putHitbox(rath)==true){
             colision='q'; 
             rath->move(1,1);
         }
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==false && colision!='q'){
+        if(level->map->putHitbox(rath)==false && colision!='q'){
             rath->move(-1,-1);
             colision='z';
         } 
@@ -181,11 +177,11 @@ void LevelState::Input(){
         direcNow='l';
         mov=true;
     }else if(Game::Instance()->iM->isActive("player-up-right")){
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
+        if(level->map->putHitbox(rath)==true){
             colision='w'; 
             rath->move(-1,1);
         }
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==false && colision!='w'){
+        if(level->map->putHitbox(rath)==false && colision!='w'){
             rath->move(1,-1);
             colision='z';
         } 
@@ -196,11 +192,11 @@ void LevelState::Input(){
         direcNow='r';
         mov=true;
     }else if(Game::Instance()->iM->isActive("player-down-left")){ 
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
+        if(level->map->putHitbox(rath)==true){
             colision='r'; 
             rath->move(1,-1);
         }
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==false && colision!='r'){
+        if(level->map->putHitbox(rath)==false && colision!='r'){
             rath->move(-1,1);
             colision='z';
         } 
@@ -211,11 +207,11 @@ void LevelState::Input(){
         direcNow='l';
         mov=true;
     }else if(Game::Instance()->iM->isActive("player-down-right")){
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
+        if(level->map->putHitbox(rath)==true){
             colision='t'; 
             rath->move(-1,-1);
         }
-        if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==false && colision!='t'){
+        if(level->map->putHitbox(rath)==false && colision!='t'){
             rath->move(1,1);
             colision='z';
         } 
@@ -246,22 +242,20 @@ void LevelState::Render(){
     Game::Instance()->window->setView(view);
     
     rath->getAnimation()->updateAnimator();
-    enemy2->getAnimation()->updateAnimator();
     
     Coordinate inc(rath->getState()->getIC());
-    Coordinate inc2(enemy2->getState()->getIC());
     
     rath->setPosition(Coordinate(inc.x, inc.y));
-    enemy2->setPosition(inc2.x, inc2.y);
     
     Game::Instance()->window->setView(Game::Instance()->view);
     
     level->drawAll();
     
+    level->map->putHitbox(rath);
+    
     Game::Instance()->view.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
-    Game::Instance()->window->draw(*enemy2->getAnimation()->getSprite());
     
     console->drawConsole();
 }

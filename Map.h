@@ -15,7 +15,8 @@ class Map {
         XMLElement *layer;
         XMLElement **data;
         XMLElement *capas;
-        int ***_tilemap;        
+        int ***_tilemap;  
+        bool colisiona;
         
     public:
         XMLDocument doc;
@@ -51,6 +52,9 @@ class Map {
         
         //Acceder al gid del tile en el que se encuentra el enemigo.
         int getGid(Enemy *enemy, int id1, int id2);
+        
+        //Colocar las hitboxs
+        bool putHitbox(Player *rath);
 };
 
 #endif /* MAP_H */

@@ -18,6 +18,7 @@ public:
     void drawAll();
     void enemyAI(Player *rath){enemy->AI(rath);}
     Enemy *enemy;
+    Map *map;
 
 private:
 
@@ -45,7 +46,6 @@ private:
     Note *note;
     Boss *boss;
     NPC *npc;
-    Map *map;
     Gun *gun;
     Crystals *crystal;
     
