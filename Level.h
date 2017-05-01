@@ -15,6 +15,7 @@ public:
     
     Level(int numLevel);
     void drawAll();
+    void enemyAI(Player *rath){enemy->AI(rath);}
 
 private:
 
@@ -34,10 +35,9 @@ private:
     void loadNote();
     //Cargamos los enemigos
     void loadEnemy();
+    //
     
-    //Player se carga en levelState
-    Player *player;
-    
+    //Player se carga en levelState   
     Note *note;
     Boss *boss;
     Enemy *enemy;

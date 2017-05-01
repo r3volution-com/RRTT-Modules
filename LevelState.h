@@ -8,9 +8,11 @@
 #include "libs/ResourceManager.h"
 #include "HUD.h"
 #include "Player.h"
+#include "Level.h"
 
 class LevelState : public GameState {
     private:
+        Level *level;
         ResourceManager *rM;
         Texture *playerTexture;
         Player *rath;

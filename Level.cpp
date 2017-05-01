@@ -40,12 +40,14 @@ void Level::loadNote(){
 
 void Level::loadEnemy(){
     
-    Game::Instance()->rM->loadTexture("enemy", "resources/sprites.png");
-    
-    enemy = new Enemy(Coordinate(2900,1900), Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128), 10);
-    enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
-    enemy->getAnimation()->initAnimator();
-    enemy->getAnimation()->changeAnimation("idle", false);
+    if(level==1){
+        Game::Instance()->rM->loadTexture("enemy", "resources/sprites.png");
+
+        enemy = new Enemy(Coordinate(2900,1900), Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128), 10);
+        enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
+        enemy->getAnimation()->initAnimator();
+        enemy->getAnimation()->changeAnimation("idle", false);
+    }
 }
 
 void Level::drawAll(){
