@@ -14,7 +14,7 @@ public:
     int level;
     
     Level(int numLevel);
-    void drawAll(sf::RenderWindow *window);
+    void drawAll();
 
 private:
 
@@ -30,9 +30,14 @@ private:
     
     //Cargo el mapa
     void loadMap();
-    void loadPlayer();
+    //Cargamos las notas
+    void loadNote();
+    //Cargamos los enemigos
+    void loadEnemy();
     
+    //Player se carga en levelState
     Player *player;
+    
     Note *note;
     Boss *boss;
     Enemy *enemy;
