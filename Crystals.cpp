@@ -1,4 +1,5 @@
 #include "Crystals.h"
+#include <iostream>
 
 Crystals::Crystals(Texture *tex, Rect<float> rect) {
     hitbox = new Hitbox(0, 0, rect.w, rect.h);

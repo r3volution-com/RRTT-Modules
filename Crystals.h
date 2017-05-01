@@ -9,7 +9,6 @@
 
 class Crystals {
 private:
-    Player *rath;
     Hitbox *hitbox;
     Sprite *sprite;
     bool touched;

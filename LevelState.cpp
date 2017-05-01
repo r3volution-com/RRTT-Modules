@@ -63,14 +63,14 @@ void LevelState::Init(){
     enemy2->getAnimation()->initAnimator();
     enemy2->getAnimation()->changeAnimation("idle",false);
     rath->addGun(gunArm);
-   
-    
 }
 
 void LevelState::Update(){
     
     level->enemyAI(rath);
-    
+    if(level->getCrystal()->collision(rath->getHitbox())){
+        level->getCrystal()->setTouched();
+    }
 }
 
 void LevelState::Input(){
@@ -92,8 +92,7 @@ void LevelState::Input(){
         }
         direcNow='u';
         mov=true;
-    }
-    if (Game::Instance()->iM->isActive("player-down")){
+    }else if (Game::Instance()->iM->isActive("player-down")){
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
             colision='b'; 
             rath->move(0,-1);
@@ -111,8 +110,7 @@ void LevelState::Input(){
             mov=true;
             direcNow='d';
         }
-    }
-    if (Game::Instance()->iM->isActive("player-left")){
+    }else if (Game::Instance()->iM->isActive("player-left")){
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
             colision='i'; 
             rath->move(1,0);
@@ -127,8 +125,7 @@ void LevelState::Input(){
         direcX='l';
         direcNow='l';
         mov=true;
-    }
-    if (Game::Instance()->iM->isActive("player-right")){
+    }else if (Game::Instance()->iM->isActive("player-right")){
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
             colision='d'; 
             rath->move(-1,0);
@@ -143,8 +140,7 @@ void LevelState::Input(){
         direcX='r';
         direcNow='r';
         mov=true;
-    }
-    if (Game::Instance()->iM->isActive("player-Lclick")){
+    }else if (Game::Instance()->iM->isActive("player-Lclick")){
         if(mouseAng<315 && mouseAng>225 && ata == false){
                 //derecha BIEN
                 rath->weaponAttack();
@@ -169,9 +165,7 @@ void LevelState::Input(){
                 rath->getAnimation()->changeAnimation("ataqueAbajo", true);
                 ata=true;
             }
-    }
-    
-    if(Game::Instance()->iM->isActive("player-up-left")){ 
+    }else if(Game::Instance()->iM->isActive("player-up-left")){ 
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
             colision='q'; 
             rath->move(1,1);
@@ -186,8 +180,7 @@ void LevelState::Input(){
         direcX='l';
         direcNow='l';
         mov=true;
-    }
-    if(Game::Instance()->iM->isActive("player-up-right")){
+    }else if(Game::Instance()->iM->isActive("player-up-right")){
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
             colision='w'; 
             rath->move(-1,1);
@@ -202,8 +195,7 @@ void LevelState::Input(){
         direcX='r';
         direcNow='r';
         mov=true;
-    }
-    if(Game::Instance()->iM->isActive("player-down-left")){ 
+    }else if(Game::Instance()->iM->isActive("player-down-left")){ 
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
             colision='r'; 
             rath->move(1,-1);
@@ -218,8 +210,7 @@ void LevelState::Input(){
         direcX='l';
         direcNow='l';
         mov=true;
-    }
-    if(Game::Instance()->iM->isActive("player-down-right")){
+    }else if(Game::Instance()->iM->isActive("player-down-right")){
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
             colision='t'; 
             rath->move(-1,-1);
@@ -253,8 +244,6 @@ void LevelState::Render(){
     sf::View view = sf::View(sf::FloatRect(0,0,1280,720));
     
     Game::Instance()->window->setView(view);
-    
-    Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     
     rath->getAnimation()->updateAnimator();
     enemy2->getAnimation()->updateAnimator();
