@@ -22,6 +22,7 @@ void LevelState::Init(){
     
     game->rM->loadTexture("player", "resources/sprites.png");
     game->rM->loadTexture("console-bg", "resources/console-bg.png");
+    
     game->rM->loadFont("console", "resources/font.ttf");
     
     rath = new Player(Coordinate(3900,2700), game->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
@@ -48,7 +49,7 @@ void LevelState::Init(){
     game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
     
-    game->iM->addAction("console", thor::Action(sf::Keyboard::F12));
+    game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
 
     console = new Console(Coordinate(0,500), game->rM->getTexture("console-bg"), Rect<float>(0,0,1280,220), game->rM->getFont("console"));
 
@@ -59,14 +60,15 @@ void LevelState::Init(){
     gunArm->getAnimation()->setOrigin(Coordinate(64,30));
     
     rath->addGun(gunArm);
-   
     
 }
 
 void LevelState::Update(){
     
     level->enemyAI(rath);
-    
+    if(level->getCrystal()->collision(rath->getHitbox())){
+        level->getCrystal()->setTouched();
+    }
 }
 
 void LevelState::Input(){
@@ -233,13 +235,11 @@ void LevelState::Input(){
         if(!sf::Mouse::isButtonPressed(sf::Mouse::Left))
         ata=false;
     }
+    
+    if (Game::Instance()->iM->isActive("console")) console->toggleActive();
 }
 
 void LevelState::Render(){
-    
-    sf::View view = sf::View(sf::FloatRect(0,0,1280,720));
-    
-    Game::Instance()->window->setView(view);
     
     rath->getAnimation()->updateAnimator();
     
@@ -247,15 +247,21 @@ void LevelState::Render(){
     
     rath->setPosition(Coordinate(inc.x, inc.y));
     
-    Game::Instance()->window->setView(Game::Instance()->view);
+    /***RENDER***/
+    Game::Instance()->cameraView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    Game::Instance()->window->setView(Game::Instance()->cameraView);
     
     level->drawAll();
     
     level->map->putHitbox(rath);
     
-    Game::Instance()->view.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
+    
+    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
+    
     
     console->drawConsole();
 }

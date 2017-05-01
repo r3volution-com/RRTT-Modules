@@ -8,6 +8,7 @@ Gun::Gun(Coordinate position, Rect<float> animRect, Texture *tex) {
     gunAnimation->addAnimation("idle", Coordinate(animRect.x, animRect.y), 2, 1.0f);
     gunAnimation->addAnimation("attack", Coordinate(animRect.x, animRect.y+animRect.h), 2, 1.0f);
     gunAnimation->setPosition(position);
+    bulletLoaded = false;
 }
 
 Gun::~Gun() {
@@ -20,6 +21,7 @@ Gun::~Gun() {
 }
 
 void Gun::setAttack(Bullet *atk){
+    bulletLoaded = true;
     attack = atk;
 }
 

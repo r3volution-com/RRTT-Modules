@@ -44,6 +44,7 @@ void Console::toggleActive(){
 
 void Console::drawConsole(){
     if (active){
+        cout << "esto es mierda";
         Game::Instance()->window->draw(*background->getSprite());
         Game::Instance()->window->draw(*backlog->getText());
         Game::Instance()->window->draw(*actual->getText());

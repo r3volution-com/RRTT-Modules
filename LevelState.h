@@ -18,7 +18,6 @@ class LevelState : public GameState {
         ResourceManager *rM;
         Texture *playerTexture;
         Player *rath;
-        Crystals *crystal;
         Console *console;
         int direcX = 'r';
         int direcNow = 'z';
@@ -30,6 +29,7 @@ class LevelState : public GameState {
         bool ata=false;
         Trigonometry *tri;
         Enemy *enemy2;
+        HUD *hud;
     public:
         LevelState(); //ToDo: level
         void Init();

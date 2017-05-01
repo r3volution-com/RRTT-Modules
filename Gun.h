@@ -14,6 +14,7 @@ class Gun {
         Hitbox *hitbox;
         Bullet *attack;
         
+        bool bulletLoaded;
         bool active;
         
         Time *gunCooldown;

@@ -19,6 +19,7 @@ public:
     void enemyAI(Player *rath){enemy->AI(rath);}
     Enemy *enemy;
     Map *map;
+    Crystals *getCrystal(){return crystal;}
 
 private:
 
