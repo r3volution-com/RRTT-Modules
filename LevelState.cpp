@@ -163,7 +163,7 @@ void LevelState::Input(){
                 rath->getAnimation()->changeAnimation("ataqueAbajo", true);
                 ata=true;
             }
-    }else if(Game::Instance()->iM->isActive("player-up-left")){ 
+    } if(Game::Instance()->iM->isActive("player-up-left")){ 
         if(level->map->putHitbox(rath)==true){
             colision='q'; 
             rath->move(1,1);
