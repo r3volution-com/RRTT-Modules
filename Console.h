@@ -25,6 +25,8 @@ public:
     void sendCommand(std::string command);
     
     void drawConsole();
+    
+    void toggleActive();
 };
 
 #endif /* CONSOLE_H */

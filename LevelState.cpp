@@ -1,6 +1,7 @@
 #include "LevelState.h"
 #include "Game.h"
 #include "Level.h"
+#include "Console.h"
 
 #define PI 3,14159265f;
 
@@ -13,25 +14,34 @@ LevelState::~LevelState(){
 }
 
 void LevelState::Init(){
-    
     level = new Level(1);
     
-    Game::Instance()->rM->loadTexture("player", "resources/sprites.png");
-    rath = new Player(Coordinate(3900,2700), Game::Instance()->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
+    Game *game = Game::Instance();
+    
+    game->rM->loadTexture("player", "resources/sprites.png");
+    game->rM->loadTexture("console-bg", "resources/console-bg.png");
+    game->rM->loadFont("console", "resources/font.ttf");
+    
+    rath = new Player(Coordinate(3900,2700), game->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
     rath->getAnimation()->initAnimator();
     rath->getAnimation()->changeAnimation("idle", false);
     
-    Game::Instance()->iM->addAction("player-up", thor::Action(sf::Keyboard::Up));
-    Game::Instance()->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
-    Game::Instance()->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
-    Game::Instance()->iM->addAction("player-left", thor::Action(sf::Keyboard::Left));
-    Game::Instance()->iM->addAction("player-Lclick", thor::Action(sf::Mouse::Left));
+    game->iM->addAction("player-up", thor::Action(sf::Keyboard::Up));
+    game->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
+    game->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
+    game->iM->addAction("player-left", thor::Action(sf::Keyboard::Left));
+    game->iM->addAction("player-Lclick", thor::Action(sf::Mouse::Left));
     
-    Game::Instance()->iM->addAction("player-up-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Up));
-    Game::Instance()->iM->addAction("player-up-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Up));
-    Game::Instance()->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
-    Game::Instance()->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
+    game->iM->addAction("player-up-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Up));
+    game->iM->addAction("player-up-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Up));
+    game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
+    game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
+    
+    game->iM->addAction("console", thor::Action(sf::Keyboard::F12));
+
+    console = new Console(Coordinate(0,500), game->rM->getTexture("console-bg"), Rect<float>(0,0,1280,220), game->rM->getFont("console"));
+
 }
 
 void LevelState::Update(){
@@ -90,6 +100,8 @@ void LevelState::Input(){
     if(Game::Instance()->iM->isActive("player-up-right")) rath->move(1,-1);
     if(Game::Instance()->iM->isActive("player-down-left")) rath->move(-1,1);
     if(Game::Instance()->iM->isActive("player-down-right")) rath->move(1,1);
+    
+    if(Game::Instance()->iM->isActive("console")) console->toggleActive();
 }
 
 void LevelState::Render(){
@@ -102,6 +114,7 @@ void LevelState::Render(){
     rath->getAnimation()->updateAnimator();
     rath->setPosition(inc.x, inc.y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
+    console->drawConsole();
 }
 
 void LevelState::CleanUp(){

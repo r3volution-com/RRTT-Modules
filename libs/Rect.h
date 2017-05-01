@@ -25,6 +25,13 @@ class Rect {
         sf::FloatRect getFloatRect(){
             return sf::FloatRect(x, y, w, h);
         }
+        
+        friend std::ostream& operator << (std::ostream &o,const Rect<float> &p);
 };
+
+inline std::ostream& operator << (std::ostream &o,const Rect<float> &p) {
+    o << "(" << p.x << ", " << p.y << ", " << p.w << ", " << p.h << ")\n";
+    return o;
+}
 
 #endif /* RECT_H */

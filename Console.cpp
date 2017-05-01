@@ -4,6 +4,7 @@
 #include "Game.h"
 
 Console::Console(Coordinate coor, Texture *bg, Rect<float> rect, Font *f) {
+    cout << coor << " in " << rect;
     background = new Sprite(bg, rect);
     background->setPosition(coor);
     
@@ -33,11 +34,18 @@ void Console::sendCommand(std::string command){
     std::ostringstream os;
     os << (std::string)backlog->getText()->getString() << "\n" << command;
     backlog->setText(os.str());
-    //Parsear, buscar en map y llamar a function
+    //TODO: Parsear, buscar en map y llamar a function
+}
+
+void Console::toggleActive(){
+    if (!active) active = true;
+    else active = false;
 }
 
 void Console::drawConsole(){
-    Game::Instance()->window->draw(*background->getSprite());
-    Game::Instance()->window->draw(*backlog->getText());
-    Game::Instance()->window->draw(*actual->getText());
+    if (active){
+        Game::Instance()->window->draw(*background->getSprite());
+        Game::Instance()->window->draw(*backlog->getText());
+        Game::Instance()->window->draw(*actual->getText());
+    }
 }

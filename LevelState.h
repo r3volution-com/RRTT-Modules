@@ -9,6 +9,7 @@
 #include "HUD.h"
 #include "Player.h"
 #include "Level.h"
+#include "Console.h"
 
 class LevelState : public GameState {
     private:
@@ -16,6 +17,7 @@ class LevelState : public GameState {
         ResourceManager *rM;
         Texture *playerTexture;
         Player *rath;
+        Console *console;
         int direcX = 'r';
         int direcNow = 'z';
         bool mov = false;
