@@ -12,50 +12,23 @@
  */
 
 #include <cstdlib>
-#include "../Enemy.h"
+#include "Game.h"
 
 using namespace std;
 
 int main(int argc, char** argv) {
-    sf::RenderWindow window(sf::VideoMode(640, 480), "RRTT: Sprite Test");
     
-    Texture *text = new Texture("resources/sprites.png");
-    Enemy *enemy= new Enemy(new Rect<float> (320, 240, 128, 128), 1.0f);
-    enemy->loadAnimation(text, new Coordinate(0,0), 3, 0.5f);
-    window.setFramerateLimit(120);
-    
-    //Bucle del juego
-    while (window.isOpen()) {
-        //Bucle de obtención de eventos
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            switch(event.type) {
-                //Si se recibe el evento de cerrar la ventana la cierro
-                case sf::Event::Closed:
-                    window.close();
-                    break;
-                    //Se pulsó una tecla, imprimo su codigo
-                case sf::Event::KeyPressed:
-                    //Verifico si se pulsa alguna tecla de movimiento
-                    switch(event.key.code) {
-                        //Tecla ESC para salir
-                        case sf::Keyboard::Escape:
-                            window.close();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                default: break;
-            }
+        Game *game = Game::Instance();
+        game->Init();
+        //game->window->setFramerateLimit(20);
+        while (game->window->isOpen()) {
+        if(game->iaTimer->isExpired() == true){
+            game->Input();
+            game->Update();
+            game->iaTimer->restart();
+            game->currentTime = 1.0f/game->iaPS;
         }
-        
-        
-        
-        window.clear();
-        window.draw(enemy->getAnimation()->getCurrentSprite());
-        window.display();
+        game->Render();
     }
-    return 0;
 }
 

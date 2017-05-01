@@ -28,6 +28,7 @@ class LevelState : public GameState {
         bool ata=false;
         Trigonometry *tri;
         Enemy *enemy2;
+        HUD *hud;
     public:
         LevelState(); //ToDo: level
         void Init();
