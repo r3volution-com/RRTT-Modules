@@ -55,8 +55,8 @@ void Enemy::AI(Player* rath){
         hits = 0;
         freeze = false;
     }
-    if(distance < 300){
-        if(distanceIni <= 500 && home == true){
+    if(distance < disPlayerEnemy){
+        if(distanceIni <= disEnemyHome && home == true){
             Entity::setSpeed(2.0f);
             Entity::move(dir->x, dir->y);
             if(type == 2){
@@ -79,6 +79,9 @@ void Enemy::AI(Player* rath){
                     }
                 }
             }
+            if(type == 3){
+                
+            }
             if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
                 if(type == 3){
                     if(freeze == false && hits == 0){
@@ -98,7 +101,7 @@ void Enemy::AI(Player* rath){
                 home = true;
             }
         }
-    }else if(distanceIni >= 500 || home == false){
+    }else if(distanceIni >= disEnemyHome || home == false){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
                 Entity::setSpeed(7.0f);
