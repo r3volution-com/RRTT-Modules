@@ -95,7 +95,6 @@ void Enemy::AI(Player* rath){
                 }
             }
             if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
-                std::cout<<"si"<<"\n";
                 rath->damage(dmgHit);
                 cd->restart();
             }

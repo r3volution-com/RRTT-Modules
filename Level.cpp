@@ -11,7 +11,6 @@ Level::Level(int numLevel) {
     loadNote();
     loadEnemy();
     loadCrystal();
-    
 }
 
 void Level::loadMap(){
@@ -44,19 +43,22 @@ void Level::loadCrystal(){
     if(level==1){
         Game::Instance()->rM->loadTexture("crystal", "resources/Crystal.png");
         
-        crystal = new Crystals(Game::Instance()->rM->getTexture("crystal"), Rect<float>(0, 0, 64, 60));
-        crystal->setPosition(Coordinate(350, 150));
+        crystal = new Crystals(Game::Instance()->rM->getTexture("crystal"), Rect<float>(0, 0, 174, 290));
+        crystal->setPosition(Coordinate(3000, 3000));
     }
 }
 
 void Level::loadEnemy(){
     
     if(level==1){
-        Game::Instance()->rM->loadTexture("enemy", "resources/sprites.png");
+        Game::Instance()->rM->loadTexture("enemy", "resources/enemy.png");
+        Game::Instance()->rM->loadTexture("boss", "resources/boss.png");
         Game::Instance()->rM->loadTexture("Bloque", "resources/Bloque.jpg");
+        Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
+        //Game::Instance()->rM->loadTexture("bullet", "resources/Crystal.png");
 
         enemy = new Enemy(Coordinate(2900,1900), Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128), 10);
-        enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
+        enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         enemy->getAnimation()->initAnimator();
         enemy->getAnimation()->changeAnimation("idle", false);
         enemy->setDistanceEnemyHome(1000);
@@ -66,6 +68,10 @@ void Level::loadEnemy(){
         enemy->setType(3);
         enemy->setFreeze(7);
         
+        boss = new Boss(Coordinate(3500,2500), Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128), 10);
+        boss->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
+        boss->getAnimation()->initAnimator();
+        boss->getAnimation()->changeAnimation("idle", false);
     }
 }
 
@@ -87,5 +93,15 @@ void Level::drawAll(){
     enemy->getAnimation()->updateAnimator();
     enemy->setPosition(inc.x, inc.y);
     Game::Instance()->window->draw(*enemy->getAnimation()->getSprite());
+    
+    
+    Coordinate inc2(boss->getState()->getIC());
+    boss->getAnimation()->updateAnimator();
+    //Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
+    boss->setPosition(inc2.x, inc2.y);
+    Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
+    
+    
+    
 
 }

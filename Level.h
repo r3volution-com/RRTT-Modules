@@ -18,6 +18,7 @@ public:
     void drawAll();
     void enemyAI(Player *rath){enemy->AI(rath);}
     Enemy *enemy;
+    Crystals *getCrystal(){return crystal;}
 
 private:
 
