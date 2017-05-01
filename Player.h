@@ -109,6 +109,7 @@ class Player : public Entity {
         void setFlashCooldown(Time *cooldown);
         
         void setPosition(Coordinate newCoor);
+        void setPosition(float x, float y);
         
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }

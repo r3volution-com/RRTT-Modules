@@ -82,3 +82,10 @@ void Player::setPosition(Coordinate newCoor){
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     if (currentGun >= 0) guns->at(currentGun)->setPosition(*Entity::getCoordinate());
 }
+void Player::setPosition(float x, float y){
+    Coordinate newCoor(x,y);
+    Entity::getAnimation()->setPosition(newCoor);
+    Entity::getHitbox()->setPosition(newCoor);
+    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
+    if (currentGun >= 0) guns->at(currentGun)->setPosition(*Entity::getCoordinate());
+}
