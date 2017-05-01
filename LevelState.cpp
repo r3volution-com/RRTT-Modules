@@ -156,9 +156,9 @@ void LevelState::Input(){
         direcNow='r';
         mov=true;
     }
-    /*if (Game::Instance()->iM->isActive("player-Lclick")){
+    if (Game::Instance()->iM->isActive("player-Lclick")){
         
-    }*/
+    }
     
     if(Game::Instance()->iM->isActive("player-up-left")){ 
         if(rath->getHitbox()->checkCollision(enemy2->getHitbox())==true){
@@ -236,6 +236,10 @@ void LevelState::Render(){
     Game::Instance()->window->setView(Game::Instance()->view);
     
     level->drawAll();
+    
+    Game::Instance()->view.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
+    
+    Game::Instance()->window->setView(Game::Instance()->view);
     
     Coordinate inc(rath->getState()->getIC());
     //cout << inc;
