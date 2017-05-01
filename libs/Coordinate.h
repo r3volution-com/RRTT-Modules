@@ -1,6 +1,7 @@
 #ifndef COORDINATE_H
 #define COORDINATE_H
 
+#include <SFML/System.hpp>
 #include <ostream>
 
 class Coordinate {
@@ -10,6 +11,8 @@ class Coordinate {
         float x, y;
         
         Coordinate(float xC, float yC);
+        Coordinate(sf::Vector2i coor);
+        Coordinate(sf::Vector2f coor);
         Coordinate(const Coordinate& coor);
         virtual ~Coordinate();
         

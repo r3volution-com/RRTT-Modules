@@ -21,7 +21,7 @@ Button::~Button() {
 }
 
 void Button::setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size){
-    text = new Text(t, Coordinate(buttonData->x+(buttonData->w/2), buttonData->y), f, false);
+    text = new Text(t, Coordinate(buttonData->x+(buttonData->w/2), buttonData->y+(buttonData->h/2)), f, true);
     text->setStyles(color, outlineColor, 1, size);
 }
 

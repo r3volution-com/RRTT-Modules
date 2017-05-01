@@ -33,6 +33,7 @@ class Game {
         
         ResourceManager *rM;
         Event *iM;
+        Hitbox *mouse;
         
         Time *iaTimer;
         int iaPS;

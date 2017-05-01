@@ -18,7 +18,7 @@ Game::Game(){
     intro = new IntroState();
     menu = new MenuState();
     level = new LevelState();
-    game = level; //ToDo: Cambiar
+    game = intro; //ToDo: Cambiar
     
     fpsTimer = new Time(1);
     fps = 60;
@@ -32,7 +32,7 @@ Game::Game(){
     interpolation = 0;
     
     rM = new ResourceManager();
-    
+    mouse = new Hitbox(0, 0, 1, 1);
     iM = new Event();
 }
 
@@ -45,6 +45,7 @@ void Game::Init(){
 
 void Game::Input(){
     if (iM->isActive("close")) Game::Instance()->window->close();
+    mouse->setPosition(Coordinate(sf::Mouse::getPosition(*Game::Instance()->window)));
     game->Input();
 }
 

@@ -2,23 +2,17 @@
 #include "Game.h"
 
 int main(int argc, char** argv) {
-
-    Game *p1 = Game::Instance();
-    
-    p1->Init();        
-
-    Time *clock = new Time(1.0f/game->iaSpeed);
-    
-    while (p1->window->isOpen()){
-        
-        if(clock->isExpired() == true){
-            p1->Input();
-
-            p1->Update();
+    Game *game = Game::Instance();
+    game->Init();
+    //game->window->setFramerateLimit(20);
+    while (game->window->isOpen()) {
+        if(game->iaTimer->isExpired() == true){
+            game->Input();
+            game->Update();
+            game->iaTimer->restart();
+            game->currentTime = 1.0f/game->iaPS;
         }
-        
-        p1->Render();
-        
+        game->Render();
     }
     return 0;
 }

@@ -1,12 +1,11 @@
 #include "Menu.h"
 #include "Game.h"
 
-Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont, int numButtons) {
+Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont) {
     background = new Sprite(bg, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
     buttonTextureRect = tRect;
     buttonLayout = bLayout;
     buttonFont = bFont;
-    maxButtons = numButtons;
     buttons = new std::vector<Button*>();
 }
 
@@ -19,13 +18,10 @@ Menu::~Menu() {
     buttons = NULL;
 }
 
-bool Menu::addButton(Coordinate position, std::string text, sf::Color color, sf::Color outlineColor, int size){
-    if (buttons->size() < maxButtons){
-        Button *button = new Button(position, buttonLayout, *buttonTextureRect);
-        button->setText(text, color, outlineColor, buttonFont, size);
-        buttons->push_back(button);
-        return true;
-    } else return false;
+void Menu::addButton(Coordinate position, std::string text, sf::Color color, sf::Color outlineColor, int size){
+    Button *button = new Button(position, buttonLayout, *buttonTextureRect);
+    button->setText(text, color, outlineColor, buttonFont, size);
+    buttons->push_back(button);
 }
 
 void Menu::checkHover(Hitbox* mouse) {

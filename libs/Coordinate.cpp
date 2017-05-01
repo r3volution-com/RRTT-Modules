@@ -10,6 +10,16 @@ Coordinate::Coordinate(const Coordinate& coor) {
     y = coor.y;
 }
 
+Coordinate::Coordinate(sf::Vector2i coor){
+    x = coor.x;
+    y = coor.y;
+}
+
+Coordinate::Coordinate(sf::Vector2f coor){
+    x = coor.x;
+    y = coor.y;
+}
+
 void Coordinate::setCoordinate(float xC, float yC){
     x = xC;
     y = yC;

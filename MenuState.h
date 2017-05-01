@@ -2,8 +2,12 @@
 #define MENUSTATE_H
 
 #include "GameState.h"
+#include "Menu.h"
 
 class MenuState : public GameState{
+    private:
+        Menu *principal;
+        
     public:
         MenuState();
         void Init();
@@ -13,9 +17,6 @@ class MenuState : public GameState{
         void CleanUp();
         
         virtual ~MenuState();
-    
-    private:
-
 };
 
 #endif /* MENUSTATE_H */
