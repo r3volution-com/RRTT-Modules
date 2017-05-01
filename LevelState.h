@@ -17,6 +17,7 @@ class LevelState : public GameState {
         ResourceManager *rM;
         Texture *playerTexture;
         Player *rath;
+        Crystals *crystal;
         Console *console;
         int direcX = 'r';
         int direcNow = 'z';

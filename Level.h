@@ -8,6 +8,7 @@
 #include "NPC.h"
 #include "Map.h"
 #include "Gun.h"
+#include "Crystals.h"
 
 class Level {
 public:
@@ -34,6 +35,8 @@ private:
     void loadMap();
     //Cargamos las notas
     void loadNote();
+    //Cargamos los cristales
+    void loadCrystal();
     //Cargamos los enemigos
     void loadEnemy();
     //
@@ -44,6 +47,7 @@ private:
     NPC *npc;
     Map *map;
     Gun *gun;
+    Crystals *crystal;
     
 };
 

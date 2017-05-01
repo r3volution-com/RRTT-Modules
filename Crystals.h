@@ -5,14 +5,16 @@
 
 #include "libs/Hitbox.h"
 #include "libs/Sprite.h"
+#include "Player.h"
 
 class Crystals {
 private:
+    Player *rath;
     Hitbox *hitbox;
     Sprite *sprite;
     bool touched;
 public:
-    Crystals(Texture sprite, Rect<float> rect);
+    Crystals(Texture *sprite, Rect<float> rect);
     virtual ~Crystals();
     
     /**
