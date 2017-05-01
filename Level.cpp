@@ -11,7 +11,6 @@ Level::Level(int numLevel) {
     loadNote();
     loadEnemy();
     loadCrystal();
-    
 }
 
 void Level::loadMap(){

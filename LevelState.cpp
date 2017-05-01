@@ -63,15 +63,13 @@ void LevelState::Init(){
     enemy2->getAnimation()->initAnimator();
     enemy2->getAnimation()->changeAnimation("idle",false);
     rath->addGun(gunArm);
-   
-    
 }
 
 void LevelState::Update(){
     
     level->enemyAI(rath);
-    if(crystal->collision(rath->getHitbox())){
-        crystal->setTouched();
+    if(level->getCrystal()->collision(rath->getHitbox())){
+        level->getCrystal()->setTouched();
     }
 }
 
