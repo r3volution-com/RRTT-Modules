@@ -13,6 +13,14 @@ Level::Level(int numLevel) {
     loadCrystal();
 }
 
+Level::~Level(){
+    delete enemy;
+    delete map;
+    
+    enemy = NULL;
+    map = NULL;
+}
+
 void Level::loadMap(){
     
     //Cargamos bosque

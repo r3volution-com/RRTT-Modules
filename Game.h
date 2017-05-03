@@ -28,6 +28,7 @@ class Game {
         void Input();
         void Update();
         void ChangeCurrentState(const std::string &state);
+        virtual ~Game();
         
         Coordinate *screenSize;
         sf::RenderWindow *window;

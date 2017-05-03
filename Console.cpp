@@ -4,7 +4,6 @@
 #include "Game.h"
 
 Console::Console(Coordinate coor, Texture *bg, Rect<float> rect, Font *f) {
-    cout << coor << " in " << rect;
     background = new Sprite(bg, rect);
     background->setPosition(coor);
     

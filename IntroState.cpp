@@ -6,7 +6,8 @@ IntroState::IntroState() {
 }
 
 IntroState::~IntroState(){
-    
+    delete background;
+    background = NULL;
 }
 
 void IntroState::Init(){

@@ -43,6 +43,8 @@ private:
     void loadEnemy();
     //
     
+    virtual ~Level();
+    
     //Player se carga en levelState   
     Note *note;
     Boss *boss;
