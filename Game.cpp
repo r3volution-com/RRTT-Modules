@@ -61,7 +61,7 @@ void Game::Update(){
 
 void Game::Render(){
     deltaTime = currentTime-iaTimer->getTime();
-    currentTime = iaTimer->getTime();
+    currentTime = maxTime-iaTimer->getTime();
     interpolation = currentTime / maxTime;
     
     fpsCounter++;

@@ -87,6 +87,7 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
+    rath->getState()->update();
     Coordinate coor = Coordinate(Game::Instance()->mouse->hitbox->left, Game::Instance()->mouse->hitbox->top);
     float mouseAng = tri->angleWindow(coor);
     rath->getCurrentGun()->getAnimation()->setRotation(mouseAng);
@@ -260,7 +261,7 @@ void LevelState::Render(){
     rath->getAnimation()->updateAnimator();
     
     Coordinate inc(rath->getState()->getIC());
-    
+     
     rath->setPosition(Coordinate(inc.x, inc.y));
     
     /***RENDER***/

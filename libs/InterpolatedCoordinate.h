@@ -58,6 +58,8 @@ class InterpolatedCoordinate {
          */
         bool areEquals(float a, float b);
         
+        void update();
+        
         Coordinate *getCoordinate() { return act; }
         Coordinate *getLastCoordinate() { return last; }
         Coordinate *getNextCoordinate() { return last; }
