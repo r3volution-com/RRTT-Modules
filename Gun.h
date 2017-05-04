@@ -33,11 +33,14 @@ class Gun {
         virtual ~Gun();
         
         /**
-         * Metodo para realizar ataque
+         * Actualiza el tiempo de enfriamiento del arma
+         * @param gc: Tiempo de enfriamiento del arma
          */
-        
         void setGunCooldown(Time *gc);
         
+        /**
+         * Metodo para realizar ataque
+         */
         void doAttack();
         
         /**

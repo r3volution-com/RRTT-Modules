@@ -11,10 +11,22 @@ class IntroState : public GameState{
         Sprite *background;
     public:
         IntroState();
+        
+        /**
+         * Se realizan las primeras ejecuciones (se declara y ejecuta todo)
+         */
         void Init();
+        
+        
         void Input();
+        
+        
         void Update();
+        
+        
         void Render();
+        
+        
         void CleanUp();
         
         virtual ~IntroState();
