@@ -39,7 +39,7 @@ void LevelState::Init(){
     
     Game *game = Game::Instance();
     
-    game->rM->loadTexture("player", "resources/sprites.png");
+    game->rM->loadTexture("player", "resources/spritesRATH.png");
     
     rath = new Player(Coordinate(3900,2700), game->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
@@ -72,7 +72,7 @@ void LevelState::Init(){
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
-    gunArm->getAnimation()->setOrigin(Coordinate(64,30));
+    gunArm->getAnimation()->setOrigin(Coordinate(56,38));
     
     rath->addGun(gunArm);
     
@@ -92,7 +92,69 @@ void LevelState::Input(){
     float mouseAng = tri->angleWindow(coor);
     rath->getCurrentGun()->getAnimation()->setRotation(mouseAng);
         
-    if (Game::Instance()->iM->isActive("player-up")){
+    if(Game::Instance()->iM->isActive("player-up-left")){ 
+        if(level->map->putHitbox(rath)==true){
+            colision='q'; 
+            rath->move(1,1);
+        }
+        if(level->map->putHitbox(rath)==false && colision!='q'){
+            rath->move(-1,-1);
+            colision='z';
+        } 
+        if(direcNow!='l'){
+            rath->getAnimation()->changeAnimation("correrIzquierda", false);
+        }
+        direcX='l';
+        direcNow='l';
+        mov=true;
+    }else if(Game::Instance()->iM->isActive("player-up-right")){
+        if(level->map->putHitbox(rath)==true){
+            colision='w'; 
+            rath->move(-1,1);
+        }
+        if(level->map->putHitbox(rath)==false && colision!='w'){
+            rath->move(1,-1);
+            colision='z';
+        } 
+        if(direcNow!='r'){
+            rath->getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        direcX='r';
+        direcNow='r';
+        mov=true;
+    }else if(Game::Instance()->iM->isActive("player-down-left")){ 
+        if(level->map->putHitbox(rath)==true){
+            colision='r'; 
+            rath->move(1,-1);
+        }
+        if(level->map->putHitbox(rath)==false && colision!='r'){
+            rath->move(-1,1);
+            colision='z';
+        } 
+        if(direcNow!='l'){
+            rath->getAnimation()->changeAnimation("correrIzquierda", false);
+        }
+        direcX='l';
+        direcNow='l';
+        mov=true;
+    }else if(Game::Instance()->iM->isActive("player-down-right")){
+        if(level->map->putHitbox(rath)==true){
+            colision='t'; 
+            rath->move(-1,-1);
+        }
+        if(level->map->putHitbox(rath)==false && colision!='t'){
+            rath->move(1,1);
+            colision='z';
+        } 
+        if(direcNow!='r'){
+            rath->getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        direcX='r';
+        direcNow='r';
+        mov=true;
+    }
+    
+    else if (Game::Instance()->iM->isActive("player-up")){
         if(level->map->putHitbox(rath)==true){
             colision='a'; 
             rath->move(0,1);
@@ -179,67 +241,7 @@ void LevelState::Input(){
                 rath->getAnimation()->changeAnimation("ataqueAbajo", true);
                 ata=true;
             }
-    } if(Game::Instance()->iM->isActive("player-up-left")){ 
-        if(level->map->putHitbox(rath)==true){
-            colision='q'; 
-            rath->move(1,1);
-        }
-        if(level->map->putHitbox(rath)==false && colision!='q'){
-            rath->move(-1,-1);
-            colision='z';
-        } 
-        if(direcNow!='l'){
-            rath->getAnimation()->changeAnimation("correrIzquierda", false);
-        }
-        direcX='l';
-        direcNow='l';
-        mov=true;
-    }else if(Game::Instance()->iM->isActive("player-up-right")){
-        if(level->map->putHitbox(rath)==true){
-            colision='w'; 
-            rath->move(-1,1);
-        }
-        if(level->map->putHitbox(rath)==false && colision!='w'){
-            rath->move(1,-1);
-            colision='z';
-        } 
-        if(direcNow!='r'){
-            rath->getAnimation()->changeAnimation("correrDerecha", false);
-        }
-        direcX='r';
-        direcNow='r';
-        mov=true;
-    }else if(Game::Instance()->iM->isActive("player-down-left")){ 
-        if(level->map->putHitbox(rath)==true){
-            colision='r'; 
-            rath->move(1,-1);
-        }
-        if(level->map->putHitbox(rath)==false && colision!='r'){
-            rath->move(-1,1);
-            colision='z';
-        } 
-        if(direcNow!='l'){
-            rath->getAnimation()->changeAnimation("correrIzquierda", false);
-        }
-        direcX='l';
-        direcNow='l';
-        mov=true;
-    }else if(Game::Instance()->iM->isActive("player-down-right")){
-        if(level->map->putHitbox(rath)==true){
-            colision='t'; 
-            rath->move(-1,-1);
-        }
-        if(level->map->putHitbox(rath)==false && colision!='t'){
-            rath->move(1,1);
-            colision='z';
-        } 
-        if(direcNow!='r'){
-            rath->getAnimation()->changeAnimation("correrDerecha", false);
-        }
-        direcX='r';
-        direcNow='r';
-        mov=true;
-    }
+    } 
     if(!Game::Instance()->iM->isActive("player-up") && !Game::Instance()->iM->isActive("player-down") && 
         !Game::Instance()->iM->isActive("player-left") && !Game::Instance()->iM->isActive("player-right") && mov == true){
         rath->getAnimation()->changeAnimation("idle", false);
