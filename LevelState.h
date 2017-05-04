@@ -29,6 +29,7 @@ class LevelState : public GameState {
         Trigonometry *tri;
         Enemy *enemy2;
         HUD *hud;
+        Gun *gunArm;
     public:
         LevelState(); //ToDo: level
         void Init();

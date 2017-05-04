@@ -6,7 +6,9 @@ MenuState::MenuState() {
 }
 
 MenuState::~MenuState(){
+    delete principal;
     
+    principal = NULL;
 }
 
 void MenuState::Init(){
