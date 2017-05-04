@@ -11,9 +11,11 @@ private:
     Sprite *background;
     Text *backlog;
     Text *actual;
+    std::vector<std::string> *history;
     
-    std::map<std::string, std::function<void()>> *commands;
+    std::map<std::string, std::function<void(std::string)>> commands;
     
+    int historyLength;
     bool active;
 public:
     /**
@@ -31,7 +33,7 @@ public:
      * @param command: Comando a anadir
      * @param function: Funcion a anadir
      */
-    void addCommand(std::string command, std::function<void()> function);
+    void addCommand(std::string command, std::function<void(std::string)> function);
     
     /**
      * Escribir un comando por la consola
@@ -44,6 +46,7 @@ public:
      * @param command: Comando a enviar por consola
      */
     void sendCommand(std::string command);
+    void writeInBacklog(std::string command);
     
     /**
      * Dibujar la consola
@@ -60,6 +63,8 @@ public:
      * @return : Booleano
      */
     bool isActive() { return active; }
+    
+    std::vector<std::string> splitString(std::string text, std::string delimiter);
 };
 
 #endif /* CONSOLE_H */
