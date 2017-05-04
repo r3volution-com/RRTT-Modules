@@ -41,6 +41,7 @@ class Bullet {
          * @return: Booleano
          */
         bool collision(Hitbox *other);
+        void move(float dirX, float dirY);
         virtual ~Bullet();
         InterpolatedCoordinate *getState() { return coor; }
         Coordinate *getCoordinate() { return coor->getCoordinate(); }

@@ -33,11 +33,14 @@ class Gun {
         virtual ~Gun();
         
         /**
-         * Metodo para realizar ataque
+         * Actualiza el tiempo de enfriamiento del arma
+         * @param gc: Tiempo de enfriamiento del arma
          */
-        
         void setGunCooldown(Time *gc);
         
+        /**
+         * Metodo para realizar ataque
+         */
         void doAttack();
         
         /**
@@ -80,6 +83,7 @@ class Gun {
         float getAttackMaxCooldown() { return attackMaxCooldown; }
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return gunAnimation; }
+        Bullet *getBullet(){return attack;}
 };
 
 #endif /* Gun_H */

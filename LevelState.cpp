@@ -31,6 +31,23 @@ LevelState::LevelState() : GameState(){
 
 LevelState::~LevelState(){
     
+    delete rath;
+    delete tri;
+    delete gunArm;
+    delete rM;
+    
+    /*Faltaria:
+        - playerTexture
+     *  - level
+     *  - enemy2
+     *  - hud 
+     */  
+
+    rath = NULL;
+    tri = NULL;
+    gunArm = NULL;
+    rM = NULL;
+    
 }
 
 void LevelState::Init(){
@@ -40,6 +57,7 @@ void LevelState::Init(){
     Game *game = Game::Instance();
     
     game->rM->loadTexture("player", "resources/spritesRATH.png");
+    game->rM->loadTexture("fire", "resources/fuego.png");
     
     rath = new Player(Coordinate(3900,2700), game->rM->getTexture("player"), Rect<float>(0,0, 128, 128), 15);
     rath->getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
@@ -60,6 +78,8 @@ void LevelState::Init(){
     game->iM->addAction("player-left", thor::Action(sf::Keyboard::Left));
     game->iM->addAction("player-Lclick", thor::Action(sf::Mouse::Left));
     
+    game->iM->addAction("player-Rclick", thor::Action(sf::Mouse::Right));
+    
     game->iM->addAction("player-up-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-up-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
@@ -68,11 +88,20 @@ void LevelState::Init(){
     game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
 
-    Gun *gunArm = new Gun(Coordinate(0, 0), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
+    gunArm = new Gun(Coordinate(0, 0), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
-    gunArm->getAnimation()->setOrigin(Coordinate(56,38));
+    gunArm->getAnimation()->setOrigin(Coordinate(56,34));
+    gunArm->setDamage(30);
+    
+    bull = new Bullet(Coordinate(0,0), game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128), 15);
+    bull->getAnimation()->addAnimation("armaIdle", Coordinate(0, 128), 2, 2.0f);
+    bull->getAnimation()->initAnimator();
+    
+    gunArm->setAttack(bull);
+    
+    bullets = new std::vector<Bullet*>();
     
     rath->addGun(gunArm);
     
@@ -253,6 +282,9 @@ void LevelState::Input(){
         if(!sf::Mouse::isButtonPressed(sf::Mouse::Left))
         ata=false;
     }
+    if(Game::Instance()->iM->isActive("player-Rclick")){
+        instanceBullet(rath->getCurrentGun()->getBullet());
+    }
     
     if (Game::Instance()->iM->isActive("console")) Game::Instance()->console->toggleActive();
     //if (Game::Instance()->iM->isActive("text")) 
@@ -263,7 +295,18 @@ void LevelState::Render(){
     rath->getAnimation()->updateAnimator();
     
     Coordinate inc(rath->getState()->getIC());
-     
+    
+    if(bullets->size() > 0){
+        for(int x = 0; x < bullets->size(); x++){
+            Game::Instance()->window->draw(*bullets->at(x)->getAnimation()->getSprite());
+            for(int y = 0;y < level->getEnemys()->size(); y++){
+                if(bullets->at(x)->getHitbox()->checkCollision(level->getEnemys()->at(y)->getHitbox())){
+                    level->getEnemys()->at(y)->damage(rath->getCurrentGun()->getDamage());
+                }
+            }
+        }
+    }
+    
     rath->setPosition(Coordinate(inc.x, inc.y));
     
     /***RENDER***/
@@ -286,4 +329,8 @@ void LevelState::Render(){
 
 void LevelState::CleanUp(){
     
+}
+
+void LevelState::instanceBullet(Bullet *bul){
+    bullets->push_back(bul);
 }

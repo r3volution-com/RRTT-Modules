@@ -20,6 +20,8 @@ public:
     Enemy *enemy;
     Map *map;
     Crystals *getCrystal(){return crystal;}
+    
+    std::vector<Enemy*> *getEnemys(){return enemys;}
 
 private:
 
@@ -33,17 +35,30 @@ private:
 -Sprite sprite[ ]
 -Ataque attack[ ]*/
     
-    //Cargo el mapa
+    /**
+     * Carga del mapa
+     */
     void loadMap();
-    //Cargamos las notas
+    
+    /**
+     * Carga de las notas
+     */
     void loadNote();
-    //Cargamos los cristales
+    
+    /**
+     * Carga de los cristales
+     */
     void loadCrystal();
-    //Cargamos los enemigos
+    
+    /**
+     * Carga de los enemigos
+     */
     void loadEnemy();
     //
     
     virtual ~Level();
+    
+    
     
     //Player se carga en levelState   
     Note *note;
@@ -51,6 +66,8 @@ private:
     NPC *npc;
     Gun *gun;
     Crystals *crystal;
+    
+    std::vector<Enemy*> *enemys;
     
 };
 

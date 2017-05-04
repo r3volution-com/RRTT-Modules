@@ -32,7 +32,7 @@ void Bullet::setPosition(float x, float y){
 bool Bullet::collision(Hitbox *other){
     return hitbox->checkCollision(other);
 }
-/*
+
 void Bullet::move(float dirX, float dirY){
     coor->move(dirX*speed, dirY*speed);
-}*/
+}

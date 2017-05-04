@@ -43,7 +43,7 @@ class Boss : public Enemy{
          * @return 
          */
         bool changeGun(int gun);
-        //Gun *getCurrentGun() { return guns->at(currentGun); }
+        Gun *getCurrentGun() { return guns->at(currentGun); }
 };
 
 #endif /* BOSS_H */
