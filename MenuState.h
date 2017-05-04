@@ -14,10 +14,29 @@ class MenuState : public GameState{
         int menuactual;
     public:
         MenuState();
+        /**
+         * Se realizan las primeras ejecuciones (se declara y ejecuta todo)
+         */
         void Init();
+        
+        /**
+         * Conjunto de teclas utilizadas
+         */
         void Input();
+        
+        /**
+         * Actualiza su contenido
+         */
         void Update();
+        
+        /**
+         * Encargado de imprimir por pantalla
+         */
         void Render();
+        
+        /**
+         * Encargado de limpiar
+         */
         void CleanUp();
         
         virtual ~MenuState();

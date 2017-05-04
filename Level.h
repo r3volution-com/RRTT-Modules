@@ -33,13 +33,24 @@ private:
 -Sprite sprite[ ]
 -Ataque attack[ ]*/
     
-    //Cargo el mapa
+    /**
+     * Carga del mapa
+     */
     void loadMap();
-    //Cargamos las notas
+    
+    /**
+     * Carga de las notas
+     */
     void loadNote();
-    //Cargamos los cristales
+    
+    /**
+     * Carga de los cristales
+     */
     void loadCrystal();
-    //Cargamos los enemigos
+    
+    /**
+     * Carga de los enemigos
+     */
     void loadEnemy();
     //
     

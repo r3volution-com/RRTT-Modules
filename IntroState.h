@@ -17,16 +17,24 @@ class IntroState : public GameState{
          */
         void Init();
         
-        
+        /**
+         * Conjunto de teclas utilizadas
+         */
         void Input();
-        
-        
+         
+        /**
+         * Actualiza su contenido
+         */
         void Update();
         
-        
+        /**
+         * Encargado de imprimir por pantalla
+         */
         void Render();
         
-        
+        /**
+         * Encargado de limpiar
+         */
         void CleanUp();
         
         virtual ~IntroState();

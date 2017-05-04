@@ -30,33 +30,55 @@ class Map {
         
         Map(const char* ruta); //ToDo: Sergio map
         
-        //Destructor de la clase
         virtual ~Map();
         
-        //Almacenamos en cada posicion de data (cada posicion equivaldria a una capa) 
-        //todas las etiquetas tile
+        /**
+         * Almacena cada posicion de data (cada posicion equivale a una capa). Todas las etiquetas son tile
+         */
         void dataTiles();
         
-        //Hacer matriz de sprites (_tilesetSprite) 3D en la que a la hora de crear 
-        //el sprite se mustiplicase el rect por el gid al que pertenece
+        
+        /**
+         * Crea la matriz de sprites (_tilesetSprite) 3D en la que se multiplica el rect por el gid al que pertenece a la hora de crear el sprite  
+         */
         void matrizSprites();
         
-        //Obtenemos nueva coordenada X para el sprite del tile
+        /**
+         * Obtencion de una nueva coordenada X para el sprite del tile
+         * @param gid: Gid de la coordenada
+         */
         int NewCoordX(int gid);
-        //Obtenemos nueva coordenada Y para el sprite del tile
+        
+        /**
+         * Obtencion de una nueva coordenada Y para el sprite del tile
+         * @param gid: Gid de la coordenada
+         */
         int NewCoordY(int gid);
         
-        //Seleccionar capa a mostrar, en caso de pasarle por parametro un número superior
-        //al numero de capas almacenadas, se mostrará por defecto la capa 0
+        /**
+         * Selecciona la capa a mostrar, en caso de pasarle por parametro un numero superior al numero de capas almacenadas, se mostrará por defecto a la capa 0
+         * @param layer
+         */
         void setActiveLayer(int layer);
         
-        //Hacemos el draw del mapa y lo mostramos por pantalla
+        /**
+         * Dibuja el mapa por panralla
+         * @param window: Pantalla sobre la que se dibuja
+         */
         void dibujarMapa(sf::RenderWindow *window);
         
-        //Acceder al gid del tile en el que se encuentra el enemigo.
+        /**
+         * Accede al gid del tile en el que se encuentre el enemigo
+         * @param enemy: Enemigo en el gid
+         * @param id1: Id del jugador
+         * @param id2: Id del enemigo
+         */
         int getGid(Enemy *enemy, int id1, int id2);
         
-        //Colocar las hitboxs
+        /**
+         * Coloca la hitbox del jugador
+         * @param rath
+         */
         bool putHitbox(Player *rath);
 };
 
