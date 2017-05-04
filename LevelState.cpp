@@ -90,6 +90,7 @@ void LevelState::Init(){
 
     gunArm = new Gun(Coordinate(0, 0), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
+    gunArm->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
@@ -132,6 +133,7 @@ void LevelState::Input(){
         } 
         if(direcNow!='l'){
             rath->getAnimation()->changeAnimation("correrIzquierda", false);
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIzq", false);
         }
         direcX='l';
         direcNow='l';
@@ -147,6 +149,7 @@ void LevelState::Input(){
         } 
         if(direcNow!='r'){
             rath->getAnimation()->changeAnimation("correrDerecha", false);
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIdle", false);
         }
         direcX='r';
         direcNow='r';
@@ -162,6 +165,7 @@ void LevelState::Input(){
         } 
         if(direcNow!='l'){
             rath->getAnimation()->changeAnimation("correrIzquierda", false);
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIzq", false);            
         }
         direcX='l';
         direcNow='l';
@@ -177,6 +181,7 @@ void LevelState::Input(){
         } 
         if(direcNow!='r'){
             rath->getAnimation()->changeAnimation("correrDerecha", false);
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIdle", false);        
         }
         direcX='r';
         direcNow='r';
@@ -194,6 +199,7 @@ void LevelState::Input(){
         }
         if(direcNow!='u'){
             rath->getAnimation()->changeAnimation("correrArriba", false);
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIzq", false);       
         }
         direcNow='u';
         mov=true;
@@ -207,11 +213,13 @@ void LevelState::Input(){
             colision='z';
         }
         if(direcX=='r' && direcNow!='d'){
-            rath->getAnimation()->changeAnimation("correrDerecha", false);  
+            rath->getAnimation()->changeAnimation("correrDerecha", false); 
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIdle", false);
             mov=true;
             direcNow='d';
         } else if(direcX=='l' && direcNow!='l'){
             rath->getAnimation()->changeAnimation("correrIzquierda", false);
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIzq", false);
             mov=true;
             direcNow='d';
         }
@@ -226,6 +234,7 @@ void LevelState::Input(){
         }
         if(direcNow!='l'){
             rath->getAnimation()->changeAnimation("correrIzquierda", false);
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIzq", false);       
         }
         direcX='l';
         direcNow='l';
@@ -241,6 +250,7 @@ void LevelState::Input(){
         }        
         if(direcNow!='r'){
             rath->getAnimation()->changeAnimation("correrDerecha", false);
+            rath->getCurrentGun()->getAnimation()->changeAnimation("armaIdle", false);       
         }
         direcX='r';
         direcNow='r';
@@ -274,6 +284,7 @@ void LevelState::Input(){
     if(!Game::Instance()->iM->isActive("player-up") && !Game::Instance()->iM->isActive("player-down") && 
         !Game::Instance()->iM->isActive("player-left") && !Game::Instance()->iM->isActive("player-right") && mov == true){
         rath->getAnimation()->changeAnimation("idle", false);
+        rath->getCurrentGun()->getAnimation()->changeAnimation("armaIdle", false);
         mov=false;
         direcNow='i';
     }
@@ -293,6 +304,7 @@ void LevelState::Input(){
 void LevelState::Render(){
     
     rath->getAnimation()->updateAnimator();
+    rath->getCurrentGun()->getAnimation()->updateAnimator();
     
     Coordinate inc(rath->getState()->getIC());
     
