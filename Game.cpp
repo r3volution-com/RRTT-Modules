@@ -38,6 +38,10 @@ Game::Game(){
     iM = new Event();
 }
 
+void texto(std::string texto){
+    std::cout << "Has escrito: " << texto << "\n";
+}
+
 void Game::Init(){
     iM->addAction("close", thor::Action(sf::Keyboard::Escape, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
     game->Init();
@@ -46,6 +50,7 @@ void Game::Init(){
     rM->loadTexture("console-bg", "resources/console-bg.png");
     rM->loadFont("console", "resources/font.ttf");
     console = new Console(Coordinate(0,500), rM->getTexture("console-bg"), Rect<float>(0,0,1280,220), rM->getFont("console"));
+    console->addCommand("texto", &texto);
 }
 
 void Game::Input(){
