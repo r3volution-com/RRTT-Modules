@@ -19,12 +19,14 @@ Level::~Level(){
     delete map;
     delete note;
     delete crystal;
+    //delete level;
     
     enemy = NULL;
     map = NULL;
     note = NULL;
     crystal = NULL;
     boss = NULL;
+    //level = NULL;
 }
 
 void Level::loadMap(){
