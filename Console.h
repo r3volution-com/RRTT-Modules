@@ -16,18 +16,49 @@ private:
     
     bool active;
 public:
+    /**
+     * Crea un objeto consola
+     * @param coor: Coordenada. Tipo Coordinate
+     * @param bg: Textura de la consola
+     * @param rect: Zona en la que se imprime la consola
+     * @param f: Fuente del texto de la consola
+     */
     Console(Coordinate coor, Texture *bg, Rect<float> rect, Font *f);
     virtual ~Console();
     
+    /**
+     * Anadir comando a la consola
+     * @param command: Comando a anadir
+     * @param function: Funcion a anadir
+     */
     void addCommand(std::string command, std::function<void()> function);
     
+    /**
+     * Escribir un comando por la consola
+     * @param text: Texto a introducir en la consola
+     */
     void writeCommand(std::string text);
+
+    /**
+     * Envia un comando por consola
+     * @param command: Comando a enviar por consola
+     */
     void sendCommand(std::string command);
     
+    /**
+     * Dibujar la consola
+     */
     void drawConsole();
     
+    /**
+     * Muestra o no muestra la consola segun si esta activa
+     */
     void toggleActive();
     
+    /**
+     * Comprueba si la consola esta activa
+     * @return : Booleano
+     */
     bool isActive() { return active; }
 };
 
