@@ -11,9 +11,11 @@ private:
     Sprite *background;
     Text *backlog;
     Text *actual;
+    std::vector<std::string> *history;
     
     std::map<std::string, std::function<void(std::string)>> commands;
     
+    int historyLength;
     bool active;
 public:
     Console(Coordinate coor, Texture *bg, Rect<float> rect, Font *f);
@@ -23,6 +25,7 @@ public:
     
     void writeCommand(std::string text);
     void sendCommand(std::string command);
+    void writeInBacklog(std::string command);
     
     void drawConsole();
     

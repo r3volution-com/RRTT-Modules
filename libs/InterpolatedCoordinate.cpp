@@ -53,11 +53,8 @@ bool InterpolatedCoordinate::areEquals(float a, float b){
 }
 
 Coordinate InterpolatedCoordinate::getIC(){
-    
     float newx = (last->x*(1-Game::Instance()->interpolation))+(next->x*Game::Instance()->interpolation);
     float newy = (last->y*(1-Game::Instance()->interpolation))+(next->y*Game::Instance()->interpolation);
-    
-    
     
     act->setCoordinate(newx, newy);
        
