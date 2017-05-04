@@ -98,6 +98,10 @@ class HUD {
          */
         void setTextLayer(Coordinate coord, Rect<float> tRect, Texture *tTex);
         
+        /**
+         * Actualiza la vida del jefe
+         * @param tRect: Zona a en la que se imprime la vida
+         */
         void setBossLife(Rect<float> tRect);
         
         /**

@@ -31,6 +31,23 @@ LevelState::LevelState() : GameState(){
 
 LevelState::~LevelState(){
     
+    delete rath;
+    delete tri;
+    delete gunArm;
+    delete rM;
+    
+    /*Faltaria:
+        - playerTexture
+     *  - level
+     *  - enemy2
+     *  - hud 
+     */  
+
+    rath = NULL;
+    tri = NULL;
+    gunArm = NULL;
+    rM = NULL;
+    
 }
 
 void LevelState::Init(){
@@ -68,7 +85,7 @@ void LevelState::Init(){
     game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
 
-    Gun *gunArm = new Gun(Coordinate(0, 0), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
+    gunArm = new Gun(Coordinate(0, 0), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);

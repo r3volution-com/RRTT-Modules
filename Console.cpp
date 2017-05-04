@@ -37,7 +37,6 @@ void Console::writeInBacklog(std::string command){
     std::string text = "";
     int start = 0;
     if (((int)history->size()-historyLength) > 0) start = ((int)history->size()-historyLength);
-    cout << start << "\n";
     for (int i = start; i < history->size(); i++){
         text = text + history->at(i) + "\n";
     }

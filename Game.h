@@ -23,10 +23,31 @@ class Game {
         Time *fpsTimer;
     public:
         static Game* Instance();
+        
+        /**
+         * Se realizan las primeras ejecuciones (se declara y ejecuta todo)
+         */
         void Init();
+        
+        /**
+         * Encargado de imprimir por pantalla
+         */
         void Render();
+        
+        /**
+         * Conjunto de teclas utilizadas
+         */
         void Input();
+        
+        /**
+         * Actualiza su contenido
+         */
         void Update();
+        
+        /**
+         * Cambia el estado actual
+         * @param state: Estado al cual se debe de cambiar
+         */
         void ChangeCurrentState(const std::string &state);
         virtual ~Game();
         

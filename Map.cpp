@@ -62,6 +62,21 @@ Map::Map(const char* ruta) {
     
 }
 
+
+Map::~Map(){
+
+    delete _tilemapSprite;
+    
+    for(int l=0; l<_numLayers; l++){
+        for(int y=0; y<_height; y++){
+            for(int x=0; x<_width; x++){
+                //Vamos comparando
+                _tilemapSprite[l][y][x] = NULL;
+            }
+        }
+    } 
+}
+
 void Map::dataTiles(){
             
     data = new XMLElement*[_numLayers];
@@ -238,12 +253,19 @@ bool Map::putHitbox(Player *rath){
                //x rath < x pared+128, x pared+128 < x rath+128 | y rath < y pared+128, y pared+128 < y rath+128
                //x rath < x pared+128, x pared+128 < x rath+128 | y rath < y pared, y pared < y rath+128
                
-               if(((prueba.x > rath->getCoordinate()->x) && (prueba.x < rath->getCoordinate()->x+128) && (prueba.y > rath->getCoordinate()->y) && (prueba.y < rath->getCoordinate()->y+128)) 
+               /*if(((prueba.x > rath->getCoordinate()->x) && (prueba.x < rath->getCoordinate()->x+128) && (prueba.y > rath->getCoordinate()->y) && (prueba.y < rath->getCoordinate()->y+128)) 
                        || ((prueba.x > rath->getCoordinate()->x) && (prueba.x < rath->getCoordinate()->x+128) && (prueba.y+128 > rath->getCoordinate()->y) && (prueba.y+128 < rath->getCoordinate()->y+128))
                        || ((prueba.x+128 > rath->getCoordinate()->x) && (prueba.x+128 < rath->getCoordinate()->x+128) && (prueba.y+128 > rath->getCoordinate()->y) && (prueba.y+128 < rath->getCoordinate()->y+128))
-                       || ((prueba.x+128 > rath->getCoordinate()->x) && (prueba.x+128 < rath->getCoordinate()->x+128) && (prueba.y > rath->getCoordinate()->y) && (prueba.y < rath->getCoordinate()->y+128))){
-                   colisiona = true;
-               }
+                       || ((prueba.x+128 > rath->getCoordinate()->x) && (prueba.x+128 < rath->getCoordinate()->x+128) && (prueba.y > rath->getCoordinate()->y) && (prueba.y < rath->getCoordinate()->y+128))){*/
+                  
+               if(((rath->getCoordinate()->x < prueba.x) && (prueba.x < rath->getCoordinate()->x + 128) && (rath->getCoordinate()->y < prueba.y) && (prueba.y < rath->getCoordinate()->y+128)) ||
+((rath->getCoordinate()->x < prueba.x) && (prueba.x < rath->getCoordinate()->x + 128) && (rath->getCoordinate()->y < prueba.y + 128) && (prueba.y +128 < rath->getCoordinate()->y + 128)) ||
+((rath->getCoordinate()->x < prueba.x + 128) && (prueba.x + 128 < rath->getCoordinate()->x + 128) && (rath->getCoordinate()->y < prueba.y + 128) && (prueba.y +128 < rath->getCoordinate()->y + 128)) ||
+((rath->getCoordinate()->x < prueba.x + 128) && (prueba.x + 128 < rath->getCoordinate()->x + 128) && (rath->getCoordinate()->y < prueba.y) && (prueba.y < rath->getCoordinate()->y+128))){
+colisiona = true;
+}
+                /*colisiona = true;
+               }*/
             }
         }
     }

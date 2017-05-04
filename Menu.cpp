@@ -13,6 +13,11 @@ Menu::~Menu() {
     delete background;
     delete buttonTextureRect;
     delete buttons; 
+    
+    /*Faltaria:
+        - buttonFont -> Segmentation fault
+     */
+    
     background = NULL;
     buttonTextureRect = NULL;
     buttons = NULL;

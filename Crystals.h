@@ -13,6 +13,11 @@ private:
     Sprite *sprite;
     bool touched;
 public:
+    /**
+     * Creacion de un objeto de tipo cristal
+     * @param tex: Textura del cristal
+     * @param rect: Zona en la que se va a imprimir el cristal
+     */
     Crystals(Texture *tex, Rect<float> rect);
     virtual ~Crystals();
     
