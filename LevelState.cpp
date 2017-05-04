@@ -322,7 +322,7 @@ void LevelState::Render(){
         for(int x = 0; x < bullets->size(); x++){
             Game::Instance()->window->draw(*bullets->at(x)->getAnimation()->getSprite());
             for(int y = 0;y < level->getEnemys()->size(); y++){
-                std::cout<<bullets->at(x)->getHitbox()->hitbox->left<<"\n";
+                std::cout<<rath->getCurrentGun()->getBullet()->getHitbox()->hitbox->left<<"\n";
 
                 if(bullets->at(x)->getHitbox()->checkCollision(level->getEnemys()->at(y)->getHitbox())){
                     level->getEnemys()->at(y)->damage(rath->getCurrentGun()->getDamage());
