@@ -32,6 +32,8 @@ class LevelState : public GameState {
         Gun *gunArm;
         Bullet *bull;
         std::vector<Bullet*> *bullets;
+        
+        sf::RectangleShape rectangle;
     public:
         LevelState(); //ToDo: level
         

@@ -106,7 +106,7 @@ void LevelState::Init(){
     bullets = new std::vector<Bullet*>();
     
     rath->addGun(gunArm);
-    
+    rectangle.setSize(sf::Vector2f(128,128));
 }
 
 void LevelState::Update(){
@@ -124,6 +124,9 @@ void LevelState::Input(){
     rath->getCurrentGun()->getAnimation()->setRotation(mouseAng);
     rath->getCurrentGun()->getBullet()->getAnimation()->setRotation(mouseAng-90);
     
+    Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+    rath->getCurrentGun()->getBullet()->setPosition(newPos);
+    rectangle.setPosition(rath->getCurrentGun()->getBullet()->getHitbox()->hitbox->left,rath->getCurrentGun()->getBullet()->getHitbox()->hitbox->top);
         
     if(Game::Instance()->iM->isActive("player-up-left")){ 
         if(level->map->putHitbox(rath)==true){
@@ -319,15 +322,15 @@ void LevelState::Render(){
         for(int x = 0; x < bullets->size(); x++){
             Game::Instance()->window->draw(*bullets->at(x)->getAnimation()->getSprite());
             for(int y = 0;y < level->getEnemys()->size(); y++){
-                    std::cout<<y<<"\n";
+                std::cout<<bullets->at(x)->getHitbox()->hitbox->left<<"\n";
+
                 if(bullets->at(x)->getHitbox()->checkCollision(level->getEnemys()->at(y)->getHitbox())){
                     level->getEnemys()->at(y)->damage(rath->getCurrentGun()->getDamage());
-                    std::cout<<"si"<<"\n";
                 }
             }
         }
     }
-    
+    Game::Instance()->window->draw(rectangle);
     Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y); //ToDo: inutil
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
     
