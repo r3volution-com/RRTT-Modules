@@ -95,7 +95,7 @@ void LevelState::Init(){
     gunArm->getAnimation()->setOrigin(Coordinate(64,30));
     gunArm->setDamage(30);
     
-    bull = new Bullet(Coordinate(0,0), game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128), 15);
+    bull = new Bullet(Coordinate(0,0), game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128), 1);
     bull->getAnimation()->addAnimation("armaIdle", Coordinate(0, 128), 2, 2.0f);
     bull->getAnimation()->initAnimator();
     
@@ -294,17 +294,6 @@ void LevelState::Render(){
     
     Coordinate inc(rath->getState()->getIC());
     
-    if(bullets->size() > 0){
-        for(int x = 0; x < bullets->size(); x++){
-            Game::Instance()->window->draw(*bullets->at(x)->getAnimation()->getSprite());
-            for(int y = 0;y < level->getEnemys()->size(); y++){
-                if(bullets->at(x)->getHitbox()->checkCollision(level->getEnemys()->at(y)->getHitbox())){
-                    level->getEnemys()->at(y)->damage(rath->getCurrentGun()->getDamage());
-                }
-            }
-        }
-    }
-    
     rath->setPosition(Coordinate(inc.x, inc.y));
     
     /***RENDER***/
@@ -317,10 +306,24 @@ void LevelState::Render(){
     
     Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
-    Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
+    //Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
+    
+    if(bullets->size() > 0){
+        for(int x = 0; x < bullets->size(); x++){
+            Game::Instance()->window->draw(*bullets->at(x)->getAnimation()->getSprite());
+            for(int y = 0;y < level->getEnemys()->size(); y++){
+                if(bullets->at(x)->getHitbox()->checkCollision(level->getEnemys()->at(y)->getHitbox())){
+                    level->getEnemys()->at(y)->damage(rath->getCurrentGun()->getDamage());
+                }
+            }
+        }
+    }
     
     Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y); //ToDo: inutil
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
+    
+    
+    
     
     Game::Instance()->console->drawConsole();
 }

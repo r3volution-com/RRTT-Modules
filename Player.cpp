@@ -80,6 +80,7 @@ void Player::setPosition(Coordinate newCoor){
     Entity::getAnimation()->setPosition(newCoor);
     Entity::getHitbox()->setPosition(newCoor);
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
+    
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(*Entity::getCoordinate());
         guns->at(currentGun)->getBullet()->setPosition(*Entity::getCoordinate());
