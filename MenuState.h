@@ -7,7 +7,11 @@
 class MenuState : public GameState{
     private:
         Menu *principal;
+        Menu *opciones;
         
+        Menu *actual;
+        
+        int menuactual;
     public:
         MenuState();
         void Init();

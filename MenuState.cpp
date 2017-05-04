@@ -20,34 +20,57 @@ void MenuState::Init(){
     principal->addButton(Coordinate (540,200), "Jugar", sf::Color::Black, sf::Color::Transparent, 20);
     principal->addButton(Coordinate (540,270), "Opciones", sf::Color::Black, sf::Color::Transparent, 20);
     principal->addButton(Coordinate (540,340), "Salir", sf::Color::Black, sf::Color::Transparent, 20);
+    opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("button-layout"), new Rect<float>(0,0,200,50), game->rM->getFont("menu"));
+    opciones->addButton(Coordinate (540,200), "Musica On/Off", sf::Color::Black, sf::Color::Transparent, 20);
+    opciones->addButton(Coordinate (540,270), "FX On/Off", sf::Color::Black, sf::Color::Transparent, 20);
+    opciones->addButton(Coordinate (540,340), "Volver", sf::Color::Black, sf::Color::Transparent, 20);
     game->iM->addAction("click", thor::Action(sf::Mouse::Left));
     
+    menuactual = 0;
+    actual = principal;
 }
 
 void MenuState::Input(){
     if (Game::Instance()->iM->isActive("click")){
-        int clicks = principal->checkClicks();
-        switch (clicks){
-            case 0:
-                Game::Instance()->ChangeCurrentState("level");
-            break;
-            case 1:
-                //Ir al menu opciones
-            break;
-            case 2:
-                Game::Instance()->window->close();
-            break;
-            default: break;
+        int clicks = actual->checkClicks();
+        if (menuactual == 0){
+            switch (clicks){
+                case 0:
+                    Game::Instance()->ChangeCurrentState("level");
+                break;
+                case 1:
+                    menuactual = 1;
+                    actual = opciones;
+                break;
+                case 2:
+                    Game::Instance()->window->close();
+                break;
+                default: break;
+            }
+        } else if (menuactual == 1){
+             switch (clicks){
+                case 0:
+                    
+                break;
+                case 1:
+                    
+                break;
+                case 2:
+                    menuactual = 0;
+                    actual = principal;
+                break;
+                default: break;
+            }
         }
     }
 }
 
 void MenuState::Update(){
-    principal->checkHover(Game::Instance()->mouse);
+    actual->checkHover(Game::Instance()->mouse);
 }
 
 void MenuState::Render(){
-    principal->drawMenu();
+    actual->drawMenu();
 }
 
 void MenuState::CleanUp(){
