@@ -30,6 +30,9 @@ class Map {
         
         Map(const char* ruta); //ToDo: Sergio map
         
+        //Destructor de la clase
+        virtual ~Map();
+        
         //Almacenamos en cada posicion de data (cada posicion equivaldria a una capa) 
         //todas las etiquetas tile
         void dataTiles();
