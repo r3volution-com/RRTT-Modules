@@ -15,9 +15,11 @@ Entity::~Entity() {
     delete coor;
     delete hitbox;
     delete anim;
+    delete initial;
     coor = NULL;
     hitbox = NULL;
     anim = NULL;
+    initial = NULL;
 }
 
 void Entity::move(float dirX, float dirY){

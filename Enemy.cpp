@@ -12,7 +12,10 @@ Enemy::Enemy(Coordinate position, Texture *t, Rect<float> newRect, float sp): En
 }
 
 Enemy::~Enemy() {
-    
+    delete flashCooldown;
+    delete cd;
+    flashCooldown = NULL;
+    cd = NULL;
 }
 
 void Enemy::flash(float dirX, float dirY){

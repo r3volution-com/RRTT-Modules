@@ -53,17 +53,11 @@ bool InterpolatedCoordinate::areEquals(float a, float b){
 }
 
 Coordinate InterpolatedCoordinate::getIC(){
-    //if (!areEquals(act->x, next->x) || !areEquals(act->y, next->y)){
-    //float newx = act->x+((next->x-last->x)/Game::Instance()->iaps);
-    //float newy = act->y+((next->y-last->y)/Game::Instance()->iaps);
     
     float newx = (last->x*(1-Game::Instance()->interpolation))+(next->x*Game::Instance()->interpolation);
     float newy = (last->y*(1-Game::Instance()->interpolation))+(next->y*Game::Instance()->interpolation);
     
-    std::cout << "lastx " << last->x << " actx " << newx << " nextx " << next->x << "\n";
     
-    //last->x = newx;
-    //last->y = newy;
     
     act->setCoordinate(newx, newy);
        

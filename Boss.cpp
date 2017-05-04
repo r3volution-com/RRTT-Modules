@@ -7,6 +7,8 @@ Boss::Boss(Coordinate position, Texture *t, Rect<float> newRect, float sp) : Ene
 }
 
 Boss::~Boss() {
+    delete guns;
+    guns = NULL;
 }
 
 void Boss::changeState(int s){

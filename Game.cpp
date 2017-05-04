@@ -11,6 +11,38 @@ Game* Game::Instance(){
     return pinstance;
 }
 
+Game::~Game(){
+    delete pinstance;
+    delete level;
+    delete menu;
+    delete intro;
+    delete game;
+    delete fpsTimer;
+    delete screenSize;
+    delete window;
+    delete rM;
+    delete iM;
+    delete mouse;
+    delete console;
+    delete iaTimer;
+    delete bullets;
+    
+    pinstance = NULL;
+    level = NULL;
+    menu = NULL;
+    intro = NULL;
+    game = NULL;
+    fpsTimer = NULL;
+    screenSize = NULL;
+    window = NULL;
+    rM = NULL;
+    iM = NULL;
+    mouse = NULL;
+    console = NULL;
+    iaTimer = NULL;
+    bullets = NULL;
+}
+
 Game::Game(){
     screenSize = new Coordinate(1280, 720);
     window = new sf::RenderWindow(sf::VideoMode(screenSize->x, screenSize->y), "Rath's Revenge: The Twisted Timeline");
