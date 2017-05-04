@@ -108,7 +108,17 @@ class Player : public Entity {
          */
         void setFlashCooldown(Time *cooldown);
         
+        /**
+         * Actualiza la posicion del jugador
+         * @param newCoor: Coodenada. Tipo Coordinate
+         */
         void setPosition(Coordinate newCoor);
+        
+        /**
+         * Actualiza la posicion del jugador
+         * @param x: Coordenada x
+         * @param y: Coordenada y
+         */
         void setPosition(float x, float y);
         
         int getHP() { return hp; }

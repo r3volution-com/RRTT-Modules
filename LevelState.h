@@ -32,10 +32,30 @@ class LevelState : public GameState {
         Gun *gunArm;
     public:
         LevelState(); //ToDo: level
+        
+        /**
+         * Se realizan las primeras ejecuciones (se declara y ejecuta todo)
+         */
         void Init();
+        
+        /**
+         * Conjunto de teclas utilizadas
+         */
         void Input();
+        
+        /**
+         * Actualiza su contenido
+         */
         void Update();
+        
+        /**
+         * Encargado de imprimir por pantalla
+         */
         void Render();
+        
+        /**
+         * Encargado de limpiar
+         */
         void CleanUp();
         
         virtual ~LevelState();
