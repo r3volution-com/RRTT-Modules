@@ -83,7 +83,7 @@ void Player::setPosition(Coordinate newCoor){
     
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(*Entity::getCoordinate());
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
     }
 }
 void Player::setPosition(float x, float y){
@@ -92,7 +92,7 @@ void Player::setPosition(float x, float y){
     Entity::getHitbox()->setPosition(newCoor);
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(*Entity::getCoordinate());
-        guns->at(currentGun)->getBullet()->setPosition(*Entity::getCoordinate());
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
 }

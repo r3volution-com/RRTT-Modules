@@ -96,8 +96,10 @@ void LevelState::Init(){
     gunArm->setDamage(30);
     
     bull = new Bullet(Coordinate(0,0), game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128), 1);
-    bull->getAnimation()->addAnimation("armaIdle", Coordinate(0, 128), 2, 2.0f);
+    bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
+    bull->getAnimation()->setOrigin(Coordinate(184,98));
     bull->getAnimation()->initAnimator();
+    bull->getAnimation()->changeAnimation("fireIdle", false);
     
     gunArm->setAttack(bull);
     
@@ -120,6 +122,8 @@ void LevelState::Input(){
     Coordinate coor = Coordinate(Game::Instance()->mouse->hitbox->left, Game::Instance()->mouse->hitbox->top);
     float mouseAng = tri->angleWindow(coor);
     rath->getCurrentGun()->getAnimation()->setRotation(mouseAng);
+    rath->getCurrentGun()->getBullet()->getAnimation()->setRotation(mouseAng-90);
+    
         
     if(Game::Instance()->iM->isActive("player-up-left")){ 
         if(level->map->putHitbox(rath)==true){
@@ -293,6 +297,7 @@ void LevelState::Input(){
 void LevelState::Render(){
     
     rath->getAnimation()->updateAnimator();
+    rath->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
     
     Coordinate inc(rath->getState()->getIC());
     
@@ -308,14 +313,16 @@ void LevelState::Render(){
     
     Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
-    //Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
+    Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     
     if(bullets->size() > 0){
         for(int x = 0; x < bullets->size(); x++){
             Game::Instance()->window->draw(*bullets->at(x)->getAnimation()->getSprite());
             for(int y = 0;y < level->getEnemys()->size(); y++){
+                    std::cout<<y<<"\n";
                 if(bullets->at(x)->getHitbox()->checkCollision(level->getEnemys()->at(y)->getHitbox())){
                     level->getEnemys()->at(y)->damage(rath->getCurrentGun()->getDamage());
+                    std::cout<<"si"<<"\n";
                 }
             }
         }
