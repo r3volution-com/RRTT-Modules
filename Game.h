@@ -51,6 +51,8 @@ class Game {
         void ChangeCurrentState(const std::string &state);
         virtual ~Game();
         
+        void instanceBullet(Bullet *bul);
+        
         Coordinate *screenSize;
         sf::RenderWindow *window;
         sf::View cameraView;
@@ -72,8 +74,6 @@ class Game {
         float deltaTime;
         float interpolation;
         
-        
-        std::vector<Bullet*> *bullets;
         
     protected:
         Game(); //: game(&intro) {}

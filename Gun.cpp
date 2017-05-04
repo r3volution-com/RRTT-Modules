@@ -30,7 +30,6 @@ void Gun::setAttack(Bullet *atk){
 void Gun::doAttack(){
     if(gunCooldown->isExpired()){
         //ToDo Sergio: LLamar a singleton e instanciar el ataque
-        //Game::Instance()->bullets->push_back(attack);
         gunAnimation->changeAnimation("attack", true);
         
         gunCooldown->restart();

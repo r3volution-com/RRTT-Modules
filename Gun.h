@@ -83,6 +83,7 @@ class Gun {
         float getAttackMaxCooldown() { return attackMaxCooldown; }
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return gunAnimation; }
+        Bullet *getBullet(){return attack;}
 };
 
 #endif /* Gun_H */

@@ -30,6 +30,8 @@ class LevelState : public GameState {
         Enemy *enemy2;
         HUD *hud;
         Gun *gunArm;
+        Bullet *bull;
+        std::vector<Bullet*> *bullets;
     public:
         LevelState(); //ToDo: level
         
@@ -59,6 +61,8 @@ class LevelState : public GameState {
         void CleanUp();
         
         virtual ~LevelState();
+        
+        void instanceBullet(Bullet *bul);
 };
 
 #endif /* LEVELSTATE_H */

@@ -5,6 +5,7 @@ Level::Level(int numLevel) {
     
     //Guardamos el nivel a cargar
     level = numLevel;
+    enemys = new std::vector<Enemy*>();
     
     //Cargamos todos los elementos del juego
     loadMap();
@@ -68,12 +69,13 @@ void Level::loadEnemy(){
         Game::Instance()->rM->loadTexture("boss", "resources/boss.png");
         Game::Instance()->rM->loadTexture("Bloque", "resources/Bloque.jpg");
         Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
-        //Game::Instance()->rM->loadTexture("bullet", "resources/Crystal.png");
 
+        
         enemy = new Enemy(Coordinate(2900,1900), Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128), 10);
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         enemy->getAnimation()->initAnimator();
         enemy->getAnimation()->changeAnimation("idle", false);
+        enemy->setMaxHP(50);
         enemy->setDistanceEnemyHome(1000);
         enemy->setDistancePlayerEnemy(500);
         enemy->setDmgHit(30);
@@ -85,6 +87,8 @@ void Level::loadEnemy(){
         boss->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         boss->getAnimation()->initAnimator();
         boss->getAnimation()->changeAnimation("idle", false);
+        
+        enemys->push_back(enemy);
     }
 }
 

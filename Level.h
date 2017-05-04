@@ -20,6 +20,8 @@ public:
     Enemy *enemy;
     Map *map;
     Crystals *getCrystal(){return crystal;}
+    
+    std::vector<Enemy*> *getEnemys(){return enemys;}
 
 private:
 
@@ -56,12 +58,16 @@ private:
     
     virtual ~Level();
     
+    
+    
     //Player se carga en levelState   
     Note *note;
     Boss *boss;
     NPC *npc;
     Gun *gun;
     Crystals *crystal;
+    
+    std::vector<Enemy*> *enemys;
     
 };
 

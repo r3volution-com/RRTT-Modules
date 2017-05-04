@@ -25,7 +25,6 @@ Game::~Game(){
     delete mouse;
     delete console;
     delete iaTimer;
-    delete bullets;
     
     pinstance = NULL;
     level = NULL;
@@ -40,7 +39,6 @@ Game::~Game(){
     mouse = NULL;
     console = NULL;
     iaTimer = NULL;
-    bullets = NULL;
 }
 
 Game::Game(){
@@ -130,4 +128,8 @@ void Game::ChangeCurrentState(const std::string &state){
         game = intro;
     }
     game->Init();
+}
+
+void Game::instanceBullet(Bullet *bul){
+    level->instanceBullet(bul);
 }
