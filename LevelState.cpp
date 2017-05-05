@@ -90,15 +90,12 @@ void LevelState::Init(){
     rath->changeGun(0);
     
     level = new Level(1);
-    
-                rectangle.setSize(sf::Vector2f(128,128));
 }
 
 void LevelState::Update(){
     level->enemyAI(rath);
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
-        
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox())){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
         }
@@ -144,7 +141,6 @@ void LevelState::Input(){
         Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
         rath->getCurrentGun()->getBullet()->setPosition(newPos);
     }
-                rectangle.setPosition(rath->getCurrentGun()->getBullet()->getHitbox()->hitbox->left,rath->getCurrentGun()->getBullet()->getHitbox()->hitbox->top);
                 
     /*Player weapon attack*/
     if (Game::Instance()->iM->isActive("player-Lclick") && !rath->isAttacking()){ 
@@ -192,10 +188,8 @@ void LevelState::Render(){
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     if (rath->isAttacking()){
-        //std::cout << rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left << " " << rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top << "\n";
         Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
     }
-                    Game::Instance()->window->draw(rectangle);
     /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
     Game::Instance()->console->drawConsole();

@@ -18,17 +18,6 @@ class LevelState : public GameState {
         Player *rath;
         Trigonometry *tri;
         HUD *hud;
-        
-        int direcX = 'r';
-        int direcNow = 'z';
-        bool mov = false;
-        char colision = 'z';
-        float mouseAng = 0.0f;
-        float mousePos[2]={0,0};
-        //float windowSize[2]={Game::Instance()->window->getSize().x/2, Game::Instance()->window->getSize().y/2};
-        bool ata=false;
-        
-        sf::RectangleShape rectangle;
     public:
         LevelState();
         
