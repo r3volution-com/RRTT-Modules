@@ -17,9 +17,12 @@
 class HUD {
     private:        
         Sprite *hud;
+        
         std::vector<Sprite*> *guns;
         std::vector<Sprite*> *gunsOff;
         std::vector<Sprite*> *gunsCooldown;
+        std::vector<Time*> *gunTimers;
+        
         Sprite *playerHP;
         Sprite *bossHP;
         Sprite *flash;
@@ -29,8 +32,6 @@ class HUD {
         Texture *tex;
         
         Time *clockFlash; 
-        Time *clockFirstGun; 
-        Time *clockSecondGun; 
         
         Sprite *textSprite;
         Text *talker;
@@ -62,25 +63,25 @@ class HUD {
     public:
         /**
          * Crea el objeto HUD
-         * @param bTex: Textura de fondo (puntero)
          * @param hTex: Textura de los bordes (puntero)
-         * @param lTex: Textira de la vida (puntero)
+         * @param rTex: Textura del resto de recursos (puntero)
+         * @param lRect: Vida
          * @param f: Fuente del texto (puntero)
-         * @param cF: Tiempo del flash (tipo time)
          */
-        HUD(Texture *hTex, Texture *lTex, Rect<float> lRect, Font *f, Time *cF);
+        HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Font *f);
         virtual ~HUD();
         
         /**
-         * Actualizar sprites de las armas
-         * @param tex: Textura de las armas (puntero)
+         * Pues va a ser que no
+         * @param rect: isma esto no
+         * @param g: esta hecho
          */
-        void setGuns(Rect<float> rect, Time *g1, Time *g2);
+        void addGun(Coordinate position, Rect<float> rect, Time *g);
         
         /**
-         * Actualizar los sprites del flash
-         * @param tFlash: Textura del flash (puntero)
-         * @param tCooldown: Textura del tiempo de cooldown (puntero)
+         * Pues va a ser que no
+         * @param rect: isma esto no
+         * @param f: esta hecho
          */
         void setFlash(Rect<float> rect, Time *f);
         

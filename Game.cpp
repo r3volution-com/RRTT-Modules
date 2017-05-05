@@ -92,6 +92,7 @@ void Game::Input(){
 void Game::Update(){
     iM->update();
     game->Update();
+    //std::cout << fps << "\n";
 }
 
 void Game::Render(){

@@ -79,6 +79,7 @@ void Player::move(float xDir, float yDir){
         state='u';
     } else {
         getAnimation()->changeAnimation("idle", false);
+        state='i';
     }
 }
 
@@ -107,7 +108,7 @@ void Player::weaponAttack(){
 
 void Player::gunAttack(){
     if (currentGun>-1) {
-        //guns->at(currentGun)->doAttack();
+        guns->at(currentGun)->doAttack();
         attacking = true;
         //ToDo pabloF: Traerte aqui la animacion de ataque con arma secundaria
     }

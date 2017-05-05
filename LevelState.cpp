@@ -49,6 +49,9 @@ void LevelState::Init(){
     /*****RESOURCES*****/
     game->rM->loadTexture("player", "resources/spritesRATH.png");
     game->rM->loadTexture("fire", "resources/fuego.png"); //ToDo: otra spritesheet para ataques?
+    game->rM->loadTexture("hud", "resources/hud.png");
+    game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
+    game->rM->loadFont("font", "resources/font.ttf");
     
     /*****PLAYER*****/
     rath = new Player(Coordinate(3900,2700), Coordinate(128, 128), 15);
@@ -71,14 +74,16 @@ void LevelState::Init(){
     game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
 
-    Gun *gunArm = new Gun(Coordinate(0, 0), Rect<float> (0, 640, 128, 128), game->rM->getTexture("player"));
+    Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
+    gunArm->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
     gunArm->setDamage(30);
     
-    Bullet *bull = new Bullet(Coordinate(0,0), game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128), 1);
+    Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
+    bull->setAnimation(game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
     bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
     bull->getAnimation()->setOrigin(Coordinate(184,98));
     bull->getAnimation()->initAnimator();
@@ -90,6 +95,9 @@ void LevelState::Init(){
     rath->changeGun(0);
     
     level = new Level(1);
+    
+    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(0,0,120,20), game->rM->getFont("font"));
+    hud->addGun(Coordinate(15, 15), Rect<float>(0,0,128, 128), gunArm->getGunCooldown());
 }
 
 void LevelState::Update(){
@@ -135,15 +143,12 @@ void LevelState::Input(){
     
     /*Player gun rotation*/
     float mouseAng = tri->angleWindow(Coordinate(Game::Instance()->mouse->hitbox->left, Game::Instance()->mouse->hitbox->top));
-    rath->getCurrentGun()->getAnimation()->setRotation(mouseAng);
-    if (rath->isAttacking()){
-        rath->getCurrentGun()->getBullet()->getAnimation()->setRotation(mouseAng-90);
-        Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
-        rath->getCurrentGun()->getBullet()->setPosition(newPos);
-    }
+    Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+    rath->getCurrentGun()->update(newPos, mouseAng);
+    
                 
     /*Player weapon attack*/
-    if (Game::Instance()->iM->isActive("player-Lclick") && !rath->isAttacking()){ 
+    if (Game::Instance()->iM->isActive("player-Lclick") && !rath->isAttacking()){ //ToDo: creo que deberia haber una clase weapon por que su funcionamiento es diferente a las armas
         rath->weaponAttack();//ToDo: lo de debajo se puede meter aqui pasando angulo por parametro
         if(mouseAng < 315 && mouseAng > 225){ //Derecha
             rath->getAnimation()->changeAnimation("ataqueDerecha", true);
@@ -187,12 +192,13 @@ void LevelState::Render(){
     
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
-    if (rath->isAttacking()){
+    if (!rath->getCurrentGun()->getBulletLifetime()->isExpired()){
         Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
     }
     /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
     Game::Instance()->console->drawConsole();
+    hud->drawHUD();
 }
 
 void LevelState::CleanUp(){
