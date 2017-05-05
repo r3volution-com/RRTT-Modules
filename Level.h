@@ -13,18 +13,16 @@
 class Level {
 public:
     int level;
+    Map *map;
     
     Level(int numLevel);
     void drawAll();
-    void enemyAI(Player *rath){enemy->AI(rath);}
-    Enemy *enemy;
-    Map *map;
-    Crystals *getCrystal(){return crystal;}
+    void enemyAI(Player *rath);
     
+    Crystals *getCrystal(){return crystal;}
     std::vector<Enemy*> *getEnemys(){return enemys;}
 
 private:
-
  /*-Protagonista prota
 -Objeto things[ ]
 -Jefe boss
@@ -54,11 +52,8 @@ private:
      * Carga de los enemigos
      */
     void loadEnemy();
-    //
     
     virtual ~Level();
-    
-    
     
     //Player se carga en levelState   
     Note *note;
@@ -68,7 +63,6 @@ private:
     Crystals *crystal;
     
     std::vector<Enemy*> *enemys;
-    
 };
 
 #endif /* LEVEL_H */

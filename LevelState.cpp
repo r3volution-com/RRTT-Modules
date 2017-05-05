@@ -96,19 +96,13 @@ void LevelState::Init(){
 
 void LevelState::Update(){
     level->enemyAI(rath);
-    /*
-    if(bullets->size() > 0){
-        for(int x = 0; x < bullets->size(); x++){
-            Game::Instance()->window->draw(*bullets->at(x)->getAnimation()->getSprite());
-            for(int y = 0;y < level->getEnemys()->size(); y++){
-                std::cout<<rath->getCurrentGun()->getBullet()->getHitbox()->hitbox->left<<"\n";
-
-                if(bullets->at(x)->getHitbox()->checkCollision(level->getEnemys()->at(y)->getHitbox())){
-                    level->getEnemys()->at(y)->damage(rath->getCurrentGun()->getDamage());
-                }
-            }
+    std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
+    for(int i = 0; i < enemys->size(); i++){
+        
+        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox())){
+            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
         }
-    }*/
+    }
 }
 
 void LevelState::Input(){
@@ -172,7 +166,6 @@ void LevelState::Input(){
     if(Game::Instance()->iM->isActive("player-Rclick")){
         rath->gunAttack();
         rath->getCurrentGun()->getBullet()->setPosition(*rath->getCoordinate());
-        //instanceBullet(rath->getCurrentGun()->getBullet()); //ToDo
     }
     
     /*Console*/
@@ -184,8 +177,8 @@ void LevelState::Render(){
     rath->getAnimation()->updateAnimator();
     rath->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
     
+    /*Interpolate*/
     Coordinate inc(rath->getState()->getIC());
-    
     rath->setPosition(Coordinate(inc.x, inc.y));
     
     /***RENDER***/
@@ -196,18 +189,15 @@ void LevelState::Render(){
     
     level->map->putHitbox(rath);
     
-    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     if (rath->isAttacking()){
-        std::cout << rath->getCurrentGun()->getAnimation()->getSprite()->getGlobalBounds().left << " " << rath->getCurrentGun()->getAnimation()->getSprite()->getGlobalBounds().top << "\n";
-        Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
+        //std::cout << rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left << " " << rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top << "\n";
+        Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
     }
-
-                //Game::Instance()->window->draw(rectangle);
-    Game::Instance()->screenView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y); //ToDo: inutil
+                    Game::Instance()->window->draw(rectangle);
+    /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-    
     Game::Instance()->console->drawConsole();
 }
 

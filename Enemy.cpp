@@ -27,6 +27,7 @@ void Enemy::flash(float dirX, float dirY){
 
 void Enemy::die(){
     Entity::getAnimation()->changeAnimation("die",false);
+    std::cout << "muero" << "\n";
 }
 
 void Enemy::damage(int dm){
@@ -70,11 +71,16 @@ void Enemy::AI(Player* rath){
                     num = 0;
                 }
                 if(num == 2){
-                    if(((Entity::getCoordinate()->x+dir->x*flashRange) < rath->getCoordinate()->x) || ((Entity::getCoordinate()->x+dir->x*flashRange) > rath->getCoordinate()->x) || ((Entity::getCoordinate()->x+dir->x*flashRange) == rath->getCoordinate()->x)){
-                        if(((Entity::getCoordinate()->y+dir->y*flashRange) < rath->getCoordinate()->y-128) || ((Entity::getCoordinate()->y+dir->y*flashRange) > rath->getCoordinate()->y+128)){
+                    if(((Entity::getCoordinate()->x+dir->x*flashRange) < rath->getCoordinate()->x) 
+                        || ((Entity::getCoordinate()->x+dir->x*flashRange) > rath->getCoordinate()->x) 
+                        || ((Entity::getCoordinate()->x+dir->x*flashRange) == rath->getCoordinate()->x)){
+                        if(((Entity::getCoordinate()->y+dir->y*flashRange) < rath->getCoordinate()->y-128) 
+                            || ((Entity::getCoordinate()->y+dir->y*flashRange) > rath->getCoordinate()->y+128)){
                             flash(dir->x, dir->y); 
                         } 
-                    }else if(((Entity::getCoordinate()->y+dir->y*flashRange) < rath->getCoordinate()->y) || ((Entity::getCoordinate()->y+dir->y*flashRange) > rath->getCoordinate()->y) || ((Entity::getCoordinate()->y+dir->y*flashRange) == rath->getCoordinate()->y)){
+                    }else if(((Entity::getCoordinate()->y+dir->y*flashRange) < rath->getCoordinate()->y) 
+                        || ((Entity::getCoordinate()->y+dir->y*flashRange) > rath->getCoordinate()->y) 
+                        || ((Entity::getCoordinate()->y+dir->y*flashRange) == rath->getCoordinate()->y)){
                         if(((Entity::getCoordinate()->x+dir->x*flashRange) < rath->getCoordinate()->x-128) || ((Entity::getCoordinate()->x+dir->x*flashRange) > rath->getCoordinate()->x+128)){
                             flash(dir->x, dir->y); 
                         } 
