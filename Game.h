@@ -51,8 +51,6 @@ class Game {
         void ChangeCurrentState(const std::string &state);
         virtual ~Game();
         
-        void instanceBullet(Bullet *bul);
-        
         Coordinate *screenSize;
         sf::RenderWindow *window;
         sf::View cameraView;

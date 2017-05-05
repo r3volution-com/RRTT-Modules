@@ -15,9 +15,10 @@
 class LevelState : public GameState {
     private:
         Level *level;
-        ResourceManager *rM;
-        Texture *playerTexture;
         Player *rath;
+        Trigonometry *tri;
+        HUD *hud;
+        
         int direcX = 'r';
         int direcNow = 'z';
         bool mov = false;
@@ -26,16 +27,10 @@ class LevelState : public GameState {
         float mousePos[2]={0,0};
         //float windowSize[2]={Game::Instance()->window->getSize().x/2, Game::Instance()->window->getSize().y/2};
         bool ata=false;
-        Trigonometry *tri;
-        Enemy *enemy2;
-        HUD *hud;
-        Gun *gunArm;
-        Bullet *bull;
-        std::vector<Bullet*> *bullets;
         
         sf::RectangleShape rectangle;
     public:
-        LevelState(); //ToDo: level
+        LevelState();
         
         /**
          * Se realizan las primeras ejecuciones (se declara y ejecuta todo)
@@ -63,8 +58,6 @@ class LevelState : public GameState {
         void CleanUp();
         
         virtual ~LevelState();
-        
-        void instanceBullet(Bullet *bul);
 };
 
 #endif /* LEVELSTATE_H */

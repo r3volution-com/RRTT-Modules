@@ -1,6 +1,6 @@
 #include "NPC.h"
 
-NPC::NPC(Coordinate position, Texture *t, Rect<float> newRect, float sp, std::string npcName) : Entity(position, t, newRect, sp) {
+NPC::NPC(Coordinate position, Coordinate size, float sp, std::string npcName) : Entity(position, size, sp) {
     currentSentence=-1;
     sentences = new std::vector<std::string>();
     sentencePosition = new std::vector<Coordinate *>();

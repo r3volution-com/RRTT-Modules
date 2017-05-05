@@ -1,10 +1,11 @@
 #include "Player.h"
 
-Player::Player(Coordinate position, Texture *t, Rect<float> newRect, float sp) : Entity(position, t, newRect, sp){
+Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position, size, sp){
     currentGun = -1;
     weaponLoaded = false;
     guns = new std::vector<Gun*>();
     flashRange=0;
+    attacking = false;
 }
 
 Player::~Player() {
@@ -14,14 +15,71 @@ Player::~Player() {
     guns = NULL;
 }
 
+void Player::setAnimations(Texture *t, Rect<float> newRect){
+    Entity::setSprite(t, newRect);
+    Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 384), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 2, 0.5f);
+    Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 2, 0.5f);
+    Entity::getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 2, 0.5f);
+    Entity::getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 2, 0.5f);
+    Entity::getAnimation()->initAnimator();
+    Entity::getAnimation()->changeAnimation("idle", false); 
+}
+
 void Player::setWeapon(Gun *wP){
     weapon = wP;
     weaponLoaded = true;
 }
 
-
 void Player::move(float xDir, float yDir){
-    Entity::move(xDir, yDir);
+    if (xDir != 0 || yDir != 0) Entity::move(xDir, yDir);
+    if (xDir == 1 && yDir == 0) { //Derecha
+        if (state != 'r') {
+            getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        state = 'r';
+    } else if (xDir == -1 && yDir == 0) { //Izquierda
+        if (state != 'l') {
+            getAnimation()->changeAnimation("correrIzquierda", false);
+        }
+        state = 'l';
+    } else if (xDir == 0 && yDir == 1) { //Abajo
+        if (state != 'd') {
+            getAnimation()->changeAnimation("correrAbajo", false);
+        }
+        state = 'd';
+    } else if (xDir == 0 && yDir == -1) { //Arriba
+        if (state!='u') {
+            getAnimation()->changeAnimation("correrArriba", false);
+        }
+        state='u';
+    } else if (xDir == 1 && yDir == -1){ //Arriba derecha
+        if (state!='u') {
+            getAnimation()->changeAnimation("correrArriba", false);
+        }
+        state='u';
+    } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
+        if (state != 'l') {
+            getAnimation()->changeAnimation("correrIzquierda", false);
+        }
+        state = 'l';
+    } else if (xDir == 1 && yDir == 1){ //Derecha abajo
+        if (state != 'r') {
+            getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        state = 'r';
+    } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
+        if (state != 'u') {
+            getAnimation()->changeAnimation("correrArriba", false);
+        }
+        state='u';
+    } else {
+        getAnimation()->changeAnimation("idle", false);
+    }
 }
 
 void Player::addGun(Gun* gun){
@@ -42,14 +100,16 @@ bool Player::changeGun(int gun){
 void Player::weaponAttack(){
     if (weaponLoaded) {
         weapon->doAttack();
-        //ToDo pabloF: Mostrar animacion de ataque con arma primaria
+        attacking = true;
+        //ToDo pabloF: Traerte aqui la animacion de ataque con arma primaria
     }
 }
 
 void Player::gunAttack(){
     if (currentGun>-1) {
-        guns->at(currentGun)->doAttack();
-        //ToDo pabloF: Mostrar animacion de ataque con arma secundaria
+        //guns->at(currentGun)->doAttack();
+        attacking = true;
+        //ToDo pabloF: Traerte aqui la animacion de ataque con arma secundaria
     }
 }
 

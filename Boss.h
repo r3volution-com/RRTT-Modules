@@ -14,11 +14,10 @@ class Boss : public Enemy{
         /**
          * Crea un objeto de tipo jefe
          * @param position: Posicion del jefe. Tipo Coordinate
-         * @param t: Textura del jefe
-         * @param newRect: Zona en la que se imprime el jefe
+         * @param size: tamano del boss
          * @param sp: Velocidad de animacion del jefe
          */
-        Boss(Coordinate position, Texture *t, Rect<float> newRect, float sp); //ToDo: boss
+        Boss(Coordinate position, Coordinate size, float sp); //ToDo: boss
         virtual ~Boss();
         /**
          * Cambia el estado del jefe

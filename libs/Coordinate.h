@@ -10,21 +10,26 @@ class Coordinate {
     public:
         float x, y;
         /**
-         * Crea el objeto coordenada
+         * Crea el objeto coordenada a partir de su posicion
          * @param xC: coordenada x
          * @param yC: coordenada y
          */
         Coordinate(float xC, float yC);
         /**
-         * Crea una vector de coordenadas
+         * Crea el objeto coordenada a partir de un vector int
          * @param coor: coordenadas
          */
         Coordinate(sf::Vector2i coor);
         /**
-         * Crea una vector de coordenadas
+         * Crea el objeto coordenada a partir de un vector float
          * @param coor: coordenadas
          */
         Coordinate(sf::Vector2f coor);
+        
+        /**
+         * Copia una coordenada
+         * @param coor
+         */
         Coordinate(const Coordinate& coor);
         virtual ~Coordinate();
         

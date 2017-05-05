@@ -73,7 +73,8 @@ void Level::loadEnemy(){
         Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
 
         
-        enemy = new Enemy(Coordinate(2900,1900), Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128), 10);
+        enemy = new Enemy(Coordinate(2900,1900), Coordinate(128, 128), 10);
+        enemy->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         enemy->getAnimation()->initAnimator();
         enemy->getAnimation()->changeAnimation("idle", false);
@@ -85,7 +86,8 @@ void Level::loadEnemy(){
         enemy->setType(3);
         enemy->setFreeze(7);
         
-        boss = new Boss(Coordinate(3500,2500), Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128), 10);
+        boss = new Boss(Coordinate(3500,2500), Coordinate(128, 128), 10);
+        boss->setSprite(Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128));
         boss->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         boss->getAnimation()->initAnimator();
         boss->getAnimation()->changeAnimation("idle", false);

@@ -16,12 +16,18 @@ class Entity {
         /**
          * Creacion del objeto entidad
          * @param position: Posicion de la entidad
-         * @param t: Textura de la entidad
-         * @param newRect: Nueva zona en la que dibujar el sprite entidad
+         * @param size: Tamano de la entidad
          * @param sp: Velocidad del personaje al moverse por el mapa
          */
-        Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp);
+        Entity(Coordinate position, Coordinate size, float sp);
         virtual ~Entity();
+        
+        /**
+         * Añade sprite a la entidad
+         * @param t: Textura de la entidad
+         * @param newRect: Nueva zona en la que dibujar el sprite entidad
+         */
+        void setSprite(Texture *t, Rect<float> newRect);
         
         /**
          * Movimiento de la entidad

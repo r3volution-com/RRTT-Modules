@@ -1,6 +1,6 @@
 #include "Boss.h"
 
-Boss::Boss(Coordinate position, Texture *t, Rect<float> newRect, float sp) : Enemy(position, t, newRect, sp) {
+Boss::Boss(Coordinate position, Coordinate size, float sp) : Enemy(position, size, sp) {
     state = 0;
     currentGun = -1;
     guns = new std::vector<Gun*>();

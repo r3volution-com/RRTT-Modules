@@ -129,7 +129,3 @@ void Game::ChangeCurrentState(const std::string &state){
     }
     game->Init();
 }
-
-void Game::instanceBullet(Bullet *bul){
-    level->instanceBullet(bul);
-}

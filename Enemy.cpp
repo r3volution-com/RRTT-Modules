@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Game.h"
 
-Enemy::Enemy(Coordinate position, Texture *t, Rect<float> newRect, float sp): Entity (position, t, newRect, sp){
+Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, size, sp){
     flashRange=0;
     tri = new Trigonometry();
     cd = new Time(2.0f);
