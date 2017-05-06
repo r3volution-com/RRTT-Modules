@@ -7,59 +7,52 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "libs/Rect.h"
 #include "libs/Sprite.h"
 #include "libs/Text.h"
 #include "libs/Time.h"
 #include "Button.h"
-#include "libs/Sprite.h"
-#include "libs/Text.h"
 
 class HUD {
-    private:        
+    private:
+        Texture *tex;
         Sprite *hud;
+        Font *font;
+        
+        Rect<float> *cooldownRect;
         
         std::vector<Sprite*> *guns;
         std::vector<Sprite*> *gunsOff;
         std::vector<Sprite*> *gunsCooldown;
         std::vector<Time*> *gunTimers;
+        int activeGun;
         
         Sprite *playerHP;
+        Text *lifePlayerText;
+        int maxLifePlayer;
+        int lifePlayer;
+        
         Sprite *bossHP;
+        int maxLifeBoss;
+        int lifeBoss;
+        
         Sprite *flash;
         Sprite *flashCooldown;
-        Sprite *die;
-        
-        Texture *tex;
-        
         Time *clockFlash; 
+        
+        Sprite *die;
+        Button *buttonDie;
+        bool dieBool;
         
         Sprite *textSprite;
         Text *talker;
         Text *currentText;
-        Font *font;
-        
-        Text *lifePlayerText;
-        
-        Button *buttonDie;
-        
-        float timeFlash;
-        float firstGunCooldown;
-        float secondGunCooldown;
-        
-        int activeGun;
-        int maxLifeBoss;
-        int lifeBoss;
-        int maxLifePlayer;
-        int lifePlayer;
-        
-        bool dieBool;
         
         bool flashModuleEnabled;
         bool gunsModuleEnabled;
         bool dieModuleEnabled;
         bool textModuleEnabled;
         bool bossModuleEnable;
-        
     public:
         /**
          * Crea el objeto HUD
@@ -68,7 +61,7 @@ class HUD {
          * @param lRect: Vida
          * @param f: Fuente del texto (puntero)
          */
-        HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Font *f);
+        HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f);
         virtual ~HUD();
         
         /**
@@ -76,7 +69,7 @@ class HUD {
          * @param rect: isma esto no
          * @param g: esta hecho
          */
-        void addGun(Coordinate position, Rect<float> rect, Time *g);
+        void addGun(Coordinate position, Rect<float> rect, Rect<float> rectOff, Time *g);
         
         /**
          * Pues va a ser que no
@@ -248,7 +241,7 @@ class HUD {
         /**
          * Reinicia el reloj
          */
-        void resetClock();
+        void resetClockGuns();
         
         /**
          * Reinicia los stats

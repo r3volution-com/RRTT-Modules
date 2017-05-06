@@ -1,11 +1,13 @@
 #include "HUD.h"
 #include "Game.h"
 
-HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Font *f){
+HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
     hud = new Sprite(hTex, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
     
     tex = rTex;
     font = f;
+    
+    cooldownRect = new Rect<float> (cdRect);
     
     //ToDo: la vida deberia ser modular
     playerHP = new Sprite(tex, lRect); 
@@ -21,7 +23,7 @@ HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Font *f){
     gunsCooldown = new std::vector<Sprite*>();
     gunTimers = new std::vector<Time*>();
     activeGun = 0;
-   
+    
     dieBool = false;
     
     flashModuleEnabled = false;
@@ -34,7 +36,7 @@ HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Font *f){
 HUD::~HUD(){
     delete hud;
     delete guns;
-    delete gunsOff;
+    delete gunsOff; //ToDo: cuando borras un vector de punteros los punteros se quedan en memoria, habria que arreglar eso
     delete gunsCooldown;
     delete playerHP;
     delete bossHP;
@@ -73,10 +75,10 @@ HUD::~HUD(){
     buttonDie = NULL;
 }
 
-void HUD::addGun(Coordinate position, Rect<float> rect, Time *g){
+void HUD::addGun(Coordinate position, Rect<float> rect, Rect<float> rectOff, Time *g){
     Sprite *temp = new Sprite(tex, rect);
-    Sprite *tempOff = new Sprite(tex, rect);
-    Sprite *tempCd = new Sprite(tex, rect);
+    Sprite *tempOff = new Sprite(tex, rectOff);
+    Sprite *tempCd = new Sprite(tex, *cooldownRect);
     
     temp->setPosition(position);
     tempOff->setPosition(position);
@@ -89,6 +91,7 @@ void HUD::addGun(Coordinate position, Rect<float> rect, Time *g){
     gunsCooldown->push_back(tempCd);
     
     gunTimers->push_back(g);
+    gunsModuleEnabled = true;
 }
 
 void HUD::setFlash(Rect<float> rect, Time *f){
@@ -97,7 +100,7 @@ void HUD::setFlash(Rect<float> rect, Time *f){
     flashCooldown = new Sprite(tex, Rect<float>(rect.x+80, rect.y+80, rect.w, rect.h));
     flashCooldown->setPosition(100.0f,18.0f);
     clockFlash = f;
-    timeFlash = f->getTime();
+    //timeFlash = f->getTime();
     flashModuleEnabled = true;
 }
 
@@ -144,7 +147,7 @@ void HUD::setTextLifePlayer(){
 }
 
 void HUD::changeActiveGun(int gun){
-    activeGun = gun;
+    if (gun >= 0 && gun < guns->size()) activeGun = gun;
 }
 
 void HUD::changeMaxLifePlayer(int maxLife){
@@ -175,8 +178,14 @@ bool HUD::drawHUD(){
     Game::Instance()->window->draw(*hud->getSprite());
     drawPlayerHP();
     if (bossModuleEnable) drawBossHP(); 
-    if (gunsModuleEnabled) drawGun();
-    if (flashModuleEnabled) drawFlash();
+    if (gunsModuleEnabled) {
+        drawGun();
+        drawGunCooldown();
+    }
+    if (flashModuleEnabled) {
+        drawFlash();
+        drawFlashCooldown();
+    }
 }
 
 void HUD::drawGun(){
@@ -203,22 +212,21 @@ void HUD::drawFlash(){
 }
 
 void HUD::drawFlashCooldown(){
-    if(clockFlash->getTime() < timeFlash){
-        flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(Game::Instance()->fps*timeFlash)), 
+    if(clockFlash->getTime() < clockFlash->getMaxTime()){
+        flashCooldown->setSize(flashCooldown->getActualSpriteRect()->w-(flashCooldown->getOriginalSpriteRect()->w/(Game::Instance()->fps*clockFlash->getMaxTime())), 
                 flashCooldown->getActualSpriteRect()->h);
     } else {
         clockFlash->pause();
     }
     if (clockFlash->isRunning()) Game::Instance()->window->draw(*flashCooldown->getSprite());
 }
+
 void HUD::drawGunCooldown(){
     for (int i=0; i<guns->size(); i++){
-        if(!gunTimers->at(i)->isExpired()){
-            gunsCooldown->at(0)->setSize(gunsCooldown->at(0)->getActualSpriteRect()->w-
-                (gunsCooldown->at(0)->getOriginalSpriteRect()->w/(Game::Instance()->fps*firstGunCooldown)), 
-                gunsCooldown->at(0)->getActualSpriteRect()->h);
-        }
-        if (activeGun == i && gunTimers->at(i)->isRunning()){
+        if(gunTimers->at(i)->isRunning()){
+            gunsCooldown->at(i)->setSize(gunsCooldown->at(i)->getActualSpriteRect()->w-
+                ((gunsCooldown->at(i)->getOriginalSpriteRect()->w/gunTimers->at(i)->getMaxTime())/Game::Instance()->fps), 
+                gunsCooldown->at(i)->getActualSpriteRect()->h);
             Game::Instance()->window->draw(*gunsCooldown->at(i)->getSprite());
         }
     }
@@ -236,13 +244,9 @@ void HUD::resetClockFlash(){
     }
 }
 
-void HUD::resetClock(){ 
-    for (int i=0; i<guns->size(); i++){
-        if(activeGun == i){
-            if (!gunTimers->at(i)->isRunning()) {
-                gunsCooldown->at(activeGun)->restoreSize();
-            }
-        }
+void HUD::resetClockGuns(){ 
+    if (!gunTimers->at(activeGun)->isRunning()) {
+        gunsCooldown->at(activeGun)->restoreSize();
     }
 }
 
@@ -265,7 +269,6 @@ void HUD::drawDie(){
         Game::Instance()->window->draw(*die->getSprite());
         buttonDie->draw();
     }
-    
 }
 
 bool HUD::checkDie(){

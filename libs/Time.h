@@ -48,6 +48,7 @@ class Time {
         void restart(float newTime);
         
         float getTime();
+        float getMaxTime(){ return timerTime; }
         
         /**
          * Comprueba si esta funcionando

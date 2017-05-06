@@ -96,8 +96,8 @@ void LevelState::Init(){
     
     level = new Level(1);
     
-    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(0,0,120,20), game->rM->getFont("font"));
-    hud->addGun(Coordinate(15, 15), Rect<float>(0,0,128, 128), gunArm->getGunCooldown());
+    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,100,120,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
+    hud->addGun(Coordinate(20, 20), Rect<float>(10,10,90,90), Rect<float>(0,0,90,90), gunArm->getGunCooldown());
 }
 
 void LevelState::Update(){
@@ -165,6 +165,7 @@ void LevelState::Input(){
     
     /*Player gun attack*/
     if(Game::Instance()->iM->isActive("player-Rclick")){
+        hud->resetClockGuns();
         rath->gunAttack();
         rath->getCurrentGun()->getBullet()->setPosition(*rath->getCoordinate());
     }
