@@ -31,7 +31,7 @@ void Level::loadMap(){
     
     //Cargamos bosque
     if(level==1){
-        map = new Map("resources/bosque.tmx");
+        map = new Map("resources/bosque_definitivo.tmx");
     }
     //Hacer coindiciones para el resto de mapas cuando esten creados
 }

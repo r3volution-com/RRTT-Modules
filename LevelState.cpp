@@ -54,7 +54,7 @@ void LevelState::Init(){
     game->rM->loadFont("font", "resources/font.ttf");
     
     /*****PLAYER*****/
-    rath = new Player(Coordinate(3900,2700), Coordinate(128, 128), 15);
+    rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 15);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(70);
     
