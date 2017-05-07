@@ -8,10 +8,7 @@ Level::Level(int numLevel) {
     enemys = new std::vector<Enemy*>();
     
     //Cargamos todos los elementos del juego
-    loadMap();
-    loadNote();
-    loadEnemy();
-    loadCrystal();
+    Init();
 }
 
 Level::~Level(){
@@ -27,51 +24,38 @@ Level::~Level(){
     //level = NULL;
 }
 
-void Level::loadMap(){
-    
-    //Cargamos bosque
-    if(level==1){
-        map = new Map("resources/bosque_definitivo.tmx");
-    }
-    //Hacer coindiciones para el resto de mapas cuando esten creados
-}
-
-void Level::loadNote(){
+void Level::Init(){
     
     Texture *tex = new Texture("resources/Paper-Sprite.png");
     Texture *tex2 = new Texture("resources/pergamino.png");
     
     Font *font = new Font("resources/font.ttf");
     
+    //Si estamos en el primer nivel
     if(level==1){
+        //Cargamos el mapa
+        map = new Map("resources/bosque_definitivo.tmx");
+        
+        //Cargamos las notas
         note = new Note(tex, Rect<float>(0, 0, 64, 60), tex2, Rect<float>(0, 0, 608, 488), font);
         note->setPosition(Coordinate(150, 3550));
         note->setBackgroundPosition(Coordinate(100, 100));
         note->setText("Hola mundo!", sf::Color::Black, sf::Color::White, 1, 25);
-    }
     
-}
-
-void Level::loadCrystal(){
-    
-    if(level==1){
+        //Cargamos los cristales
         Game::Instance()->rM->loadTexture("crystal", "resources/Crystal.png");
         
         crystal = new Crystals(Game::Instance()->rM->getTexture("crystal"), Rect<float>(0, 0, 174, 290));
         crystal->setPosition(Coordinate(3000, 3000));
-    }
-}
-
-void Level::loadEnemy(){
-    
-    if(level==1){
+        
+        //Cargamos los enemigos
         Game::Instance()->rM->loadTexture("enemy", "resources/enemy.png");
         Game::Instance()->rM->loadTexture("boss", "resources/boss.png");
         Game::Instance()->rM->loadTexture("Bloque", "resources/Bloque.jpg");
         Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
 
         
-        Enemy *enemy = new Enemy(Coordinate(2900,1900), Coordinate(128, 128), 10);
+        Enemy *enemy = new Enemy(Coordinate(140,1200), Coordinate(128, 128), 10);
         enemy->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         enemy->getAnimation()->addAnimation("die", Coordinate(0, 0), 1, 0.5f);
@@ -94,10 +78,28 @@ void Level::loadEnemy(){
         boss->getAnimation()->changeAnimation("idle", false);
         
         enemys->push_back(enemy);
+    }  
+}
+
+void Level::enemyAI(Player *rath) {
+    for (int i = 0; i<enemys->size(); i++){
+        enemys->at(i)->AI(rath);
     }
 }
 
-void Level::drawAll(){
+void Level::Update(){
+    
+    //enemyAI deberia ir aqui?
+    
+}
+
+void Level::Input(){
+    
+    //Por ahora vacio
+    
+}
+
+void Level::Render(){
     
     //Dibujamos todos los elementos
     map->dibujarMapa(Game::Instance()->window);
@@ -124,10 +126,5 @@ void Level::drawAll(){
     //Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     boss->setPosition(inc2.x, inc2.y);
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
-}
-
-void Level::enemyAI(Player *rath) {
-    for (int i = 0; i<enemys->size(); i++){
-        enemys->at(i)->AI(rath);
-    }
+    
 }

@@ -187,7 +187,7 @@ void LevelState::Render(){
     Game::Instance()->cameraView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->setView(Game::Instance()->cameraView);
     
-    level->drawAll();
+    level->Render();
     
     level->map->putHitbox(rath);
     
