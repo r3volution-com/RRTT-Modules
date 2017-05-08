@@ -92,9 +92,9 @@ void Map::dataTiles(){
 
 void Map::matrizSprites(){
     
-    Texture *_tilesetTexture = new Texture("resources/oj.png");
+    Texture *_tilesetTexture = new Texture("resources/Tileset_optimizado2.png");
     
-    Rect <float> *medidas = new Rect <float> (0, 0, 128, 128);
+    Rect <float> *medidas = new Rect <float> (0, 0, 32, 32);
     
     _tilemapSprite = new Sprite***[_numLayers];
     
@@ -116,7 +116,10 @@ void Map::matrizSprites(){
                     newX = NewCoordX(gid);
                     newY = NewCoordY(gid);
 
-                    medidas->setRect(newX-128, newY, 128, 128);
+                    medidas->setRect(newX-32, newY, 32, 32);
+                    
+                    cout << medidas->getFloatRect() << "\n";
+                    
                     //Si fuera 0 no creo sprite...
                     
                     //Obtener getTextureRect de un vector/matriz de sprites donde cada sprite este asociado con su identificador de gid
@@ -137,16 +140,16 @@ void Map::matrizSprites(){
 
 int Map::NewCoordX(int gid){
     
-    int newX = (gid/64);
+    int newX = (gid/23);
                     
-    if(gid%64==0){
+    if(gid%23==0){
         newX = newX-1;
     }
 
     if(newX>0){
-        newX = 128*(gid-(newX*64)); 
+        newX = 32*(gid-(newX*23)); 
     }else{
-        newX = (gid*128);
+        newX = (gid*32);
     }
     
     return newX;
@@ -156,10 +159,10 @@ int Map::NewCoordY(int gid){
     
     int newY;
     
-    newY = (gid/64)*128;
+    newY = (gid/23)*32;
                     
-    if(gid%64==0){
-        newY = newY-128;
+    if(gid%23==0){
+        newY = newY-32;
     }
     
     return newY;
