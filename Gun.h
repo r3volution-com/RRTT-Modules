@@ -56,6 +56,12 @@ class Gun {
         void setPosition(Coordinate coord);
         
         /**
+         * Actualiza la posicion del arma
+         * @param coord: Coordenadas de la posicion
+         */
+        void setPosition(float x, float y);
+        
+        /**
          * Actualiza el ataque del arma
          * @param atk: Ataque del arma
          */

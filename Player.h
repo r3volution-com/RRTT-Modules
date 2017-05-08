@@ -1,6 +1,7 @@
 #ifndef PROTAGONISTA_H
 #define PROTAGONISTA_H
 
+#include "Weapon.h"
 #include "Gun.h"
 #include "Entity.h"
 #include "libs/Animation.h"
@@ -8,7 +9,7 @@
 
 class Player : public Entity {
     private:
-        Gun *weapon;
+        Weapon *weapon;
         std::vector<Gun*> *guns;
         
         int hp;
@@ -44,7 +45,13 @@ class Player : public Entity {
          * Actualiza el arma del jugador
          * @param wP: Arma del jugador (tipo gun)
          */
-        void setWeapon(Gun *wP);
+        void setWeapon(Weapon *wP);
+        
+        /**
+         * Anadir arma
+         * @param gun: Arma a anadir
+         */
+        void addGun(Gun *gun);
         
         /**
          * Cambia de arma 
@@ -56,7 +63,7 @@ class Player : public Entity {
         /**
          * Ataque con el arma
          */
-        void weaponAttack();
+        void weaponChargeAttack();
         
         /**
          * Ataque con la pistola
@@ -94,12 +101,6 @@ class Player : public Entity {
         void die();
         
         /**
-         * Anadir arma
-         * @param gun: Arma a anadir
-         */
-        void addGun(Gun *gun);
-        
-        /**
          * Actualizar vida maxima del jugador
          * @param mhp: Vida maxima
          */
@@ -130,9 +131,14 @@ class Player : public Entity {
          */
         void setPosition(float x, float y);
         
+        /**
+         * Finaliza el ataque
+         */
+        void attackDone();
+        
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
-        Gun *getWeapon() { return weapon; }
+        Weapon *getWeapon() { return weapon; }
         Gun *getCurrentGun() { return guns->at(currentGun); }
         Time *getFlashCooldown() { return flashCooldown; }
         

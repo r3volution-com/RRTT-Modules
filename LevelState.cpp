@@ -3,6 +3,7 @@
 #include "Crystals.h"
 #include "Level.h"
 #include "Console.h"
+#include "libs/Pie.h"
 
 #define PI 3,14159265;
 
@@ -73,6 +74,15 @@ void LevelState::Init(){
     
     game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
+    
+    Weapon *wep = new Weapon(Coordinate(0,0), Coordinate(128, 128), 2);
+    wep->setAnimation(game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
+    wep->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
+    wep->getAnimation()->setOrigin(Coordinate(184,98));
+    wep->getAnimation()->initAnimator();
+    wep->getAnimation()->changeAnimation("fireIdle", false);
+    
+    rath->setWeapon(wep);
 
     Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
     gunArm->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
@@ -110,7 +120,7 @@ void LevelState::Update(){
     }
 }
 
-void LevelState::Input(){
+void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba todo update y casi todo input (excepto la llamada para cerrar el propio menu de pausa)
     rath->getState()->update();
     /*Player movement*/
     if (Game::Instance()->iM->isActive("player-up-left")) { 
@@ -148,8 +158,8 @@ void LevelState::Input(){
     
                 
     /*Player weapon attack*/
-    if (Game::Instance()->iM->isActive("player-Lclick") && !rath->isAttacking()){ //ToDo: creo que deberia haber una clase weapon por que su funcionamiento es diferente a las armas
-        rath->weaponAttack();//ToDo: lo de debajo se puede meter aqui pasando angulo por parametro
+    if (Game::Instance()->iM->isActive("player-Lclick")){
+        rath->weaponChargeAttack();//ToDo: lo de debajo se puede meter aqui pasando angulo por parametro
         if(mouseAng < 315 && mouseAng > 225){ //Derecha
             rath->getAnimation()->changeAnimation("ataqueDerecha", true);
         } else if (mouseAng < 225 && mouseAng > 135){ //Arriba
@@ -164,7 +174,7 @@ void LevelState::Input(){
     }
     
     /*Player gun attack*/
-    if(Game::Instance()->iM->isActive("player-Rclick")){
+    if(Game::Instance()->iM->isActive("player-Rclick") && !rath->isAttacking()){ //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
         hud->resetClockGuns();
         rath->gunAttack();
         rath->getCurrentGun()->getBullet()->setPosition(*rath->getCoordinate());
@@ -195,11 +205,15 @@ void LevelState::Render(){
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     if (!rath->getCurrentGun()->getBulletLifetime()->isExpired()){
         Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
+    } else if (rath->isAttacking()){
+        rath->attackDone();
     }
+    Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
+    
     /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-    Game::Instance()->console->drawConsole();
     hud->drawHUD();
+    Game::Instance()->console->drawConsole();
 }
 
 void LevelState::CleanUp(){

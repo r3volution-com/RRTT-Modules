@@ -58,6 +58,11 @@ void Gun::setPosition(Coordinate position){
     gunAnimation->setPosition(position);
 }
 
+void Gun::setPosition(float x, float y){
+    hitbox->setPosition(x, y);
+    gunAnimation->setPosition(x, y);
+}
+
 void Gun::setActive() {
     if (active) active = false;
     else active = true;

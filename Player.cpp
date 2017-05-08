@@ -30,7 +30,7 @@ void Player::setAnimations(Texture *t, Rect<float> newRect){
     Entity::getAnimation()->changeAnimation("idle", false); 
 }
 
-void Player::setWeapon(Gun *wP){
+void Player::setWeapon(Weapon *wP){
     weapon = wP;
     weaponLoaded = true;
 }
@@ -98,9 +98,9 @@ bool Player::changeGun(int gun){
     } else return false;
 }
  
-void Player::weaponAttack(){
+void Player::weaponChargeAttack(){
     if (weaponLoaded) {
-        weapon->doAttack();
+        weapon->loadAttack();
         attacking = true;
         //ToDo pabloF: Traerte aqui la animacion de ataque con arma primaria
     }
@@ -156,4 +156,8 @@ void Player::setPosition(float x, float y){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
         guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
+}
+
+void Player::attackDone(){
+    attacking = false;
 }
