@@ -140,6 +140,10 @@ class Enemy : public Entity{
         bool getHome(){return home;}
         bool getFreeze(){return freeze;}
         int getSlowDown(){return slowDown;}
+        int getDisPlayerEnemy(){return disPlayerEnemy;}
+        int getDisEnemyHome(){return disEnemyHome;}
+        void setHome(bool value){home = value;}
+        
         
 };
 

@@ -47,6 +47,7 @@ class LevelState : public GameState {
         void CleanUp();
         
         virtual ~LevelState();
+        
 };
 
 #endif /* LEVELSTATE_H */

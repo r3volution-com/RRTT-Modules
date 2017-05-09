@@ -117,6 +117,9 @@ void LevelState::Update(){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
         }
     }
+    if (level->getBoss()->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+        level->getBoss()->damage(rath->getCurrentGun()->getDamage());
+   }
 }
 
 void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba todo update y casi todo input (excepto la llamada para cerrar el propio menu de pausa)

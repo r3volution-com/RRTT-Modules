@@ -89,11 +89,16 @@ void Level::Init(){
     gunArm->setAttack(bull);
         
         
-        boss = new Boss(Coordinate(140,500), Coordinate(128, 128), 10);
+        boss = new Boss(Coordinate(140,500), Coordinate(128, 128), 10, 1);
         boss->setSprite(Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128));
         boss->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         boss->getAnimation()->initAnimator();
         boss->getAnimation()->changeAnimation("idle", false);
+        boss->setMaxHP(50);
+        boss->setDistanceEnemyHome(1000);
+        boss->setDistancePlayerEnemy(500);
+        boss->setDmgHit(1);
+        boss->setHitCooldown(new Time(0.5));
         
         boss->addGun(gunArm);
         
