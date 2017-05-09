@@ -89,7 +89,7 @@ void Boss::AI(Player* rath, HUD* hud){
             if(Enemy::getHP() >= Enemy::getMaxHP()/2 || Enemy::getHP() >= Enemy::getMaxHP()/4 || defensive->isExpired()){
                 state = 1;
             }
-        }else if(distanceIni >= Enemy::getDisEnemyHome() || home == false && distance > 128){
+        }else if(distanceIni >= Enemy::getDisEnemyHome() || (home == false && distance > 128)){
             Enemy::setHome(home = false);
                 if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
                     Entity::move(ini->x, ini->y);
@@ -110,7 +110,7 @@ void Boss::AI(Player* rath, HUD* hud){
             }
         }
     }else if(state == 1){ //Aggressive
-        if(onRange = true && distance >= 100){
+        if(onRange == true && distance >= 100){
             if(level == 1){
                 
             }else if(level == 2){
@@ -121,7 +121,7 @@ void Boss::AI(Player* rath, HUD* hud){
         }else{
             state = 0;
         }
-    }else if(onRange = true && state == 2){ //Defensive
+    }else if(onRange == true && state == 2){ //Defensive
         if(distance >= 100){
             if(level == 1){
                 

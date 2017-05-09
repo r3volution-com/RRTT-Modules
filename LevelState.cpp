@@ -112,7 +112,7 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
-    level->AI(rath,hud);
+    //level->AI(rath,hud);
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
@@ -214,11 +214,7 @@ void LevelState::Render(){
     } else if (rath->isAttacking()){
         rath->attackDone();
     }
-    if (rath->getWeapon()->isAttacking()) {
-       // std::cout << "YAY\n";
-        Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
-       // std::cout << "YEY\n";
-    }
+    if (rath->getWeapon()->isAttacking()) Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
     
     /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());

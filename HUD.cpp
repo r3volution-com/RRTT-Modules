@@ -174,7 +174,7 @@ void HUD::changeLifeBoss(int life){
     }
 }
 
-bool HUD::drawHUD(bool onRange){
+void HUD::drawHUD(bool onRange){
     Game::Instance()->window->draw(*hud->getSprite());
     drawPlayerHP();
     if (bossModuleEnable && onRange == true) drawBossHP(); 

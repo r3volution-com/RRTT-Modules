@@ -122,7 +122,7 @@ void Enemy::AI(Player* rath, HUD* hud){
                 }
             }
         }
-    }else if(distanceIni >= disEnemyHome || home == false && distance > 128){
+    }else if(distanceIni >= disEnemyHome || (home == false && distance > 128)){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
                 Entity::move(ini->x, ini->y);

@@ -4,7 +4,7 @@
 Weapon::Weapon(Coordinate position, Coordinate size, float speed) {
     coor = new Coordinate(position);
     hitbox = new Hitbox(coor->x, coor->y, size.x, size.y);
-    degreesPerTick = speed;
+    degreesPerTick = 9*speed;
     
     lengthCount = 10;
     attackLength = new Time(0);
@@ -26,19 +26,19 @@ void Weapon::loadAttack(char direction){
         } else if (direction == 'd'){
             ang = 90;
         }
-        pie = new Pie(128, 40, ang); //ToDo: el 40 se debe pasar por algun lado
+        pie = new Pie(128, 40, ang);
         pie->setOutline(5, sf::Color::White);
         pie->setColor(sf::Color(255, 255, 255, 180));
-        pie->setFilledAngle(10);
-        attacking = true;
-    } 
-    if (pie->getFilledAngle() <= 40) {//ToDo: el 40 se debe pasar por algun lado
+        pie->setFilledAngle(90);
         pie->getShape()->setPosition(coor->x, coor->y);
+        attacking = true;
+    } else if (pie->getFilledAngle() <= 360) {
         pie->setFilledAngle(degreesPerTick);
+        pie->getShape()->setPosition(coor->x, coor->y);
         
-        if (pie->getFilledAngle() == 20) pie->setColor(sf::Color(255, 185, 185, 180));
-        else if (pie->getFilledAngle() == 30) pie->setColor(sf::Color(255, 115, 115, 180));
-        else if (pie->getFilledAngle() == 40) pie->setColor(sf::Color(255, 45, 45, 180));
+        if (pie->getFilledAngle() == 180) pie->setColor(sf::Color(255, 185, 185, 180));
+        else if (pie->getFilledAngle() == 270) pie->setColor(sf::Color(255, 115, 115, 180));
+        else if (pie->getFilledAngle() == 360) pie->setColor(sf::Color(255, 45, 45, 180));
     }
 }
 

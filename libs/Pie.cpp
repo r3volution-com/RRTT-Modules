@@ -4,18 +4,17 @@
 #include <iostream>
 
 Pie::Pie(float radius, int resolution, int rotationAngle) {
+    assert(radius > 0.f);
     pieRadius = radius;
-    pieTotalPoints = resolution+1;
-    pieIndex = 0;
-    pieAngle = 0;
+    pieTotalPoints = resolution;
+    pieFilledPoints = 0;
+
+    shape = new thor::ConcaveShape();
+    shape->setPointCount(0);
     
-    if (radius > 0) {
-        shape = new thor::ConcaveShape();
-        shape->setPointCount(resolution); //+1 es por el por el punto central
-        shape->setPoint(pieIndex, sf::Vector2f(0.f, 0.f));
-        shape->setRotation(rotationAngle);
-        pieIndex++;
-    }
+    addPoint(sf::Vector2f(0.f, 0.f));
+    
+    shape->setRotation(rotationAngle);
 }
 
 Pie::Pie(){
@@ -36,26 +35,29 @@ void Pie::setOutline(float outlineThickness, const sf::Color& outlineColor){
     shape->setOutlineColor(outlineColor);
 }
 
+void Pie::addPoint(sf::Vector2f vector){
+    const unsigned int size = shape->getPointCount();
+    
+    shape->setPointCount(size + 1);
+    shape->setPoint(size, vector);
+}
+
 void Pie::setFilledAngle(int increment){
-    int next = pieAngle+increment;
-    std::cout << "if " << next << "<=" << pieTotalPoints << "\n";
-    if (next <= pieTotalPoints){
+    increment = std::fmod(increment, 360.f);
+
+    const unsigned int pieNewPoints = static_cast<unsigned int>(increment / 360.f * pieTotalPoints);
+    
+    if (pieFilledPoints+pieNewPoints <= pieTotalPoints){
         thor::PolarVector2<float> vector(pieRadius, 0.f);
-        for (unsigned int i = pieAngle; i < next; i++) {
-            int degrees = 360.f * i / (pieTotalPoints-1);
-    std::cout << "degrees = 360.f*"<<i<<"/("<<pieTotalPoints<<"-1) = " << degrees << "\n";
-            if (degrees > 360) degrees = 359;
-            vector.phi = degrees;
-    std::cout << "Insertando: " << pieIndex << " " << pieAngle << " " << vector.phi << "\n";
-            shape->setPoint(pieIndex, vector);
-            pieIndex++;
+        for (unsigned int i = 0; i < pieNewPoints; ++i) {
+            vector.phi = 360.f * (i+pieFilledPoints) / pieTotalPoints;
+            addPoint(vector);
         }
-        pieAngle+=increment;
     }
+    
+    pieFilledPoints += pieNewPoints;
 }
 
 thor::ConcaveShape* Pie::getShape(){
-    //std::cout << "Mostrando: " << pieIndex << "\n";
-    if (pieIndex >= 3) return shape;
-    else return (thor::ConcaveShape*) new sf::ConvexShape();
+    return shape;
 }
