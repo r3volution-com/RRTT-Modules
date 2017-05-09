@@ -81,9 +81,9 @@ void Level::Init(){
     }  
 }
 
-void Level::enemyAI(Player *rath) {
+void Level::enemyAI(Player *rath, HUD* hud) {
     for (int i = 0; i<enemys->size(); i++){
-        enemys->at(i)->AI(rath);
+        enemys->at(i)->AI(rath, hud);
     }
 }
 

@@ -103,12 +103,13 @@ void LevelState::Init(){
     
     level = new Level(1);
     
-    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,100,120,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
+    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,230,200,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
     hud->addGun(Coordinate(20, 20), Rect<float>(10,10,90,90), Rect<float>(0,0,90,90), gunArm->getGunCooldown());
+    hud->changeMaxLifePlayer(rath->getMaxHP());
 }
 
 void LevelState::Update(){
-    level->enemyAI(rath);
+    level->enemyAI(rath,hud);
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox())){
@@ -167,7 +168,7 @@ void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba tod
     }
     
     /*Player gun attack*/
-    if(Game::Instance()->iM->isActive("player-Rclick") && !rath->isAttacking()){ //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
+    if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){ //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
         hud->resetClockGuns();
         rath->gunAttack();
         rath->getCurrentGun()->getBullet()->setPosition(*rath->getCoordinate());
