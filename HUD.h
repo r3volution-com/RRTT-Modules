@@ -178,7 +178,7 @@ class HUD {
          * @param window: Ventana en la que dibujar
          * @return 
          */
-        bool drawHUD();
+        bool drawHUD(bool onRange);
         
         /**
          * Dibuja el arma
