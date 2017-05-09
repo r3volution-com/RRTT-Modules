@@ -4,43 +4,66 @@
 Weapon::Weapon(Coordinate position, Coordinate size, float speed) {
     coor = new Coordinate(position);
     hitbox = new Hitbox(coor->x, coor->y, size.x, size.y);
-    degreesPerTick = (60/Game::Instance()->iaPS)*speed;
+    degreesPerTick = (9)*speed;
     
-    pie = new Pie(128, 40);
-    pie->setColor(sf::Color(255, 255, 255, 100));
-    pie->setOutline(5, sf::Color::White);
+    lengthCount = 10;
+    attackLength = new Time(0);
+    pie = NULL;
+    attacking = false;
 }
 
 Weapon::~Weapon() {
     
 }
 
-void Weapon::setAnimation(Texture *tex, Rect<float> animRect){
-    anim = new Animation(tex, animRect);
-    anim->addAnimation("idle", Coordinate(animRect.x, animRect.y), 2, 1.0f);
-    anim->addAnimation("attack", Coordinate(animRect.x, animRect.y+animRect.h), 2, 1.0f);
-    anim->setPosition(*coor);
-}
-
-void Weapon::loadAttack(){
-    if (lengthCount < (360/degreesPerTick)) {
+void Weapon::loadAttack(char direction){
+    if (!attacking){
+        int ang = 0;
+        if(direction == 'u'){
+            ang = 270;
+        } else if (direction == 'l'){
+            ang = 180;
+        } else if (direction == 'd'){
+            ang = 90;
+        }
+        pie = new Pie(128, 40, ang);
+        pie->setOutline(5, sf::Color::White);
+        pie->setColor(sf::Color(255, 255, 255, 180));
+        pie->setFilledAngle(90);
+        attacking = true;
+        lengthCount = 10;
+    } 
+    if (lengthCount <= (360/degreesPerTick)) {
         pie->getShape()->setPosition(coor->x, coor->y);
+        //std::cout << "Fuera: " << lengthCount << "\n";
         pie->setFilledAngle(degreesPerTick);
         lengthCount++;
+        
+        if (lengthCount == 20) pie->setColor(sf::Color(255, 185, 185, 180));
+        else if (lengthCount == 30) pie->setColor(sf::Color(255, 115, 115, 180));
+        else if (lengthCount == 40) pie->setColor(sf::Color(255, 45, 45, 180));
     }
 }
 
-void Weapon::doAttack(){
-    anim->changeAnimation("attack", true);
+int Weapon::releaseAttack(){
+    attacking = false;
+    delete pie;
+    pie = NULL;
     attackLength->restart((60/Game::Instance()->iaPS)*lengthCount);
+    return lengthCount;
 }
 
-void Weapon::setPosition(float x, float y){
-    hitbox->setPosition(x, y);
-    anim->setPosition(x, y);
+void Weapon::shortAttack(char direction){
+    attackLength->restart(0.25f); //ToDo: pasar el numero por constructor o algo asi?
+    //ToDo: hitbox en la direccion
 }
 
 void Weapon::setPosition(Coordinate coord){
+    coor->setCoordinate(coord);
     hitbox->setPosition(coord);
-    anim->setPosition(coord);
+}
+
+void Weapon::setPosition(float x, float y){
+    coor->setCoordinate(x, y);
+    hitbox->setPosition(x, y);
 }

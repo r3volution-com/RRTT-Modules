@@ -118,7 +118,7 @@ void Map::matrizSprites(){
 
                     medidas->setRect(newX-32, newY, 32, 32);
                     
-                    cout << medidas->getFloatRect() << "\n";
+                    //cout << medidas->getFloatRect() << "\n";
                     
                     //Si fuera 0 no creo sprite...
                     

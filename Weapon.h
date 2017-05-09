@@ -10,13 +10,13 @@
 class Weapon {
     private:
         Coordinate *coor;
-        Animation *anim;
-        Hitbox *hitbox;
+        Hitbox *hitbox; //ToDo: cambiar hitbox por otra cosa?
         Time *attackLength;
         Pie* pie;
         
         float degreesPerTick;
         float lengthCount;
+        bool attacking;
     public:
         /**
          * 
@@ -26,13 +26,6 @@ class Weapon {
          */
         Weapon(Coordinate position, Coordinate size, float speed);
         virtual ~Weapon();
-        
-        /**
-         * Crea la animacion
-         * @param animRect: Zona de animacion del arma
-         * @param tex: Textura del arma
-         */
-        void setAnimation(Texture *tex, Rect<float> animRect);
         
         /**
          * Actualiza la posicion del arma
@@ -50,20 +43,27 @@ class Weapon {
          * Carga el ataque
          * @param angle: angulo
          */
-        void loadAttack(); //ToDo: permitir angulo inicial
+        void loadAttack(char direction);
         
         /**
          * Lanza el ataque
          */
-        void doAttack();
+        int releaseAttack();
+        
+        /**
+         * Lanza un ataque corto
+         */
+        void shortAttack(char direction);
         
         /**
          * 
          * @return 
          */
+        
+        bool isAttacking() { return attacking; }
+        Time *getTime() { return attackLength; }
         Pie *getPie() { return pie; }
         Hitbox *getHitbox() { return hitbox; }
-        Animation *getAnimation(){ return anim; }
 };
 
 #endif /* WEAPON_H */

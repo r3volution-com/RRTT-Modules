@@ -63,12 +63,27 @@ class Player : public Entity {
         /**
          * Ataque con el arma
          */
-        void weaponChargeAttack();
+        void weaponShortAttack(int angle);
+        
+        /**
+         * Ataque con el arma
+         */
+        void weaponChargeAttack(int initialAngle);
+        
+        /**
+         * Ataque con el arma
+         */
+        void weaponReleaseAttack();
         
         /**
          * Ataque con la pistola
          */
         void gunAttack();
+        
+        /**
+         * Finaliza el ataque
+         */
+        void attackDone();
         
         /**
          * Movimiento del jugador
@@ -130,11 +145,6 @@ class Player : public Entity {
          * @param y: Coordenada y
          */
         void setPosition(float x, float y);
-        
-        /**
-         * Finaliza el ataque
-         */
-        void attackDone();
         
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }

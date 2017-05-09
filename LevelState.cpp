@@ -54,33 +54,30 @@ void LevelState::Init(){
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
-    /*****PLAYER*****/
-    rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 15);
-    rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(70);
-    
     game->iM->addAction("player-up", thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
     game->iM->addAction("player-left", thor::Action(sf::Keyboard::Left));
-    game->iM->addAction("player-Lclick", thor::Action(sf::Mouse::Left));
-    
-    game->iM->addAction("player-Rclick", thor::Action(sf::Mouse::Right));
-    
     game->iM->addAction("player-up-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-up-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
     
+    game->iM->addAction("player-shortAttack", thor::Action(sf::Mouse::Left, thor::Action::PressOnce));
+    game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold));
+    game->iM->addAction("player-longAttackStop", thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
+    
+    game->iM->addAction("player-gunAttack", thor::Action(sf::Mouse::Right));
+    
     game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
-    Weapon *wep = new Weapon(Coordinate(0,0), Coordinate(128, 128), 2);
-    wep->setAnimation(game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
-    wep->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
-    wep->getAnimation()->setOrigin(Coordinate(184,98));
-    wep->getAnimation()->initAnimator();
-    wep->getAnimation()->changeAnimation("fireIdle", false);
+    /*****PLAYER*****/
+    rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 15);
+    rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
+    rath->setMaxHP(70);
+    
+    Weapon *wep = new Weapon(Coordinate(140,1000), Coordinate(128, 128), 1);
     
     rath->setWeapon(wep);
 
@@ -153,24 +150,20 @@ void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba tod
     
     /*Player gun rotation*/
     float mouseAng = tri->angleWindow(Coordinate(Game::Instance()->mouse->hitbox->left, Game::Instance()->mouse->hitbox->top));
-    Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+    Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+            rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
     rath->getCurrentGun()->update(newPos, mouseAng);
     
                 
     /*Player weapon attack*/
-    if (Game::Instance()->iM->isActive("player-Lclick")){
-        rath->weaponChargeAttack();//ToDo: lo de debajo se puede meter aqui pasando angulo por parametro
-        if(mouseAng < 315 && mouseAng > 225){ //Derecha
-            rath->getAnimation()->changeAnimation("ataqueDerecha", true);
-        } else if (mouseAng < 225 && mouseAng > 135){ //Arriba
-            rath->getAnimation()->changeAnimation("ataqueArriba", true);
-        } else if (mouseAng < 135 && mouseAng > 45){ //Izquierda
-            rath->getAnimation()->changeAnimation("ataqueIzquierda", true);
-        } else if (mouseAng < 45 || mouseAng > 315){ //Abajo
-            rath->getAnimation()->changeAnimation("ataqueAbajo", true);
-        }
-    } else {
-        rath->getAnimation()->queueAnimation("idle", false); //ToDo: esto se puede ejecutar al acabar el timer del ataque
+    if (Game::Instance()->iM->isActive("player-shortAttack")){
+        rath->weaponShortAttack(mouseAng);
+    }
+    if (Game::Instance()->iM->isActive("player-longAttackStart")){
+        rath->weaponChargeAttack(mouseAng);
+    }
+    if (Game::Instance()->iM->isActive("player-longAttackStop")){
+        //rath->weaponReleaseAttack();
     }
     
     /*Player gun attack*/
@@ -208,7 +201,11 @@ void LevelState::Render(){
     } else if (rath->isAttacking()){
         rath->attackDone();
     }
-    Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
+    if (rath->getWeapon()->isAttacking()) {
+       // std::cout << "YAY\n";
+        Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
+       // std::cout << "YEY\n";
+    }
     
     /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());

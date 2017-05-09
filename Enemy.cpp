@@ -27,7 +27,7 @@ void Enemy::flash(float dirX, float dirY){
 
 void Enemy::die(){
     Entity::getAnimation()->changeAnimation("die",false);
-    std::cout << "muero" << "\n";
+    //std::cout << "muero" << "\n";
 }
 
 void Enemy::damage(int dm){

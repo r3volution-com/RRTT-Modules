@@ -11,17 +11,19 @@ class Pie {
         thor::ConcaveShape *shape;
         int pieRadius;
         int nbTotalPoints; //40
-        int pieFilled;
+        int pieIndex;
+        int actualAngle;
     public:
-        Pie(float radius, int resolution);
+        Pie();
+        Pie(float radius, int resolution, int rotationAngle);
         virtual ~Pie();
         
         void setColor(const sf::Color& fillColor);
         void setOutline(float outlineThickness, const sf::Color& outlineColor);
         
-        void setFilledAngle(int angle);
+        void setFilledAngle(int increment);
         
-        int getFilledAngle() { return pieFilled; }
+        int getFilledAngle() { return pieIndex; }
         
         thor::ConcaveShape* getShape();
 };
