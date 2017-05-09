@@ -54,8 +54,15 @@ void Gun::update(Coordinate position, float angle){
 }
 
 void Gun::setPosition(Coordinate position){
+    coor->setCoordinate(position);
     hitbox->setPosition(position);
     gunAnimation->setPosition(position);
+}
+
+void Gun::setPosition(float x, float y){
+    coor->setCoordinate(x, y);
+    hitbox->setPosition(x, y);
+    gunAnimation->setPosition(x, y);
 }
 
 void Gun::setActive() {

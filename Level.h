@@ -16,43 +16,21 @@ public:
     Map *map;
     
     Level(int numLevel);
-    void drawAll();
-    void enemyAI(Player *rath);
-    
+    void enemyAI(Player *rath, HUD* hud);
+
+    void Init();
+
+    void Input();
+
+    void Update();
+
+    void Render();
+ 
     Crystals *getCrystal(){return crystal;}
     std::vector<Enemy*> *getEnemys(){return enemys;}
 
 private:
- /*-Protagonista prota
--Objeto things[ ]
--Jefe boss
--Enemigo enemy[ ]
--NPC npc
--Mapa map
--Arma gun[ ]
--Sprite sprite[ ]
--Ataque attack[ ]*/
-    
-    /**
-     * Carga del mapa
-     */
-    void loadMap();
-    
-    /**
-     * Carga de las notas
-     */
-    void loadNote();
-    
-    /**
-     * Carga de los cristales
-     */
-    void loadCrystal();
-    
-    /**
-     * Carga de los enemigos
-     */
-    void loadEnemy();
-    
+
     virtual ~Level();
     
     //Player se carga en levelState   

@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "HUD.h"
 #include "libs/Animation.h"
 #include "libs/Time.h"
 #include "libs/Trigonometry.h"
@@ -128,7 +129,7 @@ class Enemy : public Entity{
          * Inteligencia artificil
          * @param rath: Puntero del personaje
          */
-        void AI(Player *rath);
+        void AI(Player *rath, HUD* hud);
 };
 
 #endif /* ENEMY_H */

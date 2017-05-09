@@ -27,7 +27,7 @@ void Enemy::flash(float dirX, float dirY){
 
 void Enemy::die(){
     Entity::getAnimation()->changeAnimation("die",false);
-    std::cout << "muero" << "\n";
+    //std::cout << "muero" << "\n";
 }
 
 void Enemy::damage(int dm){
@@ -47,7 +47,7 @@ void Enemy::setFlashCooldown(Time *cooldown){
 
 
 
-void Enemy::AI(Player* rath){
+void Enemy::AI(Player* rath, HUD* hud){
     //float angle = tri->angle(rath->getCoordinate(), Entity::getCoordinate());
     float distance = tri->distance(rath->getCoordinate(), Entity::getCoordinate());
     float distanceIni = tri->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
@@ -105,6 +105,7 @@ void Enemy::AI(Player* rath){
             }
             if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
                 rath->damage(dmgHit);
+                hud->changeLifePlayer(rath->getHP()-dmgHit);
                 cd->restart();
             }
         }else{

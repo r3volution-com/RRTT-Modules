@@ -3,6 +3,7 @@
 #include "Crystals.h"
 #include "Level.h"
 #include "Console.h"
+#include "libs/Pie.h"
 
 #define PI 3,14159265;
 
@@ -53,26 +54,32 @@ void LevelState::Init(){
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
-    /*****PLAYER*****/
-    rath = new Player(Coordinate(3900,2700), Coordinate(128, 128), 15);
-    rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(70);
-    
     game->iM->addAction("player-up", thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
     game->iM->addAction("player-left", thor::Action(sf::Keyboard::Left));
-    game->iM->addAction("player-Lclick", thor::Action(sf::Mouse::Left));
-    
-    game->iM->addAction("player-Rclick", thor::Action(sf::Mouse::Right));
-    
     game->iM->addAction("player-up-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-up-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
     
+    game->iM->addAction("player-shortAttack", thor::Action(sf::Mouse::Left, thor::Action::PressOnce));
+    game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold));
+    game->iM->addAction("player-longAttackStop", thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
+    
+    game->iM->addAction("player-gunAttack", thor::Action(sf::Mouse::Right));
+    
     game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
+    
+    /*****PLAYER*****/
+    rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 15);
+    rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
+    rath->setMaxHP(70);
+    
+    Weapon *wep = new Weapon(Coordinate(140,1000), Coordinate(128, 128), 1);
+    
+    rath->setWeapon(wep);
 
     Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
     gunArm->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
@@ -97,12 +104,13 @@ void LevelState::Init(){
     
     level = new Level(1);
     
-    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,100,120,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
+    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,230,200,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
     hud->addGun(Coordinate(20, 20), Rect<float>(10,10,90,90), Rect<float>(0,0,90,90), gunArm->getGunCooldown());
+    hud->changeMaxLifePlayer(rath->getMaxHP());
 }
 
 void LevelState::Update(){
-    level->enemyAI(rath);
+    level->enemyAI(rath,hud);
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox())){
@@ -111,7 +119,7 @@ void LevelState::Update(){
     }
 }
 
-void LevelState::Input(){
+void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba todo update y casi todo input (excepto la llamada para cerrar el propio menu de pausa)
     rath->getState()->update();
     /*Player movement*/
     if (Game::Instance()->iM->isActive("player-up-left")) { 
@@ -144,28 +152,24 @@ void LevelState::Input(){
     
     /*Player gun rotation*/
     float mouseAng = tri->angleWindow(Coordinate(Game::Instance()->mouse->hitbox->left, Game::Instance()->mouse->hitbox->top));
-    Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+    Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+            rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
     rath->getCurrentGun()->update(newPos, mouseAng);
     
                 
     /*Player weapon attack*/
-    if (Game::Instance()->iM->isActive("player-Lclick") && !rath->isAttacking()){ //ToDo: creo que deberia haber una clase weapon por que su funcionamiento es diferente a las armas
-        rath->weaponAttack();//ToDo: lo de debajo se puede meter aqui pasando angulo por parametro
-        if(mouseAng < 315 && mouseAng > 225){ //Derecha
-            rath->getAnimation()->changeAnimation("ataqueDerecha", true);
-        } else if (mouseAng < 225 && mouseAng > 135){ //Arriba
-            rath->getAnimation()->changeAnimation("ataqueArriba", true);
-        } else if (mouseAng < 135 && mouseAng > 45){ //Izquierda
-            rath->getAnimation()->changeAnimation("ataqueIzquierda", true);
-        } else if (mouseAng < 45 || mouseAng > 315){ //Abajo
-            rath->getAnimation()->changeAnimation("ataqueAbajo", true);
-        }
-    } else {
-        rath->getAnimation()->queueAnimation("idle", false); //ToDo: esto se puede ejecutar al acabar el timer del ataque
+    if (Game::Instance()->iM->isActive("player-shortAttack")){
+        rath->weaponShortAttack(mouseAng);
+    }
+    if (Game::Instance()->iM->isActive("player-longAttackStart")){
+        rath->weaponChargeAttack(mouseAng);
+    }
+    if (Game::Instance()->iM->isActive("player-longAttackStop")){
+        //rath->weaponReleaseAttack();
     }
     
     /*Player gun attack*/
-    if(Game::Instance()->iM->isActive("player-Rclick")){
+    if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){ //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
         hud->resetClockGuns();
         rath->gunAttack();
         rath->getCurrentGun()->getBullet()->setPosition(*rath->getCoordinate());
@@ -188,7 +192,7 @@ void LevelState::Render(){
     Game::Instance()->cameraView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->setView(Game::Instance()->cameraView);
     
-    level->drawAll();
+    level->Render();
     
     level->map->putHitbox(rath);
     
@@ -196,11 +200,19 @@ void LevelState::Render(){
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     if (!rath->getCurrentGun()->getBulletLifetime()->isExpired()){
         Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
+    } else if (rath->isAttacking()){
+        rath->attackDone();
     }
+    if (rath->getWeapon()->isAttacking()) {
+       // std::cout << "YAY\n";
+        Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
+       // std::cout << "YEY\n";
+    }
+    
     /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-    Game::Instance()->console->drawConsole();
     hud->drawHUD();
+    Game::Instance()->console->drawConsole();
 }
 
 void LevelState::CleanUp(){

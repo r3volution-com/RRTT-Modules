@@ -1,6 +1,7 @@
 #ifndef PROTAGONISTA_H
 #define PROTAGONISTA_H
 
+#include "Weapon.h"
 #include "Gun.h"
 #include "Entity.h"
 #include "libs/Animation.h"
@@ -8,7 +9,7 @@
 
 class Player : public Entity {
     private:
-        Gun *weapon;
+        Weapon *weapon;
         std::vector<Gun*> *guns;
         
         int hp;
@@ -44,7 +45,13 @@ class Player : public Entity {
          * Actualiza el arma del jugador
          * @param wP: Arma del jugador (tipo gun)
          */
-        void setWeapon(Gun *wP);
+        void setWeapon(Weapon *wP);
+        
+        /**
+         * Anadir arma
+         * @param gun: Arma a anadir
+         */
+        void addGun(Gun *gun);
         
         /**
          * Cambia de arma 
@@ -56,12 +63,27 @@ class Player : public Entity {
         /**
          * Ataque con el arma
          */
-        void weaponAttack();
+        void weaponShortAttack(int angle);
+        
+        /**
+         * Ataque con el arma
+         */
+        void weaponChargeAttack(int initialAngle);
+        
+        /**
+         * Ataque con el arma
+         */
+        void weaponReleaseAttack();
         
         /**
          * Ataque con la pistola
          */
         void gunAttack();
+        
+        /**
+         * Finaliza el ataque
+         */
+        void attackDone();
         
         /**
          * Movimiento del jugador
@@ -92,12 +114,6 @@ class Player : public Entity {
          * Muerte del jugador
          */
         void die();
-        
-        /**
-         * Anadir arma
-         * @param gun: Arma a anadir
-         */
-        void addGun(Gun *gun);
         
         /**
          * Actualizar vida maxima del jugador
@@ -132,7 +148,7 @@ class Player : public Entity {
         
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
-        Gun *getWeapon() { return weapon; }
+        Weapon *getWeapon() { return weapon; }
         Gun *getCurrentGun() { return guns->at(currentGun); }
         Time *getFlashCooldown() { return flashCooldown; }
         
