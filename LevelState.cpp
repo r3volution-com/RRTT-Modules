@@ -87,7 +87,7 @@ void LevelState::Init(){
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-    gunArm->setDamage(30);
+    gunArm->setDamage(1);
     
     Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
     bull->setAnimation(game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
@@ -112,8 +112,7 @@ void LevelState::Update(){
     level->enemyAI(rath,hud);
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
-        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox())){
-        std::cout<<"hola"<<"\n";
+        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
         }
     }

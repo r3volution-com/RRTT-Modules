@@ -58,10 +58,9 @@ void Level::Init(){
         Enemy *enemy = new Enemy(Coordinate(140,1200), Coordinate(128, 128), 10);
         enemy->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
-        enemy->getAnimation()->addAnimation("die", Coordinate(0, 0), 1, 0.5f);
         enemy->getAnimation()->initAnimator();
         enemy->getAnimation()->changeAnimation("idle", false);
-        enemy->setMaxHP(50);
+        enemy->setMaxHP(100);
         enemy->setDistanceEnemyHome(1000);
         enemy->setDistancePlayerEnemy(500);
         enemy->setDmgHit(1);
