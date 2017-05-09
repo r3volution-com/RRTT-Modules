@@ -34,11 +34,10 @@ class Enemy : public Entity{
         /**
          * Se crea el objeto enemona a mostrar de la textura del enemigoigo
          * @param position: Se le otorga una posicion al enemigo de tipo coordenada
-         * @param t: Puntero con referencia a la textura del enemigo
-         * @param newRect: Z
+         * @param size: Tamano del enemigo
          * @param sp: Velocidad del enemigo
          */
-        Enemy(Coordinate position, Texture *t, Rect<float> newRect, float sp); //ToDo: enemy
+        Enemy(Coordinate position, Coordinate size, float sp); //ToDo: enemy
         virtual ~Enemy();
         
         

@@ -7,80 +7,74 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "libs/Rect.h"
 #include "libs/Sprite.h"
 #include "libs/Text.h"
 #include "libs/Time.h"
 #include "Button.h"
-#include "libs/Sprite.h"
-#include "libs/Text.h"
 
 class HUD {
-    private:        
+    private:
+        Texture *tex;
         Sprite *hud;
+        Font *font;
+        
+        Rect<float> *cooldownRect;
+        
         std::vector<Sprite*> *guns;
         std::vector<Sprite*> *gunsOff;
         std::vector<Sprite*> *gunsCooldown;
+        std::vector<Time*> *gunTimers;
+        int activeGun;
+        
         Sprite *playerHP;
+        Text *lifePlayerText;
+        int maxLifePlayer;
+        int lifePlayer;
+        
         Sprite *bossHP;
+        int maxLifeBoss;
+        int lifeBoss;
+        
         Sprite *flash;
         Sprite *flashCooldown;
-        Sprite *die;
-        
-        Texture *tex;
-        
         Time *clockFlash; 
-        Time *clockFirstGun; 
-        Time *clockSecondGun; 
+        
+        Sprite *die;
+        Button *buttonDie;
+        bool dieBool;
         
         Sprite *textSprite;
         Text *talker;
         Text *currentText;
-        Font *font;
-        
-        Text *lifePlayerText;
-        
-        Button *buttonDie;
-        
-        float timeFlash;
-        float firstGunCooldown;
-        float secondGunCooldown;
-        
-        int activeGun;
-        int maxLifeBoss;
-        int lifeBoss;
-        int maxLifePlayer;
-        int lifePlayer;
-        
-        bool dieBool;
         
         bool flashModuleEnabled;
         bool gunsModuleEnabled;
         bool dieModuleEnabled;
         bool textModuleEnabled;
         bool bossModuleEnable;
-        
     public:
         /**
          * Crea el objeto HUD
-         * @param bTex: Textura de fondo (puntero)
          * @param hTex: Textura de los bordes (puntero)
-         * @param lTex: Textira de la vida (puntero)
+         * @param rTex: Textura del resto de recursos (puntero)
+         * @param lRect: Vida
          * @param f: Fuente del texto (puntero)
-         * @param cF: Tiempo del flash (tipo time)
          */
-        HUD(Texture *hTex, Texture *lTex, Rect<float> lRect, Font *f, Time *cF);
+        HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f);
         virtual ~HUD();
         
         /**
-         * Actualizar sprites de las armas
-         * @param tex: Textura de las armas (puntero)
+         * Pues va a ser que no
+         * @param rect: isma esto no
+         * @param g: esta hecho
          */
-        void setGuns(Rect<float> rect, Time *g1, Time *g2);
+        void addGun(Coordinate position, Rect<float> rect, Rect<float> rectOff, Time *g);
         
         /**
-         * Actualizar los sprites del flash
-         * @param tFlash: Textura del flash (puntero)
-         * @param tCooldown: Textura del tiempo de cooldown (puntero)
+         * Pues va a ser que no
+         * @param rect: isma esto no
+         * @param f: esta hecho
          */
         void setFlash(Rect<float> rect, Time *f);
         
@@ -247,7 +241,7 @@ class HUD {
         /**
          * Reinicia el reloj
          */
-        void resetClock();
+        void resetClockGuns();
         
         /**
          * Reinicia los stats

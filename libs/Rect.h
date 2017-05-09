@@ -24,6 +24,13 @@ class Rect {
          * @param rect: Zona a imprimir
          */
         Rect(sf::Rect<T> rect);
+        
+        /**
+         * Crea un objeto zona de impresion
+         * @param rect: Zona a imprimir
+         */
+        Rect(const Rect<T>& rect);
+        
         virtual ~Rect();
         
         /**

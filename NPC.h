@@ -14,12 +14,11 @@ class NPC : public Entity {
         /**
          * Crea el objeto npc
          * @param position: Posicion del npc (tipo coordenadas)
-         * @param t: Textura del npc
-         * @param newRect: Zona en la que imprimir el npc
+         * @param size: tamano del npc
          * @param sp: Velocidad de la animacion del npc
          * @param name: Nombre del npc
          */
-        NPC(Coordinate position, Texture *t, Rect<float> newRect, float sp, std::string name);
+        NPC(Coordinate position, Coordinate size, float sp, std::string name);
         virtual ~NPC();
         
         /**

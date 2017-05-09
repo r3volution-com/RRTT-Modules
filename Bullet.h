@@ -10,16 +10,24 @@ class Bullet {
         Hitbox *hitbox;
         Animation *anim;
         Coordinate *initial;
-        float speed;
+        
+        float duration;
     public:
         /**
          * Creacion del objeto bala
          * @param position: Posicion de la bala. Tipo Coordinates
-         * @param t: Textura de la bala
-         * @param newRect: Zona en la que se imprime la bala
-         * @param sp: Velocidad de animacion de la bala
+         * @param size: Tamano de la bala
+         * @param d: duracion de la bala
          */
-        Bullet(Coordinate position, Texture *t, Rect<float> newRect, float sp); //ToDo: bullet
+        Bullet(Coordinate position, Coordinate size, float d); //ToDo: bullet
+        virtual ~Bullet();
+        
+        /**
+         * Crea la animacion para la bala
+         * @param t: textura de la bala
+         * @param newRect: posicion de la bala en el spritesheet
+         */
+        void setAnimation(Texture *t, Rect<float> newRect);
         
         /**
          * Actualiza la posicion de la bala. Tipo Coordinate
@@ -41,14 +49,13 @@ class Bullet {
          * @return: Booleano
          */
         bool collision(Hitbox *other);
-        void move(float dirX, float dirY);
-        virtual ~Bullet();
+        
         InterpolatedCoordinate *getState() { return coor; }
         Coordinate *getCoordinate() { return coor->getCoordinate(); }
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return anim; }
-        float getSpeed() { return speed; }
-        Coordinate *getInitialCoordinate() { return initial;}
+        Coordinate *getInitialCoordinate() { return initial; }
+        float getDuration() { return duration; }
 };
 
 #endif /* BULLET_H */

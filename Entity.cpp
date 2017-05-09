@@ -1,13 +1,11 @@
 #include "Entity.h"
 
-Entity::Entity(Coordinate position, Texture *t, Rect<float> newRect, float sp) {
+Entity::Entity(Coordinate position, Coordinate size, float sp) {
     speed = sp;
     
     coor = new InterpolatedCoordinate(position.x, position.y);
-    hitbox = new Hitbox(position.x, position.y, newRect.w, newRect.h);
+    hitbox = new Hitbox(position.x, position.y, size.x, size.y);
     hitbox->setPosition(position);
-    anim = new Animation(t, Rect<float>(newRect.x, newRect.y, newRect.w, newRect.h));
-    anim->setPosition(position);
     initial = new Coordinate(position.x, position.y);
 }
 
@@ -20,6 +18,11 @@ Entity::~Entity() {
     hitbox = NULL;
     anim = NULL;
     initial = NULL;
+}
+
+void Entity::setSprite(Texture *t, Rect<float> newRect){
+    anim = new Animation(t, Rect<float>(newRect.x, newRect.y, newRect.w, newRect.h));
+    anim->setPosition(*initial);
 }
 
 void Entity::move(float dirX, float dirY){

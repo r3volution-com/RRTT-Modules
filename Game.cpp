@@ -44,7 +44,7 @@ Game::~Game(){
 Game::Game(){
     screenSize = new Coordinate(1280, 720);
     window = new sf::RenderWindow(sf::VideoMode(screenSize->x, screenSize->y), "Rath's Revenge: The Twisted Timeline");
-    cameraView = sf::View(sf::FloatRect(0,0,2048,2048));
+    cameraView = sf::View(sf::FloatRect(0,0,3072,1728));
     screenView = sf::View(sf::FloatRect(0,0,1280,720)); //ToDo: inutil
     
     intro = new IntroState();
@@ -92,6 +92,7 @@ void Game::Input(){
 void Game::Update(){
     iM->update();
     game->Update();
+    //std::cout << fps << "\n";
 }
 
 void Game::Render(){
@@ -128,8 +129,4 @@ void Game::ChangeCurrentState(const std::string &state){
         game = intro;
     }
     game->Init();
-}
-
-void Game::instanceBullet(Bullet *bul){
-    level->instanceBullet(bul);
 }

@@ -10,38 +10,44 @@
 
 class Gun {
     private:
+        Coordinate *coor;
         Animation *gunAnimation;
         Hitbox *hitbox;
-        Bullet *attack;
-        
-        bool bulletLoaded;
-        bool active;
         
         Time *gunCooldown;
+        float maxCooldown;
         int damage;
+        bool active;
         
-        float attackCooldown;
-        float attackMaxCooldown;
+        Bullet *attack;
+        Time *bulletLifetime;
+        bool bulletLoaded;
     public:
         /**
          * Crea objeto arma
          * @param position: Posicion del arma 
-         * @param animRect: Zona de animacion del arma
-         * @param tex: Textura del arma
+         * @param size: tamano del arma
+         * @param cd: cooldown
          */
-        Gun(Coordinate position, Rect<float> animRect, Texture *tex);
+        Gun(Coordinate position, Coordinate size, float cd);
         virtual ~Gun();
         
         /**
-         * Actualiza el tiempo de enfriamiento del arma
-         * @param gc: Tiempo de enfriamiento del arma
+         * Crea la animacion
+         * @param animRect: Zona de animacion del arma
+         * @param tex: Textura del arma
          */
-        void setGunCooldown(Time *gc);
+        void setAnimation(Texture *tex, Rect<float> animRect);
         
         /**
          * Metodo para realizar ataque
          */
         void doAttack();
+        
+        /**
+         * Actualiza la posicion de las balas
+         */
+        void update(Coordinate position, float angle);
         
         /**
          * Actualiza la posicion del arma
@@ -61,26 +67,15 @@ class Gun {
         void setActive();
         
         /**
-         * Actualiza el enfriamiento del arma
-         * @param atkCooldown: Enfriamiento del ataque (tipo float)
-         */
-        void setAttackCooldown(float atkCooldown) { attackCooldown = atkCooldown; }
-        
-        /**
-         * Actualiza el enfriamiento maximo del ataque
-         * @param atkMCooldown: Enfriamiento maximo del ataque (tipo float)
-         */
-        void setAttackMaxCooldown(float atkMCooldown) { attackMaxCooldown = atkMCooldown; }
-        /**
          * Actualiza el dano del arma
          * @param dmg: Dano del arma
          */
         void setDamage(int dmg) { damage = dmg; }
         
         bool getActive() { return active; }
+        Time *getBulletLifetime() { return bulletLifetime; }
+        Time *getGunCooldown() { return gunCooldown; }
         int getDamage() { return damage; }
-        float getAttackCooldown() { return attackCooldown; }
-        float getAttackMaxCooldown() { return attackMaxCooldown; }
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return gunAnimation; }
         Bullet *getBullet(){return attack;}

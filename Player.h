@@ -17,19 +17,28 @@ class Player : public Entity {
         Time *flashCooldown;
         int flashRange;
         
+        bool attacking;
         bool weaponLoaded;
         
         int currentGun;
+        
+        char state;
     public:
         /**
          * Crea el objeto jugador
          * @param position: Posicion del jugador (tipo coord)
-         * @param t: Textura del jugador 
-         * @param newRect: Zona en la que imprimir al jugador
+         * @param size: Tamano del jugador (tipo coord)
          * @param sp: Velocidad de la animacion del jugador
          */
-        Player(Coordinate position, Texture *t, Rect<float> newRect, float sp);
+        Player(Coordinate position, Coordinate size, float sp);
         virtual ~Player();
+        
+        /**
+         * Añade animaciones al jugador
+         * @param t: Textura del jugador 
+         * @param newRect: Zona del spritesheet donde esta el jugador
+         */
+        void setAnimations(Texture *t, Rect<float> newRect);
         
         /**
          * Actualiza el arma del jugador
@@ -125,7 +134,9 @@ class Player : public Entity {
         int getMaxHP() { return maxHP; }
         Gun *getWeapon() { return weapon; }
         Gun *getCurrentGun() { return guns->at(currentGun); }
-        Time *getFlashCooldown() { return flashCooldown;}
+        Time *getFlashCooldown() { return flashCooldown; }
+        
+        bool isAttacking() { return attacking; }
 };
 
 #endif /* PROTAGONISTA_H */

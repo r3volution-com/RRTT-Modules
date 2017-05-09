@@ -2,13 +2,20 @@
 #include "libs/Time.h"
 #include "Game.h"
 
-Gun::Gun(Coordinate position, Rect<float> animRect, Texture *tex) {
-    hitbox = new Hitbox(position.x, position.y, animRect.w, animRect.h);
+Gun::Gun(Coordinate position, Coordinate size, float cd) {
+    coor = new Coordinate(position);
+    hitbox = new Hitbox(position.x, position.y, size.x, size.y);
+    bulletLoaded = false;
+    gunCooldown = new Time(cd);
+    gunCooldown->pause();
+    maxCooldown = cd;
+}
+
+void Gun::setAnimation(Texture *tex, Rect<float> animRect){
     gunAnimation = new Animation(tex, animRect);
     gunAnimation->addAnimation("idle", Coordinate(animRect.x, animRect.y), 2, 1.0f);
     gunAnimation->addAnimation("attack", Coordinate(animRect.x, animRect.y+animRect.h), 2, 1.0f);
-    gunAnimation->setPosition(position);
-    bulletLoaded = false;
+    gunAnimation->setPosition(*coor);
 }
 
 Gun::~Gun() {
@@ -25,24 +32,30 @@ Gun::~Gun() {
 void Gun::setAttack(Bullet *atk){
     bulletLoaded = true;
     attack = atk;
+    bulletLifetime = new Time(0);
 }
 
 void Gun::doAttack(){
-    if(gunCooldown->isExpired()){
+    if(bulletLoaded && !gunCooldown->isRunning()){
         //ToDo Sergio: LLamar a singleton e instanciar el ataque
         gunAnimation->changeAnimation("attack", true);
         
-        gunCooldown->restart();
+        gunCooldown->restart(maxCooldown);
+        bulletLifetime->restart(attack->getDuration());
+    }
+}
+
+void Gun::update(Coordinate position, float angle){
+    gunAnimation->setRotation(angle);
+    if (bulletLifetime->isRunning()){
+        attack->getAnimation()->setRotation(angle-90);
+        attack->setPosition(position);
     }
 }
 
 void Gun::setPosition(Coordinate position){
     hitbox->setPosition(position);
     gunAnimation->setPosition(position);
-}
-
-void Gun::setGunCooldown(Time* gc){
-    gunCooldown = gc;
 }
 
 void Gun::setActive() {
