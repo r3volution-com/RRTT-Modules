@@ -9,6 +9,7 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     home = true;
     freeze =  false;
     hits = 0;
+    flashRange = 0;
 }
 
 Enemy::~Enemy() {

@@ -28,6 +28,7 @@ public:
  
     Crystals *getCrystal(){return crystal;}
     std::vector<Enemy*> *getEnemys(){return enemys;}
+    Boss *getBoss(){return boss;}
 
 private:
 

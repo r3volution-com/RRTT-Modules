@@ -157,7 +157,7 @@ void Player::weaponReleaseAttack(){
 }
 
 void Player::gunAttack(){
-    if (currentGun>-1) {
+    if (currentGun>-1 && attacking == false) {
         guns->at(currentGun)->doAttack();
         attacking = true;
         //ToDo pabloF: Traerte aqui la animacion de ataque con arma secundaria

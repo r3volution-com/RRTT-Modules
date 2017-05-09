@@ -4,6 +4,7 @@ Boss::Boss(Coordinate position, Coordinate size, float sp) : Enemy(position, siz
     state = 0;
     currentGun = -1;
     guns = new std::vector<Gun*>();
+    attacking = false;
 }
 
 Boss::~Boss() {
@@ -22,9 +23,10 @@ void Boss::changeState(int s){
 }
 
 void Boss::gunAttack(){
-    if (currentGun>-1) {
+    if (currentGun>-1 && attacking == false) {
         guns->at(currentGun)->doAttack();
-        //ToDo pabloF: Mostrar animacion de ataque con arma secundaria
+        attacking = true;
+        //ToDo pabloF: Traerte aqui la animacion de ataque con arma secundaria
     }
 }
 
@@ -41,4 +43,26 @@ bool Boss::changeGun(int gun){
         guns->at(currentGun)->setActive();
         return true;
     } else return false;
+}
+
+void Boss::attackDone(){
+    attacking = false;
+}
+
+void Boss::setPosition(Coordinate newCoor){
+    Entity::getAnimation()->setPosition(newCoor);
+    Entity::getHitbox()->setPosition(newCoor);
+    if (currentGun >= 0){
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+    }
+}
+void Boss::setPosition(float x, float y){
+    Coordinate newCoor(x,y);
+    Entity::getAnimation()->setPosition(newCoor);
+    Entity::getHitbox()->setPosition(newCoor);
+    if (currentGun >= 0){
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+    }
 }

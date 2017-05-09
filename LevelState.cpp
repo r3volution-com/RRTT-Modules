@@ -113,6 +113,7 @@ void LevelState::Update(){
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox())){
+        std::cout<<"hola"<<"\n";
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
         }
     }
@@ -155,6 +156,11 @@ void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba tod
             rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
     rath->getCurrentGun()->update(newPos, mouseAng);
     
+    float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
+    Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+            level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+    level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
+    
                 
     /*Player weapon attack*/
     if (Game::Instance()->iM->isActive("player-shortAttack")){
@@ -171,7 +177,7 @@ void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba tod
     if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){ //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
         hud->resetClockGuns();
         rath->gunAttack();
-        rath->getCurrentGun()->getBullet()->setPosition(*rath->getCoordinate());
+        rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
     }
     
     /*Console*/

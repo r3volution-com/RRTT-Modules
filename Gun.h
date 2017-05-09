@@ -85,6 +85,7 @@ class Gun {
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return gunAnimation; }
         Bullet *getBullet(){return attack;}
+        Coordinate *getCoordinate(){return coor;}
 };
 
 #endif /* Gun_H */
