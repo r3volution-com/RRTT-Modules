@@ -103,7 +103,9 @@ void Level::Init(){
 
 void Level::AI(Player *rath, HUD* hud) {
     for (int i = 0; i<enemys->size(); i++){
-        enemys->at(i)->AI(rath, hud);
+        if(enemys->at(i)->getHP() > 0){
+            enemys->at(i)->AI(rath, hud);
+        }
     }
     boss->AI(rath, hud);
 }
