@@ -89,7 +89,7 @@ class Map {
          */
         bool putHitbox(Player *rath);
         
-        Hitbox *getColHitbox(){return muro->at(i);}
+        Hitbox *getColHitbox(){return muros->at(i);}
 };
 
 #endif /* MAP_H */

@@ -6,7 +6,10 @@ Level::Level(int numLevel) {
     //Guardamos el nivel a cargar
     level = numLevel;
     enemys = new std::vector<Enemy*>();
-    
+    respawn = new std::vector<Coordinate*>();
+    respawn[0]=(0,300);
+    respawn[1]=(500,300);
+    respawn[2]=(1000,300);
     //Cargamos todos los elementos del juego
     Init();
 }
@@ -58,10 +61,9 @@ void Level::Init(){
         Enemy *enemy = new Enemy(Coordinate(140,1200), Coordinate(128, 128), 10);
         enemy->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
-        enemy->getAnimation()->addAnimation("die", Coordinate(0, 0), 1, 0.5f);
         enemy->getAnimation()->initAnimator();
         enemy->getAnimation()->changeAnimation("idle", false);
-        enemy->setMaxHP(50);
+        enemy->setMaxHP(100);
         enemy->setDistanceEnemyHome(1000);
         enemy->setDistancePlayerEnemy(500);
         enemy->setDmgHit(1);
@@ -71,20 +73,42 @@ void Level::Init(){
         
         enemys->push_back(enemy);
         
-        boss = new Boss(Coordinate(3500,2500), Coordinate(128, 128), 10);
+        
+        Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
+    gunArm->setAnimation(Game::Instance()->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
+    gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
+    gunArm->getAnimation()->initAnimator();    
+    gunArm->getAnimation()->changeAnimation("armaIdle", false);
+    gunArm->getAnimation()->setOrigin(Coordinate(56,34));
+    gunArm->setDamage(30);
+    
+    Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
+    bull->setAnimation(Game::Instance()->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
+    bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
+    bull->getAnimation()->setOrigin(Coordinate(184,98));
+    bull->getAnimation()->initAnimator();
+    bull->getAnimation()->changeAnimation("fireIdle", false);
+    
+    gunArm->setAttack(bull);
+        
+        
+        boss = new Boss(Coordinate(140,500), Coordinate(128, 128), 10);
         boss->setSprite(Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128));
         boss->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         boss->getAnimation()->initAnimator();
         boss->getAnimation()->changeAnimation("idle", false);
         
+        boss->addGun(gunArm);
+        
         enemys->push_back(enemy);
     }  
 }
 
-void Level::enemyAI(Player *rath, HUD* hud) {
+void Level::AI(Player *rath, HUD* hud) {
     for (int i = 0; i<enemys->size(); i++){
         enemys->at(i)->AI(rath, hud);
     }
+    boss->AI(rath, hud);
 }
 
 void Level::Update(){
@@ -120,6 +144,13 @@ void Level::Render(){
         Game::Instance()->window->draw(*enemys->at(i)->getAnimation()->getSprite());
     }
     
+    boss->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
+    if (!boss->getCurrentGun()->getBulletLifetime()->isExpired()){
+        Game::Instance()->window->draw(*boss->getCurrentGun()->getBullet()->getAnimation()->getSprite());
+    } else if (boss->isAttacking()){
+        boss->attackDone();
+    }
+    
     
     Coordinate inc2(boss->getState()->getIC());
     boss->getAnimation()->updateAnimator();
@@ -127,4 +158,8 @@ void Level::Render(){
     boss->setPosition(inc2.x, inc2.y);
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
     
+}
+
+Coordinate* setRespawn(int resp){
+    respawn->at(resp);
 }

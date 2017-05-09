@@ -8,7 +8,11 @@
 class Boss : public Enemy{
     private:
         std::vector<Gun*> *guns;
+        
         int state;
+        
+        bool attacking;
+        
         int currentGun;
     public:
         /**
@@ -42,7 +46,15 @@ class Boss : public Enemy{
          * @return 
          */
         bool changeGun(int gun);
+        
+        void AI(Player* rath, HUD* hud);
+        
         Gun *getCurrentGun() { return guns->at(currentGun); }
+        void attackDone();
+        void setPosition(Coordinate newCoor);
+        void setPosition(float x, float y);
+        bool isAttacking() { return attacking; }
+
 };
 
 #endif /* BOSS_H */

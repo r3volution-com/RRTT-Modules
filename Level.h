@@ -16,7 +16,7 @@ public:
     Map *map;
     
     Level(int numLevel);
-    void enemyAI(Player *rath, HUD* hud);
+    void AI(Player *rath, HUD* hud);
 
     void Init();
 
@@ -28,6 +28,10 @@ public:
  
     Crystals *getCrystal(){return crystal;}
     std::vector<Enemy*> *getEnemys(){return enemys;}
+    Boss *getBoss(){return boss;}
+    Coordinate* getRespawn(int num){
+        return respawn->at(num);
+    }
 
 private:
 
@@ -39,7 +43,7 @@ private:
     NPC *npc;
     Gun *gun;
     Crystals *crystal;
-    
+    std::vector<Coordinate*> *respawn;
     std::vector<Enemy*> *enemys;
 };
 

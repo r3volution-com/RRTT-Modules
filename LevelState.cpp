@@ -88,7 +88,7 @@ void LevelState::Init(){
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-    gunArm->setDamage(30);
+    gunArm->setDamage(1);
     
     Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
     bull->setAnimation(game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
@@ -112,25 +112,26 @@ void LevelState::Init(){
 void LevelState::Update(){
     
     if(level->map->colision(rath->getHitbox()) != -1){
-        if(rath->getCoordinate().x < Map->getColHitbox()->hitbox->left){
-            colX=(rath->getCoordinate().x +128 -Map->getColHitbox()->hitbox->left)*-1;
+        if(rath->getHitbox()->hitbox->left <= Map->getColHitbox()->hitbox->left){
+            colX=(rath->getHitbox()->hitbox->left +128 - Map->getColHitbox()->hitbox->left)*-1;
         }
         else{
-            colX=(Map->getColHitbox()->hitbox->left + 128-rath->getCoordinate().x)*-1;
+            colX=(Map->getColHitbox()->hitbox->left + 128 - rath->getHitbox()->hitbox->left)*-1;
         }
-        if(rath->getCoordinate().y < Map->getColHitbox()->hitbox->top){
-            colY=(rath->getCoordinate().y + 128 - Map->getColHitbox()->hitbox->top)*-1;
+        if(rath->getHitbox()->hitbox->top <= Map->getColHitbox()->hitbox->top){
+            colY=(rath->getHitbox()->hitbox->top + 128 - Map->getColHitbox()->hitbox->top)*-1;
         }
         else{
-            colY=(Map->getColHitbox()->hitbox->top +128 -rath->getCoordinate().y)*-1;
+            colY=(Map->getColHitbox()->hitbox->top + 128 - rath->getHitbox()->hitbox->top)*-1;
         }
         rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
     }
         
-    level->enemyAI(rath,hud);
+    //level->enemyAI(rath,hud);
+    
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
-        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox())){
+        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
         }
     }
@@ -173,6 +174,11 @@ void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba tod
             rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
     rath->getCurrentGun()->update(newPos, mouseAng);
     
+    float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
+    Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+            level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+    level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
+    
                 
     /*Player weapon attack*/
     if (Game::Instance()->iM->isActive("player-shortAttack")){
@@ -189,7 +195,7 @@ void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba tod
     if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){ //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
         hud->resetClockGuns();
         rath->gunAttack();
-        rath->getCurrentGun()->getBullet()->setPosition(*rath->getCoordinate());
+        rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
     }
     
     /*Console*/
