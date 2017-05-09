@@ -109,7 +109,7 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
-    level->enemyAI(rath,hud);
+    level->AI(rath,hud);
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){

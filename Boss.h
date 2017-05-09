@@ -46,6 +46,9 @@ class Boss : public Enemy{
          * @return 
          */
         bool changeGun(int gun);
+        
+        void AI(Player* rath, HUD* hud);
+        
         Gun *getCurrentGun() { return guns->at(currentGun); }
         void attackDone();
         void setPosition(Coordinate newCoor);

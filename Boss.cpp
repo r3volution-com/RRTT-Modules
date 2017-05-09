@@ -66,3 +66,8 @@ void Boss::setPosition(float x, float y){
         guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
 }
+
+
+void Boss::AI(Player* rath, HUD* hud){
+    
+}

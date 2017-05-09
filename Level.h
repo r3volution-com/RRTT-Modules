@@ -16,7 +16,7 @@ public:
     Map *map;
     
     Level(int numLevel);
-    void enemyAI(Player *rath, HUD* hud);
+    void AI(Player *rath, HUD* hud);
 
     void Init();
 
