@@ -10,9 +10,9 @@ class Pie {
     private:
         thor::ConcaveShape *shape;
         int pieRadius;
-        int nbTotalPoints; //40
         int pieIndex;
-        int actualAngle;
+        int pieAngle;
+        int pieTotalPoints; //40
     public:
         Pie();
         Pie(float radius, int resolution, int rotationAngle);
@@ -23,7 +23,7 @@ class Pie {
         
         void setFilledAngle(int increment);
         
-        int getFilledAngle() { return pieIndex; }
+        int getFilledAngle() { return pieAngle; }
         
         thor::ConcaveShape* getShape();
 };
