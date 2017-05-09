@@ -17,6 +17,7 @@ Pie::Pie(float radius, int resolution, int rotationAngle) {
         pieIndex++;
     }
 }
+
 Pie::Pie(){
     shape = new thor::ConcaveShape();
 }
@@ -37,18 +38,24 @@ void Pie::setOutline(float outlineThickness, const sf::Color& outlineColor){
 
 void Pie::setFilledAngle(int increment){
     int next = pieAngle+increment;
+    std::cout << "if " << next << "<=" << pieTotalPoints << "\n";
     if (next <= pieTotalPoints){
         thor::PolarVector2<float> vector(pieRadius, 0.f);
         for (unsigned int i = pieAngle; i < next; i++) {
-            vector.phi = 360.f * i / (pieTotalPoints-1);
+            int degrees = 360.f * i / (pieTotalPoints-1);
+    std::cout << "degrees = 360.f*"<<i<<"/("<<pieTotalPoints<<"-1) = " << degrees << "\n";
+            if (degrees > 360) degrees = 359;
+            vector.phi = degrees;
+    std::cout << "Insertando: " << pieIndex << " " << pieAngle << " " << vector.phi << "\n";
             shape->setPoint(pieIndex, vector);
             pieIndex++;
         }
         pieAngle+=increment;
     }
 }
+
 thor::ConcaveShape* Pie::getShape(){
-    //std::cout << "sale" << pieIndex << "\n";
+    //std::cout << "Mostrando: " << pieIndex << "\n";
     if (pieIndex >= 3) return shape;
     else return (thor::ConcaveShape*) new sf::ConvexShape();
 }
