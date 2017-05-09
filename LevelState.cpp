@@ -107,6 +107,8 @@ void LevelState::Init(){
     hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,230,200,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
     hud->addGun(Coordinate(20, 20), Rect<float>(10,10,90,90), Rect<float>(0,0,90,90), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
+    hud->setBossLife(Rect<float>(100,230,200,20));
+    hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
 }
 
 void LevelState::Update(){
@@ -119,6 +121,7 @@ void LevelState::Update(){
     }
     if (level->getBoss()->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
         level->getBoss()->damage(rath->getCurrentGun()->getDamage());
+        hud->changeLifeBoss(level->getBoss()->getHP());
    }
 }
 
@@ -219,7 +222,7 @@ void LevelState::Render(){
     
     /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-    hud->drawHUD();
+    hud->drawHUD(level->getBoss()->getOnRange());
     Game::Instance()->console->drawConsole();
 }
 

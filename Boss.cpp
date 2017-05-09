@@ -79,9 +79,13 @@ void Boss::AI(Player* rath, HUD* hud){
     Coordinate *dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
     Coordinate *ini = Enemy::getTrigonometry()->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
     bool home = Enemy::getHome();
-    std::cout<<state<<"\n";
+    if(distance < Enemy::getDisPlayerEnemy()){
+        onRange = true;
+    }else{
+        onRange = false;
+    }
     if(state == 0){ //Pasive
-        if(distance < Enemy::getDisPlayerEnemy() && distance >= 100){
+        if(onRange == true && distance >= 100){
             if(Enemy::getHP() >= Enemy::getMaxHP()/2 || Enemy::getHP() >= Enemy::getMaxHP()/4 || defensive->isExpired()){
                 state = 1;
             }
@@ -106,7 +110,7 @@ void Boss::AI(Player* rath, HUD* hud){
             }
         }
     }else if(state == 1){ //Aggressive
-        if(distance < Enemy::getDisPlayerEnemy() && distance >= 100){
+        if(onRange = true && distance >= 100){
             if(level == 1){
                 
             }else if(level == 2){
@@ -116,10 +120,9 @@ void Boss::AI(Player* rath, HUD* hud){
             }
         }else{
             state = 0;
-            onRange = false;
         }
-    }else if(state == 2){ //Defensive
-        if(distance < Enemy::getDisPlayerEnemy() && distance >= 100){
+    }else if(onRange = true && state == 2){ //Defensive
+        if(distance >= 100){
             if(level == 1){
                 
             }else if(level == 2){
