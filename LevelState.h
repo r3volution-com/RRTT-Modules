@@ -18,6 +18,8 @@ class LevelState : public GameState {
         Player *rath;
         Trigonometry *tri;
         HUD *hud;
+        float colX = 0.0f;
+        float colY = 0.0f;
     public:
         LevelState();
         

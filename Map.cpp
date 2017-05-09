@@ -21,6 +21,8 @@ Map::Map(const char* ruta) {
     layer = map->FirstChildElement("layer");
     _numLayers=0;
     
+    muros = new std::vector<Hitbox*>();
+    
     while(layer){
         _numLayers++;
         layer = layer->NextSiblingElement("layer");
@@ -206,6 +208,15 @@ void Map::dibujarMapa(sf::RenderWindow *window){
             }
         }
     }
+}
+
+int Map::colision(Hitbox *hitbox){
+    for(i = 0; i <= muros->size(); i++){
+        if(hitbox->checkCollision(muros->at(i))==true){
+            return i;
+        }
+    }
+    return -1;
 }
 
 int Map::getGid(Enemy *enemy, int id1, int id2){

@@ -110,6 +110,23 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
+    
+    if(level->map->colision(rath->getHitbox()) != -1){
+        if(rath->getCoordinate().x < Map->getColHitbox()->hitbox->left){
+            colX=(rath->getCoordinate().x +128 -Map->getColHitbox()->hitbox->left)*-1;
+        }
+        else{
+            colX=(Map->getColHitbox()->hitbox->left + 128-rath->getCoordinate().x)*-1;
+        }
+        if(rath->getCoordinate().y < Map->getColHitbox()->hitbox->top){
+            colY=(rath->getCoordinate().y + 128 - Map->getColHitbox()->hitbox->top)*-1;
+        }
+        else{
+            colY=(Map->getColHitbox()->hitbox->top +128 -rath->getCoordinate().y)*-1;
+        }
+        rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
+    }
+        
     level->enemyAI(rath,hud);
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
