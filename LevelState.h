@@ -48,6 +48,8 @@ class LevelState : public GameState {
          */
         void CleanUp();
         
+        Level *getLevel(){return level;}
+        
         virtual ~LevelState();
         
 };

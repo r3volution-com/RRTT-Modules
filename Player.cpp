@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Level.h"
+#include "Game.h"
 
 Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position, size, sp){
     currentGun = -1;
@@ -177,7 +178,7 @@ void Player::die(){
 void Player::respawn(Coordinate coor, int resp){
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
-    Entity::setPosition(Level->getRespawn(resp)); 
+    Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn(resp)); 
 }
 
 void Player::setFlashCooldown(Time *cooldown){ 

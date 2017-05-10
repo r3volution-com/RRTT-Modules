@@ -12,11 +12,9 @@
 
 class Level {
 public:
-    int level;
-    Map *map;
+
     
     Level(int numLevel);
-    void AI(Player *rath, HUD* hud);
 
     void Init();
 
@@ -29,15 +27,16 @@ public:
     Crystals *getCrystal(){return crystal;}
     std::vector<Enemy*> *getEnemys(){return enemys;}
     Boss *getBoss(){return boss;}
-    Coordinate* getRespawn(int num){
-        return respawn->at(num);
-    }
-
+    Coordinate* getRespawn(int num){ return respawn->at(num);}
+    Map* getMap(){ return map; }
+    
 private:
 
     virtual ~Level();
     
-    //Player se carga en levelState   
+    //Player se carga en levelState 
+    int level;
+    Map *map;
     Note *note;
     Boss *boss;
     NPC *npc;

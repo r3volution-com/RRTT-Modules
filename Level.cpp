@@ -7,9 +7,11 @@ Level::Level(int numLevel) {
     level = numLevel;
     enemys = new std::vector<Enemy*>();
     respawn = new std::vector<Coordinate*>();
-    respawn[0]=(0,300);
-    respawn[1]=(500,300);
-    respawn[2]=(1000,300);
+    Coordinate* coord = new Coordinate(0,300);
+    respawn->push_back(coord);
+    //respawn[0]=(0,300);
+    //respawn[1]=(500,300);
+    //respawn[2]=(1000,300);
     //Cargamos todos los elementos del juego
     Init();
 }
@@ -37,7 +39,7 @@ void Level::Init(){
     //Si estamos en el primer nivel
     if(level==1){
         //Cargamos el mapa
-        map = new Map("resources/bosque_definitivo2.tmx");
+        map = new Map("resources/bosque_definitivo4.tmx");
         
         //Cargamos las notas
         note = new Note(tex, Rect<float>(0, 0, 64, 60), tex2, Rect<float>(0, 0, 608, 488), font);
@@ -109,10 +111,6 @@ void Level::Init(){
     }  
 }
 
-void Level::AI(Player *rath, HUD* hud) {
-    
-}
-
 void Level::Update(Player* rath, HUD* hud){
     for (int i = 0; i<enemys->size(); i++){
         if(enemys->at(i)->getHP() > 0){
@@ -182,5 +180,5 @@ void Level::Render(){
 }
 
 Coordinate* setRespawn(int resp){
-    respawn->at(resp);
+    //respawn->at(resp);
 }

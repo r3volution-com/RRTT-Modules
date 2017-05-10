@@ -49,6 +49,7 @@ class Game {
          * @param state: Estado al cual se debe de cambiar
          */
         void ChangeCurrentState(const std::string &state);
+        LevelState *getLevelState(){return level;}
         virtual ~Game();
         
         Coordinate *screenSize;

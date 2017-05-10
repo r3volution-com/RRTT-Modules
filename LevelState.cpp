@@ -73,7 +73,7 @@ void LevelState::Init(){
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
     /*****PLAYER*****/
-    rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 15);
+    rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
     rath->setMaxHP(70);
@@ -114,29 +114,22 @@ void LevelState::Init(){
 
 void LevelState::Update(){
     
-    if(level->map->colision(rath->getHitbox()) != -1){
-        if(rath->getHitbox()->hitbox->left <= Map->getColHitbox()->hitbox->left){
-            colX=(rath->getHitbox()->hitbox->left +128 - Map->getColHitbox()->hitbox->left)*-1;
+    level->Update(rath, hud);
+    
+    if(level->getMap()->colision(rath->getHitbox()) != -1){
+        if(rath->getHitbox()->hitbox->left <= level->getMap()->getColHitbox()->hitbox->left){
+            colX=(rath->getHitbox()->hitbox->left +128 - level->getMap()->getColHitbox()->hitbox->left)*-1;
         }
         else{
-            colX=(Map->getColHitbox()->hitbox->left + 128 - rath->getHitbox()->hitbox->left)*-1;
+            colX=(level->getMap()->getColHitbox()->hitbox->left + 128 - rath->getHitbox()->hitbox->left)*-1;
         }
-        if(rath->getHitbox()->hitbox->top <= Map->getColHitbox()->hitbox->top){
-            colY=(rath->getHitbox()->hitbox->top + 128 - Map->getColHitbox()->hitbox->top)*-1;
+        if(rath->getHitbox()->hitbox->top <= level->getMap()->getColHitbox()->hitbox->top){
+            colY=(rath->getHitbox()->hitbox->top + 128 - level->getMap()->getColHitbox()->hitbox->top)*-1;
         }
         else{
-            colY=(Map->getColHitbox()->hitbox->top + 128 - rath->getHitbox()->hitbox->top)*-1;
+            colY=(level->getMap()->getColHitbox()->hitbox->top + 128 - rath->getHitbox()->hitbox->top)*-1;
         }
         rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
-    }
-        
-    level->enemyAI(rath,hud);
-    
-    std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
-    for(int i = 0; i < enemys->size(); i++){
-        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
-            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
-        }
     }
 }
 
@@ -220,7 +213,7 @@ void LevelState::Render(){
     
     level->Render();
     
-    level->map->putHitbox(rath);
+    level->getMap()->putHitbox(rath);
     
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
