@@ -125,7 +125,7 @@ void LevelState::Update(){
                 level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
         level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
         
-        rath->getWeapon()->detectCollisions(Game::Instance()->mouse);
+        rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 
         if(level->getMap()->colision(rath->getHitbox()) != -1){
             if(rath->getHitbox()->hitbox->left <= level->getMap()->getColHitbox()->hitbox->left){
@@ -180,7 +180,7 @@ void LevelState::Input(){
         rath->getCurrentGun()->update(newPos, mouseAng);
 
         /*Player weapon attack*/
-        if (Game::Instance()->iM->isActive("player-shortAttack")){
+        if (Game::Instance()->iM->isActive("player-shortAttack")){ //ToDo: hacemos que se ralentize al cargar?
             rath->weaponShortAttack(mouseAng);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStart")){
