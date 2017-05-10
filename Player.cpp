@@ -38,51 +38,53 @@ void Player::setWeapon(Weapon *wP){
 }
 
 void Player::move(float xDir, float yDir){
-    if (xDir != 0 || yDir != 0) Entity::move(xDir, yDir);
-    if (xDir == 1 && yDir == 0) { //Derecha
-        if (state != 'r') {
-            Entity::getAnimation()->changeAnimation("correrDerecha", false);
-        }
-        state = 'r';
-    } else if (xDir == -1 && yDir == 0) { //Izquierda
-        if (state != 'l') {
-            Entity::getAnimation()->changeAnimation("correrIzquierda", false);
-        }
-        state = 'l';
-    } else if (xDir == 0 && yDir == 1) { //Abajo
-        if (state != 'd') {
-            Entity::getAnimation()->changeAnimation("correrAbajo", false);
-        }
-        state = 'd';
-    } else if (xDir == 0 && yDir == -1) { //Arriba
-        if (state!='u') {
-            Entity::getAnimation()->changeAnimation("correrArriba", false);
-        }
-        state='u';
-    } else if (xDir == 1 && yDir == -1){ //Arriba derecha
-        if (state!='u') {
-            Entity::getAnimation()->changeAnimation("correrArriba", false);
-        }
-        state='u';
-    } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
-        if (state != 'l') {
-            Entity::getAnimation()->changeAnimation("correrIzquierda", false);
-        }
-        state = 'l';
-    } else if (xDir == 1 && yDir == 1){ //Derecha abajo
-        if (state != 'r') {
-            Entity::getAnimation()->changeAnimation("correrDerecha", false);
-        }
-        state = 'r';
-    } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
-        if (state != 'u') {
-            getAnimation()->changeAnimation("correrArriba", false);
-        }
-        state='u';
-    } else {
-        if (state != 'i'){
-            Entity::getAnimation()->changeAnimation("idle", false);
-            state='i';
+    if (!weaponLoaded || (weaponLoaded && weapon->getTime()->isExpired())) {
+        if (xDir != 0 || yDir != 0) Entity::move(xDir, yDir);
+        if (xDir == 1 && yDir == 0) { //Derecha
+            if (state != 'r') {
+                Entity::getAnimation()->changeAnimation("correrDerecha", false);
+            }
+            state = 'r';
+        } else if (xDir == -1 && yDir == 0) { //Izquierda
+            if (state != 'l') {
+                Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+            }
+            state = 'l';
+        } else if (xDir == 0 && yDir == 1) { //Abajo
+            if (state != 'd') {
+                Entity::getAnimation()->changeAnimation("correrAbajo", false);
+            }
+            state = 'd';
+        } else if (xDir == 0 && yDir == -1) { //Arriba
+            if (state!='u') {
+                Entity::getAnimation()->changeAnimation("correrArriba", false);
+            }
+            state='u';
+        } else if (xDir == 1 && yDir == -1){ //Arriba derecha
+            if (state!='u') {
+                Entity::getAnimation()->changeAnimation("correrArriba", false);
+            }
+            state='u';
+        } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
+            if (state != 'l') {
+                Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+            }
+            state = 'l';
+        } else if (xDir == 1 && yDir == 1){ //Derecha abajo
+            if (state != 'r') {
+                Entity::getAnimation()->changeAnimation("correrDerecha", false);
+            }
+            state = 'r';
+        } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
+            if (state != 'u') {
+                getAnimation()->changeAnimation("correrArriba", false);
+            }
+            state='u';
+        } else {
+            if (state != 'i'){
+                Entity::getAnimation()->changeAnimation("idle", false);
+                state='i';
+            }
         }
     }
 }
@@ -127,16 +129,12 @@ void Player::weaponChargeAttack(int initialAngle){
     if (weaponLoaded && weapon->getTime()->isExpired()) {
         char direction = 'r';
         if(initialAngle < 315 && initialAngle > 225){ //Derecha
-            //ToDo: rotar shape
             direction = 'r';
         } else if (initialAngle < 225 && initialAngle > 135){ //Arriba
-            //ToDo: rotar shape
             direction = 'u';
         } else if (initialAngle < 135 && initialAngle > 45){ //Izquierda
-            //ToDo: rotar shape
             direction = 'l';
         } else if (initialAngle < 45 || initialAngle > 315){ //Abajo
-            //ToDo: rotar shape
             direction = 'd';
         }
         weapon->loadAttack(direction);
@@ -208,7 +206,7 @@ void Player::damage(int dmg){
 void Player::setPosition(Coordinate newCoor){
     Entity::getAnimation()->setPosition(newCoor);
     Entity::getHitbox()->setPosition(newCoor);
-    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate()+(getHitbox()->hitbox->width/2));
+    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));

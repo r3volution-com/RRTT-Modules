@@ -21,7 +21,7 @@ class LevelState : public GameState {
         HUD *hud;
         Menu *pause;
         
-        float colX = 0.0f;
+        float colX = 0.0f; //ToDo pabloF: esto aqui no y no se declaran valores en el .h
         float colY = 0.0f;
         
         bool paused;

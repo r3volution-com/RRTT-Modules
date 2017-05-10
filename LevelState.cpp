@@ -55,7 +55,8 @@ void LevelState::Init(){
     game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
     
-    game->iM->addAction("player-shortAttack", thor::Action(sf::Mouse::Left, thor::Action::PressOnce) && thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
+    game->iM->addAction("player-shortAttack", 
+            thor::Action(sf::Mouse::Left, thor::Action::PressOnce) && thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
     game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold));
     game->iM->addAction("player-longAttackStop", thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
     
@@ -70,7 +71,7 @@ void LevelState::Init(){
     rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
     rath->setMaxHP(70);
     
-    Weapon *wep = new Weapon(Coordinate(140,1000), Coordinate(128, 128), 1);
+    Weapon *wep = new Weapon(Coordinate(140,1000), Coordinate(128, 128), 1, 0.25f);
     
     rath->setWeapon(wep);
 
@@ -99,14 +100,16 @@ void LevelState::Init(){
     level = new Level(1);
     
     /*****HUD*****/
-    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,230,200,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
+    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), 
+            Rect<float>(100,230,200,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
     hud->addGun(Coordinate(20, 20), Rect<float>(10,10,90,90), Rect<float>(0,0,90,90), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     
     /*****PAUSE MENU*****/
-    pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), new Rect<float>(0,0,200,50), game->rM->getFont("font"));
+    pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
+            new Rect<float>(0,0,200,50), game->rM->getFont("font"));
     pause->addButton(Coordinate(540,200), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
     pause->addButton(Coordinate(540,270), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
     pause->addButton(Coordinate(540,340), "Salir al menu", sf::Color::Black, sf::Color::Transparent, 20);
@@ -121,6 +124,8 @@ void LevelState::Update(){
         Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
                 level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
         level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
+        
+        rath->getWeapon()->detectCollisions(Game::Instance()->mouse);
 
         if(level->getMap()->colision(rath->getHitbox()) != -1){
             if(rath->getHitbox()->hitbox->left <= level->getMap()->getColHitbox()->hitbox->left){
@@ -174,7 +179,6 @@ void LevelState::Input(){
                 rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
         rath->getCurrentGun()->update(newPos, mouseAng);
 
-
         /*Player weapon attack*/
         if (Game::Instance()->iM->isActive("player-shortAttack")){
             rath->weaponShortAttack(mouseAng);
@@ -187,7 +191,8 @@ void LevelState::Input(){
         }
 
         /*Player gun attack*/
-        if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){ //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
+        //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
+        if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){ 
             hud->resetClockGuns();
             rath->gunAttack();
             rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
@@ -220,8 +225,10 @@ void LevelState::Render(){
     rath->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
     
     /*Interpolate*/
-    Coordinate inc(rath->getState()->getIC());
-    rath->setPosition(Coordinate(inc.x, inc.y));
+    if (*rath->getState()->getLastCoordinate() != *rath->getState()->getNextCoordinate()){
+        Coordinate inc(rath->getState()->getIC());
+        rath->setPosition(Coordinate(inc.x, inc.y));
+    }
     
     /***Set View***/
     Game::Instance()->cameraView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);

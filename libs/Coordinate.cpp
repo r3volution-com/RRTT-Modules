@@ -1,4 +1,5 @@
 #include "Coordinate.h"
+#include <iostream>
 
 Coordinate::Coordinate(float xC, float yC) {
     x = xC;
@@ -36,6 +37,10 @@ Coordinate::~Coordinate(){
 
 bool Coordinate::operator == (const Coordinate &p) const {
     return this->x == p.x && this->y == p.y;
+}
+
+bool Coordinate::operator != (const Coordinate &p) const {
+    return this->x != p.x || this->y != p.y;
 }
 
 Coordinate Coordinate::operator + (const Coordinate &p) const {

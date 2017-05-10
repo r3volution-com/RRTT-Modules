@@ -1,15 +1,23 @@
 #include "Weapon.h"
 #include "Game.h"
 
-Weapon::Weapon(Coordinate position, Coordinate size, float speed) {
+Weapon::Weapon(Coordinate position, Coordinate size, float speed, float animationSpeed) {
     coor = new Coordinate(position);
     hitbox = new Hitbox(coor->x, coor->y, size.x, size.y);
+    
     degreesPerTick = 9*speed;
+    pieRadius = 64; //ToDo: radio(64) y resolucion (40) por variable?
+    pieResolution = 40;
     
     lengthCount = 0;
     attackLength = new Time(0);
     pie = NULL;
     attacking = false;
+    isLong = false;
+    
+    animSpeed = animationSpeed;
+    
+    vector = new thor::PolarVector2<float>(pieRadius, 0.f);
 }
 
 Weapon::~Weapon() {
@@ -20,27 +28,29 @@ void Weapon::loadAttack(char direction){
     if (!attacking){
         int ang = 0;
         if(direction == 'u'){
-            ang = 270;
+            ang = 225;
         } else if (direction == 'l'){
-            ang = 180;
+            ang = 135;
         } else if (direction == 'd'){
-            ang = 90;
+            ang = 45;
+        } else if (direction == 'r'){
+            ang = -45;
         }
-        pie = new Pie(64, 40, ang);
+        pie = new Pie(pieRadius, pieResolution, ang); 
         pie->setColor(sf::Color(255, 255, 255, 0));
         pie->setFilledAngle(90);
         pie->getShape()->setPosition(coor->x, coor->y);
         lengthCount++;
         attacking = true;
         dir = direction;
+        vector->phi = 0;
     } else if (pie->getFilledAngle() <= 360) {
         pie->setFilledAngle(degreesPerTick);
-        pie->getShape()->setPosition(coor->x, coor->y);
+        pie->getShape()->setPosition(coor->x + hitbox->hitbox->width/2, coor->y + hitbox->hitbox->height/2);
         
         if (pie->getFilledAngle() == 117){
             pie->setOutline(5, sf::Color::White);
             pie->setColor(sf::Color(255, 255, 255, 180));
-            lengthCount++;
         } else if (pie->getFilledAngle() == 180){
             pie->setColor(sf::Color(255, 185, 185, 180));
             lengthCount++;
@@ -56,35 +66,54 @@ void Weapon::loadAttack(char direction){
 
 int Weapon::releaseAttack(){
     attacking = false;
+    isLong = true;
+    
     delete pie;
     pie = NULL;
     
-    attackLength->restart(0.25f*lengthCount); //ToDo: pasar el numero por constructor o algo asi
+    attackLength->restart(animSpeed*lengthCount);
     
     int lc = lengthCount;
     lengthCount = 0;
     return lc;
 }
 
-void Weapon::longAttackDmg(){
-    if (!attackLength->isExpired()){
-        //ToDo: hitbox thor, utilizar vector de coordenadas polares para rotar la hitbox en torno a un punto??
+void Weapon::shortAttack(char direction){
+    attackLength->restart(animSpeed);
+    isLong = false;
+    if(direction == 'u'){
+        hitbox->setPosition(coor->x, coor->y+hitbox->hitbox->height);
+    } else if (direction == 'l'){
+        hitbox->setPosition(coor->x-hitbox->hitbox->width, coor->y);
+    } else if (direction == 'd'){
+        hitbox->setPosition(coor->x, coor->y-hitbox->hitbox->height);
+    } else if (direction == 'r'){
+        hitbox->setPosition(coor->x+hitbox->hitbox->width, coor->y);
     }
 }
 
-void Weapon::shortAttack(char direction){
-    attackLength->restart(0.25f); //ToDo: pasar el numero por constructor o algo asi
-    //ToDo: hitbox en la direccion
+bool Weapon::detectCollisions(Hitbox *other){
+    if (!attackLength->isExpired()){
+        if (isLong){
+            vector->phi += (360/Game::Instance()->iaPS);
+            sf::Vector2f pos = (sf::Vector2f)*vector;
+            hitbox->setPosition(coor->x+pos.x, coor->y+pos.y);
+        }
+        return hitbox->checkCollision(other);
+    } else {
+        hitbox->setPosition(*coor);
+    }
+    return false;
 }
 
 void Weapon::setPosition(Coordinate coord){
     coor->setCoordinate(coord);
     hitbox->setPosition(coord);
-    if (attacking) pie->getShape()->setPosition(coor->x, coor->y);
+    if (attacking) pie->getShape()->setPosition(coor->x + hitbox->hitbox->width/2, coor->y + hitbox->hitbox->height/2);
 }
 
 void Weapon::setPosition(float x, float y){
     coor->setCoordinate(x, y);
     hitbox->setPosition(x, y);
-    if (attacking) pie->getShape()->setPosition(coor->x, coor->y);
+    if (attacking) pie->getShape()->setPosition(coor->x + hitbox->hitbox->width/2, coor->y + hitbox->hitbox->height/2);
 }

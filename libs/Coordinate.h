@@ -47,6 +47,7 @@ class Coordinate {
         void setCoordinate(Coordinate coor);
         
         bool operator ==(const Coordinate &p) const;
+        bool operator !=(const Coordinate &p) const;
         Coordinate operator +(const Coordinate &p) const;
         Coordinate operator +(const float &num) const;
         

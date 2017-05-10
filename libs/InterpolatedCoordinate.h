@@ -62,7 +62,7 @@ class InterpolatedCoordinate {
         
         Coordinate *getCoordinate() { return act; }
         Coordinate *getLastCoordinate() { return last; }
-        Coordinate *getNextCoordinate() { return last; }
+        Coordinate *getNextCoordinate() { return next; }
         Coordinate getIC();
 };
 

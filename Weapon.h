@@ -14,10 +14,17 @@ class Weapon {
         Hitbox *hitbox; //ToDo: cambiar hitbox por otra cosa?
         Time *attackLength;
         Pie* pie;
+        thor::PolarVector2<float> *vector;
         
         float degreesPerTick;
         float lengthCount;
+        float animSpeed;
+        float pieRadius;
+        float pieResolution;
+        
         bool attacking;
+        bool isLong;
+        
         char dir;
     public:
         /**
@@ -26,7 +33,7 @@ class Weapon {
          * @param size
          * @param speed
          */
-        Weapon(Coordinate position, Coordinate size, float speed);
+        Weapon(Coordinate position, Coordinate size, float speed, float animationSpeed);
         virtual ~Weapon();
         
         /**
@@ -55,7 +62,7 @@ class Weapon {
         /**
          * Mueve la hitbox
          */
-        void longAttackDmg();
+        bool detectCollisions(Hitbox *other);
         
         /**
          * Lanza un ataque corto
