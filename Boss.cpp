@@ -1,10 +1,14 @@
 #include "Boss.h"
+#include "Game.h"
 
-Boss::Boss(Coordinate position, Coordinate size, float sp) : Enemy(position, size, sp) {
+Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(position, size, sp) {
     state = 0;
     currentGun = -1;
     guns = new std::vector<Gun*>();
     attacking = false;
+    defensive = new Time(10.0f);
+    onRange = false;
+    level = lvl;
 }
 
 Boss::~Boss() {
@@ -70,4 +74,64 @@ void Boss::setPosition(float x, float y){
 
 void Boss::AI(Player* rath, HUD* hud){
     
+    float distance = Enemy::getTrigonometry()->distance(rath->getCoordinate(), Entity::getCoordinate());
+    float distanceIni = Enemy::getTrigonometry()->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
+    Coordinate *dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
+    Coordinate *ini = Enemy::getTrigonometry()->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
+    bool home = Enemy::getHome();
+    if(distance < Enemy::getDisPlayerEnemy()){
+        onRange = true;
+    }else{
+        onRange = false;
+    }
+    if(state == 0){ //Pasive
+        if(onRange == true && distance >= 100){
+            if(Enemy::getHP() >= Enemy::getMaxHP()/2 || Enemy::getHP() >= Enemy::getMaxHP()/4 || defensive->isExpired()){
+                state = 1;
+            }
+        }else if(distanceIni >= Enemy::getDisEnemyHome() || (home == false && distance > 128)){
+            Enemy::setHome(home = false);
+                if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
+                    Entity::move(ini->x, ini->y);
+                }else{
+                    Enemy::setHome(home = true);//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
+                }
+        }else if(distance > 128){
+            if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
+                Entity::move(ini->x, ini->y);
+            }else{
+                Enemy::setHome(home = true);
+            }
+        }else if(distance < 100){
+            if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
+                Entity::move(ini->x, ini->y);
+            }else{
+                Enemy::setHome(home = true);
+            }
+        }
+    }else if(state == 1){ //Aggressive
+        if(onRange == true && distance >= 100){
+            if(level == 1){
+                
+            }else if(level == 2){
+                
+            }else if(level == 3){
+                
+            }
+        }else{
+            state = 0;
+        }
+    }else if(onRange == true && state == 2){ //Defensive
+        if(distance >= 100){
+            if(level == 1){
+                
+            }else if(level == 2){
+                
+            }else if(level == 3){
+                
+            }
+        }else{
+            state = 0;
+        }
+    }
 }

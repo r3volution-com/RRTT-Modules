@@ -75,6 +75,7 @@ void LevelState::Init(){
     /*****PLAYER*****/
     rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 15);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
+    rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
     rath->setMaxHP(70);
     
     Weapon *wep = new Weapon(Coordinate(140,1000), Coordinate(128, 128), 1);
@@ -107,6 +108,8 @@ void LevelState::Init(){
     hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,230,200,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
     hud->addGun(Coordinate(20, 20), Rect<float>(10,10,90,90), Rect<float>(0,0,90,90), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
+    hud->setBossLife(Rect<float>(100,230,200,20));
+    hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
 }
 
 void LevelState::Update(){
@@ -127,7 +130,7 @@ void LevelState::Update(){
         rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
     }
         
-    //level->enemyAI(rath,hud);
+    level->enemyAI(rath,hud);
     
     std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
     for(int i = 0; i < enemys->size(); i++){
@@ -226,15 +229,11 @@ void LevelState::Render(){
     } else if (rath->isAttacking()){
         rath->attackDone();
     }
-    if (rath->getWeapon()->isAttacking()) {
-       // std::cout << "YAY\n";
-        Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
-       // std::cout << "YEY\n";
-    }
+    if (rath->getWeapon()->isAttacking()) Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
     
     /*HUD*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-    hud->drawHUD();
+    hud->drawHUD(level->getBoss()->getOnRange());
     Game::Instance()->console->drawConsole();
 }
 

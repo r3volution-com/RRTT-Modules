@@ -185,7 +185,10 @@ void Player::setFlashCooldown(Time *cooldown){
 }
 
 void Player::damage(int dmg){
-    if (hp-dmg <= 0) die();
+    if (hp-dmg <= 0){
+        hp -= dmg;
+        die();
+    }
     else hp -= dmg;
 }
 void Player::setPosition(Coordinate newCoor){

@@ -11,7 +11,12 @@ class Boss : public Enemy{
         
         int state;
         
+        Time *defensive;
+        
         bool attacking;
+        bool onRange;
+        
+        int level;
         
         int currentGun;
     public:
@@ -21,7 +26,7 @@ class Boss : public Enemy{
          * @param size: tamano del boss
          * @param sp: Velocidad de animacion del jefe
          */
-        Boss(Coordinate position, Coordinate size, float sp); //ToDo: boss
+        Boss(Coordinate position, Coordinate size, float sp, int lvl); //ToDo: boss
         virtual ~Boss();
         /**
          * Cambia el estado del jefe
@@ -54,6 +59,7 @@ class Boss : public Enemy{
         void setPosition(Coordinate newCoor);
         void setPosition(float x, float y);
         bool isAttacking() { return attacking; }
+        bool getOnRange(){return onRange;}
 
 };
 

@@ -37,7 +37,7 @@ void Level::Init(){
     //Si estamos en el primer nivel
     if(level==1){
         //Cargamos el mapa
-        map = new Map("resources/bosque_definitivo.tmx");
+        map = new Map("resources/bosque_definitivo2.tmx");
         
         //Cargamos las notas
         note = new Note(tex, Rect<float>(0, 0, 64, 60), tex2, Rect<float>(0, 0, 608, 488), font);
@@ -92,11 +92,16 @@ void Level::Init(){
     gunArm->setAttack(bull);
         
         
-        boss = new Boss(Coordinate(140,500), Coordinate(128, 128), 10);
+        boss = new Boss(Coordinate(140,500), Coordinate(128, 128), 10, 1);
         boss->setSprite(Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128));
         boss->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         boss->getAnimation()->initAnimator();
         boss->getAnimation()->changeAnimation("idle", false);
+        boss->setMaxHP(50);
+        boss->setDistanceEnemyHome(1000);
+        boss->setDistancePlayerEnemy(500);
+        boss->setDmgHit(1);
+        boss->setHitCooldown(new Time(0.5));
         
         boss->addGun(gunArm);
         
@@ -105,16 +110,26 @@ void Level::Init(){
 }
 
 void Level::AI(Player *rath, HUD* hud) {
-    for (int i = 0; i<enemys->size(); i++){
-        enemys->at(i)->AI(rath, hud);
-    }
-    boss->AI(rath, hud);
+    
 }
 
-void Level::Update(){
+void Level::Update(Player* rath, HUD* hud){
+    for (int i = 0; i<enemys->size(); i++){
+        if(enemys->at(i)->getHP() > 0){
+            enemys->at(i)->AI(rath, hud);
+        }
+    }
+    boss->AI(rath, hud);
     
-    //enemyAI deberia ir aqui?
-    
+    for(int i = 0; i < enemys->size(); i++){
+        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
+        }
+    }
+    if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+        boss->damage(rath->getCurrentGun()->getDamage());
+        hud->changeLifeBoss(boss->getHP());
+   }
 }
 
 void Level::Input(){

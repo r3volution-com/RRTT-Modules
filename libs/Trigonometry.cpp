@@ -136,4 +136,5 @@ Coordinate* Trigonometry::direction(Coordinate* initial, Coordinate* end){
             return new Coordinate(1, +1);
         }
     }
+    return new Coordinate(0,0);
 }

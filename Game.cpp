@@ -44,7 +44,7 @@ Game::~Game(){
 Game::Game(){
     screenSize = new Coordinate(1280, 720);
     window = new sf::RenderWindow(sf::VideoMode(screenSize->x, screenSize->y), "Rath's Revenge: The Twisted Timeline");
-    cameraView = sf::View(sf::FloatRect(0,0,1280,720));
+    cameraView = sf::View(sf::FloatRect(0,0,3840,2160));
     screenView = sf::View(sf::FloatRect(0,0,1280,720)); //ToDo: inutil
     
     intro = new IntroState();

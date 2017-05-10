@@ -32,7 +32,10 @@ void Enemy::die(){
 }
 
 void Enemy::damage(int dm){
-    if (hp-dm <= 0) die();
+    if (hp-dm <= 0){
+        hp -= dm;
+        die();
+    }
     else hp -= dm;
 }
 
@@ -55,7 +58,7 @@ void Enemy::AI(Player* rath, HUD* hud){
     Coordinate *dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());
     Coordinate *ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
     if(freeze == true && (cd->isExpired() && hits == 1)){
-        rath->setSpeed(rath->getSpeed()+dmgFreeze);
+        rath->setSpeed(rath->getSpeed()+slowDown);
         hits = 0;
         freeze = false;
     }
@@ -100,7 +103,7 @@ void Enemy::AI(Player* rath, HUD* hud){
                     freeze = true;
                     if(freeze == true && hits == 0){
                         hits++;
-                        rath->setSpeed(rath->getSpeed()-dmgFreeze);//ToDo PabloL: Relentiza 3 puntos
+                        rath->setSpeed(rath->getSpeed()-slowDown);//ToDo PabloL: Relentiza 3 puntos
                     }
                 }
             }
@@ -119,7 +122,7 @@ void Enemy::AI(Player* rath, HUD* hud){
                 }
             }
         }
-    }else if(distanceIni >= disEnemyHome || home == false && distance > 128){
+    }else if(distanceIni >= disEnemyHome || (home == false && distance > 128)){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
                 Entity::move(ini->x, ini->y);

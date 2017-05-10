@@ -22,7 +22,7 @@ public:
 
     void Input();
 
-    void Update();
+    void Update(Player* rath, HUD* hud);
 
     void Render();
  

@@ -134,15 +134,17 @@ void Time::restart(float newTime){
 float Time::getTime(){
     switch(type){
         case 0:
-            clock->getElapsedTime().asSeconds();
+            return clock->getElapsedTime().asSeconds();
         break;
         case 1:
-            timer->getRemainingTime().asSeconds();
+            return timer->getRemainingTime().asSeconds();
         break;
         case 2:
-            cTimer->getRemainingTime().asSeconds();
+            return cTimer->getRemainingTime().asSeconds();
         break;
-        default: break;
+        default: 
+            return 0;
+        break;
     }
 }
 

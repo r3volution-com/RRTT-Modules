@@ -23,7 +23,7 @@ class Enemy : public Entity{
         
         bool home;
         bool freeze;
-        int dmgFreeze;
+        int slowDown;
         int dmgHit;
         int hits;
         
@@ -123,13 +123,28 @@ class Enemy : public Entity{
          * Relentizacion del enemigo, solo para los tipo 3
          * @param num: Relentizacion (tipo int)
          */
-        void setFreeze(int num) {dmgFreeze = num;}
+        void setFreeze(int num) {slowDown = num;}
         
         /**
          * Inteligencia artificil
          * @param rath: Puntero del personaje
          */
         void AI(Player *rath, HUD* hud);
+        
+        int getType(){return type;}
+        int getDmg(){return dmg;}
+        int getFlashRange(){return flashRange;}
+        float getMaxFlashCooldown(){return maxFlashCooldown;}
+        Trigonometry *getTrigonometry(){return tri;}
+        Time *getCooldownHit(){return cd;}
+        bool getHome(){return home;}
+        bool getFreeze(){return freeze;}
+        int getSlowDown(){return slowDown;}
+        int getDisPlayerEnemy(){return disPlayerEnemy;}
+        int getDisEnemyHome(){return disEnemyHome;}
+        void setHome(bool value){home = value;}
+        
+        
 };
 
 #endif /* ENEMY_H */

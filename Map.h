@@ -11,6 +11,7 @@ class Map {
     private:
        
         XMLElement* map;
+        XMLElement* tileset;
         XMLElement* img;       
         XMLElement *layer;
         XMLElement **data;
@@ -22,7 +23,7 @@ class Map {
         
     public:
         XMLDocument doc;
-        int _width, _height, _tileWidth, _tileHeight;
+        int _width, _height, _tileWidth, _tileHeight, _columns;
         const char *filename;
         int _numLayers;
         int _activeLayer;
