@@ -15,8 +15,10 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
 Enemy::~Enemy() {
     delete flashCooldown;
     delete cd;
+    delete tri;
     flashCooldown = NULL;
     cd = NULL;
+    tri = NULL;
 }
 
 void Enemy::flash(float dirX, float dirY){
@@ -34,7 +36,7 @@ void Enemy::die(){
 void Enemy::damage(int dm){
     if (hp-dm <= 0){
         hp -= dm;
-        die();
+        //die();
     }
     else hp -= dm;
 }
