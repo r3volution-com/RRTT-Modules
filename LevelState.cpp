@@ -112,17 +112,7 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
-    //level->AI(rath,hud);
-    std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
-    for(int i = 0; i < enemys->size(); i++){
-        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
-            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
-        }
-    }
-    if (level->getBoss()->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
-        level->getBoss()->damage(rath->getCurrentGun()->getDamage());
-        hud->changeLifeBoss(level->getBoss()->getHP());
-   }
+    level->Update(rath,hud);
 }
 
 void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba todo update y casi todo input (excepto la llamada para cerrar el propio menu de pausa)

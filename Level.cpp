@@ -107,18 +107,26 @@ void Level::Init(){
 }
 
 void Level::AI(Player *rath, HUD* hud) {
+    
+}
+
+void Level::Update(Player* rath, HUD* hud){
     for (int i = 0; i<enemys->size(); i++){
         if(enemys->at(i)->getHP() > 0){
             enemys->at(i)->AI(rath, hud);
         }
     }
     boss->AI(rath, hud);
-}
-
-void Level::Update(){
     
-    //enemyAI deberia ir aqui?
-    
+    for(int i = 0; i < enemys->size(); i++){
+        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
+        }
+    }
+    if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+        boss->damage(rath->getCurrentGun()->getDamage());
+        hud->changeLifeBoss(boss->getHP());
+   }
 }
 
 void Level::Input(){
