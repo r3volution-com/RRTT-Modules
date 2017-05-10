@@ -39,7 +39,7 @@ void Level::Init(){
     //Si estamos en el primer nivel
     if(level==1){
         //Cargamos el mapa
-        map = new Map("resources/bosque_definitivo4.tmx");
+        map = new Map("resources/bosque_definitivo5.tmx");
         
         //Cargamos las notas
         note = new Note(tex, Rect<float>(0, 0, 64, 60), tex2, Rect<float>(0, 0, 608, 488), font);
