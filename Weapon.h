@@ -1,6 +1,7 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
+#include <Thor/Vectors.hpp>
 #include "libs/Coordinate.h"
 #include "libs/Animation.h"
 #include "libs/Hitbox.h"
@@ -50,6 +51,11 @@ class Weapon {
          * Lanza el ataque
          */
         int releaseAttack();
+        
+        /**
+         * Mueve la hitbox
+         */
+        void longAttackDmg();
         
         /**
          * Lanza un ataque corto

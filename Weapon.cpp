@@ -58,16 +58,22 @@ int Weapon::releaseAttack(){
     attacking = false;
     delete pie;
     pie = NULL;
-    attackLength->restart(0.25f*lengthCount);
     
-    //ToDo: hitbox en la direccion
+    attackLength->restart(0.25f*lengthCount); //ToDo: pasar el numero por constructor o algo asi
+    
     int lc = lengthCount;
     lengthCount = 0;
     return lc;
 }
 
+void Weapon::longAttackDmg(){
+    if (!attackLength->isExpired()){
+        //ToDo: hitbox thor, utilizar vector de coordenadas polares para rotar la hitbox en torno a un punto??
+    }
+}
+
 void Weapon::shortAttack(char direction){
-    attackLength->restart(0.25f); //ToDo: pasar el numero por constructor o algo asi?
+    attackLength->restart(0.25f); //ToDo: pasar el numero por constructor o algo asi
     //ToDo: hitbox en la direccion
 }
 

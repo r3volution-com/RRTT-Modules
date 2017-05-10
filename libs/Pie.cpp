@@ -15,7 +15,6 @@ Pie::Pie(float radius, int resolution, int rotationAngle) {
     addPoint(sf::Vector2f(0.f, 0.f));
     
     shape->setRotation(rotationAngle);
-    //shape->setOrigin(radius/2, radius/2);
 }
 
 Pie::Pie(){

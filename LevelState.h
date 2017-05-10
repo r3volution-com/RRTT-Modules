@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Level.h"
 #include "Console.h"
+#include "Menu.h"
 
 class LevelState : public GameState {
     private:
@@ -18,8 +19,12 @@ class LevelState : public GameState {
         Player *rath;
         Trigonometry *tri;
         HUD *hud;
+        Menu *pause;
+        
         float colX = 0.0f;
         float colY = 0.0f;
+        
+        bool paused;
     public:
         LevelState();
         

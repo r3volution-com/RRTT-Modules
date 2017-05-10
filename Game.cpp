@@ -73,7 +73,7 @@ void texto(std::string texto){
 }
 
 void Game::Init(){
-    iM->addAction("close", thor::Action(sf::Keyboard::Escape, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
+    iM->addAction("close", thor::Action(sf::Keyboard::F11, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
     game->Init();
     fpsTimer->start();
     iaTimer->start();
