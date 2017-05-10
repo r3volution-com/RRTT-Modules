@@ -24,10 +24,10 @@ void Player::setAnimations(Texture *t, Rect<float> newRect){
     Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 384), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
-    Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 2, 0.5f);
-    Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 2, 0.5f);
-    Entity::getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 2, 0.5f);
-    Entity::getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 2, 0.5f);
+    Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 1, 0.25f);
     Entity::getAnimation()->initAnimator();
     Entity::getAnimation()->changeAnimation("idle", false); 
 }

@@ -58,7 +58,7 @@ int Weapon::releaseAttack(){
     attacking = false;
     delete pie;
     pie = NULL;
-    attackLength->restart(0.5f*lengthCount);
+    attackLength->restart(0.25f*lengthCount);
     
     //ToDo: hitbox en la direccion
     int lc = lengthCount;
@@ -67,7 +67,7 @@ int Weapon::releaseAttack(){
 }
 
 void Weapon::shortAttack(char direction){
-    attackLength->restart(0.5f); //ToDo: pasar el numero por constructor o algo asi?
+    attackLength->restart(0.25f); //ToDo: pasar el numero por constructor o algo asi?
     //ToDo: hitbox en la direccion
 }
 
