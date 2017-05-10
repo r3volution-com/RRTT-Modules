@@ -215,9 +215,11 @@ void Map::dibujarMapa(sf::RenderWindow *window){
 }
 
 int Map::colision(Hitbox *hitbox){
-    for(i = 0; i <= muros->size(); i++){
-        if(hitbox->checkCollision(muros->at(i))==true){
-            return i;
+    if(muros->size() > 0){
+        for(i = 0; i <= muros->size(); i++){
+            if(hitbox->checkCollision(muros->at(i))==true){
+                return i;
+            }
         }
     }
     return -1;

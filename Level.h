@@ -29,6 +29,7 @@ public:
     Boss *getBoss(){return boss;}
     Coordinate* getRespawn(int num){ return respawn->at(num);}
     Map* getMap(){ return map; }
+    void setRespawn(int resp);
     
 private:
 

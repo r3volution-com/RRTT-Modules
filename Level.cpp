@@ -179,6 +179,6 @@ void Level::Render(){
     
 }
 
-Coordinate* setRespawn(int resp){
-    //respawn->at(resp);
+void Level::setRespawn(int resp){
+    respawn->at(resp);
 }
