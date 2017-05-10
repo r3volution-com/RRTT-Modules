@@ -17,6 +17,7 @@ class Weapon {
         float degreesPerTick;
         float lengthCount;
         bool attacking;
+        char dir;
     public:
         /**
          * 
@@ -61,6 +62,7 @@ class Weapon {
          */
         
         bool isAttacking() { return attacking; }
+        char getDirection() { return dir; }
         Time *getTime() { return attackLength; }
         Pie *getPie() { return pie; }
         Hitbox *getHitbox() { return hitbox; }

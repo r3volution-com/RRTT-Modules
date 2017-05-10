@@ -78,8 +78,10 @@ void Player::move(float xDir, float yDir){
         }
         state='u';
     } else {
-        Entity::getAnimation()->changeAnimation("idle", false);
-        state='i';
+        if (state != 'i'){
+            Entity::getAnimation()->changeAnimation("idle", false);
+            state='i';
+        }
     }
 }
 
@@ -116,7 +118,6 @@ void Player::weaponShortAttack(int angle){
         }
         Entity::getAnimation()->queueAnimation("idle", false);
         weapon->shortAttack(direction);
-        attacking = true;
     }
 }
 
@@ -137,22 +138,35 @@ void Player::weaponChargeAttack(int initialAngle){
             direction = 'd';
         }
         weapon->loadAttack(direction);
-        attacking = true;
     }
 }
 
 void Player::weaponReleaseAttack(){
     if (weaponLoaded) {
         int load = weapon->releaseAttack();
-        if(load < 315 && load > 225){ //Derecha
-            Entity::getAnimation()->queueAnimation("ataqueDerecha", true);
-        } else if (load < 225 && load > 135){ //Arriba
-            Entity::getAnimation()->queueAnimation("ataqueArriba", true);
-        } else if (load < 135 && load > 45){ //Izquierda
-            Entity::getAnimation()->queueAnimation("ataqueIzquierda", true);
-        } else if (load < 45 || load > 315){ //Abajo
-            Entity::getAnimation()->queueAnimation("ataqueAbajo", true);
+        std::cout << weapon->getDirection() << "\n";
+        if(weapon->getDirection() == 'r'){ //Derecha
+            if (load >= 1) Entity::getAnimation()->changeAnimation("ataqueDerecha", true);
+            if (load >= 2) Entity::getAnimation()->queueAnimation("ataqueAbajo", true);
+            if (load >= 3) Entity::getAnimation()->queueAnimation("ataqueIzquierda", true);
+            if (load >= 4) Entity::getAnimation()->queueAnimation("ataqueArriba", true);
+        } else if (weapon->getDirection() == 'u'){ //Arriba
+            if (load >= 1) Entity::getAnimation()->changeAnimation("ataqueArriba", true);
+            if (load >= 2) Entity::getAnimation()->queueAnimation("ataqueDerecha", true);
+            if (load >= 3) Entity::getAnimation()->queueAnimation("ataqueAbajo", true);
+            if (load >= 4) Entity::getAnimation()->queueAnimation("ataqueIzquierda", true);
+        } else if (weapon->getDirection() == 'l'){ //Izquierda
+            if (load >= 1) Entity::getAnimation()->changeAnimation("ataqueIzquierda", true);
+            if (load >= 2) Entity::getAnimation()->queueAnimation("ataqueArriba", true);
+            if (load >= 3) Entity::getAnimation()->queueAnimation("ataqueDerecha", true);
+            if (load >= 4) Entity::getAnimation()->queueAnimation("ataqueAbajo", true);
+        } else if (weapon->getDirection() == 'd'){ //Abajo
+            if (load >= 1) Entity::getAnimation()->changeAnimation("ataqueAbajo", true);
+            if (load >= 2) Entity::getAnimation()->queueAnimation("ataqueIzquierda", true);
+            if (load >= 3) Entity::getAnimation()->queueAnimation("ataqueArriba", true);
+            if (load >= 4) Entity::getAnimation()->queueAnimation("ataqueDerecha", true);
         }
+        Entity::getAnimation()->queueAnimation("idle", false);
     }
 }
 
@@ -193,7 +207,7 @@ void Player::damage(int dmg){
 void Player::setPosition(Coordinate newCoor){
     Entity::getAnimation()->setPosition(newCoor);
     Entity::getHitbox()->setPosition(newCoor);
-    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
+    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate()+(getHitbox()->hitbox->width/2));
     
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));

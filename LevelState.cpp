@@ -63,7 +63,7 @@ void LevelState::Init(){
     game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
     
-    game->iM->addAction("player-shortAttack", thor::Action(sf::Mouse::Left, thor::Action::PressOnce));
+    game->iM->addAction("player-shortAttack", thor::Action(sf::Mouse::Left, thor::Action::PressOnce) && thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
     game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold));
     game->iM->addAction("player-longAttackStop", thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
     
@@ -123,6 +123,7 @@ void LevelState::Update(){
         level->getBoss()->damage(rath->getCurrentGun()->getDamage());
         hud->changeLifeBoss(level->getBoss()->getHP());
    }
+    if (rath->getWeapon()->getTime()->isExpired()) rath->attackDone();
 }
 
 void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba todo update y casi todo input (excepto la llamada para cerrar el propio menu de pausa)
@@ -176,7 +177,7 @@ void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba tod
         rath->weaponChargeAttack(mouseAng);
     }
     if (Game::Instance()->iM->isActive("player-longAttackStop")){
-        //rath->weaponReleaseAttack();
+        rath->weaponReleaseAttack();
     }
     
     /*Player gun attack*/
