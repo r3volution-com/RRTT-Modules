@@ -14,7 +14,6 @@ void onTextEntered(thor::ActionContext<std::string> context) {
             std::ostringstream ch;
             ch << static_cast<char>(character);
             Game::Instance()->temp += ch.str();
-            //Game::Instance()->temp << (std::string)ch.str();
             Game::Instance()->console->writeCommand(Game::Instance()->temp);
         } else if (context.event->text.unicode == 8 && Game::Instance()->temp.length() > 0){
             Game::Instance()->temp.resize(Game::Instance()->temp.length()-1);
@@ -31,22 +30,12 @@ LevelState::LevelState() : GameState(){
 }
 
 LevelState::~LevelState(){
-    delete rath;
-    delete tri;
-    
-    /*Faltaria:
-        - playerTexture
-     *  - level
-     *  - enemy2
-     *  - hud 
-     */  
-
-    rath = NULL;
-    tri = NULL;
+    //La limpieza se hace en CleanUp
 }
 
 void LevelState::Init(){
     Game *game = Game::Instance();
+    
     /*****RESOURCES*****/
     game->rM->loadTexture("player", "resources/spritesRATH.png");
     game->rM->loadTexture("fire", "resources/fuego.png"); //ToDo: otra spritesheet para ataques?
@@ -56,6 +45,7 @@ void LevelState::Init(){
     game->rM->loadTexture("button-layout", "resources/button-layout.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
+    /*****INPUTS*****/
     game->iM->addAction("player-up", thor::Action(sf::Keyboard::Up));
     game->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
     game->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
@@ -71,11 +61,10 @@ void LevelState::Init(){
     
     game->iM->addAction("player-gunAttack", thor::Action(sf::Mouse::Right));
     
-    game->iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
     game->iM->addAction("pause", thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
-    /*****PLAYER*****/
+    /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
@@ -106,14 +95,17 @@ void LevelState::Init(){
     rath->addGun(gunArm);
     rath->changeGun(0);
     
+    /*****LEVEL*****/
     level = new Level(1);
     
+    /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), Rect<float>(100,230,200,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
     hud->addGun(Coordinate(20, 20), Rect<float>(10,10,90,90), Rect<float>(0,0,90,90), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     
+    /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), new Rect<float>(0,0,200,50), game->rM->getFont("font"));
     pause->addButton(Coordinate(540,200), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
     pause->addButton(Coordinate(540,270), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
@@ -124,6 +116,11 @@ void LevelState::Init(){
 void LevelState::Update(){
     if (!paused){
         level->Update(rath, hud);
+
+        float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
+        Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+                level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+        level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
 
         if(level->getMap()->colision(rath->getHitbox()) != -1){
             if(rath->getHitbox()->hitbox->left <= level->getMap()->getColHitbox()->hitbox->left){
@@ -144,24 +141,14 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
-    //ToDo: para pausa se tiene un boolean que engloba todo 
-    //update y casi todo input (excepto la llamada para cerrar el propio menu de pausa)
     if (Game::Instance()->iM->isActive("pause")) {
         if (paused == true) paused = false;
         else paused = true;
     }
     if (!paused){
-        rath->getState()->update();
         /*Player movement*/
+        rath->getState()->update();
         if (Game::Instance()->iM->isActive("player-up-left")) { 
-            /*if(level->map->putHitbox(rath)==true){
-                colision='q'; 
-                rath->move(1,1);
-            }
-            if(level->map->putHitbox(rath)==false && colision!='q'){
-                rath->move(-1,-1);
-                colision='z';
-            } */
             rath->move(-1, -1);
         } else if(Game::Instance()->iM->isActive("player-up-right")) {
             rath->move(1,-1);
@@ -187,11 +174,6 @@ void LevelState::Input(){
                 rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
         rath->getCurrentGun()->update(newPos, mouseAng);
 
-        float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
-        Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
-                level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
-        level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
-
 
         /*Player weapon attack*/
         if (Game::Instance()->iM->isActive("player-shortAttack")){
@@ -210,10 +192,8 @@ void LevelState::Input(){
             rath->gunAttack();
             rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
         }
-
-        /*Console*/
-        if (Game::Instance()->iM->isActive("console")) Game::Instance()->console->toggleActive();
     } else {
+        /*Pause menu*/
         pause->checkHover(Game::Instance()->mouse);
         
         if (Game::Instance()->iM->isActive("click")){
@@ -243,31 +223,46 @@ void LevelState::Render(){
     Coordinate inc(rath->getState()->getIC());
     rath->setPosition(Coordinate(inc.x, inc.y));
     
-    /***RENDER***/
+    /***Set View***/
     Game::Instance()->cameraView.setCenter(rath->getCoordinate()->x, rath->getCoordinate()->y);
     Game::Instance()->window->setView(Game::Instance()->cameraView);
     
+    /*Render level*/
     level->Render();
     
     level->getMap()->putHitbox(rath);
     
+    /*Render Player and guns*/
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
-    if (!rath->getCurrentGun()->getBulletLifetime()->isExpired()){
+    if (!rath->getCurrentGun()->getBulletLifetime()->isExpired())
         Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
-    } else if (rath->isAttacking()){
+    else if (rath->isAttacking())
         rath->attackDone();
-    }
+    
     if (rath->getWeapon()->isAttacking()) Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
     
-    /*HUD*/
+    /*Set Default View*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-    hud->drawHUD(level->getBoss()->getOnRange());
-    Game::Instance()->console->drawConsole();
     
+    /*HUD*/
+    hud->drawHUD(level->getBoss()->getOnRange());
+    
+    /*Pause*/
     if (paused) pause->drawMenu();
 }
 
 void LevelState::CleanUp(){
+    delete rath;
+    delete tri;
     
+    /*Faltaria:
+        - playerTexture
+     *  - level
+     *  - enemy2
+     *  - hud 
+     */  
+
+    rath = NULL;
+    tri = NULL;
 }

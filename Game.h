@@ -55,7 +55,6 @@ class Game {
         Coordinate *screenSize;
         sf::RenderWindow *window;
         sf::View cameraView;
-        sf::View screenView;
         
         ResourceManager *rM;
         Event *iM;
