@@ -146,7 +146,6 @@ void Player::weaponChargeAttack(int initialAngle){
 void Player::weaponReleaseAttack(){
     if (weaponLoaded) {
         int load = weapon->releaseAttack();
-        std::cout << weapon->getDirection() << "\n";
         if(weapon->getDirection() == 'r'){ //Derecha
             if (load >= 1) Entity::getAnimation()->changeAnimation("ataqueDerecha", true);
             if (load >= 2) Entity::getAnimation()->queueAnimation("ataqueAbajo", true);

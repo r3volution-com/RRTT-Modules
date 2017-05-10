@@ -131,7 +131,6 @@ void LevelState::Update(){
         }
         rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
     }
-    if (rath->getWeapon()->getTime()->isExpired()) rath->attackDone();
 }
 
 void LevelState::Input(){ //ToDo: para pausa se tiene un boolean que engloba todo update y casi todo input (excepto la llamada para cerrar el propio menu de pausa)
