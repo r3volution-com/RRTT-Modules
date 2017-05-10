@@ -11,16 +11,19 @@ class Map {
     private:
        
         XMLElement* map;
+        XMLElement* tileset;
         XMLElement* img;       
         XMLElement *layer;
         XMLElement **data;
         XMLElement *capas;
         int ***_tilemap;  
+        int i;
+        std::vector<Hitbox*> *muros;
         bool colisiona;
         
     public:
         XMLDocument doc;
-        int _width, _height, _tileWidth, _tileHeight;
+        int _width, _height, _tileWidth, _tileHeight, _columns;
         const char *filename;
         int _numLayers;
         int _activeLayer;
@@ -68,6 +71,12 @@ class Map {
         void dibujarMapa(sf::RenderWindow *window);
         
         /**
+         * Accede a la capa de objetos y verifica si estos colisionan con el jugador o no
+         * @param hitbox: hitbox a checkear: 
+         */
+        
+        int colision(Hitbox *hitbox);
+        /**
          * Accede al gid del tile en el que se encuentre el enemigo
          * @param enemy: Enemigo en el gid
          * @param id1: Id del jugador
@@ -80,6 +89,8 @@ class Map {
          * @param rath
          */
         bool putHitbox(Player *rath);
+        
+        Hitbox *getColHitbox(){return muros->at(i);}
 };
 
 #endif /* MAP_H */

@@ -18,6 +18,8 @@ class LevelState : public GameState {
         Player *rath;
         Trigonometry *tri;
         HUD *hud;
+        float colX = 0.0f;
+        float colY = 0.0f;
     public:
         LevelState();
         
@@ -45,6 +47,8 @@ class LevelState : public GameState {
          * Encargado de limpiar
          */
         void CleanUp();
+        
+        Level *getLevel(){return level;}
         
         virtual ~LevelState();
         

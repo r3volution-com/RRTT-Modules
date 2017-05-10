@@ -4,7 +4,7 @@
 #include "Level.h"
 #include "Console.h"
 #include "libs/Pie.h"
-
+ 
 #define PI 3,14159265;
 
 void onTextEntered(thor::ActionContext<std::string> context) {
@@ -73,7 +73,7 @@ void LevelState::Init(){
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
     /*****PLAYER*****/
-    rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 15);
+    rath = new Player(Coordinate(140,1000), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
     rath->setMaxHP(70);
@@ -85,6 +85,7 @@ void LevelState::Init(){
     Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
     gunArm->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
+    gunArm->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
@@ -112,17 +113,24 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
-    //level->AI(rath,hud);
-    std::vector<Enemy*> *enemys = level->getEnemys();  //ToDo: trasladar a level
-    for(int i = 0; i < enemys->size(); i++){
-        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
-            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
+    
+    level->Update(rath, hud);
+    
+    if(level->getMap()->colision(rath->getHitbox()) != -1){
+        if(rath->getHitbox()->hitbox->left <= level->getMap()->getColHitbox()->hitbox->left){
+            colX=(rath->getHitbox()->hitbox->left +128 - level->getMap()->getColHitbox()->hitbox->left)*-1;
         }
+        else{
+            colX=(level->getMap()->getColHitbox()->hitbox->left + 128 - rath->getHitbox()->hitbox->left)*-1;
+        }
+        if(rath->getHitbox()->hitbox->top <= level->getMap()->getColHitbox()->hitbox->top){
+            colY=(rath->getHitbox()->hitbox->top + 128 - level->getMap()->getColHitbox()->hitbox->top)*-1;
+        }
+        else{
+            colY=(level->getMap()->getColHitbox()->hitbox->top + 128 - rath->getHitbox()->hitbox->top)*-1;
+        }
+        rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
     }
-    if (level->getBoss()->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
-        level->getBoss()->damage(rath->getCurrentGun()->getDamage());
-        hud->changeLifeBoss(level->getBoss()->getHP());
-   }
     if (rath->getWeapon()->getTime()->isExpired()) rath->attackDone();
 }
 
@@ -206,7 +214,7 @@ void LevelState::Render(){
     
     level->Render();
     
-    level->map->putHitbox(rath);
+    level->getMap()->putHitbox(rath);
     
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());

@@ -6,7 +6,12 @@ Level::Level(int numLevel) {
     //Guardamos el nivel a cargar
     level = numLevel;
     enemys = new std::vector<Enemy*>();
-    
+    respawn = new std::vector<Coordinate*>();
+    Coordinate* coord = new Coordinate(0,300);
+    respawn->push_back(coord);
+    //respawn[0]=(0,300);
+    //respawn[1]=(500,300);
+    //respawn[2]=(1000,300);
     //Cargamos todos los elementos del juego
     Init();
 }
@@ -34,7 +39,7 @@ void Level::Init(){
     //Si estamos en el primer nivel
     if(level==1){
         //Cargamos el mapa
-        map = new Map("resources/bosque_definitivo.tmx");
+        map = new Map("resources/bosque_definitivo4.tmx");
         
         //Cargamos las notas
         note = new Note(tex, Rect<float>(0, 0, 64, 60), tex2, Rect<float>(0, 0, 608, 488), font);
@@ -106,19 +111,29 @@ void Level::Init(){
     }  
 }
 
-void Level::AI(Player *rath, HUD* hud) {
+void Level::Update(Player* rath, HUD* hud){
     for (int i = 0; i<enemys->size(); i++){
         if(enemys->at(i)->getHP() > 0){
             enemys->at(i)->AI(rath, hud);
         }
     }
     boss->AI(rath, hud);
-}
-
-void Level::Update(){
     
-    //enemyAI deberia ir aqui?
-    
+    for(int i = 0; i < enemys->size(); i++){
+        if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
+            if(enemys->at(i)->getHP() <= 0){
+                enemys->at(i)->~Enemy(); //ToDo PabloL: Por que dan error los destructores??
+            }
+        }
+    }
+    if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+        boss->damage(rath->getCurrentGun()->getDamage());
+        hud->changeLifeBoss(boss->getHP());
+        if(boss->getHP() <= 0){
+            boss->~Boss();
+        }
+   }
 }
 
 void Level::Input(){
@@ -162,4 +177,8 @@ void Level::Render(){
     boss->setPosition(inc2.x, inc2.y);
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
     
+}
+
+void Level::setRespawn(int resp){
+    respawn->at(resp);
 }
