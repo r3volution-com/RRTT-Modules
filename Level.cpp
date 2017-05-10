@@ -121,11 +121,17 @@ void Level::Update(Player* rath, HUD* hud){
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
+            if(enemys->at(i)->getHP() <= 0){
+                enemys->at(i)->~Enemy(); //ToDo PabloL: Por que dan error los destructores??
+            }
         }
     }
     if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
         boss->damage(rath->getCurrentGun()->getDamage());
         hud->changeLifeBoss(boss->getHP());
+        if(boss->getHP() <= 0){
+            boss->~Boss();
+        }
    }
 }
 
