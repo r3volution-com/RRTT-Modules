@@ -38,7 +38,7 @@ void LevelState::Init(){
     
     /*****RESOURCES*****/
     game->rM->loadTexture("player", "resources/spritesRATH.png");
-    game->rM->loadTexture("fire", "resources/fuego.png"); //ToDo: otra spritesheet para ataques?
+    game->rM->loadTexture("fire", "resources/fuego.png");
     game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
