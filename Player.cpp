@@ -19,7 +19,7 @@ Player::~Player() {
 
 void Player::setAnimations(Texture *t, Rect<float> newRect){
     Entity::setSprite(t, newRect);
-    Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
     Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 384), 4, 0.5f);
@@ -43,11 +43,13 @@ void Player::move(float xDir, float yDir){
         if (xDir == 1 && yDir == 0) { //Derecha
             if (state != 'r') {
                 Entity::getAnimation()->changeAnimation("correrDerecha", false);
+                guns->at(currentGun)->derecha();
             }
             state = 'r';
         } else if (xDir == -1 && yDir == 0) { //Izquierda
             if (state != 'l') {
                 Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+                guns->at(currentGun)->inversa();
             }
             state = 'l';
         } else if (xDir == 0 && yDir == 1) { //Abajo
@@ -77,7 +79,7 @@ void Player::move(float xDir, float yDir){
             state = 'r';
         } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
             if (state != 'u') {
-                getAnimation()->changeAnimation("correrArriba", false);
+                Entity::getAnimation()->changeAnimation("correrArriba", false);
             }
             state='u';
         } else {
@@ -226,4 +228,16 @@ void Player::setPosition(float x, float y){
 
 void Player::attackDone(){
     attacking = false;
+}
+
+void Player::derechaGun(){
+     if (currentGun >= 0){
+        guns->at(currentGun)->derecha();
+     }
+}
+
+void Player::inversaGun(){
+     if (currentGun >= 0){
+        guns->at(currentGun)->inversa();
+     }
 }

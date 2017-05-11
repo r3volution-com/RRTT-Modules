@@ -13,7 +13,8 @@ Gun::Gun(Coordinate position, Coordinate size, float cd) {
 
 void Gun::setAnimation(Texture *tex, Rect<float> animRect){
     gunAnimation = new Animation(tex, animRect);
-    gunAnimation->addAnimation("idle", Coordinate(animRect.x, animRect.y), 2, 1.0f);
+    gunAnimation->addAnimation("idle", Coordinate(animRect.x, animRect.y), 1, 1.0f);
+    gunAnimation->addAnimation("inversa", Coordinate(animRect.x, animRect.y), 1, 1.0f);
     gunAnimation->addAnimation("attack", Coordinate(animRect.x, animRect.y+animRect.h), 2, 1.0f);
     gunAnimation->setPosition(*coor);
 }
@@ -68,4 +69,11 @@ void Gun::setPosition(float x, float y){
 void Gun::setActive() {
     if (active) active = false;
     else active = true;
+}
+void Gun::derecha(){
+    gunAnimation->changeAnimation("idle", false);
+}
+
+void Gun::inversa(){
+    gunAnimation->changeAnimation("inversa", false);
 }

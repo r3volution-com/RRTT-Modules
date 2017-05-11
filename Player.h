@@ -146,6 +146,16 @@ class Player : public Entity {
          */
         void setPosition(float x, float y);
         
+        /**
+         *llama a derecha() de gun
+         */
+        void derechaGun();
+        
+        /**
+         *llama a inversa() de gun
+         */
+        void inversaGun();
+        
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
         Weapon *getWeapon() { return weapon; }
