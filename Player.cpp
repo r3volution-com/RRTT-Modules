@@ -39,7 +39,6 @@ void Player::setWeapon(Weapon *wP){
 
 void Player::move(float xDir, float yDir){
     if (!weaponLoaded || (weaponLoaded && weapon->getTime()->isExpired())) {
-        if (xDir != 0 || yDir != 0) Entity::move(xDir, yDir);
         if (xDir == 1 && yDir == 0) { //Derecha
             if (state != 'r') {
                 Entity::getAnimation()->changeAnimation("correrDerecha", false);
@@ -85,6 +84,16 @@ void Player::move(float xDir, float yDir){
                 Entity::getAnimation()->changeAnimation("idle", false);
                 state='i';
             }
+        }
+        if (xDir != 0 || yDir != 0) {
+            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(getHitbox());
+            if(collision != -1){
+                float xSpeed = xDir*getSpeed();
+                float ySpeed = yDir*getSpeed();
+                //std::cout << xSpeed << " " << ySpeed << "\n";
+                std::cout << getHitbox()->resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed)) << "\n";
+            }
+            Entity::move(xDir, yDir);
         }
     }
 }

@@ -33,6 +33,14 @@ class Entity {
          * Movimiento de la entidad
          * @param dirX: Movimiento en la coordenada X
          * @param dirY: Movimiento en la coordenada Y
+         * @param speed: velocidad
+         */
+        void move(float dirX, float dirY, float sp);
+        
+        /**
+         * Movimiento de la entidad
+         * @param dirX: Movimiento en la coordenada X
+         * @param dirY: Movimiento en la coordenada Y
          */
         void move(float dirX, float dirY);
         /**

@@ -17,8 +17,7 @@ class Map {
         XMLElement *objectgroup;
         XMLElement **data;
         XMLElement *capas;
-        int ***_tilemap;  
-        int i;
+        int ***_tilemap;
         std::vector<Hitbox*> *muros;
         bool colisiona;
         
@@ -92,7 +91,7 @@ class Map {
          */
         bool putHitbox(Player *rath);
         
-        Hitbox *getColHitbox(){return muros->at(i);}
+        Hitbox *getColHitbox(int i){return muros->at(i);}
 };
 
 #endif /* MAP_H */
