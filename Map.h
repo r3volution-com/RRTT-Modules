@@ -14,6 +14,7 @@ class Map {
         XMLElement* tileset;
         XMLElement* img;       
         XMLElement *layer;
+        XMLElement *objectgroup;
         XMLElement **data;
         XMLElement *capas;
         int ***_tilemap;  
@@ -24,6 +25,7 @@ class Map {
     public:
         XMLDocument doc;
         int _width, _height, _tileWidth, _tileHeight, _columns;
+        std::vector<float> _objectX, _objectY, _objectW, _objectH;
         const char *filename;
         int _numLayers;
         int _activeLayer;

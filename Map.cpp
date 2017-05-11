@@ -23,6 +23,7 @@ Map::Map(const char* ruta) {
     filename = img->Attribute("source");
 
     layer = map->FirstChildElement("layer");
+    objectgroup = map->FirstChildElement("objectgroup")->FirstChildElement("object");
     _numLayers=0;
     
     muros = new std::vector<Hitbox*>();
@@ -30,6 +31,29 @@ Map::Map(const char* ruta) {
     while(layer){
         _numLayers++;
         layer = layer->NextSiblingElement("layer");
+    }
+    
+    //Almacenamos los valores en la capa de objetos
+    while(objectgroup){
+        
+        Hitbox *hitbox = new Hitbox(objectgroup->FloatAttribute("x"),objectgroup->FloatAttribute("y")
+        ,objectgroup->IntAttribute("width"),objectgroup->IntAttribute("height")); 
+        
+        /*_objectX.push_back(objectgroup->FloatAttribute("x"));
+        _objectY.push_back(objectgroup->FloatAttribute("y"));
+        _objectW.push_back(objectgroup->FloatAttribute("width"));
+        _objectH.push_back(objectgroup->FloatAttribute("height"));*/
+        
+        muros->push_back(hitbox);
+        
+        objectgroup = objectgroup->NextSiblingElement("object");
+    }
+    
+    //Mostramos valores de la capa de objetos
+    for(int i=0; i<_objectX.size(); i++){
+        cout << "X: " << _objectX.at(i) << ", Y: " 
+             << _objectY.at(i) << ", W: " << _objectW.at(i) 
+             << " , H: " << _objectH.at(i) << endl;
     }
     
     //Almacenamos las etiquetas tiles

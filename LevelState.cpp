@@ -66,12 +66,12 @@ void LevelState::Init(){
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(4500,10300), Coordinate(128, 128), 40);
+    rath = new Player(Coordinate(2500,5300), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
     rath->setMaxHP(70);
     
-    Weapon *wep = new Weapon(Coordinate(4500,10300), Coordinate(128, 128), 1, 0.25f);
+    Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     
     rath->setWeapon(wep);
 
@@ -133,20 +133,36 @@ void LevelState::Update(){
                 colX=(rath->getHitbox()->hitbox->left +128 - level->getMap()->getColHitbox()->hitbox->left)*-1;
             }
             else{
-                colX=(level->getMap()->getColHitbox()->hitbox->left + 128 - rath->getHitbox()->hitbox->left)*-1;
+                colX=((level->getMap()->getColHitbox()->hitbox->left + level->getMap()->getColHitbox()->hitbox->width)
+                        - rath->getHitbox()->hitbox->left);
             }
             if(rath->getHitbox()->hitbox->top <= level->getMap()->getColHitbox()->hitbox->top){
                 colY=(rath->getHitbox()->hitbox->top + 128 - level->getMap()->getColHitbox()->hitbox->top)*-1;
             }
             else{
-                colY=(level->getMap()->getColHitbox()->hitbox->top + 128 - rath->getHitbox()->hitbox->top)*-1;
+                colY=((level->getMap()->getColHitbox()->hitbox->top + level->getMap()->getColHitbox()->hitbox->height)  
+                        - rath->getHitbox()->hitbox->top);
             }
-            rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
+            
+            cout << "colX: " << colX << endl;
+            cout << "colY: " << colY << endl;
+            cout << "Width map: " << level->getMap()->getColHitbox()->hitbox->width << endl;
+            cout << "Left map: " << level->getMap()->getColHitbox()->hitbox->left << endl;
+            cout << "Prueba rath: " << rath->getHitbox()->hitbox->left << endl;
+            
+            //rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
+            if(prueba=="x"){
+                rath->move(colX/rath->getSpeed(), 0);
+            }
+            if(prueba=="y"){
+                rath->move(0, colY/rath->getSpeed());
+            }
         }
     }
 }
 
 void LevelState::Input(){
+
     if (Game::Instance()->iM->isActive("pause")) {
         if (paused == true) paused = false;
         else paused = true;
@@ -163,12 +179,16 @@ void LevelState::Input(){
         } else if(Game::Instance()->iM->isActive("player-down-right")) {
             rath->move(1,1);
         } else if (Game::Instance()->iM->isActive("player-up")) {
+            prueba = "y";
             rath->move(0,-1);
         } else if (Game::Instance()->iM->isActive("player-down")) {
+            prueba = "y";
             rath->move(0,1);
         } else if (Game::Instance()->iM->isActive("player-left")) {
+            prueba = "x";
             rath->move(-1,0);
         } else if (Game::Instance()->iM->isActive("player-right")) {
+            prueba = "x";
             rath->move(1,0);
         } else {
             rath->move(0,0);
