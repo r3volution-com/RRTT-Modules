@@ -37,7 +37,6 @@ void Gun::setAttack(Bullet *atk){
 
 void Gun::doAttack(){
     if(bulletLoaded && !gunCooldown->isRunning()){
-        //ToDo Sergio: LLamar a singleton e instanciar el ataque
         gunAnimation->changeAnimation("attack", true);
         
         gunCooldown->restart(maxCooldown);

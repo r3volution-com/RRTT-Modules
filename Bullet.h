@@ -19,7 +19,7 @@ class Bullet {
          * @param size: Tamano de la bala
          * @param d: duracion de la bala
          */
-        Bullet(Coordinate position, Coordinate size, float d); //ToDo: bullet
+        Bullet(Coordinate position, Coordinate size, float d);
         virtual ~Bullet();
         
         /**

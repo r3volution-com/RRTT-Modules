@@ -31,7 +31,7 @@ class Map {
         bool todo=true;
         Sprite ****_tilemapSprite;
         
-        Map(const char* ruta); //ToDo: Sergio map
+        Map(const char* ruta);
         
         virtual ~Map();
         
