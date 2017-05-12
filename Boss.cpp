@@ -6,9 +6,11 @@ Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(posi
     currentGun = -1;
     guns = new std::vector<Gun*>();
     attacking = false;
-    defensive = new Time(10.0f);
     onRange = false;
     level = lvl;
+    initialSpeed = sp;
+    dirFlash = new Coordinate(0,0);
+    delay = new Time(0);
 }
 
 Boss::~Boss() {
@@ -73,12 +75,15 @@ void Boss::setPosition(float x, float y){
 
 
 void Boss::AI(Player* rath, HUD* hud){
-    
+ 
     float distance = Enemy::getTrigonometry()->distance(rath->getCoordinate(), Entity::getCoordinate());
     float distanceIni = Enemy::getTrigonometry()->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
-    Coordinate *dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
-    Coordinate *ini = Enemy::getTrigonometry()->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
+    Coordinate dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
+    Coordinate ini = Enemy::getTrigonometry()->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
     bool home = Enemy::getHome();
+    
+    Boss::getCurrentGun()->getGunCooldown()->start();
+    
     if(distance < Enemy::getDisPlayerEnemy()){
         onRange = true;
     }else{
@@ -86,52 +91,92 @@ void Boss::AI(Player* rath, HUD* hud){
     }
     if(state == 0){ //Pasive
         if(onRange == true && distance >= 100){
-            if(Enemy::getHP() >= Enemy::getMaxHP()/2 || Enemy::getHP() >= Enemy::getMaxHP()/4 || defensive->isExpired()){
+            Entity::move(dir.x,dir.y);
+            if(Enemy::getHP() >= 3*Enemy::getMaxHP()/5 || Enemy::getHP() <= Enemy::getMaxHP()/4 || defensive->isExpired()){
                 state = 1;
+                Boss::setSpeed(initialSpeed*1.2);
+            }else{
+                state = 2;
+                Boss::setSpeed(initialSpeed*0.8);
             }
         }else if(distanceIni >= Enemy::getDisEnemyHome() || (home == false && distance > 128)){
             Enemy::setHome(home = false);
                 if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                    Entity::move(ini->x, ini->y);
+                    Entity::move(ini.x, ini.y);
                 }else{
                     Enemy::setHome(home = true);//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
                 }
         }else if(distance > 128){
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-                Entity::move(ini->x, ini->y);
+                Entity::move(ini.x, ini.y);
             }else{
                 Enemy::setHome(home = true);
             }
         }else if(distance < 100){
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-                Entity::move(ini->x, ini->y);
+                Entity::move(ini.x, ini.y);
             }else{
                 Enemy::setHome(home = true);
             }
         }
+        
     }else if(state == 1){ //Aggressive
-        if(onRange == true && distance >= 100){
+        if(onRange == true){
+            //Entity::move(dir.x,dir.y);
             if(level == 1){
+                float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
+                aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
+                aux = sqrt(aux);
+                if(distance < aux*5){
+                    if(!Boss::isAttacking() && Boss::getCurrentGun()->getGunCooldown()->isExpired()){
+                        Boss::gunAttack();
+                        //Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
+                    }
+                }
+                if(Enemy::getHP() < Enemy::getMaxHP()/2 && Enemy::getHP() > Enemy::getMaxHP()/4 && !defensive->isExpired()){
+                    state = 2;
+                }
+            }else if(level == 2){
+                
+            }else if(level == 3){
+                
+            }
+            
+        }else{
+            state = 0;
+        }
+    }/*else if(onRange == true && state == 2){ //Defensive
+        Entity::move(dir.x,dir.y);
+        defensive->start();
+        if(distance >= 100 && !defensive->isExpired()){
+            if(level == 1){
+                delay->start();
+                if(onDelay == false){
+                    Coordinate aux = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
+                    dirFlash = new Coordinate(aux.x,aux.y);
+                    onDelay = true;
+                    delay->restart();
+                }
+                if(delay->isExpired() && onDelay == true){
+                    if(Enemy::getFlashCooldown()->isExpired()){
+                        Enemy::flash(dirFlash->x, dirFlash->y);  
+                        onDelay = false;
+                    }
+                }
                 
             }else if(level == 2){
                 
             }else if(level == 3){
                 
             }
+            
         }else{
             state = 0;
         }
-    }else if(onRange == true && state == 2){ //Defensive
-        if(distance >= 100){
-            if(level == 1){
-                
-            }else if(level == 2){
-                
-            }else if(level == 3){
-                
-            }
-        }else{
-            state = 0;
-        }
+    }*/
+    if(Boss::getHitbox()->checkCollision(rath->getHitbox()) && Boss::getCooldownHit()->isExpired()){
+        rath->damage(Boss::getDmg());
+        hud->changeLifePlayer(rath->getHP());
+        Boss::resetCooldownHit();
     }
 }

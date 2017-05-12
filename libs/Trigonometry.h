@@ -27,7 +27,7 @@ public:
      */
     float distance(Coordinate *initial, Coordinate *end);
     std::vector<float> distance(std::vector<Coordinate*> *initial, Coordinate *end);
-    Coordinate* direction(Coordinate *initial, Coordinate *end);
+    Coordinate direction(Coordinate *initial, Coordinate *end);
     
 private:
     

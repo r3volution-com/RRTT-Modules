@@ -48,7 +48,7 @@ void Gun::update(Coordinate position, float angle){
     gunAnimation->setRotation(angle);
     if (bulletLifetime->isRunning()){
         attack->getAnimation()->setRotation(angle-90);
-        attack->setPosition(position);
+        attack->getHitbox()->setPosition(position);
     }
 }
 

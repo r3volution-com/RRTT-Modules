@@ -72,13 +72,13 @@ void Level::Init(){
         
         enemys->push_back(enemy);
         
-        Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
+        Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 3);
         gunArm->setAnimation(Game::Instance()->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
         gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
         gunArm->getAnimation()->initAnimator();    
         gunArm->getAnimation()->changeAnimation("armaIdle", false);
         gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-        gunArm->setDamage(30);
+        gunArm->setDamage(10);
 
         Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
         bull->setAnimation(Game::Instance()->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
@@ -89,16 +89,19 @@ void Level::Init(){
 
         gunArm->setAttack(bull);
         
-        boss = new Boss(Coordinate(140,500), Coordinate(128, 128), 10, 1);
+        boss = new Boss(Coordinate(2400,4000), Coordinate(128, 128), 10, 1);
         boss->setSprite(Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128));
         boss->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         boss->getAnimation()->initAnimator();
         boss->getAnimation()->changeAnimation("idle", false);
         boss->setMaxHP(50);
-        boss->setDistanceEnemyHome(1000);
-        boss->setDistancePlayerEnemy(500);
-        boss->setDmgHit(1);
-        boss->setHitCooldown(new Time(0.5));
+        boss->setDistanceEnemyHome(1500);
+        boss->setDistancePlayerEnemy(1000);
+        boss->setDmgHit(10);
+        boss->setHitCooldown(new Time(1));
+        boss->SetFlashRange(15);
+        boss->setFlashCooldown(new Time(0.5));
+        boss->setDefensive(new Time(20));
         
         boss->addGun(gunArm);
         
@@ -128,6 +131,15 @@ void Level::Update(Player* rath, HUD* hud){
         if(boss->getHP() <= 0){
             delete boss;
         }
+   }
+   if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
+       std::cout<<boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->left<<"\n";
+       std::cout<<"Rath: "<<rath->getHitbox()->hitbox->left<<"\n";
+        rath->damage(boss->getCurrentGun()->getDamage());
+        hud->changeLifePlayer(rath->getHP());
+        /*if(rath->getHP() <= 0){
+            delete boss;
+        }*/
    }
 }
 

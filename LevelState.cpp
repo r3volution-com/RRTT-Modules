@@ -69,7 +69,7 @@ void LevelState::Init(){
     rath = new Player(Coordinate(2500,5300), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
-    rath->setMaxHP(70);
+    rath->setMaxHP(700);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     
