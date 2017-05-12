@@ -187,17 +187,31 @@ void Level::Update(Player* rath, HUD* hud){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
             if(enemys->at(i)->getHP() <= 0){
-                delete enemys->at(i);
+                enemys->at(i)->move(100000,100000);
             }
         }
+        if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
+            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
+            if(enemys->at(i)->getHP() <= 0){
+                enemys->at(i)->move(100000,100000);
+            }
+        }
+        
     }
     if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
         boss->damage(rath->getCurrentGun()->getDamage());
         hud->changeLifeBoss(boss->getHP());
         if(boss->getHP() <= 0){
-            boss->move(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
+            boss->move(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
         }
    }
+    if(rath->getWeapon()->detectCollisions(boss->getHitbox())){
+        boss->damage(rath->getCurrentGun()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
+        hud->changeLifeBoss(boss->getHP());
+        if(boss->getHP() <= 0){
+            boss->move(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
+        }
+    }
    if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
         rath->damage(boss->getCurrentGun()->getDamage());
         hud->changeLifePlayer(rath->getHP());
@@ -205,6 +219,7 @@ void Level::Update(Player* rath, HUD* hud){
             delete boss;
         }*/
    }
+   
 }
 
 void Level::Input(Player* rath, HUD* hud){

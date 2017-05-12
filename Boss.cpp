@@ -121,7 +121,7 @@ void Boss::AI(Player* rath, HUD* hud){
         }
         
     }else if(state == 1){ //Aggressive
-        if(onRange == true && distance >= 100){
+        if(onRange == true && distance >= 80){
             Entity::move(dir.x,dir.y);
             if(level == 1){
                 float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
