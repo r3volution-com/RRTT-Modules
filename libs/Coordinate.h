@@ -55,7 +55,7 @@ class Coordinate {
 };
 
 inline std::ostream& operator << (std::ostream &o,const Coordinate &p) {
-    o << "(" << p.x << ", " << p.y << ")\n";
+    o << "(" << p.x << ", " << p.y << ")";
     return o;
 }
 

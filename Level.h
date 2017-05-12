@@ -12,13 +12,15 @@
 
 class Level {
 public:
+    
+        NPC *npc;
 
     
     Level(int numLevel);
 
     void Init();
 
-    void Input();
+    void Input(Player* rath, HUD* hud);
 
     void Update(Player* rath, HUD* hud);
 
@@ -30,6 +32,8 @@ public:
     Coordinate* getRespawn(int num){ return respawn->at(num);}
     Map* getMap(){ return map; }
     void setRespawn(int resp);
+    void setMuestra(bool booleano) {muestra=booleano;};
+    bool getMuestra() {return muestra;};
     
 private:
 
@@ -37,10 +41,11 @@ private:
     
     //Player se carga en levelState 
     int level;
+    bool muestra=false;
     Map *map;
     Note *note;
     Boss *boss;
-    NPC *npc;
+
     Gun *gun;
     Crystals *crystal;
     std::vector<Coordinate*> *respawn;

@@ -28,6 +28,7 @@ class LevelState : public GameState {
         
         bool paused;
     public:
+        
         LevelState();
         
         /**

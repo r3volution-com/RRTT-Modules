@@ -71,6 +71,18 @@ class Gun {
          * Define si el arma esta activa o no
          */
         void setActive();
+         /**
+          * setea la animacion del arama a derecha
+          */
+        void derecha();
+          /**
+          * setea la animacion del arama a isquierda
+          */
+        void inversa();
+        /**
+         * setea la animacion del arma para cuando mira arriba
+         */ 
+        void atras();
         
         /**
          * Actualiza el dano del arma
