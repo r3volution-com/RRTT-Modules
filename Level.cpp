@@ -58,7 +58,8 @@ void Level::Init(){
         Game::Instance()->rM->loadTexture("Bloque", "resources/Bloque.jpg");
         Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
 
-        Enemy *enemy = new Enemy(Coordinate(140,1200), Coordinate(128, 128), 10);
+        //Enemigo izquierda
+        Enemy *enemy = new Enemy(Coordinate(3000,9000), Coordinate(128, 128), 10);
         enemy->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         enemy->getAnimation()->initAnimator();
@@ -72,6 +73,54 @@ void Level::Init(){
         enemy->setFreeze(7);
         
         enemys->push_back(enemy);
+        
+        //Enemigo abajo derecha
+        Enemy *enemy2 = new Enemy(Coordinate(4700,9350), Coordinate(128, 128), 10);
+        enemy2->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy2->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
+        enemy2->getAnimation()->initAnimator();
+        enemy2->getAnimation()->changeAnimation("idle", false);
+        enemy2->setMaxHP(100);
+        enemy2->setDistanceEnemyHome(1000);
+        enemy2->setDistancePlayerEnemy(500);
+        enemy2->setDmgHit(1);
+        enemy2->setHitCooldown(new Time(0.5));
+        enemy2->setType(3);
+        enemy2->setFreeze(7);
+        
+        enemys->push_back(enemy2);
+        
+        //Enemigo arriba centro
+        Enemy *enemy3 = new Enemy(Coordinate(3800,8550), Coordinate(128, 128), 10);
+        enemy3->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy3->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
+        enemy3->getAnimation()->initAnimator();
+        enemy3->getAnimation()->changeAnimation("idle", false);
+        enemy3->setMaxHP(100);
+        enemy3->setDistanceEnemyHome(1000);
+        enemy3->setDistancePlayerEnemy(500);
+        enemy3->setDmgHit(1);
+        enemy3->setHitCooldown(new Time(0.5));
+        enemy3->setType(3);
+        enemy3->setFreeze(7);
+        
+        enemys->push_back(enemy3);
+        
+        //Enemigo abajo a la izquierda
+        Enemy *enemy4 = new Enemy(Coordinate(3500,9550), Coordinate(128, 128), 10);
+        enemy4->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy4->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
+        enemy4->getAnimation()->initAnimator();
+        enemy4->getAnimation()->changeAnimation("idle", false);
+        enemy4->setMaxHP(100);
+        enemy4->setDistanceEnemyHome(1000);
+        enemy4->setDistancePlayerEnemy(500);
+        enemy4->setDmgHit(1);
+        enemy4->setHitCooldown(new Time(0.5));
+        enemy4->setType(3);
+        enemy4->setFreeze(7);
+        
+        enemys->push_back(enemy4);
         
         Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
         gunArm->setAnimation(Game::Instance()->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
@@ -209,8 +258,6 @@ void Level::Render(){
     boss->setPosition(inc2.x, inc2.y);
     
     Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
-    
-    //Game::Instance()->window->draw(*hud);
     
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
 }
