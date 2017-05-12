@@ -52,7 +52,7 @@ class Hitbox {
          * @param speed
          * @return 
          */
-        float resolveCollision(Hitbox *other, Coordinate speed);
+        Coordinate resolveCollision(Hitbox *other, Coordinate speed);
 };
 
 #endif /* HITBOX_H *///Game::Instance()->getLevelState()->getLevel()->getMap()
