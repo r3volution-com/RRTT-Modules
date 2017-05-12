@@ -31,7 +31,8 @@ Level::~Level(){
 void Level::Init(){
     Texture *tex = new Texture("resources/Paper-Sprite.png");
     Texture *tex2 = new Texture("resources/pergamino.png");
-    
+    Texture *tex3 = new Texture("resources/npc.png");
+     
     Font *font = new Font("resources/font.ttf");
     
     //Si estamos en el primer nivel
@@ -57,7 +58,8 @@ void Level::Init(){
         Game::Instance()->rM->loadTexture("Bloque", "resources/Bloque.jpg");
         Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
 
-        Enemy *enemy = new Enemy(Coordinate(140,1200), Coordinate(128, 128), 10);
+        //Enemigo izquierda
+        Enemy *enemy = new Enemy(Coordinate(3000,9000), Coordinate(128, 128), 10);
         enemy->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
         enemy->getAnimation()->initAnimator();
@@ -71,6 +73,54 @@ void Level::Init(){
         enemy->setFreeze(7);
         
         enemys->push_back(enemy);
+        
+        //Enemigo abajo derecha
+        Enemy *enemy2 = new Enemy(Coordinate(4700,9350), Coordinate(128, 128), 10);
+        enemy2->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy2->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
+        enemy2->getAnimation()->initAnimator();
+        enemy2->getAnimation()->changeAnimation("idle", false);
+        enemy2->setMaxHP(100);
+        enemy2->setDistanceEnemyHome(1000);
+        enemy2->setDistancePlayerEnemy(500);
+        enemy2->setDmgHit(1);
+        enemy2->setHitCooldown(new Time(0.5));
+        enemy2->setType(3);
+        enemy2->setFreeze(7);
+        
+        enemys->push_back(enemy2);
+        
+        //Enemigo arriba centro
+        Enemy *enemy3 = new Enemy(Coordinate(3800,8550), Coordinate(128, 128), 10);
+        enemy3->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy3->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
+        enemy3->getAnimation()->initAnimator();
+        enemy3->getAnimation()->changeAnimation("idle", false);
+        enemy3->setMaxHP(100);
+        enemy3->setDistanceEnemyHome(1000);
+        enemy3->setDistancePlayerEnemy(500);
+        enemy3->setDmgHit(1);
+        enemy3->setHitCooldown(new Time(0.5));
+        enemy3->setType(3);
+        enemy3->setFreeze(7);
+        
+        enemys->push_back(enemy3);
+        
+        //Enemigo abajo a la izquierda
+        Enemy *enemy4 = new Enemy(Coordinate(3500,9550), Coordinate(128, 128), 10);
+        enemy4->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy4->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
+        enemy4->getAnimation()->initAnimator();
+        enemy4->getAnimation()->changeAnimation("idle", false);
+        enemy4->setMaxHP(100);
+        enemy4->setDistanceEnemyHome(1000);
+        enemy4->setDistancePlayerEnemy(500);
+        enemy4->setDmgHit(1);
+        enemy4->setHitCooldown(new Time(0.5));
+        enemy4->setType(3);
+        enemy4->setFreeze(7);
+        
+        enemys->push_back(enemy4);
         
         Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
         gunArm->setAnimation(Game::Instance()->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
@@ -103,6 +153,20 @@ void Level::Init(){
         boss->addGun(gunArm);
         
         enemys->push_back(enemy);
+        
+        /* NPC */
+        npc = new NPC(Coordinate(2500,4000), Coordinate(128, 128), 2, "Jose");
+        npc->setSprite(tex3, Rect<float>(0,0,128,128));
+        npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
+        npc->getAnimation()->initAnimator();
+        npc->getAnimation()->changeAnimation("idle", false);
+        //aldeano->loadAnimation(tex, Coordinate(0, 128), 3, 0.1f);
+        npc->addSentence("probamos con esto\n\nPulsa E para continuar", new Coordinate(2300, 3800));
+        npc->addSentence("probamos por segunda vez\n\nPulsa E para continuar", new Coordinate(20, 520));
+        npc->addSentence("probamos por ultima vez\n\nPulsa E para continuar", new Coordinate(20, 520));
+        
+        //Anyadimos la accion de hablar cuando pulsemos la E
+        Game::Instance()->iM->addAction("hablar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
     }  
 }
 
@@ -131,8 +195,34 @@ void Level::Update(Player* rath, HUD* hud){
    }
 }
 
-void Level::Input(){
-    //Por ahora vacio
+void Level::Input(Player* rath, HUD* hud){
+
+    Texture *tex = new Texture("resources/textbox.png");
+    int salir = 0;
+    
+    if(Game::Instance()->iM->isActive("hablar")){
+        salir = npc->nextSentence();
+   
+        if(salir==1){
+            setMuestra(true);
+            cout << npc->getCurrentSentenceText() << endl;
+            //Creamos la caja que va a contener el texto
+            hud->setTextLayer(Coordinate(0,420), Rect <float> (0, 0, 1280, 300) ,tex);
+            //Posicionamos lo que va a decir el npc
+            hud->setTLayerText(npc->getCurrentSentenceText(), 25, 520);
+            //Le damos estilo a lo que va a decir el npc
+            hud->setTLayerTextParams(20, sf::Color::White, sf::Color::Blue);
+
+            //Posicionamos el nombre del npc
+            hud->setTLayerTalker(npc->getName(), 1125, 435);
+        }else{
+            setMuestra(false);
+        }
+
+        //Anyadir comprobacion de hitbox del personaje con el npc
+        //if(rath->collision(npc->getHitbox())){
+        //}
+    }
 }
 
 void Level::Render(){
@@ -166,6 +256,9 @@ void Level::Render(){
     boss->getAnimation()->updateAnimator();
     //Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     boss->setPosition(inc2.x, inc2.y);
+    
+    Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
+    
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
 }
 
