@@ -99,8 +99,11 @@ void Player::move(float xDir, float yDir){
             if(collision != -1){
                 float xSpeed = xDir*getSpeed();
                 float ySpeed = yDir*getSpeed();
+                Coordinate resolver = getHitbox()->resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
                 //std::cout << xSpeed << " " << ySpeed << "\n";
-                std::cout << getHitbox()->resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed)) << "\n";
+                /*if (resolver.x != 0) xDir = resolver.x;*/
+                if (resolver.y != 0) yDir = resolver.y;
+                std::cout << "\nAqui: "<< resolver << "\n";
             }
             Entity::move(xDir, yDir);
         }
