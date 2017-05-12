@@ -95,7 +95,7 @@ void LevelState::Init(){
     
     rath->addGun(gunArm);
     rath->changeGun(0);
-        rath->setPosition(Coordinate(4500, 10300));
+    rath->setPosition(Coordinate(4500, 10300));
     
     /*****LEVEL*****/
     level = new Level(1);
@@ -242,6 +242,7 @@ void LevelState::Input(){
 void LevelState::Render(){
     /*Update animators*/
     rath->getAnimation()->updateAnimator();
+    rath->getCurrentGun()->getAnimation()->updateAnimator();
     rath->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
     
     /*Interpolate*/
