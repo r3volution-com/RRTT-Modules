@@ -95,7 +95,7 @@ void LevelState::Init(){
     
     rath->addGun(gunArm);
     rath->changeGun(0);
-    rath->setPosition(Coordinate(4500, 10300));
+    rath->setPosition(Coordinate(2500, 5300));
     
     /*****LEVEL*****/
     level = new Level(1);
