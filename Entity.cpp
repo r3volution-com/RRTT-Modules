@@ -29,6 +29,10 @@ void Entity::move(float dirX, float dirY){
     coor->move(dirX*speed, dirY*speed);
 }
 
+void Entity::move(float dirX, float dirY, float sp){
+    coor->move(dirX*sp, dirY*sp);
+}
+
 void Entity::setPosition(Coordinate newCoor){
     anim->setPosition(newCoor);
     hitbox->setPosition(newCoor);

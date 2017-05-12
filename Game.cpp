@@ -20,7 +20,6 @@ Game::~Game(){
     delete level;
     delete menu;
     delete intro;
-    delete game;
     delete fpsTimer;
     delete screenSize;
     delete window;
@@ -34,7 +33,6 @@ Game::~Game(){
     level = NULL;
     menu = NULL;
     intro = NULL;
-    game = NULL;
     fpsTimer = NULL;
     screenSize = NULL;
     window = NULL;

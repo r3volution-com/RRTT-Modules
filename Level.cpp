@@ -2,7 +2,6 @@
 #include "Game.h"
 
 Level::Level(int numLevel) {
-    
     //Guardamos el nivel a cargar
     level = numLevel;
     enemys = new std::vector<Enemy*>();
@@ -30,7 +29,6 @@ Level::~Level(){
 }
 
 void Level::Init(){
-    
     Texture *tex = new Texture("resources/Paper-Sprite.png");
     Texture *tex2 = new Texture("resources/pergamino.png");
     
@@ -59,7 +57,6 @@ void Level::Init(){
         Game::Instance()->rM->loadTexture("Bloque", "resources/Bloque.jpg");
         Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
 
-        
         Enemy *enemy = new Enemy(Coordinate(140,1200), Coordinate(128, 128), 10);
         enemy->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
@@ -75,24 +72,22 @@ void Level::Init(){
         
         enemys->push_back(enemy);
         
-        
         Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
-    gunArm->setAnimation(Game::Instance()->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
-    gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
-    gunArm->getAnimation()->initAnimator();    
-    gunArm->getAnimation()->changeAnimation("armaIdle", false);
-    gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-    gunArm->setDamage(30);
-    
-    Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
-    bull->setAnimation(Game::Instance()->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
-    bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
-    bull->getAnimation()->setOrigin(Coordinate(184,98));
-    bull->getAnimation()->initAnimator();
-    bull->getAnimation()->changeAnimation("fireIdle", false);
-    
-    gunArm->setAttack(bull);
-        
+        gunArm->setAnimation(Game::Instance()->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
+        gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
+        gunArm->getAnimation()->initAnimator();    
+        gunArm->getAnimation()->changeAnimation("armaIdle", false);
+        gunArm->getAnimation()->setOrigin(Coordinate(56,34));
+        gunArm->setDamage(30);
+
+        Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
+        bull->setAnimation(Game::Instance()->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
+        bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
+        bull->getAnimation()->setOrigin(Coordinate(184,98));
+        bull->getAnimation()->initAnimator();
+        bull->getAnimation()->changeAnimation("fireIdle", false);
+
+        gunArm->setAttack(bull);
         
         boss = new Boss(Coordinate(140,500), Coordinate(128, 128), 10, 1);
         boss->setSprite(Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128));
@@ -123,7 +118,7 @@ void Level::Update(Player* rath, HUD* hud){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
             if(enemys->at(i)->getHP() <= 0){
-                enemys->at(i)->~Enemy(); //ToDo PabloL: Por que dan error los destructores??
+                delete enemys->at(i);
             }
         }
     }
@@ -131,19 +126,16 @@ void Level::Update(Player* rath, HUD* hud){
         boss->damage(rath->getCurrentGun()->getDamage());
         hud->changeLifeBoss(boss->getHP());
         if(boss->getHP() <= 0){
-            boss->~Boss();
+            delete boss;
         }
    }
 }
 
 void Level::Input(){
-    
     //Por ahora vacio
-    
 }
 
 void Level::Render(){
-    
     //Dibujamos todos los elementos
     map->dibujarMapa(Game::Instance()->window);
     
@@ -170,13 +162,11 @@ void Level::Render(){
         boss->attackDone();
     }
     
-    
     Coordinate inc2(boss->getState()->getIC());
     boss->getAnimation()->updateAnimator();
     //Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     boss->setPosition(inc2.x, inc2.y);
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
-    
 }
 
 void Level::setRespawn(int resp){

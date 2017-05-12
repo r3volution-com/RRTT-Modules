@@ -38,7 +38,7 @@ class Enemy : public Entity{
          * @param size: Tamano del enemigo
          * @param sp: Velocidad del enemigo
          */
-        Enemy(Coordinate position, Coordinate size, float sp); //ToDo: enemy
+        Enemy(Coordinate position, Coordinate size, float sp);
         virtual ~Enemy();
         
         

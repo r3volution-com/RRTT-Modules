@@ -38,7 +38,7 @@ void LevelState::Init(){
     
     /*****RESOURCES*****/
     game->rM->loadTexture("player", "resources/spritesRATH.png");
-    game->rM->loadTexture("fire", "resources/fuego.png"); //ToDo: otra spritesheet para ataques?
+    game->rM->loadTexture("fire", "resources/fuego.png");
     game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
@@ -128,11 +128,10 @@ void LevelState::Update(){
         
         rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 
-        if(level->getMap()->colision(rath->getHitbox()) != -1){
+        /*if(level->getMap()->colision(rath->getHitbox()) != -1){
             if(rath->getHitbox()->hitbox->left <= level->getMap()->getColHitbox()->hitbox->left){
                 colX=(rath->getHitbox()->hitbox->left +128 - level->getMap()->getColHitbox()->hitbox->left)*-1;
-            }
-            else{
+            } else {
                 colX=((level->getMap()->getColHitbox()->hitbox->left + level->getMap()->getColHitbox()->hitbox->width)
                         - rath->getHitbox()->hitbox->left);
             }
@@ -157,7 +156,7 @@ void LevelState::Update(){
             if(prueba=="y"){
                 rath->move(0, colY/rath->getSpeed());
             }
-        }
+        }*/
     }
 }
 

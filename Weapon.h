@@ -11,7 +11,7 @@
 class Weapon {
     private:
         Coordinate *coor;
-        Hitbox *hitbox; //ToDo: cambiar hitbox por otra cosa?
+        Hitbox *hitbox;
         Time *attackLength;
         Pie* pie;
         thor::PolarVector2<float> *vector;

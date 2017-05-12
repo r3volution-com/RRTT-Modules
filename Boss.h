@@ -26,7 +26,7 @@ class Boss : public Enemy{
          * @param size: tamano del boss
          * @param sp: Velocidad de animacion del jefe
          */
-        Boss(Coordinate position, Coordinate size, float sp, int lvl); //ToDo: boss
+        Boss(Coordinate position, Coordinate size, float sp, int lvl);
         virtual ~Boss();
         /**
          * Cambia el estado del jefe
