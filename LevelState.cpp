@@ -217,6 +217,9 @@ void LevelState::Input(){
             rath->gunAttack();
             rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
         }
+        
+        level->Input(rath, hud);
+        
     } else {
         /*Pause menu*/
         pause->checkHover(Game::Instance()->mouse);
@@ -274,6 +277,12 @@ void LevelState::Render(){
     
     /*HUD*/
     hud->drawHUD(level->getBoss()->getOnRange());
+    
+    /*Texto NPC */
+    if(level->getMuestra()==true){
+        hud->drawTextLayer();
+    }
+    
     
     /*Pause*/
     if (paused) pause->drawMenu();

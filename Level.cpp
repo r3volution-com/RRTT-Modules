@@ -31,7 +31,8 @@ Level::~Level(){
 void Level::Init(){
     Texture *tex = new Texture("resources/Paper-Sprite.png");
     Texture *tex2 = new Texture("resources/pergamino.png");
-    
+    Texture *tex3 = new Texture("resources/npc.png");
+     
     Font *font = new Font("resources/font.ttf");
     
     //Si estamos en el primer nivel
@@ -103,6 +104,20 @@ void Level::Init(){
         boss->addGun(gunArm);
         
         enemys->push_back(enemy);
+        
+        /* NPC */
+        npc = new NPC(Coordinate(2500,4000), Coordinate(128, 128), 2, "Jose");
+        npc->setSprite(tex3, Rect<float>(0,0,128,128));
+        npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
+        npc->getAnimation()->initAnimator();
+        npc->getAnimation()->changeAnimation("idle", false);
+        //aldeano->loadAnimation(tex, Coordinate(0, 128), 3, 0.1f);
+        npc->addSentence("probamos con esto\n\nPulsa E para continuar", new Coordinate(2300, 3800));
+        npc->addSentence("probamos por segunda vez\n\nPulsa E para continuar", new Coordinate(20, 520));
+        npc->addSentence("probamos por ultima vez\n\nPulsa E para continuar", new Coordinate(20, 520));
+        
+        //Anyadimos la accion de hablar cuando pulsemos la E
+        Game::Instance()->iM->addAction("hablar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
     }  
 }
 
@@ -131,8 +146,34 @@ void Level::Update(Player* rath, HUD* hud){
    }
 }
 
-void Level::Input(){
-    //Por ahora vacio
+void Level::Input(Player* rath, HUD* hud){
+
+    Texture *tex = new Texture("resources/textbox.png");
+    int salir = 0;
+    
+    if(Game::Instance()->iM->isActive("hablar")){
+        salir = npc->nextSentence();
+   
+        if(salir==1){
+            setMuestra(true);
+            cout << npc->getCurrentSentenceText() << endl;
+            //Creamos la caja que va a contener el texto
+            hud->setTextLayer(Coordinate(0,420), Rect <float> (0, 0, 1280, 300) ,tex);
+            //Posicionamos lo que va a decir el npc
+            hud->setTLayerText(npc->getCurrentSentenceText(), 25, 520);
+            //Le damos estilo a lo que va a decir el npc
+            hud->setTLayerTextParams(20, sf::Color::White, sf::Color::Blue);
+
+            //Posicionamos el nombre del npc
+            hud->setTLayerTalker(npc->getName(), 1125, 435);
+        }else{
+            setMuestra(false);
+        }
+
+        //Anyadir comprobacion de hitbox del personaje con el npc
+        //if(rath->collision(npc->getHitbox())){
+        //}
+    }
 }
 
 void Level::Render(){
@@ -166,6 +207,11 @@ void Level::Render(){
     boss->getAnimation()->updateAnimator();
     //Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     boss->setPosition(inc2.x, inc2.y);
+    
+    Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
+    
+    //Game::Instance()->window->draw(*hud);
+    
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
 }
 
