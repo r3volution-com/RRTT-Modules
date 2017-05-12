@@ -1,4 +1,5 @@
 #include "Hitbox.h"
+#include "Animation.h"
 
 Hitbox::Hitbox(float x, float y, int w, int h) {
     hitbox = new sf::Rect<float>(x, y, w, h);
@@ -41,76 +42,36 @@ Coordinate Hitbox::resolveCollision(Hitbox *other, Coordinate speed){
     float bmaxx = other->hitbox->left+other->hitbox->width;
     float bmaxy = other->hitbox->top+other->hitbox->height;
     
-    std::cout << "Metrics: aix" << aminx << " aiy" << aminy << " aax" << amaxx << " aay" << amaxy << " bix" << bminx << " biy" << bminy << " bax" << bmaxx << " bay" << bmaxy << "\n";
-
-    // Return early if a & b are already overlapping
-    //if(this->checkCollision(other)) return outVel;
-
-    // Treat b as stationary, so invert v to get relative velocity
-    speed.x = speed.x*-1;
-    speed.y = speed.y*-1;
+    float correctX = 0.0f;
+    float correctY = 0.0f;
     
-    std::cout << "Speed " << speed << " " << outVel<<"\n";
-
-    float hitTime = 0.0f;
-    float outTime = 1.0f;
-    Coordinate overlapTime(0,0);
-
-    // X axis overlap
-    if(speed.x < 0) {
-        if(bmaxx < aminx) return outVel;
-        if(bmaxx > aminx) outTime = std::min((aminx - bmaxx) / speed.x, outTime);
-
-        if(amaxx < bminx) {
-            overlapTime.x = (amaxx - bminx) / speed.x;
-            hitTime = std::max(overlapTime.x, hitTime);
-        }
+    if (speed.x < 0){
+        correctX = aminx - bmaxx;
+        std::cout << "x menor: " << aminx << "-" << bmaxx << "=" << correctX << "\n";
+        if (correctX < speed.x || correctX > 0 ) return outVel;
+    } else if (speed.x > 0) { 
+        correctX = bminx - amaxx;
+        std::cout << "x mayor: " << bminx << "-" << amaxx << "=" << correctX << "\n";
+        if (correctX > speed.x || correctX < 0) return outVel;
     }
-    else if(speed.x > 0) {
-        if(bminx > amaxx) return outVel;
-        if(amaxx > bminx) outTime = std::min((amaxx - bminx) / speed.x, outTime);
-
-        if(bmaxx < aminx) {
-            overlapTime.x = (aminx - bmaxx) / speed.x;
-            hitTime = std::max(overlapTime.x, hitTime);
-        }
+    
+    if (speed.y < 0){
+        correctY = aminy - bmaxy;
+        std::cout << "y menor: " << aminy << "-" << bmaxy << "=" << correctY << "\n";
+        if (correctY < speed.y || correctY > 0) return outVel;
+        else correctY = speed.y - correctY;
+    } else if (speed.y > 0){
+        correctY = amaxy - bminy;
+        std::cout << "y mayor: " << amaxy << "-" << bminy << "=" << correctY << "\n";
+        if (correctY > speed.y || correctY < 0) return outVel;
+        else correctY = speed.y - correctY;
     }
-
-    if(hitTime > outTime) return outVel;
-
-    //=================================
-
-    // Y axis overlap
-    if(speed.y < 0) {
-        if(bmaxy < aminy) return outVel;
-        if(bmaxy > aminy) outTime = std::min((aminy - bmaxy) / speed.y, outTime);
-
-        if(amaxy < bminy) {
-            overlapTime.y = (amaxy - bminy) / speed.y;
-            hitTime = std::max(overlapTime.y, hitTime);
-        }           
-    } else if(speed.y > 0) {
-        if(bminy > amaxy) return outVel;
-        if(amaxy > bminy) outTime = std::min((amaxy - bminy) / speed.y, outTime);
-
-        if(bmaxy < aminy) {
-            overlapTime.y = (aminy - bmaxy) / speed.y;
-            hitTime = std::max(overlapTime.y, hitTime);
-        }
-    }
-
-    if(hitTime > outTime) return outVel;
-
-    // Scale resulting velocity by normalized hit time
-    outVel.x = speed.x * -1 * hitTime;
-    outVel.y = speed.y * -1 * hitTime;
-
-    // Hit normal is along axis with the highest overlap time
-    /*if(overlapTime.x > overlapTime.y) {
-        hitNormal = new Vector2(Mathf.Sign(speed.x), 0);
-    } else {
-        hitNormal = new Vector2(0, Mathf.Sign(speed.y));
-    }*/
-
+    
+    std::cout << correctX << " " << speed.x << " " << correctY << " " << speed.y << "\n";
+    
+    if (speed.x != 0) outVel.x = correctX / speed.x;
+    if (speed.y != 0) outVel.y = correctY / speed.y;
+    std::cout << "\n" << speed.y << " " << outVel << "\n";
+    
     return outVel;
 }
