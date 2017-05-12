@@ -14,8 +14,8 @@ Gun::Gun(Coordinate position, Coordinate size, float cd) {
 void Gun::setAnimation(Texture *tex, Rect<float> animRect){
     gunAnimation = new Animation(tex, animRect);
     gunAnimation->addAnimation("idle", Coordinate(animRect.x, animRect.y), 1, 1.0f);
-    gunAnimation->addAnimation("inversa", Coordinate(animRect.x, animRect.y), 1, 1.0f);
-    gunAnimation->addAnimation("attack", Coordinate(animRect.x, animRect.y+animRect.h), 2, 1.0f);
+    gunAnimation->addAnimation("inversa", Coordinate(animRect.x+128, animRect.y), 1, 1.0f);
+    gunAnimation->addAnimation("atras", Coordinate(animRect.x+256, animRect.y), 1, 1.0f);    
     gunAnimation->setPosition(*coor);
 }
 
@@ -38,7 +38,7 @@ void Gun::setAttack(Bullet *atk){
 
 void Gun::doAttack(){
     if(bulletLoaded && !gunCooldown->isRunning()){
-        gunAnimation->changeAnimation("attack", true);
+        //gunAnimation->changeAnimation("attack", true);
         
         gunCooldown->restart(maxCooldown);
         bulletLifetime->restart(attack->getDuration());
@@ -69,10 +69,18 @@ void Gun::setActive() {
     if (active) active = false;
     else active = true;
 }
+
 void Gun::derecha(){
-    gunAnimation->changeAnimation("idle", false);
+    gunAnimation->changeAnimation("idle", true);
+    gunAnimation->setOrigin(Coordinate(56,38));
 }
 
 void Gun::inversa(){
-    gunAnimation->changeAnimation("inversa", false);
+    gunAnimation->changeAnimation("inversa", true);
+    gunAnimation->setOrigin(Coordinate(76,38));
+}
+
+void Gun::atras(){
+    gunAnimation->changeAnimation("atras", true);
+    gunAnimation->setOrigin(Coordinate(56,38));
 }

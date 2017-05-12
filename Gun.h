@@ -79,6 +79,10 @@ class Gun {
           * setea la animacion del arama a isquierda
           */
         void inversa();
+        /**
+         * setea la animacion del arma para cuando mira arriba
+         */ 
+        void atras();
         
         /**
          * Actualiza el dano del arma

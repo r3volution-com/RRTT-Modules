@@ -54,36 +54,43 @@ void Player::move(float xDir, float yDir){
         } else if (xDir == 0 && yDir == 1) { //Abajo
             if (state != 'd') {
                 Entity::getAnimation()->changeAnimation("correrAbajo", false);
+                guns->at(currentGun)->inversa();
             }
             state = 'd';
         } else if (xDir == 0 && yDir == -1) { //Arriba
             if (state!='u') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
+                guns->at(currentGun)->atras();                
             }
             state='u';
         } else if (xDir == 1 && yDir == -1){ //Arriba derecha
             if (state!='u') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
+                guns->at(currentGun)->atras();                
             }
             state='u';
         } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
             if (state != 'l') {
                 Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+                guns->at(currentGun)->inversa();
             }
             state = 'l';
         } else if (xDir == 1 && yDir == 1){ //Derecha abajo
             if (state != 'r') {
                 Entity::getAnimation()->changeAnimation("correrDerecha", false);
+                guns->at(currentGun)->derecha();
             }
             state = 'r';
         } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
             if (state != 'u') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
+                guns->at(currentGun)->atras();
             }
             state='u';
         } else {
             if (state != 'i'){
                 Entity::getAnimation()->changeAnimation("idle", false);
+                guns->at(currentGun)->derecha();
                 state='i';
             }
         }
