@@ -121,8 +121,8 @@ void Boss::AI(Player* rath, HUD* hud){
         }
         
     }else if(state == 1){ //Aggressive
-        if(onRange == true){
-            //Entity::move(dir.x,dir.y);
+        if(onRange == true && distance >= 100){
+            Entity::move(dir.x,dir.y);
             if(level == 1){
                 float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
                 aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
@@ -130,7 +130,7 @@ void Boss::AI(Player* rath, HUD* hud){
                 if(distance < aux*5){
                     if(!Boss::isAttacking() && Boss::getCurrentGun()->getGunCooldown()->isExpired()){
                         Boss::gunAttack();
-                        //Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
+                        Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
                     }
                 }
                 if(Enemy::getHP() < Enemy::getMaxHP()/2 && Enemy::getHP() > Enemy::getMaxHP()/4 && !defensive->isExpired()){
@@ -145,7 +145,7 @@ void Boss::AI(Player* rath, HUD* hud){
         }else{
             state = 0;
         }
-    }/*else if(onRange == true && state == 2){ //Defensive
+    }else if(onRange == true && state == 2){ //Defensive
         Entity::move(dir.x,dir.y);
         defensive->start();
         if(distance >= 100 && !defensive->isExpired()){
@@ -173,7 +173,7 @@ void Boss::AI(Player* rath, HUD* hud){
         }else{
             state = 0;
         }
-    }*/
+    }
     if(Boss::getHitbox()->checkCollision(rath->getHitbox()) && Boss::getCooldownHit()->isExpired()){
         rath->damage(Boss::getDmg());
         hud->changeLifePlayer(rath->getHP());

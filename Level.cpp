@@ -155,6 +155,8 @@ void Level::Init(){
         
         boss->addGun(gunArm);
         
+        boss->getState()->update();
+        
         enemys->push_back(enemy);
         
         /* NPC */
@@ -193,12 +195,10 @@ void Level::Update(Player* rath, HUD* hud){
         boss->damage(rath->getCurrentGun()->getDamage());
         hud->changeLifeBoss(boss->getHP());
         if(boss->getHP() <= 0){
-            delete boss;
+            boss->move(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
         }
    }
    if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
-       std::cout<<boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->left<<"\n";
-       std::cout<<"Rath: "<<rath->getHitbox()->hitbox->left<<"\n";
         rath->damage(boss->getCurrentGun()->getDamage());
         hud->changeLifePlayer(rath->getHP());
         /*if(rath->getHP() <= 0){
