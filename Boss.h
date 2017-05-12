@@ -3,21 +3,27 @@
 
 #include "Enemy.h"
 #include "Gun.h"
+#include "libs/Coordinate.h"
 
 
 class Boss : public Enemy{
     private:
         std::vector<Gun*> *guns;
         
+        Coordinate* dirFlash;
+        
         int state;
         
         Time *defensive;
+        Time *delay;
         
+        bool onDelay;
         bool attacking;
         bool onRange;
         
         int level;
         
+        float initialSpeed;
         int currentGun;
     public:
         /**
@@ -60,6 +66,7 @@ class Boss : public Enemy{
         void setPosition(float x, float y);
         bool isAttacking() { return attacking; }
         bool getOnRange(){return onRange;}
+        void setDefensive(Time *def){defensive = def;}
 
 };
 

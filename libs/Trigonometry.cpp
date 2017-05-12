@@ -106,35 +106,35 @@ std::vector<float> Trigonometry::distance(std::vector<Coordinate*> *initial, Coo
     return dis;
 }
 
-Coordinate* Trigonometry::direction(Coordinate* initial, Coordinate* end){
+Coordinate Trigonometry::direction(Coordinate* initial, Coordinate* end){
     
     int x = initial->x - end->x;
     int y = initial->y - end->y;
     
     if(x == 0){
         if(y == 0){
-            return new Coordinate(0, 0);
+            return  Coordinate(0, 0);
         }else if(y < 0){
-            return new Coordinate(0, -1);
+            return  Coordinate(0, -1);
         }else if(y > 0){
-            return new Coordinate(0, 1);
+            return  Coordinate(0, 1);
         }
     }else if(x < 0){
         if(y == 0){
-            return new Coordinate(-1, 0);
+            return  Coordinate(-1, 0);
         }else if(y < 0){
-            return new Coordinate(-1, -1);
+            return  Coordinate(-1, -1);
         }else if(y > 0){
-            return new Coordinate(-1, 1);
+            return  Coordinate(-1, 1);
         }
     }else if(x > 0){
         if(y == 0){
-            return new Coordinate(1, 0);
+            return  Coordinate(1, 0);
         }else if(y < 0){
-            return new Coordinate(1, -1);
+            return  Coordinate(1, -1);
         }else if(y > 0){
-            return new Coordinate(1, +1);
+            return  Coordinate(1, +1);
         }
     }
-    return new Coordinate(0,0);
+    return Coordinate(0,0);
 }

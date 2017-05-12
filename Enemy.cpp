@@ -35,7 +35,7 @@ void Enemy::die(){
 
 void Enemy::damage(int dm){
     if (hp-dm <= 0){
-        hp -= dm;
+        hp = 0;
         //die();
     }
     else hp -= dm;
@@ -57,8 +57,8 @@ void Enemy::AI(Player* rath, HUD* hud){
     //float angle = tri->angle(rath->getCoordinate(), Entity::getCoordinate());
     float distance = tri->distance(rath->getCoordinate(), Entity::getCoordinate());
     float distanceIni = tri->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
-    Coordinate *dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());
-    Coordinate *ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
+    Coordinate dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());
+    Coordinate ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
     if(freeze == true && (cd->isExpired() && hits == 1)){
         rath->setSpeed(rath->getSpeed()+slowDown);
         hits = 0;
@@ -68,7 +68,7 @@ void Enemy::AI(Player* rath, HUD* hud){
         if(distanceIni <= disEnemyHome && home == true){
             int num;
                 
-            Entity::move(dir->x, dir->y);
+            Entity::move(dir.x, dir.y);
             if(type == 2){
                 if(flashCooldown->isExpired()){
                     srand (time(NULL));
@@ -77,18 +77,18 @@ void Enemy::AI(Player* rath, HUD* hud){
                     num = 0;
                 }
                 if(num == 2){
-                    if(((Entity::getCoordinate()->x+dir->x*flashRange) < rath->getCoordinate()->x) 
-                        || ((Entity::getCoordinate()->x+dir->x*flashRange) > rath->getCoordinate()->x) 
-                        || ((Entity::getCoordinate()->x+dir->x*flashRange) == rath->getCoordinate()->x)){
-                        if(((Entity::getCoordinate()->y+dir->y*flashRange) < rath->getCoordinate()->y-128) 
-                            || ((Entity::getCoordinate()->y+dir->y*flashRange) > rath->getCoordinate()->y+128)){
-                            flash(dir->x, dir->y); 
+                    if(((Entity::getCoordinate()->x+dir.x*flashRange) < rath->getCoordinate()->x) 
+                        || ((Entity::getCoordinate()->x+dir.x*flashRange) > rath->getCoordinate()->x) 
+                        || ((Entity::getCoordinate()->x+dir.x*flashRange) == rath->getCoordinate()->x)){
+                        if(((Entity::getCoordinate()->y+dir.y*flashRange) < rath->getCoordinate()->y-128) 
+                            || ((Entity::getCoordinate()->y+dir.y*flashRange) > rath->getCoordinate()->y+128)){
+                            flash(dir.x, dir.y); 
                         } 
-                    }else if(((Entity::getCoordinate()->y+dir->y*flashRange) < rath->getCoordinate()->y) 
-                        || ((Entity::getCoordinate()->y+dir->y*flashRange) > rath->getCoordinate()->y) 
-                        || ((Entity::getCoordinate()->y+dir->y*flashRange) == rath->getCoordinate()->y)){
-                        if(((Entity::getCoordinate()->x+dir->x*flashRange) < rath->getCoordinate()->x-128) || ((Entity::getCoordinate()->x+dir->x*flashRange) > rath->getCoordinate()->x+128)){
-                            flash(dir->x, dir->y); 
+                    }else if(((Entity::getCoordinate()->y+dir.y*flashRange) < rath->getCoordinate()->y) 
+                        || ((Entity::getCoordinate()->y+dir.y*flashRange) > rath->getCoordinate()->y) 
+                        || ((Entity::getCoordinate()->y+dir.y*flashRange) == rath->getCoordinate()->y)){
+                        if(((Entity::getCoordinate()->x+dir.x*flashRange) < rath->getCoordinate()->x-128) || ((Entity::getCoordinate()->x+dir.x*flashRange) > rath->getCoordinate()->x+128)){
+                            flash(dir.x, dir.y); 
                         } 
                     }
                 }
@@ -118,7 +118,7 @@ void Enemy::AI(Player* rath, HUD* hud){
             if(distanceIni >= disEnemyHome || home == false){
             home = false;
                 if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                    Entity::move(ini->x, ini->y);
+                    Entity::move(ini.x, ini.y);
                 }else{
                     home = true;//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
                 }
@@ -127,19 +127,19 @@ void Enemy::AI(Player* rath, HUD* hud){
     }else if(distanceIni >= disEnemyHome || (home == false && distance > 128)){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                Entity::move(ini->x, ini->y);
+                Entity::move(ini.x, ini.y);
             }else{
                 home = true;//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
             }
     }else if(distance > 128){
         if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-            Entity::move(ini->x, ini->y);
+            Entity::move(ini.x, ini.y);
         }else{
             home = true;
         }
     }else if(distance < 100){
         if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-            Entity::move(ini->x, ini->y);
+            Entity::move(ini.x, ini.y);
         }else{
             home = true;
         }
