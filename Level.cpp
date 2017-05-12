@@ -42,7 +42,7 @@ void Level::Init(){
         
         //Cargamos las notas
         note = new Note(tex, Rect<float>(0, 0, 64, 60), tex2, Rect<float>(0, 0, 608, 488), font);
-        note->setPosition(Coordinate(150, 3550));
+        note->setPosition(Coordinate(5700, 13600));
         note->setBackgroundPosition(Coordinate(100, 100));
         note->setText("Hola mundo!", sf::Color::Black, sf::Color::White, 1, 25);
     
