@@ -53,6 +53,13 @@ class Hitbox {
          * @return 
          */
         Coordinate resolveCollision(Hitbox *other, Coordinate speed);
+        
+        friend std::ostream& operator << (std::ostream &o,const Hitbox &p);
 };
+
+inline std::ostream& operator << (std::ostream &o,const Hitbox &p) {
+    o << "(" << p.hitbox->left << ", " << p.hitbox->top << ", " << p.hitbox->width << ", " << p.hitbox->height << ")";
+    return o;
+}
 
 #endif /* HITBOX_H *///Game::Instance()->getLevelState()->getLevel()->getMap()

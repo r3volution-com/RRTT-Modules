@@ -30,7 +30,7 @@ bool Hitbox::checkCollision(Hitbox *other){
 
 Coordinate Hitbox::resolveCollision(Hitbox *other, Coordinate speed){
     //Initialise out info
-    Coordinate outVel = speed;
+    Coordinate outVel(0.0f, 0.0f);
     
     float aminx = hitbox->left;
     float aminy = hitbox->top;
@@ -46,32 +46,31 @@ Coordinate Hitbox::resolveCollision(Hitbox *other, Coordinate speed){
     float correctY = 0.0f;
     
     if (speed.x < 0){
+        if (aminx < bminx) return outVel;
         correctX = aminx - bmaxx;
-        std::cout << "x menor: " << aminx << "-" << bmaxx << "=" << correctX << "\n";
         if (correctX < speed.x || correctX > 0 ) return outVel;
+        else correctX = speed.x - correctX;
     } else if (speed.x > 0) { 
-        correctX = bminx - amaxx;
-        std::cout << "x mayor: " << bminx << "-" << amaxx << "=" << correctX << "\n";
+        if (amaxx > bmaxx) return outVel;
+        correctX = bmaxx - aminx;
         if (correctX > speed.x || correctX < 0) return outVel;
+        else correctX = speed.x - correctX;
     }
     
     if (speed.y < 0){
+        if (aminy < bminy) return outVel;
         correctY = aminy - bmaxy;
-        std::cout << "y menor: " << aminy << "-" << bmaxy << "=" << correctY << "\n";
         if (correctY < speed.y || correctY > 0) return outVel;
         else correctY = speed.y - correctY;
     } else if (speed.y > 0){
+        if (amaxy > bmaxy) return outVel;
         correctY = amaxy - bminy;
-        std::cout << "y mayor: " << amaxy << "-" << bminy << "=" << correctY << "\n";
         if (correctY > speed.y || correctY < 0) return outVel;
         else correctY = speed.y - correctY;
     }
-    
-    std::cout << correctX << " " << speed.x << " " << correctY << " " << speed.y << "\n";
-    
+        
     if (speed.x != 0) outVel.x = correctX / speed.x;
     if (speed.y != 0) outVel.y = correctY / speed.y;
-    std::cout << "\n" << speed.y << " " << outVel << "\n";
     
     return outVel;
 }

@@ -95,15 +95,14 @@ void Player::move(float xDir, float yDir){
             }
         }
         if (xDir != 0 || yDir != 0) {
-            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(getHitbox());
+            float xSpeed = xDir*getSpeed();
+            float ySpeed = yDir*getSpeed();
+            Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
+            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
             if(collision != -1){
-                float xSpeed = xDir*getSpeed();
-                float ySpeed = yDir*getSpeed();
-                Coordinate resolver = getHitbox()->resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
-                //std::cout << xSpeed << " " << ySpeed << "\n";
-                /*if (resolver.x != 0) xDir = resolver.x;*/
-                if (resolver.y != 0) yDir = resolver.y;
-                std::cout << "\nAqui: "<< resolver << "\n";
+                Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
+                xDir = resolver.x;
+                yDir = resolver.y;
             }
             Entity::move(xDir, yDir);
         }
@@ -143,6 +142,7 @@ void Player::weaponShortAttack(int angle){
         }
         Entity::getAnimation()->queueAnimation("idle", false);
         weapon->shortAttack(direction);
+        state='a';
     }
 }
 
@@ -187,6 +187,7 @@ void Player::weaponReleaseAttack(){
             if (load >= 4) Entity::getAnimation()->queueAnimation("ataqueDerecha", true);
         }
         Entity::getAnimation()->queueAnimation("idle", false);
+        state='a';
     }
 }
 
