@@ -29,10 +29,12 @@ public:
     Coordinate* getRespawn(int num){ return respawn->at(num);}
     Map* getMap(){ return map; }
     Note* getNote() {return note;}
+    NPC* getNPC() {return npc;}
     void setRespawn(int resp);
     void setMuestra(bool booleano) {muestra=booleano;};
     bool getMuestra() {return muestra;};
     bool getShowText() {return showText;}
+    bool getMoverse(){return moverse;}
     
 private:
 
@@ -42,6 +44,8 @@ private:
     int level;
     bool muestra = false;
     bool showText = false;
+    //Comprobar si el npc se tiene que mover
+    bool moverse = false;
     Map *map;
     Note *note;
     Boss *boss;

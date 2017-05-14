@@ -135,6 +135,12 @@ void LevelState::Update(){
         rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 
         level->Update(rath, hud);
+    }else if(paused==true && level->getMoverse()==true){
+        if(level->getNPC()->getCoordinate()->x < 7000){
+            level->getNPC()->move(20,0);
+        }else{
+            paused = false;
+        }
     }
 }
 
