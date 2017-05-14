@@ -68,7 +68,7 @@ void LevelState::Init(){
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
+    rath = new Player(Coordinate(5500,14250), Coordinate(128, 192), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(150);
     rath->setFlashCooldown(2);
