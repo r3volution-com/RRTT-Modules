@@ -29,7 +29,7 @@ Level::~Level(){
 }
 
 void Level::Init(){
-    Texture *tex = new Texture("resources/Paper-Sprite.png");
+    Texture *tex = new Texture("resources/note.png");
     Texture *tex2 = new Texture("resources/pergamino.png");
     Texture *tex3 = new Texture("resources/npc.png");
      
@@ -41,10 +41,11 @@ void Level::Init(){
         map = new Map("resources/bosque_definitivo6.tmx");
         
         //Cargamos las notas
-        note = new Note(tex, Rect<float>(0, 0, 64, 60), tex2, Rect<float>(0, 0, 608, 488), font);
+        note = new Note(tex, Rect<float>(0, 0, 128, 128), tex2, Rect<float>(0, 0, 608, 488), font);
         note->setPosition(Coordinate(5700, 13600));
-        note->setBackgroundPosition(Coordinate(100, 100));
-        note->setText("Hola mundo!", sf::Color::Black, sf::Color::White, 1, 25);
+        note->setBackgroundPosition(Coordinate(350, 125));
+        note->setText("Bienvenido a tu \nnueva aventura Rath\n\nPD: Saluda, que estas\n "
+        "saliendo en multimedia!", sf::Color::Black, sf::Color::White, 1, 25);
     
         //Cargamos los cristales
         Game::Instance()->rM->loadTexture("crystal", "resources/Crystal.png");
@@ -122,6 +123,22 @@ void Level::Init(){
         
         enemys->push_back(enemy4);
         
+        //Primer enemigo camino
+        Enemy *enemy5 = new Enemy(Coordinate(4100,10000), Coordinate(128, 128), 10);
+        enemy5->setSprite(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy5->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
+        enemy5->getAnimation()->initAnimator();
+        enemy5->getAnimation()->changeAnimation("idle", false);
+        enemy5->setMaxHP(100);
+        enemy5->setDistanceEnemyHome(1000);
+        enemy5->setDistancePlayerEnemy(500);
+        enemy5->setDmgHit(1);
+        enemy5->setHitCooldown(new Time(0.5));
+        enemy5->setType(3);
+        enemy5->setFreeze(7);
+        
+        enemys->push_back(enemy5);
+        
         Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 3);
         gunArm->setAnimation(Game::Instance()->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
         gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
@@ -160,18 +177,18 @@ void Level::Init(){
         enemys->push_back(enemy);
         
         /* NPC */
-        npc = new NPC(Coordinate(2500,4000), Coordinate(128, 128), 2, "Jose");
+        npc = new NPC(Coordinate(5000,11200), Coordinate(128, 128), 2, "Jose");
         npc->setSprite(tex3, Rect<float>(0,0,128,128));
         npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         npc->getAnimation()->initAnimator();
         npc->getAnimation()->changeAnimation("idle", false);
         //aldeano->loadAnimation(tex, Coordinate(0, 128), 3, 0.1f);
-        npc->addSentence("probamos con esto\n\nPulsa E para continuar", new Coordinate(2300, 3800));
-        npc->addSentence("probamos por segunda vez\n\nPulsa E para continuar", new Coordinate(20, 520));
-        npc->addSentence("probamos por ultima vez\n\nPulsa E para continuar", new Coordinate(20, 520));
+        npc->addSentence("El bosque esta en llamas!!\n\nPulsa E para continuar", new Coordinate(2300, 3800));
+        npc->addSentence("Sera mejor que huyas muchacho no te aguarda nada bueno ahi.\n\nPulsa E para continuar", new Coordinate(20, 520));
+        npc->addSentence("Un momento, creo que tu cara me suena...\n\nPulsa E para continuar", new Coordinate(20, 520));
         
         //Anyadimos la accion de hablar cuando pulsemos la E
-        Game::Instance()->iM->addAction("hablar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
+        Game::Instance()->iM->addAction("interactuar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
     }  
 }
 
@@ -227,7 +244,8 @@ void Level::Input(Player* rath, HUD* hud){
     Texture *tex = new Texture("resources/textbox.png");
     int salir = 0;
     
-    if(Game::Instance()->iM->isActive("hablar")){
+    //NPC
+    if(Game::Instance()->iM->isActive("interactuar") && rath->collision(npc->getHitbox())){
         salir = npc->nextSentence();
    
         if(salir==1){
@@ -238,18 +256,27 @@ void Level::Input(Player* rath, HUD* hud){
             //Posicionamos lo que va a decir el npc
             hud->setTLayerText(npc->getCurrentSentenceText(), 25, 520);
             //Le damos estilo a lo que va a decir el npc
-            hud->setTLayerTextParams(20, sf::Color::White, sf::Color::Blue);
+            hud->setTLayerTextParams(20, sf::Color::White, sf::Color::Red);
 
             //Posicionamos el nombre del npc
             hud->setTLayerTalker(npc->getName(), 1125, 435);
         }else{
             setMuestra(false);
+        }  
+    }
+        //NOTA
+        if(Game::Instance()->iM->isActive("interactuar") && rath->collision(note->getHitbox()) && showText==false){
+            cout << "Dentro" << endl;
+            showText = true;
+            note->setTaken();
+        }else if(Game::Instance()->iM->isActive("interactuar") && rath->collision(note->getHitbox()) && showText==true){
+            showText = false;
         }
-
+        
+        
         //Anyadir comprobacion de hitbox del personaje con el npc
         //if(rath->collision(npc->getHitbox())){
         //}
-    }
 }
 
 void Level::Render(){
@@ -259,7 +286,7 @@ void Level::Render(){
     if(!note->getTaken()){
        Game::Instance()->window->draw(*note->getNoteSprite()->getSprite());
     }
-    
+      
     if(!crystal->getTouched()){
        Game::Instance()->window->draw(*crystal->getCrystalSprite()->getSprite());
     }
