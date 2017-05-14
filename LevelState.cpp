@@ -38,7 +38,6 @@ void LevelState::Init(){
     
     /*****RESOURCES*****/
     game->rM->loadTexture("player", "resources/spritesRATH.png");
-    game->rM->loadTexture("fire", "resources/fuego.png");
     game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
@@ -89,8 +88,8 @@ void LevelState::Init(){
     gunArm->setDamage(1);
     
     Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
-    bull->setAnimation(game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
-    bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
+    bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
+    bull->getAnimation()->addAnimation("fireIdle", Coordinate(128, 896), 2, 0.5f);
     bull->getAnimation()->setOrigin(Coordinate(184,98));
     bull->getAnimation()->initAnimator();
     bull->getAnimation()->changeAnimation("fireIdle", false);
