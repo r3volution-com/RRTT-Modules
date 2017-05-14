@@ -25,7 +25,7 @@ void Player::setAnimations(Texture *t, Rect<float> newRect){
     Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
     Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
-    Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 384), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 512), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
     Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 1, 0.25f);
     Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.25f);
@@ -59,7 +59,7 @@ void Player::move(float xDir, float yDir){
         } else if (xDir == 0 && yDir == 1) { //Abajo
             if (state != 'd') {
                 Entity::getAnimation()->changeAnimation("correrAbajo", false);
-                guns->at(currentGun)->inversa();
+                guns->at(currentGun)->derecha();
             }
             state = 'd';
         } else if (xDir == 0 && yDir == -1) { //Arriba
