@@ -68,11 +68,12 @@ void LevelState::Init(){
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(5500,14250), Coordinate(128, 192), 40);
+    rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(150);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
+    //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     wep->setDamage(20);
@@ -100,6 +101,8 @@ void LevelState::Init(){
     rath->addGun(gunArm);
     rath->changeGun(0);
     rath->setPosition(Coordinate(5500, 14250));
+    
+    
     
     /*****LEVEL*****/
     level = new Level(1);
