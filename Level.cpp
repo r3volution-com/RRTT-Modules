@@ -162,7 +162,7 @@ void Level::Init(){
         enemys->push_back(enemy);
         
         /* NPC */
-        npc = new NPC(Coordinate(5000,11500), Coordinate(128, 128), 2, "Jose");
+        npc = new NPC(Coordinate(5000,11250), Coordinate(128, 128), 2, "Jose");
         npc->setSprite(tex3, Rect<float>(0,0,128,128));
         npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         npc->getAnimation()->initAnimator();
@@ -189,13 +189,13 @@ void Level::Update(Player* rath, HUD* hud){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
             if(enemys->at(i)->getHP() <= 0){
-                enemys->at(i)->move(100000,100000);
+                enemys->at(i)->setPosition(100000,100000);
             }
         }
         if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
             if(enemys->at(i)->getHP() <= 0){
-                enemys->at(i)->move(100000,100000);
+                enemys->at(i)->setPosition(100000,100000);
             }
         }
         
@@ -204,14 +204,14 @@ void Level::Update(Player* rath, HUD* hud){
         boss->damage(rath->getCurrentGun()->getDamage());
         hud->changeLifeBoss(boss->getHP());
         if(boss->getHP() <= 0){
-            boss->move(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
+            boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
         }
    }
     if(rath->getWeapon()->detectCollisions(boss->getHitbox())){
         boss->damage(rath->getCurrentGun()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
         hud->changeLifeBoss(boss->getHP());
         if(boss->getHP() <= 0){
-            boss->move(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
+            boss->setPosition(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
         }
     }
    if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
@@ -296,6 +296,10 @@ void Level::Render(){
     boss->getAnimation()->updateAnimator();
     //Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     boss->updatePosition(inc2.x, inc2.y);
+    
+    Coordinate inc3(npc->getState()->getIC());
+    
+    npc->updatePosition(inc3.x, inc3.y);
     
     Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
     

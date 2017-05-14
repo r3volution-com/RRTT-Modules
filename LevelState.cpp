@@ -134,11 +134,11 @@ void LevelState::Update(){
 
         level->Update(rath, hud);
     }else if(paused==true && level->getMoverse()==true){
-        cout << "Entra" << endl;
-        level->getNPC()->move(20,0);
-        /*}else{
+        if(level->getNPC()->getCoordinate()->x < 7000){
+            level->getNPC()->move(20,0);
+        }else{
             paused = false;
-        }*/
+        }
     }
 }
 
