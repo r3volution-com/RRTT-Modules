@@ -122,7 +122,7 @@ void Map::dataTiles(){
 
 void Map::matrizSprites(){
     
-    Texture *_tilesetTexture = new Texture("resources/final2.png");
+    Texture *_tilesetTexture = new Texture("resources/TILESET.png");
     
     Rect <float> *medidas = new Rect <float> (0, 0, 128, 128);
     

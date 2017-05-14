@@ -7,9 +7,8 @@ Level::Level(int numLevel) {
     enemigosCaidos = 0;
     enemys = new std::vector<Enemy*>();
     respawn = new std::vector<Coordinate*>();
-    Coordinate* coord = new Coordinate(0,300);
+    Coordinate* coord = new Coordinate(5700,11500);
     respawn->push_back(coord);
-    //respawn[0]=(0,300);
     //respawn[1]=(500,300);
     //respawn[2]=(1000,300);
     //Cargamos todos los elementos del juego
@@ -40,7 +39,7 @@ void Level::Init(){
     //Si estamos en el primer nivel
     if(level==1){
         //Cargamos el mapa
-        map = new Map("resources/bosque_definitivo6.tmx");
+        map = new Map("resources/MAPAPABLO.tmx");
         
         //Cargamos las notas
         note = new Note(tex, Rect<float>(0, 0, 128, 128), tex2, Rect<float>(0, 0, 608, 488), font);
