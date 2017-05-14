@@ -73,7 +73,7 @@ void Level::Init(){
         enemys->push_back(enemy);
         
         //Enemigo abajo derecha
-        Enemy *enemy2 = new Enemy(Coordinate(4700,9350), Coordinate(128, 128), 15);
+        Enemy *enemy2 = new Enemy(Coordinate(4000,9350), Coordinate(128, 128), 15);
         enemy2->setType(2);
         enemy2->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy2->setMaxHP(30);
@@ -87,7 +87,7 @@ void Level::Init(){
         enemys->push_back(enemy2);
         
         //Enemigo arriba centro
-        Enemy *enemy3 = new Enemy(Coordinate(3800,8550), Coordinate(128, 128), 20);
+        Enemy *enemy3 = new Enemy(Coordinate(3000,8550), Coordinate(128, 128), 20);
         enemy3->setType(1);
         enemy3->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy3->setMaxHP(40);
@@ -113,7 +113,7 @@ void Level::Init(){
         enemys->push_back(enemy4);
         
         //Primer enemigo camino
-        Enemy *enemy5 = new Enemy(Coordinate(4100,10000), Coordinate(128, 128), 15);
+        Enemy *enemy5 = new Enemy(Coordinate(3250,11000), Coordinate(128, 128), 15);
         enemy5->setType(1);
         enemy5->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy5->setMaxHP(30);
