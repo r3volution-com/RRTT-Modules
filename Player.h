@@ -25,6 +25,8 @@ class Player : public Entity {
         int currentGun;
         
         char state;
+        
+        bool dead;
     public:
         /**
          * Crea el objeto jugador
@@ -146,6 +148,19 @@ class Player : public Entity {
          * @param y: Coordenada y
          */
         void setPosition(float x, float y);
+        
+        /**
+         * Actualiza la posicion del jugador
+         * @param newCoor: Coodenada. Tipo Coordinate
+         */
+        void updatePosition(Coordinate newCoor);
+        
+        /**
+         * Actualiza la posicion del jugador
+         * @param x: Coordenada x
+         * @param y: Coordenada y
+         */
+        void updatePosition(float x, float y);
         
         /**
          *llama a derecha() de gun

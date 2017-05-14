@@ -70,9 +70,9 @@ void LevelState::Init(){
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5700,11500), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(10);
-    rath->setFlashCooldown(5);
-    rath->setFlashRange(5);
+    rath->setMaxHP(150);
+    rath->setFlashCooldown(2);
+    rath->setFlashRange(10);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     
@@ -105,12 +105,12 @@ void LevelState::Init(){
     
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), 
-            Rect<float>(100,230,200,20), Rect<float>(190,10,90,90), game->rM->getFont("font"));
-    hud->addGun(Coordinate(20, 20), Rect<float>(10,10,90,90), Rect<float>(0,0,90,90), gunArm->getGunCooldown());
+            Rect<float>(100,230,200,20), Rect<float>(190,10,80,80), game->rM->getFont("font"));
+    hud->addGun(Coordinate(20, 20), Rect<float>(10,10,80,80), Rect<float>(0,0,80,80), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
-    hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 90, 90), rath->getFlashCooldown());
+    hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
@@ -245,7 +245,7 @@ void LevelState::Render(){
     /*Interpolate*/
     if (*rath->getState()->getLastCoordinate() != *rath->getState()->getNextCoordinate()){
         Coordinate inc(rath->getState()->getIC());
-        rath->setPosition(Coordinate(inc.x, inc.y));
+        rath->updatePosition(Coordinate(inc.x, inc.y));
     }
     
     /***Set View***/
@@ -255,7 +255,6 @@ void LevelState::Render(){
     /*Render level*/
     level->Render();
     
-    level->getMap()->putHitbox(rath);
     
     /*Render Player and guns*/
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
