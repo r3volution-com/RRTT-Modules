@@ -229,8 +229,10 @@ void Level::Update(Player* rath, HUD* hud){
         }*/
    }
     
-    if(rath->collision(fuego->getHitbox()) && enemigosCaidos < 5){
+    if(rath->collision(fuego->getHitbox()) && enemigosCaidos < enemys->size()){
         rath->move(0,1);
+    }else if(rath->collision(fuego->getHitbox()) && enemigosCaidos >= enemys->size()){
+        rath->move(0,-1);
     }
 }
 
