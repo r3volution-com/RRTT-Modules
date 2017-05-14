@@ -55,7 +55,6 @@ void Level::Init(){
         
         //Cargamos los enemigos
         Game::Instance()->rM->loadTexture("enemy", "resources/ENEMIGOS.png");
-        Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
         
 
         //Enemigo izquierda
@@ -124,7 +123,7 @@ void Level::Init(){
         enemys->push_back(enemy5);
         
         Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 3);
-        gunArm->setAnimation(Game::Instance()->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
+        gunArm->setAnimation(Game::Instance()->rM->getTexture("enemy"), Rect<float> (0, 640, 128, 128));
         gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
         gunArm->getAnimation()->initAnimator();    
         gunArm->getAnimation()->changeAnimation("armaIdle", false);
@@ -132,8 +131,8 @@ void Level::Init(){
         gunArm->setDamage(1);
 
         Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
-        bull->setAnimation(Game::Instance()->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
-        bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
+        bull->setAnimation(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 512), 2, 0.5f);
         bull->getAnimation()->setOrigin(Coordinate(184,98));
         bull->getAnimation()->initAnimator();
         bull->getAnimation()->changeAnimation("fireIdle", false);
@@ -179,7 +178,9 @@ void Level::Update(Player* rath, HUD* hud){
             enemys->at(i)->AI(rath, hud);
         }
     }
-    boss->AI(rath, hud);
+    if(boss->getHP() > 0){
+        boss->AI(rath, hud);
+    }
     
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
@@ -290,7 +291,7 @@ void Level::Render(){
     
     Coordinate inc2(boss->getState()->getIC());
     boss->getAnimation()->updateAnimator();
-    //Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
+    Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     boss->updatePosition(inc2.x, inc2.y);
     
     Coordinate inc3(npc->getState()->getIC());
