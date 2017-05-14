@@ -22,7 +22,6 @@ Player::~Player() {
 
 void Player::setAnimations(Texture *t, Rect<float> newRect){
     Entity::setSprite(t, newRect);
-    Entity::getAnimation()->getSprite()->setScale(1.5f, 1.5f);
     Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
     Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
@@ -280,8 +279,8 @@ void Player::setPosition(Coordinate newCoor){
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+80, Entity::getCoordinate()->y+65));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+80, Entity::getCoordinate()->y+65));
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
     }
 }
 
@@ -289,8 +288,8 @@ void Player::setPosition(float x, float y){
     Entity::setPosition(x, y);
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+80, Entity::getCoordinate()->y+65));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+80, Entity::getCoordinate()->y+65));
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
 }
 
