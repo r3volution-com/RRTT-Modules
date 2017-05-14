@@ -41,6 +41,7 @@ void LevelState::Init(){
     game->rM->loadTexture("fire", "resources/fuego.png");
     game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
+    game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
     game->rM->loadTexture("button-layout", "resources/button-layout.png");
     game->rM->loadFont("font", "resources/font.ttf");
@@ -111,6 +112,7 @@ void LevelState::Init(){
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
+    hud->setDieSprite(game->rM->getTexture("hud-playerdeath"));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
@@ -164,16 +166,12 @@ void LevelState::Input(){
         } else if(Game::Instance()->iM->isActive("player-down-right")) {
             rath->move(1,1);
         } else if (Game::Instance()->iM->isActive("player-up")) {
-            prueba = "y";
             rath->move(0,-1);
         } else if (Game::Instance()->iM->isActive("player-down")) {
-            prueba = "y";
             rath->move(0,1);
         } else if (Game::Instance()->iM->isActive("player-left")) {
-            prueba = "x";
             rath->move(-1,0);
         } else if (Game::Instance()->iM->isActive("player-right")) {
-            prueba = "x";
             rath->move(1,0);
         } else {
             rath->move(0,0);
@@ -211,7 +209,8 @@ void LevelState::Input(){
         }
         
         level->Input(rath, hud);
-        
+     
+        if (rath->isDead()) hud->playerDie();
     } else {
         /*Pause menu*/
         if (pauseMenu){

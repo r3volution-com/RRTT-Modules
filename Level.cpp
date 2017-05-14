@@ -57,7 +57,6 @@ void Level::Init(){
         
         //Cargamos los enemigos
         Game::Instance()->rM->loadTexture("enemy", "resources/ENEMIGOS.png");
-        Game::Instance()->rM->loadTexture("boss", "resources/boss.png");
         Game::Instance()->rM->loadTexture("arma", "resources/sprites.png");
         
 
@@ -83,7 +82,7 @@ void Level::Init(){
         enemy2->setDistancePlayerEnemy(800);
         enemy2->setDmgHit(2);
         enemy2->setHitCooldown(new Time(0.5));
-        enemy2->SetFlashRange(5);
+        enemy2->SetFlashRange(10);
         enemy2->setFlashCooldown(new Time(2));
         
         enemys->push_back(enemy2);
@@ -109,7 +108,7 @@ void Level::Init(){
         enemy4->setDistancePlayerEnemy(800);
         enemy4->setDmgHit(2);
         enemy4->setHitCooldown(new Time(0.5));
-        enemy4->SetFlashRange(5);
+        enemy4->SetFlashRange(10);
         enemy4->setFlashCooldown(new Time(2));
         
         enemys->push_back(enemy4);
@@ -144,10 +143,7 @@ void Level::Init(){
         gunArm->setAttack(bull);
         
         boss = new Boss(Coordinate(3500,4200), Coordinate(128, 128), 20, 1);
-        boss->setSprite(Game::Instance()->rM->getTexture("boss"), Rect<float>(0,0, 128, 128));
-        boss->getAnimation()->addAnimation("idle", Coordinate(0, 0), 1, 0.5f);
-        boss->getAnimation()->initAnimator();
-        boss->getAnimation()->changeAnimation("idle", false);
+        boss->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         boss->setMaxHP(200);
         boss->setDistanceEnemyHome(1500);
         boss->setDistancePlayerEnemy(1000);
