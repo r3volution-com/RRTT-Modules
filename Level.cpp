@@ -280,7 +280,7 @@ void Level::Render(){
         Coordinate inc(enemys->at(i)->getState()->getIC());
         //cout << inc;
         enemys->at(i)->getAnimation()->updateAnimator();
-        enemys->at(i)->setPosition(inc.x, inc.y);
+        enemys->at(i)->updatePosition(inc.x, inc.y);
         Game::Instance()->window->draw(*enemys->at(i)->getAnimation()->getSprite());
     }
     
@@ -294,7 +294,7 @@ void Level::Render(){
     Coordinate inc2(boss->getState()->getIC());
     boss->getAnimation()->updateAnimator();
     //Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
-    boss->setPosition(inc2.x, inc2.y);
+    boss->updatePosition(inc2.x, inc2.y);
     
     Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
     

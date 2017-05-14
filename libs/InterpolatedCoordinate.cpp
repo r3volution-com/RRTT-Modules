@@ -24,12 +24,14 @@ InterpolatedCoordinate::~InterpolatedCoordinate() {
 }
 
 void InterpolatedCoordinate::setCoordinate(float x, float y){
-    last->setCoordinate(act->x, act->y);
+    last->setCoordinate(x, y);
+    act->setCoordinate(x, y);
     next->setCoordinate(x, y);
 }
 
 void InterpolatedCoordinate::setCoordinate(Coordinate newCoord){
-    last->setCoordinate(act->x, act->y);
+    last->setCoordinate(newCoord.x, newCoord.y);
+    act->setCoordinate(newCoord.x, newCoord.y);
     next->setCoordinate(newCoord.x, newCoord.y);
 }
 

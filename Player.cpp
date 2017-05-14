@@ -10,6 +10,7 @@ Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position
     flashTime=0;
     flashCooldown = new Time(0);
     attacking = false;
+    dead = false;
 }
 
 Player::~Player() {
@@ -249,11 +250,12 @@ void Player::flash(){
 }
 
 void Player::die(){
-    //Entity::getAnimation()->changeAnimation("die",false);
-    std::cout << "NASDF\n";
+    Entity::getAnimation()->changeAnimation("die",false);
+    dead = true;
 }
 
 void Player::respawn(Coordinate coor, int resp){
+    dead = false;
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
     Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn(resp)); 
@@ -270,9 +272,9 @@ void Player::damage(int dmg){
     }
     else hp -= dmg;
 }
+
 void Player::setPosition(Coordinate newCoor){
-    Entity::getAnimation()->setPosition(newCoor);
-    Entity::getHitbox()->setPosition(newCoor);
+    Entity::setPosition(newCoor);
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     
     if (currentGun >= 0){
@@ -280,10 +282,28 @@ void Player::setPosition(Coordinate newCoor){
         guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
     }
 }
+
 void Player::setPosition(float x, float y){
-    Coordinate newCoor(x,y);
-    Entity::getAnimation()->setPosition(newCoor);
-    Entity::getHitbox()->setPosition(newCoor);
+    Entity::setPosition(x, y);
+    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
+    if (currentGun >= 0){
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+    }
+}
+
+void Player::updatePosition(Coordinate newCoor){
+    Entity::updatePosition(newCoor);
+    if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
+    
+    if (currentGun >= 0){
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+    }
+}
+
+void Player::updatePosition(float x, float y){
+    Entity::updatePosition(x, y);
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
