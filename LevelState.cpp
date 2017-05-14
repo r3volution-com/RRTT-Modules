@@ -112,7 +112,7 @@ void LevelState::Init(){
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
-    hud->setDieSprite(game->rM->getTexture("hud-playerdeath"));
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(100, 100), game->rM->getTexture("button-layout"), Rect<float>(0, 0, 200, 50));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
@@ -214,7 +214,10 @@ void LevelState::Input(){
         
         level->Input(rath, hud);
      
-        if (rath->isDead()) hud->playerDie();
+        if (rath->isDead()) {
+            hud->playerDie();
+            paused = true;
+        }
     } else {
         /*Pause menu*/
         if (pauseMenu){
@@ -234,6 +237,15 @@ void LevelState::Input(){
                     break;
                     default: break;
                 }
+            }
+        }
+        
+        if (rath->isDead()){
+            hud->playerDie();
+            if(hud->getButton()->getHover() && Game::Instance()->iM->isActive("click")){
+                rath->respawn(0);
+                hud->changeLifePlayer(rath->getHP());
+                paused = false;
             }
         }
     }

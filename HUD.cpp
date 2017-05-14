@@ -105,8 +105,9 @@ void HUD::setFlash(Coordinate pos, Rect<float> rect, Time *f){
     flashModuleEnabled = true;
 }
 
-void HUD::setDieSprite(Texture *dTex){
+void HUD::setDieScreen(Texture *dTex, Coordinate coor, Texture* tex, Rect<float> rect){
     die = new Sprite(dTex, Rect<float> (0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
+    buttonDie = new Button(coor, tex, rect);
     dieModuleEnabled = true;
 }
 
@@ -264,10 +265,6 @@ void HUD::resetStats(){
     dieBool = false;
 }
 
-void HUD::setButton(Coordinate coor, Texture* tex, Rect<float> rect){
-    buttonDie = new Button(coor, tex, rect);
-}
-
 void HUD::drawDie(){
     if(lifePlayer <= 0){
         Game::Instance()->window->draw(*die->getSprite());
@@ -276,9 +273,13 @@ void HUD::drawDie(){
 }
 
 bool HUD::playerDie(){
-    if(dieBool == false){
-        sf::sleep(sf::seconds(2));
-        dieBool = true;
+    if (lifePlayer <= 0){
+        if(dieBool == false){
+            //sf::sleep(sf::seconds(1));
+            dieBool = true;
+            buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
+        } else {
+            buttonDie->hover(Game::Instance()->mouse);
+        }
     }
-    buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
 }

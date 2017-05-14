@@ -32,6 +32,7 @@ void Player::setAnimations(Texture *t, Rect<float> newRect){
     Entity::getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 1, 0.25f);
     Entity::getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 1, 0.25f);
     Entity::getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
+    Entity::getAnimation()->addAnimation("respawn", Coordinate(0, 512), 1, 0.5f);
     Entity::getAnimation()->initAnimator();
     Entity::getAnimation()->changeAnimation("idle", false); 
 }
@@ -254,7 +255,7 @@ void Player::die(){
     dead = true;
 }
 
-void Player::respawn(Coordinate coor, int resp){
+void Player::respawn(int resp){
     dead = false;
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);

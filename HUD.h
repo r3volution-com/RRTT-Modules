@@ -82,8 +82,11 @@ class HUD {
         /**
          * Sprite de muerte
          * @param dTex: Textura del sprite de muerte (puntero)
+         * @param
+         * @param
+         * @param
          */
-        void setDieSprite(Texture *dTex);
+        void setDieScreen(Texture *dTex, Coordinate coor, Texture* tex, Rect<float> rect);
         
         /**
          * Actualizar capa de texto
@@ -127,14 +130,6 @@ class HUD {
          * Actualiza la vida del jugador
          */
         void setTextLifePlayer();
-        
-        /**
-         * Actualiza un boton
-         * @param coor: Coordenadas del boton (tipo coord)
-         * @param tex: Textura del boton
-         * @param rect: Zona en la que imprimir el boton
-         */
-        void setButton(Coordinate coor, Texture* tex, Rect<float> rect);
         
         /**
          * Cambia al arma activa
