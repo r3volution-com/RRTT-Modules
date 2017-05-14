@@ -7,7 +7,7 @@ Level::Level(int numLevel) {
     enemigosCaidos = 0;
     enemys = new std::vector<Enemy*>();
     respawn = new std::vector<Coordinate*>();
-    Coordinate* coord = new Coordinate(5700,11500);
+    Coordinate* coord = new Coordinate(5500,14250);
     respawn->push_back(coord);
     //respawn[1]=(500,300);
     //respawn[2]=(1000,300);
@@ -43,7 +43,7 @@ void Level::Init(){
         
         //Cargamos las notas
         note = new Note(tex, Rect<float>(0, 0, 128, 128), tex2, Rect<float>(0, 0, 608, 488), font);
-        note->setPosition(Coordinate(5700, 13600));
+        note->setPosition(Coordinate(1450, 13850));
         note->setBackgroundPosition(Coordinate(350, 125));
         note->setText("El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\n "
         "saliendo en multimedia!", sf::Color::Black, sf::Color::White, 1, 25);
@@ -72,7 +72,7 @@ void Level::Init(){
         enemys->push_back(enemy);
         
         //Enemigo abajo derecha
-        Enemy *enemy2 = new Enemy(Coordinate(4700,9350), Coordinate(128, 128), 15);
+        Enemy *enemy2 = new Enemy(Coordinate(4000,9350), Coordinate(128, 128), 15);
         enemy2->setType(2);
         enemy2->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy2->setMaxHP(30);
@@ -86,7 +86,7 @@ void Level::Init(){
         enemys->push_back(enemy2);
         
         //Enemigo arriba centro
-        Enemy *enemy3 = new Enemy(Coordinate(3800,8550), Coordinate(128, 128), 20);
+        Enemy *enemy3 = new Enemy(Coordinate(3000,8550), Coordinate(128, 128), 20);
         enemy3->setType(1);
         enemy3->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy3->setMaxHP(40);
@@ -112,7 +112,7 @@ void Level::Init(){
         enemys->push_back(enemy4);
         
         //Primer enemigo camino
-        Enemy *enemy5 = new Enemy(Coordinate(4100,10000), Coordinate(128, 128), 15);
+        Enemy *enemy5 = new Enemy(Coordinate(3250,11000), Coordinate(128, 128), 15);
         enemy5->setType(1);
         enemy5->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy5->setMaxHP(30);
@@ -156,7 +156,7 @@ void Level::Init(){
         boss->getState()->update();
         
         /* NPC */
-        npc = new NPC(Coordinate(5000,11250), Coordinate(128, 128), 2, "Jose");
+        npc = new NPC(Coordinate(5000,14000), Coordinate(128, 128), 2, "Jose");
         npc->setSprite(tex3, Rect<float>(0,0,128,128));
         npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         npc->getAnimation()->initAnimator();
@@ -167,7 +167,7 @@ void Level::Init(){
         npc->addSentence("Un momento, creo que tu cara me suena...\n\nPulsa E para continuar", new Coordinate(20, 520));
         
         /* MURO */
-        npc2 = new NPC(Coordinate(3150,5600), Coordinate(1280, 384), 2, "Jose");
+        npc2 = new NPC(Coordinate(2000,5800), Coordinate(1280, 384), 2, "Jose");
         npc2->setSprite(tex4, Rect<float>(0,0,1280,384));
         npc2->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         npc2->getAnimation()->initAnimator();
