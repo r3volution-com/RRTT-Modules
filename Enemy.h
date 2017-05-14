@@ -29,6 +29,7 @@ class Enemy : public Entity{
         int disPlayerEnemy;
         int disEnemyHome;
 
+        char direction;
         
     public: 
         /**

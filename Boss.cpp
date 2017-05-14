@@ -55,6 +55,110 @@ void Boss::attackDone(){
     attacking = false;
 }
 
+void Boss::move(float xDir, float yDir){
+    Entity::move(xDir, yDir);
+    if (xDir == 1 && yDir == 0) { //Derecha
+        if (dirSprite != 'r') {
+            Entity::getAnimation()->changeAnimation("correrDerecha", false);
+            guns->at(currentGun)->derecha();
+        }
+        dirSprite = 'r';
+    } else if (xDir == -1 && yDir == 0) { //Izquierda
+        if (dirSprite != 'l') {
+            Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+            guns->at(currentGun)->inversa();
+        }
+        dirSprite = 'l';
+    } else if (xDir == 0 && yDir == 1) { //Abajo
+        if (dirSprite != 'd') {
+            Entity::getAnimation()->changeAnimation("correrAbajo", false);
+            guns->at(currentGun)->inversa();
+        }
+        dirSprite = 'd';
+    } else if (xDir == 0 && yDir == -1) { //Arriba
+        if (dirSprite!='u') {
+            Entity::getAnimation()->changeAnimation("correrArriba", false);
+            guns->at(currentGun)->atras();                
+        }
+        dirSprite='u';
+    } else if (xDir == 1 && yDir == -1){ //Arriba derecha
+        if (dirSprite!='a') {
+            Entity::getAnimation()->changeAnimation("correrArriba", false);
+            guns->at(currentGun)->atras();                
+        }
+        dirSprite='a';
+    } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
+        if (dirSprite != 'b') {
+            Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+            guns->at(currentGun)->inversa();
+        }
+        dirSprite = 'b';
+    } else if (xDir == 1 && yDir == 1){ //Derecha abajo
+        if (dirSprite != 'c') {
+            Entity::getAnimation()->changeAnimation("correrDerecha", false);
+            guns->at(currentGun)->derecha();
+        }
+        dirSprite = 'c';
+    } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
+        if (dirSprite != 'e') {
+            Entity::getAnimation()->changeAnimation("correrArriba", false);
+            guns->at(currentGun)->atras();
+        }
+        dirSprite='e';
+    } else {
+        if (dirSprite != 'i'){
+            Entity::getAnimation()->changeAnimation("idle", false);
+            guns->at(currentGun)->derecha();
+            dirSprite='i';
+        }
+    }
+}
+
+void Boss::flash(float xDir, float yDir){
+    std::cout<<"si"<<"\n";
+    if (xDir == 1 && yDir == 0) { //Derecha
+            Entity::getAnimation()->changeAnimation("flashDerecha", true);
+    } else if (xDir == -1 && yDir == 0) { //Izquierda
+            Entity::getAnimation()->changeAnimation("flashIzquierda", true);
+    } else if (xDir == 0 && yDir == 1) { //Abajo
+            Entity::getAnimation()->changeAnimation("flashAbajo", true);
+    } else if (xDir == 0 && yDir == -1) { //Arriba
+            Entity::getAnimation()->changeAnimation("flashArriba", true);
+    } else if (xDir == 1 && yDir == -1){ //Arriba derecha
+            Entity::getAnimation()->changeAnimation("flashArriba", true);
+    } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
+            Entity::getAnimation()->changeAnimation("flashIzquierda", true);
+    } else if (xDir == 1 && yDir == 1){ //Derecha abajo
+            Entity::getAnimation()->changeAnimation("flashDerecha", true);
+    } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
+            Entity::getAnimation()->changeAnimation("flashArriba", true);
+    }
+    Entity::getAnimation()->queueAnimation("idle",false);
+    Enemy::flash(xDir, yDir);
+}
+
+void Boss::setAnimations(Texture *t, Rect<float> newRect){
+    Entity::setSprite(t, newRect);
+    if(level == 1){
+        Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
+        Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
+        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
+        Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 384), 4, 0.5f);
+        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
+        Entity::getAnimation()->addAnimation("flashDerecha", Coordinate(0, 768), 1, 0.25f);
+        Entity::getAnimation()->addAnimation("flashIzquierda", Coordinate(0, 896), 1, 0.25f);
+        Entity::getAnimation()->addAnimation("flashAbajo", Coordinate(0, 1024), 1, 0.25f);
+        Entity::getAnimation()->addAnimation("flashArriba", Coordinate(0, 1152), 1, 0.25f);
+    }else if(level == 2){
+        
+    }else if(level == 3){
+        
+    }
+    
+    Entity::getAnimation()->initAnimator();
+    Entity::getAnimation()->changeAnimation("idle", false); 
+}
+
 void Boss::setPosition(Coordinate newCoor){
     Entity::getAnimation()->setPosition(newCoor);
     Entity::getHitbox()->setPosition(newCoor);
@@ -91,7 +195,7 @@ void Boss::AI(Player* rath, HUD* hud){
     }
     if(state == 0){ //Pasive
         if(onRange == true && distance >= 100){
-            Entity::move(dir.x,dir.y);
+            move(dir.x,dir.y);
             if(Enemy::getHP() >= 3*Enemy::getMaxHP()/5 || Enemy::getHP() <= Enemy::getMaxHP()/4 || defensive->isExpired()){
                 state = 1;
                 Boss::setSpeed(initialSpeed*1.2);
@@ -102,19 +206,19 @@ void Boss::AI(Player* rath, HUD* hud){
         }else if(distanceIni >= Enemy::getDisEnemyHome() || (home == false && distance > 128)){
             Enemy::setHome(home = false);
                 if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                    Entity::move(ini.x, ini.y);
+                    move(ini.x, ini.y);
                 }else{
                     Enemy::setHome(home = true);//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
                 }
         }else if(distance > 128){
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-                Entity::move(ini.x, ini.y);
+                move(ini.x, ini.y);
             }else{
                 Enemy::setHome(home = true);
             }
         }else if(distance < 100){
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-                Entity::move(ini.x, ini.y);
+                move(ini.x, ini.y);
             }else{
                 Enemy::setHome(home = true);
             }
@@ -122,7 +226,7 @@ void Boss::AI(Player* rath, HUD* hud){
         
     }else if(state == 1){ //Aggressive
         if(onRange == true && distance >= 80){
-            Entity::move(dir.x,dir.y);
+            move(dir.x,dir.y);
             if(level == 1){
                 float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
                 aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
@@ -146,7 +250,7 @@ void Boss::AI(Player* rath, HUD* hud){
             state = 0;
         }
     }else if(onRange == true && state == 2){ //Defensive
-        Entity::move(dir.x,dir.y);
+        move(dir.x,dir.y);
         defensive->start();
         if(distance >= 100 && !defensive->isExpired()){
             if(level == 1){
@@ -159,7 +263,8 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
                 if(delay->isExpired() && onDelay == true){
                     if(Enemy::getFlashCooldown()->isExpired()){
-                        Enemy::flash(dirFlash->x, dirFlash->y);  
+                        flash(dirFlash->x, dirFlash->y);
+                        
                         onDelay = false;
                     }
                 }
