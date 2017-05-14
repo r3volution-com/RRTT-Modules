@@ -130,7 +130,6 @@ void Enemy::AI(Player* rath, HUD* hud){
     Coordinate ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
     if(freeze == true && (cd->isExpired() && hits == 1)){
         rath->setSpeed(rath->getSpeed()+slowDown);
-        
         hits = 0;
         freeze = false;
     }

@@ -59,7 +59,7 @@ void Player::move(float xDir, float yDir){
         } else if (xDir == 0 && yDir == 1) { //Abajo
             if (state != 'd') {
                 Entity::getAnimation()->changeAnimation("correrAbajo", false);
-                guns->at(currentGun)->inversa();
+                guns->at(currentGun)->derecha();
             }
             state = 'd';
         } else if (xDir == 0 && yDir == -1) { //Arriba
