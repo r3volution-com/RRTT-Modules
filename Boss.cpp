@@ -13,6 +13,7 @@ Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(posi
     dirFlash = new Coordinate(0,0);
     delay = new Time(0);
     states = new std::vector<int>();
+    start = false;
     createStates();
 }
 
@@ -118,7 +119,6 @@ void Boss::move(float xDir, float yDir){
 }
 
 void Boss::flash(float xDir, float yDir){
-    std::cout<<"si"<<"\n";
     if (xDir == 1 && yDir == 0) { //Derecha
             Entity::getAnimation()->changeAnimation("flashDerecha", true);
     } else if (xDir == -1 && yDir == 0) { //Izquierda
@@ -195,8 +195,10 @@ void Boss::updatePosition(float x, float y){
 }
 
 void Boss::createStates(){
+    std::cout<<"create"<<"\n";
     int num;
     if(states->size() == 0){
+        states->push_back(0);
         states->push_back(1);
         states->push_back(2);
         for(int y = 2; y < 10; y++){
@@ -214,7 +216,12 @@ void Boss::changeState(){
             actualState = 0;
         }
         state = states->at(actualState);
-        stateClock->restart();
+    std::cout<<"change: "<<state<<"\n";
+        stateClock->restart(timeState);
+    }
+    if(state = 0 && start == true){
+        state = states->at(actualState);
+        start = false;
     }
 }
 
@@ -235,7 +242,9 @@ void Boss::AI(Player* rath, HUD* hud){
     }
     if(state == 0){ //Pasive
         if(onRange == true && distance >= 100){
+            std::cout<<"enra"<<"\n";
             changeState();
+            start = true;
         }else if(distanceIni >= Enemy::getDisEnemyHome() || (home == false && distance > 128)){
             Enemy::setHome(home = false);
                 if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){

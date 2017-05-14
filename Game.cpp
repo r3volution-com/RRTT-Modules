@@ -46,7 +46,7 @@ Game::~Game(){
 Game::Game(){
     screenSize = new Coordinate(1280, 720);
     window = new sf::RenderWindow(sf::VideoMode(screenSize->x, screenSize->y), "Rath's Revenge: The Twisted Timeline");
-    cameraView = sf::View(sf::FloatRect(0,0,2560,1440));
+    cameraView = sf::View(sf::FloatRect(0,0,10000,10000));
     
     intro = new IntroState();
     menu = new MenuState();
@@ -98,7 +98,7 @@ void Game::Update(){
     game->Update();
     //ToDo mostrar los FPs si se inserta el comando
     
-    std::cout<<"FPS: "<<fps<<"\n";
+    //std::cout<<"FPS: "<<fps<<"\n";
 }
 
 void Game::Render(){

@@ -22,8 +22,10 @@ class Boss : public Enemy{
         bool onDelay;
         bool attacking;
         bool onRange;
+        bool start;
         
         int level;
+        float timeState;
         
         float initialSpeed;
         int currentGun;
@@ -72,7 +74,7 @@ class Boss : public Enemy{
         Gun *getCurrentGun() { return guns->at(currentGun); }
         bool isAttacking() { return attacking; }
         bool getOnRange(){return onRange;}
-        void setStateClock(Time *def){stateClock = def;}
+        void setStateClock(Time *def){stateClock = def; timeState = stateClock->getTime(); stateClock = new Time(0);}
         void setAnimations(Texture *t, Rect<float> newRect);
         void move(float xDir, float yDir);
         void flash(float xDir, float yDir);

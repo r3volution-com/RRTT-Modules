@@ -140,7 +140,7 @@ void Level::Init(){
 
         gunArm->setAttack(bull);
         
-        boss = new Boss(Coordinate(3500,4200), Coordinate(128, 128), 20, 1);
+        boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20, 1);
         boss->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         boss->setMaxHP(200);
         boss->setDistanceEnemyHome(1500);
@@ -194,7 +194,7 @@ void Level::Update(Player* rath, HUD* hud){
             if(enemys->at(i)->getHP() <= 0){
                 enemys->at(i)->setPosition(100000,100000);
                 enemigosCaidos++;
-                cout << enemigosCaidos << endl;
+                //cout << enemigosCaidos << endl;
             }
         }
         if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
@@ -202,7 +202,7 @@ void Level::Update(Player* rath, HUD* hud){
             if(enemys->at(i)->getHP() <= 0){
                 enemys->at(i)->setPosition(100000,100000);
                 enemigosCaidos++;
-                cout << enemigosCaidos << endl;
+                //cout << enemigosCaidos << endl;
             }
         }
         
