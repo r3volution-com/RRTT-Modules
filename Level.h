@@ -51,7 +51,7 @@ private:
     Note *note;
     Boss *boss;
     NPC *npc;
-    NPC *npc2;
+    Entity *fuego;
 
     Gun *gun;
     Crystals *crystal;

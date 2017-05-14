@@ -167,11 +167,11 @@ void Level::Init(){
         npc->addSentence("Un momento, creo que tu cara me suena...\n\nPulsa E para continuar", new Coordinate(20, 520));
         
         /* MURO */
-        npc2 = new NPC(Coordinate(2500,5800), Coordinate(1280, 384), 2, "Jose");
-        npc2->setSprite(tex4, Rect<float>(0,0,1280,384));
-        npc2->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
-        npc2->getAnimation()->initAnimator();
-        npc2->getAnimation()->changeAnimation("idle", false);
+        fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
+        fuego->setSprite(tex4, Rect<float>(0,0,1280,384));
+        fuego->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
+        fuego->getAnimation()->initAnimator();
+        fuego->getAnimation()->changeAnimation("idle", false);
         
         //Anyadimos la accion de hablar cuando pulsemos la E
         Game::Instance()->iM->addAction("interactuar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
@@ -229,7 +229,7 @@ void Level::Update(Player* rath, HUD* hud){
         }*/
    }
     
-    if(rath->collision(npc2->getHitbox()) && enemigosCaidos < 5){
+    if(rath->collision(fuego->getHitbox()) && enemigosCaidos < 5){
         rath->move(0,1);
     }
 }
@@ -313,10 +313,10 @@ void Level::Render(){
     
     Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
     
-    if(enemigosCaidos < 5){
-        Game::Instance()->window->draw(*npc2->getAnimation()->getSprite());
+    if(enemigosCaidos < enemys->size()){
+        Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
     }else if(Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange()){
-        Game::Instance()->window->draw(*npc2->getAnimation()->getSprite());
+        Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
     }
     
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());

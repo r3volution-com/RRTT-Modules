@@ -208,7 +208,6 @@ void Boss::createStates(){
 }
 
 void Boss::changeState(){
-    std::cout<<"change: "<<stateClock->getTime()<<"\n";
     if(stateClock->isExpired()){
         actualState++;
         if(actualState > states->size()){
@@ -217,14 +216,13 @@ void Boss::changeState(){
         state = states->at(actualState);
         stateClock->restart(timeState);
     }
-    if(state = 0 && start == true){
+    if(state == 0 && start == true){
         state = states->at(actualState);
         start = false;
     }
 }
 
 void Boss::AI(Player* rath, HUD* hud){
- 
     float distance = Enemy::getTrigonometry()->distance(rath->getCoordinate(), Entity::getCoordinate());
     float distanceIni = Enemy::getTrigonometry()->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
     Coordinate dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
