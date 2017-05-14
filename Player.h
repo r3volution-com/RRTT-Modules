@@ -16,6 +16,7 @@ class Player : public Entity {
         int maxHP;
         
         Time *flashCooldown;
+        float flashTime;
         int flashRange;
         
         bool attacking;
@@ -97,7 +98,7 @@ class Player : public Entity {
          * @param dirX: Flash en la coordenada x
          * @param dirY: Flash en la coordenada y
          */
-        void flash(float dirX, float dirY);
+        void flash();
         
         /**
          * Reaparicion del jugador
@@ -131,7 +132,7 @@ class Player : public Entity {
          * Actualizar el tiempo de enfriamiento del flash
          * @param cooldown: Tiempo de enfriamiento
          */
-        void setFlashCooldown(Time *cooldown);
+        void setFlashCooldown(float cd);
         
         /**
          * Actualiza la posicion del jugador

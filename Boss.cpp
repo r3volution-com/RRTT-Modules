@@ -134,7 +134,7 @@ void Boss::AI(Player* rath, HUD* hud){
                     }
                 }
                 if(Enemy::getHP() < Enemy::getMaxHP()/2 && Enemy::getHP() > Enemy::getMaxHP()/4 && !defensive->isExpired()){
-                    state = 2;
+                    state = 2;//ToDo: quizas almacenar en un vector el orden de los estados (con un addstatusorde o asi) para poder variar patrones de forma facil?
                 }
             }else if(level == 2){
                 

@@ -45,7 +45,7 @@ Coordinate Hitbox::resolveCollision(Hitbox *other, Coordinate speed){
     float correctX = 0.0f;
     float correctY = 0.0f;
     
-    if (speed.x < 0){
+    if (speed.x < 0){ //ToDo: hace ticktack
         if (aminx < bminx) return outVel;
         correctX = aminx - bmaxx;
         if (correctX < speed.x || correctX > 0 ) return outVel;
@@ -57,7 +57,7 @@ Coordinate Hitbox::resolveCollision(Hitbox *other, Coordinate speed){
         else correctX = speed.x - correctX;
     }
     
-    if (speed.y < 0){
+    if (speed.y < 0){ //ToDo: hace ticktack
         if (aminy < bminy) return outVel;
         correctY = aminy - bmaxy;
         if (correctY < speed.y || correctY > 0) return outVel;

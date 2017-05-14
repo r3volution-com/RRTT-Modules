@@ -46,14 +46,16 @@ void LevelState::Init(){
     game->rM->loadFont("font", "resources/font.ttf");
     
     /*****INPUTS*****/
-    game->iM->addAction("player-up", thor::Action(sf::Keyboard::Up));
-    game->iM->addAction("player-down", thor::Action(sf::Keyboard::Down));
-    game->iM->addAction("player-right", thor::Action(sf::Keyboard::Right));
-    game->iM->addAction("player-left", thor::Action(sf::Keyboard::Left));
-    game->iM->addAction("player-up-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Up));
-    game->iM->addAction("player-up-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Up));
-    game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::Left) && thor::Action(sf::Keyboard::Down));
-    game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::Right) && thor::Action(sf::Keyboard::Down));
+    game->iM->addAction("player-up", thor::Action(sf::Keyboard::W));
+    game->iM->addAction("player-down", thor::Action(sf::Keyboard::S));
+    game->iM->addAction("player-right", thor::Action(sf::Keyboard::D));
+    game->iM->addAction("player-left", thor::Action(sf::Keyboard::A));
+    game->iM->addAction("player-up-left", thor::Action(sf::Keyboard::A) && thor::Action(sf::Keyboard::W));
+    game->iM->addAction("player-up-right", thor::Action(sf::Keyboard::D) && thor::Action(sf::Keyboard::W));
+    game->iM->addAction("player-down-left", thor::Action(sf::Keyboard::A) && thor::Action(sf::Keyboard::S));
+    game->iM->addAction("player-down-right", thor::Action(sf::Keyboard::D) && thor::Action(sf::Keyboard::S));
+    
+    game->iM->addAction("player-flash", thor::Action(sf::Keyboard::F));
     
     game->iM->addAction("player-shortAttack", 
             thor::Action(sf::Mouse::Left, thor::Action::PressOnce) && thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
@@ -70,6 +72,8 @@ void LevelState::Init(){
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
     rath->setMaxHP(700);
+    rath->setFlashCooldown(5);
+    rath->setFlashRange(5);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     
@@ -107,6 +111,7 @@ void LevelState::Init(){
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
+    hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 90, 90), rath->getFlashCooldown());
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
@@ -161,7 +166,6 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
-
     if (Game::Instance()->iM->isActive("pause")) {
         if (paused == true) paused = false;
         else paused = true;
@@ -216,6 +220,11 @@ void LevelState::Input(){
             hud->resetClockGuns();
             rath->gunAttack();
             rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
+        }
+        
+        if (Game::Instance()->iM->isActive("player-flash")){
+            hud->resetClockFlash();
+            rath->flash();
         }
         
         level->Input(rath, hud);

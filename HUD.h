@@ -73,10 +73,11 @@ class HUD {
         
         /**
          * Pues va a ser que no
+         * @param pos: isumaeru,
          * @param rect: isma esto no
          * @param f: esta hecho
          */
-        void setFlash(Rect<float> rect, Time *f);
+        void setFlash(Coordinate pos, Rect<float> rect, Time *f);
         
         /**
          * Sprite de muerte

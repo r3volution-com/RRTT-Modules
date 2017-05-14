@@ -7,6 +7,8 @@ Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position
     weaponLoaded = false;
     guns = new std::vector<Gun*>();
     flashRange=0;
+    flashTime=0;
+    flashCooldown = new Time(0);
     attacking = false;
 }
 
@@ -64,29 +66,29 @@ void Player::move(float xDir, float yDir){
             }
             state='u';
         } else if (xDir == 1 && yDir == -1){ //Arriba derecha
-            if (state!='u') {
+            if (state!='a') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
                 guns->at(currentGun)->atras();                
             }
-            state='u';
+            state='a';
         } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
-            if (state != 'l') {
+            if (state != 'b') {
                 Entity::getAnimation()->changeAnimation("correrIzquierda", false);
                 guns->at(currentGun)->inversa();
             }
-            state = 'l';
+            state = 'b';
         } else if (xDir == 1 && yDir == 1){ //Derecha abajo
-            if (state != 'r') {
+            if (state != 'c') {
                 Entity::getAnimation()->changeAnimation("correrDerecha", false);
                 guns->at(currentGun)->derecha();
             }
-            state = 'r';
+            state = 'c';
         } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
-            if (state != 'u') {
+            if (state != 'e') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
                 guns->at(currentGun)->atras();
             }
-            state='u';
+            state='e';
         } else {
             if (state != 'i'){
                 Entity::getAnimation()->changeAnimation("idle", false);
@@ -198,9 +200,49 @@ void Player::gunAttack(){
     }
 }
 
-void Player::flash(float dirX, float dirY){
-    Entity::move(flashRange*dirX, flashRange*dirY);
-    flashCooldown->restart();
+void Player::flash(){
+    if (flashCooldown->isExpired()){
+        int xDir = 0;
+        int yDir = 0;
+        if (state == 'r') {
+            xDir = 1;
+            yDir = 0;
+        } else if (state == 'u') {
+            xDir = 0;
+            yDir = -1;
+        } else if (state == 'd') {
+            xDir = 0;
+            yDir = 1;
+        } else if (state == 'l') {
+            xDir = -1;
+            yDir = 0;
+        } else if (state == 'a') {
+            xDir = 1;
+            yDir = -1;
+        } else if (state == 'b') {
+            xDir = -1;
+            yDir = 1;
+        } else if (state == 'c') {
+            xDir = 1;
+            yDir = 1;
+        } else if (state == 'e') {
+            xDir = -1;
+            yDir = -1;
+        }
+        if (xDir != 0 || yDir != 0) {
+            float xSpeed = xDir*flashRange;
+            float ySpeed = yDir*flashRange;
+            Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
+            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
+            if(collision != -1){
+                Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
+                xDir = resolver.x;
+                yDir = resolver.y;
+            }
+            Entity::move(xSpeed, ySpeed);
+            flashCooldown->restart(flashTime);
+        }
+    }
 }
 
 void Player::die(){
@@ -213,8 +255,8 @@ void Player::respawn(Coordinate coor, int resp){
     Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn(resp)); 
 }
 
-void Player::setFlashCooldown(Time *cooldown){ 
-    flashCooldown = cooldown;
+void Player::setFlashCooldown(float cd){ 
+    flashTime = cd;
 }
 
 void Player::damage(int dmg){

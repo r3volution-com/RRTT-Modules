@@ -94,11 +94,12 @@ void HUD::addGun(Coordinate position, Rect<float> rect, Rect<float> rectOff, Tim
     gunsModuleEnabled = true;
 }
 
-void HUD::setFlash(Rect<float> rect, Time *f){
-    flash = new Sprite(tex, Rect<float>(rect.x, rect.y+80, rect.w, rect.h));
-    flash->setPosition(100.0f,18.0f);
-    flashCooldown = new Sprite(tex, Rect<float>(rect.x+80, rect.y+80, rect.w, rect.h));
-    flashCooldown->setPosition(100.0f,18.0f);
+void HUD::setFlash(Coordinate pos, Rect<float> rect, Time *f){
+    flash = new Sprite(tex, Rect<float>(rect.x, rect.y, rect.w, rect.h));
+    flash->setPosition(pos.x,pos.y);
+    flashCooldown = new Sprite(tex, *cooldownRect);
+    flashCooldown->setPosition(pos.x,pos.y);
+    flashCooldown->setSize(0,0);
     clockFlash = f;
     //timeFlash = f->getTime();
     flashModuleEnabled = true;
@@ -239,7 +240,7 @@ void HUD::drawTextLayer(){
 }
 
 void HUD::resetClockFlash(){
-    if (clockFlash->getTime() == 0){ 
+    if (!clockFlash->isRunning()){ 
         flashCooldown->restoreSize();
     }
 }
