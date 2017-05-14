@@ -70,8 +70,7 @@ void LevelState::Init(){
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5700,11500), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
-    rath->setMaxHP(700);
+    rath->setMaxHP(10);
     rath->setFlashCooldown(5);
     rath->setFlashRange(5);
     
@@ -119,12 +118,13 @@ void LevelState::Init(){
     pause->addButton(Coordinate(540,200), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
     pause->addButton(Coordinate(540,270), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
     pause->addButton(Coordinate(540,340), "Salir al menu", sf::Color::Black, sf::Color::Transparent, 20);
+    pauseMenu = false;
+    
     paused = false;
 }
 
 void LevelState::Update(){
     if (!paused){
-
         float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
         Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
                 level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
@@ -133,42 +133,18 @@ void LevelState::Update(){
         rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 
         level->Update(rath, hud);
-        /*if(level->getMap()->colision(rath->getHitbox()) != -1){
-            if(rath->getHitbox()->hitbox->left <= level->getMap()->getColHitbox()->hitbox->left){
-                colX=(rath->getHitbox()->hitbox->left +128 - level->getMap()->getColHitbox()->hitbox->left)*-1;
-            } else {
-                colX=((level->getMap()->getColHitbox()->hitbox->left + level->getMap()->getColHitbox()->hitbox->width)
-                        - rath->getHitbox()->hitbox->left);
-            }
-            if(rath->getHitbox()->hitbox->top <= level->getMap()->getColHitbox()->hitbox->top){
-                colY=(rath->getHitbox()->hitbox->top + 128 - level->getMap()->getColHitbox()->hitbox->top)*-1;
-            }
-            else{
-                colY=((level->getMap()->getColHitbox()->hitbox->top + level->getMap()->getColHitbox()->hitbox->height)  
-                        - rath->getHitbox()->hitbox->top);
-            }
-            
-            cout << "colX: " << colX << endl;
-            cout << "colY: " << colY << endl;
-            cout << "Width map: " << level->getMap()->getColHitbox()->hitbox->width << endl;
-            cout << "Left map: " << level->getMap()->getColHitbox()->hitbox->left << endl;
-            cout << "Prueba rath: " << rath->getHitbox()->hitbox->left << endl;
-            
-            //rath->move(colX/rath->getSpeed(), colY/rath->getSpeed());
-            if(prueba=="x"){
-                rath->move(colX/rath->getSpeed(), 0);
-            }
-            if(prueba=="y"){
-                rath->move(0, colY/rath->getSpeed());
-            }
-        }*/
     }
 }
 
 void LevelState::Input(){
     if (Game::Instance()->iM->isActive("pause")) {
-        if (paused == true) paused = false;
-        else paused = true;
+        if (paused == true) {
+            paused = false;
+            pauseMenu = false;
+        } else {
+            paused = true;
+            pauseMenu = true;
+        }
     }
     if (!paused){
         /*Player movement*/
@@ -222,6 +198,7 @@ void LevelState::Input(){
             rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
         }
         
+        /*Player Flash*/
         if (Game::Instance()->iM->isActive("player-flash")){
             hud->resetClockFlash();
             rath->flash();
@@ -231,21 +208,23 @@ void LevelState::Input(){
         
     } else {
         /*Pause menu*/
-        pause->checkHover(Game::Instance()->mouse);
-        
-        if (Game::Instance()->iM->isActive("click")){
-            int clicks = pause->checkClicks();
-            switch (clicks){
-                case 0:
-                    paused = false;
-                break;
-                case 1:
-                    
-                break;
-                case 2:
-                    Game::Instance()->ChangeCurrentState("menu");
-                break;
-                default: break;
+        if (pauseMenu){
+            pause->checkHover(Game::Instance()->mouse);
+
+            if (Game::Instance()->iM->isActive("click")){
+                int clicks = pause->checkClicks();
+                switch (clicks){
+                    case 0:
+                        paused = false;
+                    break;
+                    case 1:
+
+                    break;
+                    case 2:
+                        Game::Instance()->ChangeCurrentState("menu");
+                    break;
+                    default: break;
+                }
             }
         }
     }
@@ -300,7 +279,7 @@ void LevelState::Render(){
     }
       
     /*Pause*/
-    if (paused) pause->drawMenu();
+    if (paused && pauseMenu) pause->drawMenu();
 }
 
 void LevelState::CleanUp(){

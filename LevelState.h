@@ -27,6 +27,7 @@ class LevelState : public GameState {
         float colY = 0.0f;
         
         bool paused;
+        bool pauseMenu;
     public:
         
         LevelState();

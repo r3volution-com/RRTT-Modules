@@ -30,6 +30,7 @@ void Player::setAnimations(Texture *t, Rect<float> newRect){
     Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.25f);
     Entity::getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 1, 0.25f);
     Entity::getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
     Entity::getAnimation()->initAnimator();
     Entity::getAnimation()->changeAnimation("idle", false); 
 }
@@ -230,23 +231,26 @@ void Player::flash(){
             yDir = -1;
         }
         if (xDir != 0 || yDir != 0) {
-            float xSpeed = xDir*flashRange;
-            float ySpeed = yDir*flashRange;
+            float xSpeed = xDir*getSpeed()*flashRange;
+            float ySpeed = yDir*getSpeed()*flashRange;
             Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
             int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
-            if(collision != -1){
+            /*if(collision != -1){
                 Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
                 xDir = resolver.x;
                 yDir = resolver.y;
+            }*/
+            if (collision == -1){
+                Entity::move(xDir*flashRange, yDir*flashRange);
+                flashCooldown->restart(flashTime);
             }
-            Entity::move(xSpeed, ySpeed);
-            flashCooldown->restart(flashTime);
         }
     }
 }
 
 void Player::die(){
-    Entity::getAnimation()->changeAnimation("die",false);
+    //Entity::getAnimation()->changeAnimation("die",false);
+    std::cout << "NASDF\n";
 }
 
 void Player::respawn(Coordinate coor, int resp){
@@ -262,7 +266,7 @@ void Player::setFlashCooldown(float cd){
 void Player::damage(int dmg){
     if (hp-dmg <= 0){
         hp = 0;
-        //die();
+        die();
     }
     else hp -= dmg;
 }
