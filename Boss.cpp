@@ -3,7 +3,7 @@
 
 Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(position, size, sp) {
     state = 0;
-    actualState = 0;
+    actualState = -1;
     currentGun = -1;
     guns = new std::vector<Gun*>();
     attacking = false;
@@ -195,10 +195,8 @@ void Boss::updatePosition(float x, float y){
 }
 
 void Boss::createStates(){
-    std::cout<<"create"<<"\n";
     int num;
     if(states->size() == 0){
-        states->push_back(0);
         states->push_back(1);
         states->push_back(2);
         for(int y = 2; y < 10; y++){
@@ -210,13 +208,13 @@ void Boss::createStates(){
 }
 
 void Boss::changeState(){
+    std::cout<<"change: "<<stateClock->getTime()<<"\n";
     if(stateClock->isExpired()){
         actualState++;
         if(actualState > states->size()){
             actualState = 0;
         }
         state = states->at(actualState);
-    std::cout<<"change: "<<state<<"\n";
         stateClock->restart(timeState);
     }
     if(state = 0 && start == true){
@@ -235,6 +233,7 @@ void Boss::AI(Player* rath, HUD* hud){
     
     Boss::getCurrentGun()->getGunCooldown()->start();
     
+    
     if(distance < Enemy::getDisPlayerEnemy()){
         onRange = true;
     }else{
@@ -242,7 +241,6 @@ void Boss::AI(Player* rath, HUD* hud){
     }
     if(state == 0){ //Pasive
         if(onRange == true && distance >= 100){
-            std::cout<<"enra"<<"\n";
             changeState();
             start = true;
         }else if(distanceIni >= Enemy::getDisEnemyHome() || (home == false && distance > 128)){
@@ -267,6 +265,7 @@ void Boss::AI(Player* rath, HUD* hud){
         }
         
     }else if(state == 1){ //Aggressive
+            std::cout<<"enra"<<"\n";
         if(onRange == true && distance >= 80){
             move(dir.x,dir.y);
             if(level == 1){
