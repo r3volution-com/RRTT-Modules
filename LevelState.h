@@ -58,6 +58,8 @@ class LevelState : public GameState {
         void CleanUp();
         
         Level *getLevel(){return level;}
+        void setPaused(bool boolean){paused = boolean;}
+        bool getPaused(){return paused;}
         
         virtual ~LevelState();
         

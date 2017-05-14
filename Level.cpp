@@ -44,7 +44,7 @@ void Level::Init(){
         note = new Note(tex, Rect<float>(0, 0, 128, 128), tex2, Rect<float>(0, 0, 608, 488), font);
         note->setPosition(Coordinate(5700, 13600));
         note->setBackgroundPosition(Coordinate(350, 125));
-        note->setText("Bienvenido a tu \nnueva aventura Rath\n\nPD: Saluda, que estas\n "
+        note->setText("El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\n "
         "saliendo en multimedia!", sf::Color::Black, sf::Color::White, 1, 25);
     
         //Cargamos los cristales
@@ -177,7 +177,7 @@ void Level::Init(){
         enemys->push_back(enemy);
         
         /* NPC */
-        npc = new NPC(Coordinate(5000,11200), Coordinate(128, 128), 2, "Jose");
+        npc = new NPC(Coordinate(5000,11500), Coordinate(128, 128), 2, "Jose");
         npc->setSprite(tex3, Rect<float>(0,0,128,128));
         npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         npc->getAnimation()->initAnimator();
@@ -236,7 +236,6 @@ void Level::Update(Player* rath, HUD* hud){
             delete boss;
         }*/
    }
-   
 }
 
 void Level::Input(Player* rath, HUD* hud){
@@ -262,6 +261,8 @@ void Level::Input(Player* rath, HUD* hud){
             hud->setTLayerTalker(npc->getName(), 1125, 435);
         }else{
             setMuestra(false);
+            moverse = true;
+            Game::Instance()->getLevelState()->setPaused(true);
         }  
     }
         //NOTA
