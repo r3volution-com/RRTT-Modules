@@ -13,8 +13,10 @@ class Boss : public Enemy{
         Coordinate* dirFlash;
         
         int state;
+        int actualState;
+        std::vector<int> *states;
         
-        Time *defensive;
+        Time *stateClock;
         Time *delay;
         
         bool onDelay;
@@ -70,10 +72,12 @@ class Boss : public Enemy{
         Gun *getCurrentGun() { return guns->at(currentGun); }
         bool isAttacking() { return attacking; }
         bool getOnRange(){return onRange;}
-        void setDefensive(Time *def){defensive = def;}
+        void setStateClock(Time *def){stateClock = def;}
         void setAnimations(Texture *t, Rect<float> newRect);
         void move(float xDir, float yDir);
         void flash(float xDir, float yDir);
+        void createStates();
+        void changeState();
 };
 
 #endif /* BOSS_H */

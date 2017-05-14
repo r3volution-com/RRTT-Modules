@@ -3,6 +3,7 @@
 
 Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(position, size, sp) {
     state = 0;
+    actualState = 0;
     currentGun = -1;
     guns = new std::vector<Gun*>();
     attacking = false;
@@ -11,6 +12,8 @@ Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(posi
     initialSpeed = sp;
     dirFlash = new Coordinate(0,0);
     delay = new Time(0);
+    states = new std::vector<int>();
+    createStates();
 }
 
 Boss::~Boss() {
@@ -191,6 +194,30 @@ void Boss::updatePosition(float x, float y){
     }
 }
 
+void Boss::createStates(){
+    int num;
+    if(states->size() == 0){
+        states->push_back(1);
+        states->push_back(2);
+        for(int y = 2; y < 10; y++){
+            srand (time(NULL));
+            num = rand() % 2 + 1;
+            states->push_back(num);
+        }
+    }
+}
+
+void Boss::changeState(){
+    if(stateClock->isExpired()){
+        actualState++;
+        if(actualState > states->size()){
+            actualState = 0;
+        }
+        state = states->at(actualState);
+        stateClock->restart();
+    }
+}
+
 void Boss::AI(Player* rath, HUD* hud){
  
     float distance = Enemy::getTrigonometry()->distance(rath->getCoordinate(), Entity::getCoordinate());
@@ -208,14 +235,7 @@ void Boss::AI(Player* rath, HUD* hud){
     }
     if(state == 0){ //Pasive
         if(onRange == true && distance >= 100){
-            move(dir.x,dir.y);
-            if(Enemy::getHP() >= 3*Enemy::getMaxHP()/5 || Enemy::getHP() <= Enemy::getMaxHP()/4 || defensive->isExpired()){
-                state = 1;
-                Boss::setSpeed(initialSpeed*1.2);
-            }else{
-                state = 2;
-                Boss::setSpeed(initialSpeed*0.8);
-            }
+            changeState();
         }else if(distanceIni >= Enemy::getDisEnemyHome() || (home == false && distance > 128)){
             Enemy::setHome(home = false);
                 if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
@@ -250,22 +270,18 @@ void Boss::AI(Player* rath, HUD* hud){
                         Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
                     }
                 }
-                if(Enemy::getHP() < Enemy::getMaxHP()/2 && Enemy::getHP() > Enemy::getMaxHP()/4 && !defensive->isExpired()){
-                    state = 2;//ToDo: quizas almacenar en un vector el orden de los estados (con un addstatusorde o asi) para poder variar patrones de forma facil?
-                }
             }else if(level == 2){
                 
             }else if(level == 3){
                 
             }
-            
+            changeState();
         }else{
             state = 0;
         }
     }else if(onRange == true && state == 2){ //Defensive
         move(dir.x,dir.y);
-        defensive->start();
-        if(distance >= 100 && !defensive->isExpired()){
+        if(distance >= 100){
             if(level == 1){
                 delay->start();
                 if(onDelay == false){
@@ -277,17 +293,15 @@ void Boss::AI(Player* rath, HUD* hud){
                 if(delay->isExpired() && onDelay == true){
                     if(Enemy::getFlashCooldown()->isExpired()){
                         flash(dirFlash->x, dirFlash->y);
-                        
                         onDelay = false;
                     }
                 }
-                
             }else if(level == 2){
                 
             }else if(level == 3){
                 
             }
-            
+            changeState();
         }else{
             state = 0;
         }

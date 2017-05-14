@@ -149,7 +149,7 @@ void Level::Init(){
         boss->setHitCooldown(new Time(1));
         boss->SetFlashRange(8);
         boss->setFlashCooldown(new Time(0.5));
-        boss->setDefensive(new Time(20));
+        boss->setStateClock(new Time(20));
         
         boss->addGun(gunArm);
         
