@@ -143,6 +143,7 @@ class Enemy : public Entity{
         int getDisEnemyHome(){return disEnemyHome;}
         void setHome(bool value){home = value;}
         void resetCooldownHit(){cd->restart();}
+        void setAnimations(Texture *t, Rect<float> newRect);
         
         
 };

@@ -70,9 +70,9 @@ void LevelState::Init(){
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5700,11500), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(10);
-    rath->setFlashCooldown(5);
-    rath->setFlashRange(5);
+    rath->setMaxHP(150);
+    rath->setFlashCooldown(2);
+    rath->setFlashRange(10);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     
@@ -249,7 +249,6 @@ void LevelState::Render(){
     /*Render level*/
     level->Render();
     
-    level->getMap()->putHitbox(rath);
     
     /*Render Player and guns*/
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());

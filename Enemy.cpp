@@ -51,7 +51,33 @@ void Enemy::setFlashCooldown(Time *cooldown){
     flashCooldown->start();
 }
 
-
+void Enemy::setAnimations(Texture *t, Rect<float> newRect){
+    Entity::setSprite(t, newRect);
+    if(type == 1){
+        Entity::getAnimation()->addAnimation("idle", Coordinate(512, 0), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 0), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(512, 0), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 128), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(512, 128), 2, 0.5f);
+    }else if(type == 2){
+        Entity::getAnimation()->addAnimation("idle", Coordinate(512, 256), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 256), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(512, 256), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 384), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(512, 384), 2, 0.5f);
+    }else if(type == 3){
+        Entity::getAnimation()->addAnimation("idle", Coordinate(512, 512), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 512), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(512, 512), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 640), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(512, 640), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.5f);
+    }
+    
+    Entity::getAnimation()->initAnimator();
+    Entity::getAnimation()->changeAnimation("idle", false); 
+}
 
 void Enemy::AI(Player* rath, HUD* hud){
     //float angle = tri->angle(rath->getCoordinate(), Entity::getCoordinate());
