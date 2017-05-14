@@ -12,10 +12,7 @@
 
 class Level {
 public:
-    
-        NPC *npc;
 
-    
     Level(int numLevel);
 
     void Init();
@@ -31,9 +28,11 @@ public:
     Boss *getBoss(){return boss;}
     Coordinate* getRespawn(int num){ return respawn->at(num);}
     Map* getMap(){ return map; }
+    Note* getNote() {return note;}
     void setRespawn(int resp);
     void setMuestra(bool booleano) {muestra=booleano;};
     bool getMuestra() {return muestra;};
+    bool getShowText() {return showText;}
     
 private:
 
@@ -41,10 +40,12 @@ private:
     
     //Player se carga en levelState 
     int level;
-    bool muestra=false;
+    bool muestra = false;
+    bool showText = false;
     Map *map;
     Note *note;
     Boss *boss;
+    NPC *npc;
 
     Gun *gun;
     Crystals *crystal;

@@ -66,7 +66,7 @@ void LevelState::Init(){
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(2700,4200), Coordinate(128, 128), 40);
+    rath = new Player(Coordinate(5700,11500), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
     rath->setMaxHP(700);
@@ -284,7 +284,12 @@ void LevelState::Render(){
         hud->drawTextLayer();
     }
     
-    
+    /*Texto notas */
+    if(level->getShowText()==true){
+        Game::Instance()->window->draw(*level->getNote()->getBackgroundSprite()->getSprite());
+        Game::Instance()->window->draw(*level->getNote()->getText()->getText());
+    }
+      
     /*Pause*/
     if (paused) pause->drawMenu();
 }
