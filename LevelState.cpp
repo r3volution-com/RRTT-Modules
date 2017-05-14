@@ -166,16 +166,12 @@ void LevelState::Input(){
         } else if(Game::Instance()->iM->isActive("player-down-right")) {
             rath->move(1,1);
         } else if (Game::Instance()->iM->isActive("player-up")) {
-            prueba = "y";
             rath->move(0,-1);
         } else if (Game::Instance()->iM->isActive("player-down")) {
-            prueba = "y";
             rath->move(0,1);
         } else if (Game::Instance()->iM->isActive("player-left")) {
-            prueba = "x";
             rath->move(-1,0);
         } else if (Game::Instance()->iM->isActive("player-right")) {
-            prueba = "x";
             rath->move(1,0);
         } else {
             rath->move(0,0);

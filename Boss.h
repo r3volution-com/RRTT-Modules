@@ -25,6 +25,8 @@ class Boss : public Enemy{
         
         float initialSpeed;
         int currentGun;
+        
+        char dirSprite;
     public:
         /**
          * Crea un objeto de tipo jefe
@@ -69,7 +71,9 @@ class Boss : public Enemy{
         bool isAttacking() { return attacking; }
         bool getOnRange(){return onRange;}
         void setDefensive(Time *def){defensive = def;}
-
+        void setAnimations(Texture *t, Rect<float> newRect);
+        void move(float xDir, float yDir);
+        void flash(float xDir, float yDir);
 };
 
 #endif /* BOSS_H */

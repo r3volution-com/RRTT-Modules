@@ -10,6 +10,7 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     freeze =  false;
     hits = 0;
     flashRange = 0;
+    
 }
 
 Enemy::~Enemy() {
@@ -43,6 +44,54 @@ void Enemy::damage(int dm){
 
 void Enemy::move(float xDir, float yDir){
     Entity::move(xDir, yDir);
+    if (xDir == 1 && yDir == 0) { //Derecha
+        if (direction != 'r') {
+            std::cout<<"de"<<"\n";
+            Entity::getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        direction = 'r';
+    } else if (xDir == -1 && yDir == 0) { //Izquierda
+        if (direction != 'l') {
+            std::cout<<"iz"<<"\n";
+            Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+        }
+        direction = 'l';
+    } else if (xDir == 0 && yDir == 1) { //Abajo
+        if (direction != 'd') {
+            Entity::getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        direction = 'd';
+    } else if (xDir == 0 && yDir == -1) { //Arriba
+        if (direction!='u') {
+            Entity::getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        direction='u';
+    } else if (xDir == 1 && yDir == -1){ //Arriba derecha
+        if (direction!='a') {
+            Entity::getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        direction='a';
+    } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
+        if (direction != 'b') {
+            Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+        }
+        direction = 'b';
+    } else if (xDir == 1 && yDir == 1){ //Derecha abajo
+        if (direction != 'c') {
+            Entity::getAnimation()->changeAnimation("correrDerecha", false);
+        }
+        direction = 'c';
+    } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
+        if (direction != 'e') {
+            Entity::getAnimation()->changeAnimation("correrIzquierda", false);
+        }
+        direction='e';
+    } else {
+        if (direction != 'i'){
+            Entity::getAnimation()->changeAnimation("idle", false);
+        }
+        direction='i';
+    }
 }
 
 void Enemy::setFlashCooldown(Time *cooldown){ 
@@ -56,21 +105,15 @@ void Enemy::setAnimations(Texture *t, Rect<float> newRect){
     if(type == 1){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 0), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 0), 2, 0.5f);
-        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(512, 0), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 128), 2, 0.5f);
-        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(512, 128), 2, 0.5f);
     }else if(type == 2){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 256), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 256), 2, 0.5f);
-        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(512, 256), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 384), 2, 0.5f);
-        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(512, 384), 2, 0.5f);
     }else if(type == 3){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 512), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 512), 2, 0.5f);
-        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(512, 512), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 640), 2, 0.5f);
-        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(512, 640), 2, 0.5f);
         Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 1, 0.5f);
         Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.5f);
     }
@@ -94,7 +137,7 @@ void Enemy::AI(Player* rath, HUD* hud){
         if(distanceIni <= disEnemyHome && home == true){
             int num;
                 
-            Entity::move(dir.x, dir.y);
+            move(dir.x, dir.y);
             if(type == 2){
                 if(flashCooldown->isExpired()){
                     srand (time(NULL));
@@ -144,7 +187,7 @@ void Enemy::AI(Player* rath, HUD* hud){
             if(distanceIni >= disEnemyHome || home == false){
             home = false;
                 if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                    Entity::move(ini.x, ini.y);
+                    move(ini.x, ini.y);
                 }else{
                     home = true;//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
                 }
@@ -153,19 +196,19 @@ void Enemy::AI(Player* rath, HUD* hud){
     }else if(distanceIni >= disEnemyHome || (home == false && distance > 128)){
             home = false;
             if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10){
-                Entity::move(ini.x, ini.y);
+                move(ini.x, ini.y);
             }else{
                 home = true;//ToDo PabloL: Por que coño caaaasi  nuuuuuuuuunca llega al punto exacto?
             }
     }else if(distance > 128){
         if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-            Entity::move(ini.x, ini.y);
+            move(ini.x, ini.y);
         }else{
             home = true;
         }
     }else if(distance < 100){
         if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-            Entity::move(ini.x, ini.y);
+            move(ini.x, ini.y);
         }else{
             home = true;
         }
