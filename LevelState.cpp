@@ -76,7 +76,7 @@ void LevelState::Init(){
     //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
-    wep->setDamage(20);
+    wep->setDamage(10);
     
     rath->setWeapon(wep);
 
@@ -139,8 +139,8 @@ void LevelState::Update(){
 
         level->Update(rath, hud);
     }else if(paused==true && level->getMoverse()==true){
-        if(level->getNPC()->getCoordinate()->x < 7000){
-            level->getNPC()->move(20,0);
+        if(level->getNPC()->getCoordinate()->y < 15000){
+            level->getNPC()->move(0,20);
         }else{
             paused = false;
         }
