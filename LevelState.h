@@ -57,6 +57,7 @@ class LevelState : public GameState {
         void CleanUp();
         
         Level *getLevel(){return level;}
+        Player *getRath(){return rath;}
         void setPaused(bool boolean){paused = boolean;}
         bool getPaused(){return paused;}
         
