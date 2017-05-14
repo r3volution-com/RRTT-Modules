@@ -4,6 +4,7 @@
 Level::Level(int numLevel) {
     //Guardamos el nivel a cargar
     level = numLevel;
+    enemigosCaidos = 0;
     enemys = new std::vector<Enemy*>();
     respawn = new std::vector<Coordinate*>();
     Coordinate* coord = new Coordinate(0,300);
@@ -32,6 +33,7 @@ void Level::Init(){
     Texture *tex = new Texture("resources/note.png");
     Texture *tex2 = new Texture("resources/pergamino.png");
     Texture *tex3 = new Texture("resources/npc.png");
+    Texture *tex4 = new Texture("resources/muro.png");
      
     Font *font = new Font("resources/font.ttf");
     
@@ -154,8 +156,6 @@ void Level::Init(){
         
         boss->getState()->update();
         
-        enemys->push_back(enemy);
-        
         /* NPC */
         npc = new NPC(Coordinate(5000,11250), Coordinate(128, 128), 2, "Jose");
         npc->setSprite(tex3, Rect<float>(0,0,128,128));
@@ -166,6 +166,13 @@ void Level::Init(){
         npc->addSentence("El bosque esta en llamas!!\n\nPulsa E para continuar", new Coordinate(2300, 3800));
         npc->addSentence("Sera mejor que huyas muchacho no te aguarda nada bueno ahi.\n\nPulsa E para continuar", new Coordinate(20, 520));
         npc->addSentence("Un momento, creo que tu cara me suena...\n\nPulsa E para continuar", new Coordinate(20, 520));
+        
+        /* MURO */
+        npc2 = new NPC(Coordinate(3150,5600), Coordinate(1280, 384), 2, "Jose");
+        npc2->setSprite(tex4, Rect<float>(0,0,1280,384));
+        npc2->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
+        npc2->getAnimation()->initAnimator();
+        npc2->getAnimation()->changeAnimation("idle", false);
         
         //Anyadimos la accion de hablar cuando pulsemos la E
         Game::Instance()->iM->addAction("interactuar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
@@ -187,12 +194,16 @@ void Level::Update(Player* rath, HUD* hud){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
             if(enemys->at(i)->getHP() <= 0){
                 enemys->at(i)->setPosition(100000,100000);
+                enemigosCaidos++;
+                cout << enemigosCaidos << endl;
             }
         }
         if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
             if(enemys->at(i)->getHP() <= 0){
                 enemys->at(i)->setPosition(100000,100000);
+                enemigosCaidos++;
+                cout << enemigosCaidos << endl;
             }
         }
         
@@ -218,6 +229,10 @@ void Level::Update(Player* rath, HUD* hud){
             delete boss;
         }*/
    }
+    
+    if(rath->collision(npc2->getHitbox()) && enemigosCaidos < 5){
+        rath->move(0,1);
+    }
 }
 
 void Level::Input(Player* rath, HUD* hud){
@@ -270,9 +285,9 @@ void Level::Render(){
        Game::Instance()->window->draw(*note->getNoteSprite()->getSprite());
     }
       
-    if(!crystal->getTouched()){
+    /*if(!crystal->getTouched()){
        Game::Instance()->window->draw(*crystal->getCrystalSprite()->getSprite());
-    }
+    }*/
     
     for (int i = 0; i<enemys->size(); i++){
         Coordinate inc(enemys->at(i)->getState()->getIC());
@@ -299,6 +314,10 @@ void Level::Render(){
     npc->updatePosition(inc3.x, inc3.y);
     
     Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
+    
+    if(enemigosCaidos < 5){
+        Game::Instance()->window->draw(*npc2->getAnimation()->getSprite());
+    }
     
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
 }
