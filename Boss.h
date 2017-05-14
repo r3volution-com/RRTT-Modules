@@ -59,11 +59,13 @@ class Boss : public Enemy{
         bool changeGun(int gun);
         
         void AI(Player* rath, HUD* hud);
-        
-        Gun *getCurrentGun() { return guns->at(currentGun); }
         void attackDone();
         void setPosition(Coordinate newCoor);
         void setPosition(float x, float y);
+        void updatePosition(Coordinate newCoor);
+        void updatePosition(float x, float y);
+        
+        Gun *getCurrentGun() { return guns->at(currentGun); }
         bool isAttacking() { return attacking; }
         bool getOnRange(){return onRange;}
         void setDefensive(Time *def){defensive = def;}
