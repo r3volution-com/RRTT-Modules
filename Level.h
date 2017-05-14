@@ -42,6 +42,7 @@ private:
     
     //Player se carga en levelState 
     int level;
+    int enemigosCaidos;
     bool muestra = false;
     bool showText = false;
     //Comprobar si el npc se tiene que mover
@@ -50,6 +51,7 @@ private:
     Note *note;
     Boss *boss;
     NPC *npc;
+    NPC *npc2;
 
     Gun *gun;
     Crystals *crystal;
