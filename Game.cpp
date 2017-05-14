@@ -97,6 +97,8 @@ void Game::Update(){
     iM->update();
     game->Update();
     //ToDo mostrar los FPs si se inserta el comando
+    
+    std::cout<<"FPS: "<<fps<<"\n";
 }
 
 void Game::Render(){
