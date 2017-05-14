@@ -232,7 +232,7 @@ class HUD {
         /**
          * Comprueba si el personaje esta muerto
          */
-        bool checkDie();
+        bool playerDie();
         
         /**
          * Reinicia el reloj del flash

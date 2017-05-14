@@ -41,6 +41,7 @@ void LevelState::Init(){
     game->rM->loadTexture("fire", "resources/fuego.png");
     game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
+    game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
     game->rM->loadTexture("button-layout", "resources/button-layout.png");
     game->rM->loadFont("font", "resources/font.ttf");
@@ -111,6 +112,7 @@ void LevelState::Init(){
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
+    hud->setDieSprite(game->rM->getTexture("hud-playerdeath"));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
@@ -133,6 +135,12 @@ void LevelState::Update(){
         rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 
         level->Update(rath, hud);
+    }else if(paused==true && level->getMoverse()==true){
+        if(level->getNPC()->getCoordinate()->x < 7000){
+            level->getNPC()->move(20,0);
+        }else{
+            paused = false;
+        }
     }
 }
 
@@ -201,7 +209,8 @@ void LevelState::Input(){
         }
         
         level->Input(rath, hud);
-        
+     
+        if (rath->isDead()) hud->playerDie();
     } else {
         /*Pause menu*/
         if (pauseMenu){

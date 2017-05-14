@@ -160,23 +160,36 @@ void Boss::setAnimations(Texture *t, Rect<float> newRect){
 }
 
 void Boss::setPosition(Coordinate newCoor){
-    Entity::getAnimation()->setPosition(newCoor);
-    Entity::getHitbox()->setPosition(newCoor);
+    Entity::setPosition(newCoor);
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
         guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
     }
 }
+
 void Boss::setPosition(float x, float y){
-    Coordinate newCoor(x,y);
-    Entity::getAnimation()->setPosition(newCoor);
-    Entity::getHitbox()->setPosition(newCoor);
+    Entity::setPosition(x, y);
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
         guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
 }
 
+void Boss::updatePosition(Coordinate newCoor){
+    Entity::updatePosition(newCoor);
+    if (currentGun >= 0){
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+    }
+}
+
+void Boss::updatePosition(float x, float y){
+    Entity::updatePosition(x, y);
+    if (currentGun >= 0){
+        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+    }
+}
 
 void Boss::AI(Player* rath, HUD* hud){
  

@@ -172,6 +172,8 @@ class Player : public Entity {
          */
         void inversaGun();
         
+        int isDead() { return dead; }
+        
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
         Weapon *getWeapon() { return weapon; }

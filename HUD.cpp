@@ -187,6 +187,9 @@ void HUD::drawHUD(bool onRange){
         drawFlash();
         drawFlashCooldown();
     }
+    if (dieModuleEnabled && dieBool) {
+        drawDie();
+    }
 }
 
 void HUD::drawGun(){
@@ -272,14 +275,10 @@ void HUD::drawDie(){
     }
 }
 
-bool HUD::checkDie(){
-    if(lifePlayer <= 0){
-        if(dieBool == false){
-            sf::sleep(sf::seconds(2));
-            dieBool = true;
-        }
-        buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
-        return true;
+bool HUD::playerDie(){
+    if(dieBool == false){
+        sf::sleep(sf::seconds(2));
+        dieBool = true;
     }
-    return false;
+    buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
 }
