@@ -65,6 +65,17 @@ class Entity {
          * @param y: Coordenada Y de la posicion
          */
         void setPosition(float x, float y);
+        /**
+         * Actualiza la posicion de la entidad
+         * @param newCoor: Nueva coordenada de posicion
+         */
+        void updatePosition(Coordinate newCoor);
+        /**
+         * Actualiza la posicion de la entidad
+         * @param x: Coordenada X de la posicion
+         * @param y: Coordenada Y de la posicion
+         */
+        void updatePosition(float x, float y);
         
         InterpolatedCoordinate *getState() { return coor; }
         Coordinate *getCoordinate() { return coor->getCoordinate(); }

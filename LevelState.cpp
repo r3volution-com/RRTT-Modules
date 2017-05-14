@@ -239,7 +239,7 @@ void LevelState::Render(){
     /*Interpolate*/
     if (*rath->getState()->getLastCoordinate() != *rath->getState()->getNextCoordinate()){
         Coordinate inc(rath->getState()->getIC());
-        rath->setPosition(Coordinate(inc.x, inc.y));
+        rath->updatePosition(Coordinate(inc.x, inc.y));
     }
     
     /***Set View***/
