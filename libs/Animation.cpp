@@ -34,13 +34,13 @@ void Animation::addAnimation(std::string name, Coordinate clipCoord, int nSprite
     animations->addAnimation(name, temp, sf::seconds(duration));
 }
 
-void Animation::changeAnimation(std::string name, bool loop){
-    if (loop) animator->play() << name;
+void Animation::changeAnimation(std::string name, bool oneTime){
+    if (oneTime) animator->play() << name;
     else animator->play() << thor::Playback::loop(name);
 }
 
-void Animation::queueAnimation(std::string name, bool loop){
-    if (loop) animator->queue() << name;
+void Animation::queueAnimation(std::string name, bool oneTime){
+    if (oneTime) animator->queue() << name;
     else animator->queue() << thor::Playback::loop(name);
 }
 

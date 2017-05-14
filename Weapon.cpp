@@ -15,6 +15,8 @@ Weapon::Weapon(Coordinate position, Coordinate size, float speed, float animatio
     attacking = false;
     isLong = false;
     
+    dmg = 0;
+    
     animSpeed = animationSpeed;
     
     vector = new thor::PolarVector2<float>(pieRadius, 0.f);

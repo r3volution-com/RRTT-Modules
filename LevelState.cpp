@@ -38,7 +38,6 @@ void LevelState::Init(){
     
     /*****RESOURCES*****/
     game->rM->loadTexture("player", "resources/spritesRATH.png");
-    game->rM->loadTexture("fire", "resources/fuego.png");
     game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
@@ -69,13 +68,14 @@ void LevelState::Init(){
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
+    rath = new Player(Coordinate(5500,14250), Coordinate(128, 192), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(150);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
+    wep->setDamage(20);
     
     rath->setWeapon(wep);
 
@@ -89,8 +89,8 @@ void LevelState::Init(){
     gunArm->setDamage(1);
     
     Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
-    bull->setAnimation(game->rM->getTexture("fire"), Rect<float>(0,0, 128, 128));
-    bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 0), 2, 0.5f);
+    bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
+    bull->getAnimation()->addAnimation("fireIdle", Coordinate(128, 896), 2, 0.5f);
     bull->getAnimation()->setOrigin(Coordinate(184,98));
     bull->getAnimation()->initAnimator();
     bull->getAnimation()->changeAnimation("fireIdle", false);

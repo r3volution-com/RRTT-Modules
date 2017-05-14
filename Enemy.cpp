@@ -165,11 +165,11 @@ void Enemy::AI(Player* rath, HUD* hud){
             else if(type == 3){
                 if(cd->isExpired()){
                     srand (time(NULL));
-                    num = rand() % 3;
+                    num = rand() % 2;
                 }else{
                     num = 0;
                 }
-                if(distance < disPlayerEnemy && num == 2 && distance > disPlayerEnemy/2 && cd->isExpired()){
+                if(distance < disPlayerEnemy && num == 1 && distance > disPlayerEnemy/5 && cd->isExpired()){
                     cd->restart();
                     freeze = true;
                     if(freeze == true && hits == 0){
