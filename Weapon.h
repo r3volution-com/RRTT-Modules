@@ -22,6 +22,8 @@ class Weapon {
         float pieRadius;
         float pieResolution;
         
+        int dmg;
+        
         bool attacking;
         bool isLong;
         
@@ -69,11 +71,14 @@ class Weapon {
          */
         void shortAttack(char direction);
         
+        void setDamage(int damage) { dmg = damage; }
+        
         /**
          * 
          * @return 
          */
         
+        int getDamage() { return dmg; }
         bool isAttacking() { return attacking; }
         char getDirection() { return dir; }
         Time *getTime() { return attackLength; }

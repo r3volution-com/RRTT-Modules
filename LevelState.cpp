@@ -76,6 +76,7 @@ void LevelState::Init(){
     rath->setFlashRange(10);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
+    wep->setDamage(20);
     
     rath->setWeapon(wep);
 

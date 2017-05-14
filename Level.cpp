@@ -198,7 +198,7 @@ void Level::Update(Player* rath, HUD* hud){
             }
         }
         if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
-            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
+            enemys->at(i)->damage(rath->getWeapon()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
             if(enemys->at(i)->getHP() <= 0){
                 enemys->at(i)->setPosition(100000,100000);
                 enemigosCaidos++;
@@ -215,7 +215,7 @@ void Level::Update(Player* rath, HUD* hud){
         }
    }
     if(rath->getWeapon()->detectCollisions(boss->getHitbox())){
-        boss->damage(rath->getCurrentGun()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
+        boss->damage(rath->getWeapon()->getDamage());
         hud->changeLifeBoss(boss->getHP());
         if(boss->getHP() <= 0){
             boss->setPosition(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
