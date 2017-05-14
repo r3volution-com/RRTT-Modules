@@ -315,6 +315,8 @@ void Level::Render(){
     
     if(enemigosCaidos < 5){
         Game::Instance()->window->draw(*npc2->getAnimation()->getSprite());
+    }else if(Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange()){
+        Game::Instance()->window->draw(*npc2->getAnimation()->getSprite());
     }
     
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
