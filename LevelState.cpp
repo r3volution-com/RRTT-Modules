@@ -287,8 +287,10 @@ void LevelState::Render(){
     hud->drawHUD(level->getBoss()->getOnRange());
     
     /*Texto NPC */
-    if(level->getMuestra()==true){
+    if(level->getMuestra()==true && rath->collision(Game::Instance()->getLevelState()->getLevel()->getNPC()->getHitbox())){
         hud->drawTextLayer();
+    }else if(level->getMuestra()==true && !rath->collision(Game::Instance()->getLevelState()->getLevel()->getNPC()->getHitbox())){
+        Game::Instance()->getLevelState()->getLevel()->setMuestra(false);
     }
     
     /*Texto notas */

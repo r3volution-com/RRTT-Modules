@@ -257,6 +257,7 @@ void Level::Input(Player* rath, HUD* hud){
 
             //Posicionamos el nombre del npc
             hud->setTLayerTalker(npc->getName(), 1125, 435);
+            
         }else{
             setMuestra(false);
             moverse = true;
