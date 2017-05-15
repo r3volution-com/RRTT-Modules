@@ -47,6 +47,8 @@ private:
     bool showText = false;
     //Comprobar si el npc se tiene que mover
     bool moverse = false;
+    //Que el muro se mantenga
+    bool sinSalida = true;
     Map *map;
     Note *note;
     Boss *boss;
