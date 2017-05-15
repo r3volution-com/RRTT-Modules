@@ -316,9 +316,10 @@ void Level::Render(){
     
     Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
     
-    if(enemigosCaidos < enemys->size()){
+    if(enemigosCaidos < enemys->size() && sinSalida==true){
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
-    }else if(Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange()){
+    }else if(Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange() || sinSalida==false){ 
+        sinSalida = false;
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
     }
     
