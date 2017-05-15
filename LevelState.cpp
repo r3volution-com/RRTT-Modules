@@ -227,6 +227,7 @@ void LevelState::Input(){
      
         if (rath->isDead()) {
             hud->playerDie();
+            level->setSinSalida(true);
             paused = true;
         }
     } else {
