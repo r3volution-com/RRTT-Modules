@@ -173,6 +173,12 @@ void Level::Init(){
         fuego->getAnimation()->initAnimator();
         fuego->getAnimation()->changeAnimation("idle", false);
         
+        fuego2 = new Entity(Coordinate(3425,2000), Coordinate(1280, 384), 0);
+        fuego2->setSprite(tex4, Rect<float>(0,0,1280,384));
+        fuego2->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
+        fuego2->getAnimation()->initAnimator();
+        fuego2->getAnimation()->changeAnimation("idle", false);
+        
         //Anyadimos la accion de hablar cuando pulsemos la E
         Game::Instance()->iM->addAction("interactuar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
     }  
@@ -229,11 +235,16 @@ void Level::Update(Player* rath, HUD* hud){
         }*/
    }
     
+    /* COLISION MUROS*/
     if(rath->collision(fuego->getHitbox()) && enemigosCaidos < enemys->size()){
         rath->move(0,1);
     }else if(rath->collision(fuego->getHitbox()) && enemigosCaidos >= enemys->size()){
         rath->move(0,-1);
     }
+    
+    if(rath->collision(fuego2->getHitbox())){
+        rath->move(0,1);
+    }  
 }
 
 void Level::Input(Player* rath, HUD* hud){
@@ -322,6 +333,8 @@ void Level::Render(){
         sinSalida = false;
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
     }
+    
+    Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());
     
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
 }
