@@ -143,6 +143,7 @@ void LevelState::Update(){
             level->getNPC()->move(0,20);
         }else{
             paused = false;
+            level->setMoverse(false);
         }
     }
 }
