@@ -37,6 +37,7 @@ void LevelState::Init(){
     Game *game = Game::Instance();
     
     /*****RESOURCES*****/
+    game->rM->loadTexture("sangre", "resources/rojo.jpg");
     game->rM->loadTexture("player", "resources/spritesRATH.png");
     game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
@@ -67,10 +68,20 @@ void LevelState::Init(){
     game->iM->addAction("pause", thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
+    /*****Particle*****/
+    blood = new Particles(game->rM->getTexture("sangre"));
+    blood->addParticle(Rect<float> (0, 0, 5, 5));
+    blood->setProperties(20,0.25f,0.75f);
+    blood->setParticlePosition(thor::Distributions::circle(sf::Vector2f(5300,13850), 30));
+    //blood->setParticleRotation(thor::Distributions::uniform(360.f, 0.f));
+    blood->setParticleSpeed(thor::Distribution<sf::Vector2f> (sf::Vector2f(15.0f,-60.0f)));
+    blood->setGravity(500.0f);
+    blood->start(2);
+    
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(350);
+    rath->setMaxHP(50);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
     //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
@@ -115,7 +126,7 @@ void LevelState::Init(){
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
-    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(600, 450), game->rM->getTexture("button-layout"), Rect<float>(0, 0, 200, 50));
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("button-layout"), Rect<float>(0, 0, 200, 50));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
@@ -188,10 +199,10 @@ void LevelState::Input(){
         rath->getCurrentGun()->update(newPos, mouseAng);
 
         /*Player weapon attack*/
-        if (Game::Instance()->iM->isActive("player-shortAttack")){ //ToDo: hacemos que se ralentize al cargar?
+        if (Game::Instance()->iM->isActive("player-shortAttack")){ 
             rath->weaponShortAttack(mouseAng);
         }
-        if (Game::Instance()->iM->isActive("player-longAttackStart")){
+        if (Game::Instance()->iM->isActive("player-longAttackStart")){//ToDo: hacemos que se ralentize al cargar?
             rath->weaponChargeAttack(mouseAng);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStop")){
@@ -274,6 +285,8 @@ void LevelState::Render(){
     
     
     /*Render Player and guns*/
+    blood->update();
+    blood->draw();
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     if (!rath->getCurrentGun()->getBulletLifetime()->isExpired())
