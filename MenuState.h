@@ -3,6 +3,7 @@
 
 #include "GameState.h"
 #include "Menu.h"
+#include <SFML/Audio.hpp>
 
 class MenuState : public GameState{
     private:
@@ -10,6 +11,8 @@ class MenuState : public GameState{
         Menu *opciones;
         
         Menu *actual;
+        
+        //sf::Music musica;
         
         int menuactual;
     public:

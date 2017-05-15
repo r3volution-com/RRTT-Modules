@@ -29,12 +29,11 @@ Level::~Level(){
 }
 
 void Level::Init(){
-    Texture *tex = new Texture("resources/note.png");
-    Texture *tex2 = new Texture("resources/pergamino.png");
-    Texture *tex3 = new Texture("resources/npc.png");
-    Texture *tex4 = new Texture("resources/muro.png");
-     
-    Font *font = new Font("resources/font.ttf");
+    
+    Game::Instance()->rM->loadTexture("note", "resources/note.png");
+    Game::Instance()->rM->loadTexture("pergamino", "resources/pergamino.png");
+    Game::Instance()->rM->loadTexture("npc", "resources/npc.png");
+    Game::Instance()->rM->loadTexture("muro", "resources/muro.png");
     
     //Si estamos en el primer nivel
     if(level==1){
@@ -42,7 +41,7 @@ void Level::Init(){
         map = new Map("resources/MAPAPABLO.tmx");
         
         //Cargamos las notas
-        note = new Note(tex, Rect<float>(0, 0, 128, 128), tex2, Rect<float>(0, 0, 608, 488), font);
+        note = new Note(Game::Instance()->rM->getTexture("note"), Rect<float>(0, 0, 128, 128), Game::Instance()->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), Game::Instance()->rM->getFont("font"));
         note->setPosition(Coordinate(1950, 13850));
         note->setBackgroundPosition(Coordinate(350, 125));
         note->setText("El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\n "
@@ -65,7 +64,7 @@ void Level::Init(){
         enemy->setMaxHP(40);
         enemy->setDistanceEnemyHome(2000);
         enemy->setDistancePlayerEnemy(1500);
-        enemy->setInitialDmg(3);
+        enemy->setInitialDmg(6);
         enemy->setHitCooldown(new Time(2));
         enemy->setFreeze(22);
         
@@ -75,10 +74,10 @@ void Level::Init(){
         Enemy *enemy2 = new Enemy(Coordinate(4000,9350), Coordinate(128, 128), 15);
         enemy2->setType(2);
         enemy2->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy2->setMaxHP(30);
+        enemy2->setMaxHP(60);
         enemy2->setDistanceEnemyHome(1300);
         enemy2->setDistancePlayerEnemy(800);
-        enemy2->setInitialDmg(2);
+        enemy2->setInitialDmg(4);
         enemy2->setHitCooldown(new Time(0.5));
         enemy2->SetFlashRange(10);
         enemy2->setFlashCooldown(new Time(2));
@@ -89,10 +88,10 @@ void Level::Init(){
         Enemy *enemy3 = new Enemy(Coordinate(3000,8550), Coordinate(128, 128), 20);
         enemy3->setType(1);
         enemy3->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy3->setMaxHP(40);
+        enemy3->setMaxHP(60);
         enemy3->setDistanceEnemyHome(1000);
         enemy3->setDistancePlayerEnemy(500);
-        enemy3->setInitialDmg(3);
+        enemy3->setInitialDmg(6);
         enemy3->setHitCooldown(new Time(0.5));
         
         enemys->push_back(enemy3);
@@ -101,10 +100,10 @@ void Level::Init(){
         Enemy *enemy4 = new Enemy(Coordinate(3500,9550), Coordinate(128, 128), 15);
         enemy4->setType(2);
         enemy4->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy4->setMaxHP(30);
+        enemy4->setMaxHP(40);
         enemy4->setDistanceEnemyHome(1300);
         enemy4->setDistancePlayerEnemy(800);
-        enemy4->setInitialDmg(2);
+        enemy4->setInitialDmg(4);
         enemy4->setHitCooldown(new Time(0.5));
         enemy4->SetFlashRange(10);
         enemy4->setFlashCooldown(new Time(2));
@@ -115,10 +114,10 @@ void Level::Init(){
         Enemy *enemy5 = new Enemy(Coordinate(3650,11000), Coordinate(128, 128), 15);
         enemy5->setType(1);
         enemy5->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy5->setMaxHP(30);
+        enemy5->setMaxHP(60);
         enemy5->setDistanceEnemyHome(1200);
         enemy5->setDistancePlayerEnemy(500);
-        enemy5->setDmgHit(2);
+        enemy5->setDmgHit(6);
         enemy5->setHitCooldown(new Time(0.5));
         
         enemys->push_back(enemy5);
@@ -129,7 +128,7 @@ void Level::Init(){
         gunArm->getAnimation()->initAnimator();    
         gunArm->getAnimation()->changeAnimation("armaIdle", false);
         gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-        gunArm->setDamage(1);
+        gunArm->setDamage(2);
 
         Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
         bull->setAnimation(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
@@ -142,14 +141,20 @@ void Level::Init(){
         
         boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20, 1);
         boss->setAnimations(Game::Instance()->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        boss->setMaxHP(200);
+        boss->setMaxHP(620);
         boss->setDistanceEnemyHome(1500);
         boss->setDistancePlayerEnemy(1000);
-        boss->setInitialDmg(5);
+        boss->setInitialDmg(15);
         boss->setHitCooldown(new Time(1));
         boss->SetFlashRange(8);
         boss->setFlashCooldown(new Time(0.5));
         boss->setStateClock(new Time(20));
+        boss->addState(1);
+        boss->addState(2);
+        srand (time(NULL));
+        for(int y = 0; y < 8; y++){
+            boss->addRandomState();
+        }
         
         boss->addGun(gunArm);
         
@@ -157,7 +162,7 @@ void Level::Init(){
         
         /* NPC */
         npc = new NPC(Coordinate(4500,13300), Coordinate(128, 128), 2, "Jose");
-        npc->setSprite(tex3, Rect<float>(0,0,128,128));
+        npc->setSprite(Game::Instance()->rM->getTexture("npc"), Rect<float>(0,0,128,128));
         npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         npc->getAnimation()->initAnimator();
         npc->getAnimation()->changeAnimation("idle", false);
@@ -168,10 +173,16 @@ void Level::Init(){
         
         /* MURO */
         fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
-        fuego->setSprite(tex4, Rect<float>(0,0,1280,384));
+        fuego->setSprite(Game::Instance()->rM->getTexture("muro"), Rect<float>(0,0,1280,384));
         fuego->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         fuego->getAnimation()->initAnimator();
         fuego->getAnimation()->changeAnimation("idle", false);
+        
+        fuego2 = new Entity(Coordinate(3425,2000), Coordinate(1280, 384), 0);
+        fuego2->setSprite(Game::Instance()->rM->getTexture("muro"), Rect<float>(0,0,1280,384));
+        fuego2->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
+        fuego2->getAnimation()->initAnimator();
+        fuego2->getAnimation()->changeAnimation("idle", false);
         
         //Anyadimos la accion de hablar cuando pulsemos la E
         Game::Instance()->iM->addAction("interactuar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
@@ -229,11 +240,16 @@ void Level::Update(Player* rath, HUD* hud){
         }*/
    }
     
+    /* COLISION MUROS*/
     if(rath->collision(fuego->getHitbox()) && enemigosCaidos < enemys->size()){
         rath->move(0,1);
     }else if(rath->collision(fuego->getHitbox()) && enemigosCaidos >= enemys->size()){
         rath->move(0,-1);
     }
+    
+    if(rath->collision(fuego2->getHitbox())){
+        rath->move(0,1);
+    }  
 }
 
 void Level::Input(Player* rath, HUD* hud){
@@ -322,6 +338,8 @@ void Level::Render(){
         sinSalida = false;
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
     }
+    
+    Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());
     
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
 }
