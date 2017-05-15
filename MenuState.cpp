@@ -7,12 +7,15 @@ MenuState::MenuState() {
 
 MenuState::~MenuState(){
     delete principal;
-    
+
     principal = NULL;
 }
 
 void MenuState::Init(){
     Game *game = Game::Instance();
+    //musica.openFromFile("resources/Inicio.ogg");
+    //musica.setLoop(true);
+    //musica.play();
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
     game->rM->loadTexture("button-layout", "resources/button-layout.png");
     game->rM->loadFont("menu", "resources/font.ttf");
@@ -36,6 +39,7 @@ void MenuState::Input(){
         if (menuactual == 0){
             switch (clicks){
                 case 0:
+                    //musica.stop();
                     Game::Instance()->ChangeCurrentState("level");
                 break;
                 case 1:

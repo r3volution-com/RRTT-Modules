@@ -29,12 +29,11 @@ Level::~Level(){
 }
 
 void Level::Init(){
-    Texture *tex = new Texture("resources/note.png");
-    Texture *tex2 = new Texture("resources/pergamino.png");
-    Texture *tex3 = new Texture("resources/npc.png");
-    Texture *tex4 = new Texture("resources/muro.png");
-     
-    Font *font = new Font("resources/font.ttf");
+    
+    Game::Instance()->rM->loadTexture("note", "resources/note.png");
+    Game::Instance()->rM->loadTexture("pergamino", "resources/pergamino.png");
+    Game::Instance()->rM->loadTexture("npc", "resources/npc.png");
+    Game::Instance()->rM->loadTexture("muro", "resources/muro.png");
     
     //Si estamos en el primer nivel
     if(level==1){
@@ -42,7 +41,7 @@ void Level::Init(){
         map = new Map("resources/MAPAPABLO.tmx");
         
         //Cargamos las notas
-        note = new Note(tex, Rect<float>(0, 0, 128, 128), tex2, Rect<float>(0, 0, 608, 488), font);
+        note = new Note(Game::Instance()->rM->getTexture("note"), Rect<float>(0, 0, 128, 128), Game::Instance()->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), Game::Instance()->rM->getFont("font"));
         note->setPosition(Coordinate(1950, 13850));
         note->setBackgroundPosition(Coordinate(350, 125));
         note->setText("El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\n "
@@ -157,7 +156,7 @@ void Level::Init(){
         
         /* NPC */
         npc = new NPC(Coordinate(4500,13300), Coordinate(128, 128), 2, "Jose");
-        npc->setSprite(tex3, Rect<float>(0,0,128,128));
+        npc->setSprite(Game::Instance()->rM->getTexture("npc"), Rect<float>(0,0,128,128));
         npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         npc->getAnimation()->initAnimator();
         npc->getAnimation()->changeAnimation("idle", false);
@@ -168,13 +167,13 @@ void Level::Init(){
         
         /* MURO */
         fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
-        fuego->setSprite(tex4, Rect<float>(0,0,1280,384));
+        fuego->setSprite(Game::Instance()->rM->getTexture("muro"), Rect<float>(0,0,1280,384));
         fuego->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         fuego->getAnimation()->initAnimator();
         fuego->getAnimation()->changeAnimation("idle", false);
         
         fuego2 = new Entity(Coordinate(3425,2000), Coordinate(1280, 384), 0);
-        fuego2->setSprite(tex4, Rect<float>(0,0,1280,384));
+        fuego2->setSprite(Game::Instance()->rM->getTexture("muro"), Rect<float>(0,0,1280,384));
         fuego2->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         fuego2->getAnimation()->initAnimator();
         fuego2->getAnimation()->changeAnimation("idle", false);

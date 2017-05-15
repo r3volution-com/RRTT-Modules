@@ -36,6 +36,7 @@ public:
     bool getShowText() {return showText;}
     void setMoverse(bool booleano) {moverse=booleano;};
     bool getMoverse(){return moverse;}
+    void setSinSalida(bool booleano) {sinSalida=booleano;};
     
 private:
 
