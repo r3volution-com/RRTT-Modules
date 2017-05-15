@@ -34,6 +34,7 @@ public:
     void setMuestra(bool booleano) {muestra=booleano;};
     bool getMuestra() {return muestra;};
     bool getShowText() {return showText;}
+    void setMoverse(bool booleano) {moverse=booleano;};
     bool getMoverse(){return moverse;}
     
 private:
