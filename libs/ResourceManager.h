@@ -5,12 +5,15 @@
 #include <Thor/Resources.hpp>
 #include "Texture.h"
 #include "Font.h"
+#include "Sound.h"
+#include "Music.h"
 
 class ResourceManager {
     private:
 	thor::ResourceHolder<Texture, std::string> textures;
 	thor::ResourceHolder<Font,    std::string> fonts;
-	//thor::ResourceHolder<sf::SoundBuffer, std::string>   sounds;
+	thor::ResourceHolder<Sound, std::string>   sounds;
+	thor::ResourceHolder<Music, std::string>   music;
         
     public:
         /**
@@ -34,6 +37,20 @@ class ResourceManager {
         void loadFont(std::string name, const char* path);
         
         /**
+         * Carga de musica
+         * @param name: Nombre de la musica
+         * @param path: Ruta de la musica
+         */
+        void loadMusic(std::string name, const char* path);
+        
+        /**
+         * Carga de sonidos
+         * @param name: Nombre de la sonido
+         * @param path: Ruta de la sonido
+         */
+        void loadSound(std::string name, const char* path);
+        
+        /**
          * Liberacion de las texturas
          * @param name:Nombre de las texturas
          */
@@ -46,8 +63,24 @@ class ResourceManager {
          */
         void releaseFont(std::string name);
         
+        /**
+         * Liberacion de la musica
+         * @param: Nombre de la musica
+         * @return 
+         */
+        void releaseMusic(std::string name);
+        
+        /**
+         * Liberacion del sonido
+         * @param: Nombre del sonido
+         * @return 
+         */
+        void releaseSound(std::string name);
+        
         Texture *getTexture(std::string name);
         Font *getFont(std::string name);
+        Music *getMusic(std::string name);
+        Sound *getSound(std::string name);
 };
 
 #endif /* RESOURCEMANAGER_H */
