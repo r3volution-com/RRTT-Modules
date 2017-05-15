@@ -15,7 +15,6 @@ Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(posi
     states = new std::vector<int>();
     start = false;
     nextState = false;
-    createStates();
 }
 
 Boss::~Boss() {
@@ -209,18 +208,13 @@ void Boss::damage(int dm){
     }
 }
 
-void Boss::createStates(){
-    int num;
-    if(states->size() == 0){
-        states->push_back(1);
-        states->push_back(2);
-        srand (time(NULL));
-        for(int y = 2; y < 10; y++){
-            num = rand() % 2 + 1;
-            states->push_back(num);
-            std::cout<<num<<"\n";
-        }
-    }
+void Boss::addState(int s){
+    states->push_back(s);
+}
+
+void Boss::addRandomState(){
+    int num = rand() % 2 + 1;
+    states->push_back(num);
 }
 
 void Boss::changeState(){
@@ -240,9 +234,6 @@ void Boss::changeState(){
 }
 
 void Boss::AI(Player* rath, HUD* hud){
-    std::cout<<"Next: "<<nextState<<"\n";
-    std::cout<<"State: "<<state<<"\n";
-    std::cout<<"HP: "<<Boss::getHP()<<"\n";
     float distance = Enemy::getTrigonometry()->distance(rath->getCoordinate(), Entity::getCoordinate());
     float distanceIni = Enemy::getTrigonometry()->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
     Coordinate dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());

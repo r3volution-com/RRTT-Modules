@@ -70,13 +70,13 @@ void LevelState::Init(){
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(150);
+    rath->setMaxHP(350);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
     //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
-    wep->setDamage(10);
+    wep->setDamage(12);
     
     rath->setWeapon(wep);
 
@@ -87,7 +87,7 @@ void LevelState::Init(){
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-    gunArm->setDamage(1);
+    gunArm->setDamage(2);
     
     Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
     bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
@@ -115,7 +115,7 @@ void LevelState::Init(){
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
-    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(100, 100), game->rM->getTexture("button-layout"), Rect<float>(0, 0, 200, 50));
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(600, 450), game->rM->getTexture("button-layout"), Rect<float>(0, 0, 200, 50));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
@@ -244,6 +244,8 @@ void LevelState::Input(){
             if(hud->getButton()->getHover() && Game::Instance()->iM->isActive("click")){
                 rath->respawn(0);
                 hud->changeLifePlayer(rath->getHP());
+                level->getBoss()->setHP(level->getBoss()->getMaxHP());
+                hud->changeLifeBoss(level->getBoss()->getHP());
                 paused = false;
             }
         }
