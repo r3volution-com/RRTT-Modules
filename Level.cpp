@@ -65,7 +65,7 @@ void Level::Init(){
         enemy->setMaxHP(40);
         enemy->setDistanceEnemyHome(2000);
         enemy->setDistancePlayerEnemy(1500);
-        enemy->setDmgHit(3);
+        enemy->setInitialDmg(3);
         enemy->setHitCooldown(new Time(2));
         enemy->setFreeze(22);
         
@@ -78,7 +78,7 @@ void Level::Init(){
         enemy2->setMaxHP(30);
         enemy2->setDistanceEnemyHome(1300);
         enemy2->setDistancePlayerEnemy(800);
-        enemy2->setDmgHit(2);
+        enemy2->setInitialDmg(2);
         enemy2->setHitCooldown(new Time(0.5));
         enemy2->SetFlashRange(10);
         enemy2->setFlashCooldown(new Time(2));
@@ -92,7 +92,7 @@ void Level::Init(){
         enemy3->setMaxHP(40);
         enemy3->setDistanceEnemyHome(1000);
         enemy3->setDistancePlayerEnemy(500);
-        enemy3->setDmgHit(3);
+        enemy3->setInitialDmg(3);
         enemy3->setHitCooldown(new Time(0.5));
         
         enemys->push_back(enemy3);
@@ -104,7 +104,7 @@ void Level::Init(){
         enemy4->setMaxHP(30);
         enemy4->setDistanceEnemyHome(1300);
         enemy4->setDistancePlayerEnemy(800);
-        enemy4->setDmgHit(2);
+        enemy4->setInitialDmg(2);
         enemy4->setHitCooldown(new Time(0.5));
         enemy4->SetFlashRange(10);
         enemy4->setFlashCooldown(new Time(2));
@@ -145,7 +145,7 @@ void Level::Init(){
         boss->setMaxHP(200);
         boss->setDistanceEnemyHome(1500);
         boss->setDistancePlayerEnemy(1000);
-        boss->setDmgHit(5);
+        boss->setInitialDmg(5);
         boss->setHitCooldown(new Time(1));
         boss->SetFlashRange(8);
         boss->setFlashCooldown(new Time(0.5));

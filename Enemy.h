@@ -16,6 +16,7 @@ class Enemy : public Entity{
         int flashRange;
         Time *flashCooldown;
         float maxFlashCooldown;
+        float initialSpeed;
         Trigonometry *tri;
         
         Time *cd;
@@ -25,11 +26,13 @@ class Enemy : public Entity{
         int slowDown;
         int dmgHit;
         int hits;
+        int initialDmg;
         
         int disPlayerEnemy;
         int disEnemyHome;
 
         char direction;
+        
         
     public: 
         /**
@@ -145,8 +148,10 @@ class Enemy : public Entity{
         void setHome(bool value){home = value;}
         void resetCooldownHit(){cd->restart();}
         void setAnimations(Texture *t, Rect<float> newRect);
-        
-        
+        float getInitialSpeed() {return initialSpeed;}
+        int getInitialDmg() {return initialDmg;}
+        void setInitialDmg(int dmg) {initialDmg = dmg; dmgHit = dmg; cd->start();} 
+        void setHP(int ahp) {hp = ahp; }
 };
 
 #endif /* ENEMY_H */

@@ -14,6 +14,7 @@ Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(posi
     delay = new Time(0);
     states = new std::vector<int>();
     start = false;
+    nextState = false;
     createStates();
 }
 
@@ -194,27 +195,43 @@ void Boss::updatePosition(float x, float y){
     }
 }
 
+void Boss::damage(int dm){
+    if (Boss::getHP()-dm <= 0){
+        Boss::setHP(0);
+        //die();
+    }
+    else Boss::setHP(Boss::getHP()-dm);
+    if(actualDmg + dm >= Enemy::getMaxHP()/states->size()){
+        nextState = true;
+        actualDmg = 0;
+    }else{
+        actualDmg += dm;
+    }
+}
+
 void Boss::createStates(){
     int num;
     if(states->size() == 0){
         states->push_back(1);
         states->push_back(2);
+        srand (time(NULL));
         for(int y = 2; y < 10; y++){
-            srand (time(NULL));
             num = rand() % 2 + 1;
             states->push_back(num);
+            std::cout<<num<<"\n";
         }
     }
 }
 
 void Boss::changeState(){
-    if(stateClock->isExpired()){
+    if(stateClock->isExpired() || nextState == true){
         actualState++;
-        if(actualState > states->size()){
+        if(actualState >= states->size()){
             actualState = 0;
         }
         state = states->at(actualState);
         stateClock->restart(timeState);
+        nextState = false;
     }
     if(state == 0 && start == true){
         state = states->at(actualState);
@@ -223,6 +240,9 @@ void Boss::changeState(){
 }
 
 void Boss::AI(Player* rath, HUD* hud){
+    std::cout<<"Next: "<<nextState<<"\n";
+    std::cout<<"State: "<<state<<"\n";
+    std::cout<<"HP: "<<Boss::getHP()<<"\n";
     float distance = Enemy::getTrigonometry()->distance(rath->getCoordinate(), Entity::getCoordinate());
     float distanceIni = Enemy::getTrigonometry()->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
     Coordinate dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
@@ -238,6 +258,7 @@ void Boss::AI(Player* rath, HUD* hud){
         onRange = false;
     }
     if(state == 0){ //Pasive
+        Boss::setDmgHit(Boss::getInitialDmg());
         if(onRange == true && distance >= 100){
             changeState();
             start = true;
@@ -263,8 +284,8 @@ void Boss::AI(Player* rath, HUD* hud){
         }
         
     }else if(state == 1){ //Aggressive
-            std::cout<<"enra"<<"\n";
         if(onRange == true && distance >= 80){
+            Boss::setDmgHit(Boss::getInitialDmg());
             move(dir.x,dir.y);
             if(level == 1){
                 float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
@@ -288,6 +309,7 @@ void Boss::AI(Player* rath, HUD* hud){
     }else if(onRange == true && state == 2){ //Defensive
         move(dir.x,dir.y);
         if(distance >= 100){
+            Boss::setDmgHit(Boss::getInitialDmg() * 1.5);
             if(level == 1){
                 delay->start();
                 if(onDelay == false){
