@@ -85,7 +85,6 @@ class Boss : public Enemy{
         void damage(int dm);
         void addState(int s);
         void addRandomState();
-        void createStates();
 };
 
 #endif /* BOSS_H */

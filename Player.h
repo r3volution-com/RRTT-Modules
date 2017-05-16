@@ -19,6 +19,8 @@ class Player : public Entity {
         float flashTime;
         int flashRange;
         
+        float initialSpeed;
+        
         bool attacking;
         bool weaponLoaded;
         
@@ -27,6 +29,7 @@ class Player : public Entity {
         char state;
         
         bool dead;
+        Time *dmgOnPlayer;
     public:
         /**
          * Crea el objeto jugador
@@ -181,6 +184,9 @@ class Player : public Entity {
         Time *getFlashCooldown() { return flashCooldown; }
         
         bool isAttacking() { return attacking; }
+        
+        float getInitialSpeed() {return initialSpeed;}
+        Time *getDmgOnPlayer() {return dmgOnPlayer;}
 };
 
 #endif /* PROTAGONISTA_H */
