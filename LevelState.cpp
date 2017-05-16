@@ -107,6 +107,19 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
+    level->setDisNpcPlayer(level->getTrignometry()->distance(*rath->getCoordinate(), *level->getNPC()->getCoordinate()));
+    
+    if(level->getMoverse()==true){
+        if(level->getNPC()->getCoordinate()->y < 20000){
+            level->getNPC()->move(0,20);
+        }else{
+            paused = false;
+            level->setMoverse(false);
+        }if(level->getDisNpcPlayer() > 1000){
+            paused = false;
+        }
+    }
+    
     if (!paused){
         float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
         Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
@@ -116,13 +129,8 @@ void LevelState::Update(){
         rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 
         level->Update(rath, hud);
-    }else if(paused==true && level->getMoverse()==true){
-        if(level->getNPC()->getCoordinate()->y < 15000){
-            level->getNPC()->move(0,20);
-        }else{
-            paused = false;
-            level->setMoverse(false);
-        }
+    }else {
+        
     }
 }
 
@@ -278,6 +286,10 @@ void LevelState::Render(){
         hud->drawTextLayer();
     }else if(level->getMuestra()==true && !rath->collision(Game::Instance()->getLevelState()->getLevel()->getNPC()->getHitbox())){
         Game::Instance()->getLevelState()->getLevel()->setMuestra(false);
+    }
+    
+    if(level->getShowIterationNpc() && level->getMuestra() == false && paused == false){
+        Game::Instance()->window->draw(*level->getKeyIterationNpc()->getText());
     }
     
     /*Texto notas */

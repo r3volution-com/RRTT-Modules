@@ -13,6 +13,7 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     initialSpeed = sp;
     haveParticles = false;
     timeDead = new Time(2);
+    dead = false;
 }
 
 Enemy::~Enemy() {
@@ -162,10 +163,10 @@ void Enemy::setAnimations(Texture *t, Rect<float> newRect){
 
 void Enemy::AI(Player* rath, HUD* hud){
     //float angle = tri->angle(rath->getCoordinate(), Entity::getCoordinate());
-    float distance = tri->distance(rath->getCoordinate(), Entity::getCoordinate());
-    float distanceIni = tri->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
-    Coordinate dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());
-    Coordinate ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
+    float distance = tri->distance(*rath->getCoordinate(), *Entity::getCoordinate());
+    float distanceIni = tri->distance(*Entity::getCoordinate(), *Entity::getInitialCoordinate());
+    Coordinate dir = tri->direction(*rath->getCoordinate(), *Entity::getCoordinate());
+    Coordinate ini = tri->direction(*Entity::getInitialCoordinate(), *Entity::getCoordinate());
     if(freeze == true && (cd->isExpired() && hits == 1)){
         rath->setSpeed(rath->getSpeed()+slowDown);
         hits = 0;

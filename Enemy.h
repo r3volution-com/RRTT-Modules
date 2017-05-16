@@ -27,6 +27,7 @@ class Enemy : public Entity{
         bool home;
         bool freeze;
         bool haveParticles;
+        bool dead;
         
         int slowDown;
         int dmgHit;
@@ -174,6 +175,8 @@ class Enemy : public Entity{
         void setInitialDmg(int dmg) {initialDmg = dmg; dmgHit = dmg; cd->start();} 
         void setHP(int ahp) {hp = ahp; }
         Time *getTimeDead() {return timeDead;}
+        bool isDead(){return dead;}
+        void setDead(bool d){ dead = d;}
 };
 
 #endif /* ENEMY_H */

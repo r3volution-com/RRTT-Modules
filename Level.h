@@ -38,7 +38,11 @@ public:
     bool getMoverse(){return moverse;}
     void setSinSalida(bool booleano) {sinSalida=booleano;};
     bool getSinSalida(){return sinSalida;}
-    
+    bool getShowIterationNpc(){return showIterationNpc;}
+    Text *getKeyIterationNpc(){return keyIterationNpc;}
+    Trigonometry *getTrignometry(){return tri;}
+    int getDisNpcPlayer(){return disNpcPlayer;}
+    void setDisNpcPlayer(int dis){disNpcPlayer = dis;}
 private:
 
     virtual ~Level();
@@ -46,19 +50,24 @@ private:
     //Player se carga en levelState 
     int level;
     int enemigosCaidos;
+    int disNpcPlayer;
     bool muestra = false;
     bool showText = false;
     //Comprobar si el npc se tiene que mover
     bool moverse = false;
     //Que el muro se mantenga
     bool sinSalida = true;
+    
+    bool showIterationNpc;
+    Text *keyIterationNpc;
     Map *map;
     Note *note;
     Boss *boss;
     NPC *npc;
     Entity *fuego;
     Entity *fuego2;
-
+    Trigonometry *tri;
+            
     Gun *gun;
     Crystals *crystal;
     std::vector<Coordinate*> *respawn;
