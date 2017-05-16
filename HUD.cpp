@@ -13,7 +13,8 @@ HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Fo
     playerHP = new Sprite(tex, lRect); 
     playerHP->setPosition(296.5f,30.0f);
     lifePlayerText = new Text(std::string(), Coordinate(0,0), font, false);
-    lifePlayerText->setStyles(sf::Color::Black, sf::Color::Black, 0, 12);
+    lifePlayerText->setTextStyle(sf::Color::Black, 12);
+    lifePlayerText->setOutlineStyle(sf::Color::Black, 0);
     maxLifePlayer = 100;
     lifePlayer = maxLifePlayer;
     //Fin
@@ -136,7 +137,8 @@ void HUD::setTLayerText(std::string s, float x, float y){
 }
 
 void HUD::setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor){
-    currentText->setStyles(fillColor, outlineColor, 1, size);
+    currentText->setTextStyle(fillColor, size);
+    currentText->setOutlineStyle(outlineColor, 1);
 }
 
 void HUD::setTextLifePlayer(){
@@ -277,7 +279,8 @@ bool HUD::playerDie(){
         if(dieBool == false){
             //sf::sleep(sf::seconds(1));
             dieBool = true;
-            buttonDie->setText("Reintentar", sf::Color::Black, sf::Color::Transparent, font, 20);
+            buttonDie->setText("Reintentar", sf::Color::Black, font, 20);
+            buttonDie->setOutline(1, sf::Color::Transparent, sf::Color::White);
         } else {
             buttonDie->hover(Game::Instance()->mouse);
         }

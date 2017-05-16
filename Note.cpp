@@ -32,7 +32,8 @@ void Note::setBackgroundPosition(Coordinate pos){
 
 void Note::setText(std::string str, sf::Color color, sf::Color outlineColor, int outlineSize, int size){
     text->setText(str);
-    text->setStyles(color, outlineColor, outlineSize, size);
+    text->setTextStyle(color, size);
+    text->setOutlineStyle(outlineColor, outlineSize);
 }
 
 void Note::setTaken(){
