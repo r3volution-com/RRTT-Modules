@@ -12,8 +12,6 @@ class MenuState : public GameState{
         
         Menu *actual;
         
-        //sf::Music musica;
-        
         int menuactual;
     public:
         MenuState();
