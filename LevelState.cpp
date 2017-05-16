@@ -50,7 +50,7 @@ void LevelState::Init(){
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(50);
+    rath->setMaxHP(350);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
     //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
@@ -93,14 +93,14 @@ void LevelState::Init(){
     hud->setBossLife(Rect<float>(5,200,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     hud->setFlash(Coordinate(20, 110), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
-    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(0, 0, 200, 50));
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(513, 925, 200, 50));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("gui-tileset"), 
             new Rect<float>(513,925,200,50), game->rM->getFont("font"));
-    pause->addButton(Coordinate(540,200), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
-    pause->addButton(Coordinate(540,270), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
-    pause->addButton(Coordinate(540,340), "Salir al menu", sf::Color::Black, sf::Color::Transparent, 20);
+    pause->addButton(Coordinate(550,250), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
+    pause->addButton(Coordinate(550,320), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
+    pause->addButton(Coordinate(550,390), "Salir al menu", sf::Color::Black, sf::Color::Transparent, 20);
     pauseMenu = false;
     
     paused = false;
@@ -171,9 +171,11 @@ void LevelState::Input(){
         }
         if (Game::Instance()->iM->isActive("player-longAttackStart")){//ToDo: hacemos que se ralentize al cargar?
             rath->weaponChargeAttack(mouseAng);
+            rath->setSpeed(rath->getInitialSpeed() * 0.5);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStop")){
             rath->weaponReleaseAttack();
+            rath->setSpeed(rath->getInitialSpeed());
         }
 
         /*Player gun attack*/

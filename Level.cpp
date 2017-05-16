@@ -143,7 +143,7 @@ void Level::Init(){
         
         boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20, 2);
         boss->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        boss->setMaxHP(620);
+        boss->setMaxHP(550);
         boss->setDistanceEnemyHome(1500);
         boss->setDistancePlayerEnemy(1000);
         boss->setInitialDmg(15);

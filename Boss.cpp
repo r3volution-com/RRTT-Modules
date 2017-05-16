@@ -298,6 +298,7 @@ void Boss::AI(Player* rath, HUD* hud){
                     }
                 }
             }else if(level == 2){
+                Boss::setSpeed(Boss::getInitialSpeed());
                 
             }else if(level == 3){
                 
@@ -307,7 +308,7 @@ void Boss::AI(Player* rath, HUD* hud){
             state = 0;
         }
     }else if(onRange == true && state == 2){ //Defensive
-        if(distance >= 100){
+        if(distance >= 80){
             move(dir.x,dir.y);
             Boss::setDmgHit(Boss::getInitialDmg() * 1.5);
             if(level == 1){
