@@ -9,6 +9,7 @@ Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position
     flashRange=0;
     flashTime=0;
     flashCooldown = new Time(0);
+    initialSpeed = sp;
     attacking = false;
     dead = false;
 }

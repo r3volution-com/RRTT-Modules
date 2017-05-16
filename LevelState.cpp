@@ -50,7 +50,7 @@ void LevelState::Init(){
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(50);
+    rath->setMaxHP(350);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
     //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
@@ -171,9 +171,11 @@ void LevelState::Input(){
         }
         if (Game::Instance()->iM->isActive("player-longAttackStart")){//ToDo: hacemos que se ralentize al cargar?
             rath->weaponChargeAttack(mouseAng);
+            rath->setSpeed(rath->getInitialSpeed() * 0.5);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStop")){
             rath->weaponReleaseAttack();
+            rath->setSpeed(rath->getInitialSpeed());
         }
 
         /*Player gun attack*/

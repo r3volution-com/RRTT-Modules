@@ -19,6 +19,8 @@ class Player : public Entity {
         float flashTime;
         int flashRange;
         
+        float initialSpeed;
+        
         bool attacking;
         bool weaponLoaded;
         
@@ -181,6 +183,8 @@ class Player : public Entity {
         Time *getFlashCooldown() { return flashCooldown; }
         
         bool isAttacking() { return attacking; }
+        
+        float getInitialSpeed() {return initialSpeed;}
 };
 
 #endif /* PROTAGONISTA_H */
