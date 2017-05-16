@@ -40,6 +40,7 @@ void Level::Init(){
         //Cargamos el mapa
         map = new Map("resources/MAPAPABLO.tmx");
         
+        
         //Cargamos las notas
         note = new Note(game->rM->getTexture("gui-tileset"), Rect<float>(325, 920, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
         note->setPosition(Coordinate(1950, 13850));
@@ -221,6 +222,7 @@ void Level::Init(){
         game->iM->addAction("interactuar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
         
         tri = new Trigonometry();
+        
     }  
 }
 

@@ -43,6 +43,7 @@ public:
     Trigonometry *getTrignometry(){return tri;}
     int getDisNpcPlayer(){return disNpcPlayer;}
     void setDisNpcPlayer(int dis){disNpcPlayer = dis;}
+    
 private:
 
     virtual ~Level();
@@ -59,6 +60,8 @@ private:
     bool sinSalida = true;
     
     bool showIterationNpc;
+    
+    
     Text *keyIterationNpc;
     Map *map;
     Note *note;

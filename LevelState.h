@@ -21,6 +21,7 @@ class LevelState : public GameState {
         Trigonometry *tri;
         HUD *hud;
         Menu *pause;
+        Sprite *damage;
         
         float colX = 0.0f; //ToDo pabloF: esto aqui no y no se declaran valores en el .h
         float colY = 0.0f;

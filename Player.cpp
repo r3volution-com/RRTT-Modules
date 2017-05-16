@@ -12,6 +12,7 @@ Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position
     initialSpeed = sp;
     attacking = false;
     dead = false;
+    dmgOnPlayer = new Time(0);
 }
 
 Player::~Player() {
@@ -268,6 +269,7 @@ void Player::setFlashCooldown(float cd){
 }
 
 void Player::damage(int dmg){
+    dmgOnPlayer->restart(0.5f);
     if (hp-dmg <= 0){
         hp = 0;
         die();

@@ -20,10 +20,10 @@ void LevelState::Init(){
     
     /*****RESOURCES*****/
     game->rM->loadTexture("player", "resources/spritesRATH.png");
-    game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
+    game->rM->loadTexture("damage","resources/dano.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
     /*****INPUTS*****/
@@ -86,7 +86,7 @@ void LevelState::Init(){
     level = new Level(1);
     
     /*****HUD*****/
-    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), 
+    hud = new HUD(game->rM->getTexture("hud-spritesheet"), 
             Rect<float>(5,200,200,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
     hud->addGun(Coordinate(20, 20), Rect<float>(85,0,82,85), Rect<float>(85,0,82,82), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
@@ -104,6 +104,9 @@ void LevelState::Init(){
     pauseMenu = false;
     
     paused = false;
+    
+    /*****DAMAGE*****/
+    damage = new Sprite(game->rM->getTexture("damage"),Rect<float>(0, 0, 1280, 720));
 }
 
 void LevelState::Update(){
@@ -204,10 +207,7 @@ void LevelState::Input(){
      
         if (rath->isDead()) {
             hud->playerDie();
-            cout << "Antes" << level->getSinSalida() << endl;
             level->setSinSalida(true);
-            cout << "Despues" << level->getSinSalida() << endl;
-            cout << "He muerto: " << level->getBoss()->getOnRange() << endl;
             paused = true;
         }
     } else {
@@ -226,7 +226,7 @@ void LevelState::Input(){
 
                     break;
                     case 2:
-                        Game::Instance()->ChangeCurrentState("menu");
+                        return Game::Instance()->ChangeCurrentState("menu");
                     break;
                     default: break;
                 }
@@ -279,6 +279,11 @@ void LevelState::Render(){
     /*Set Default View*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
     
+    /*Damage*/
+    if(rath->getDmgOnPlayer()->getTime() > 0){
+        Game::Instance()->window->draw(*damage->getSprite());
+    }
+    
     /*HUD*/
     hud->drawHUD(level->getBoss()->getOnRange());
     
@@ -304,6 +309,12 @@ void LevelState::Render(){
 }
 
 void LevelState::CleanUp(){
+    Game::Instance()->rM->releaseTexture("player");
+    Game::Instance()->rM->releaseTexture("hud");
+    Game::Instance()->rM->releaseTexture("hud-spritesheet");
+    Game::Instance()->rM->releaseTexture("hud-playerdeath");
+    Game::Instance()->rM->releaseTexture("pause-background");
+    Game::Instance()->rM->releaseFont("font");
     delete rath;
     delete tri;
     

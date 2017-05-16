@@ -1,8 +1,7 @@
 #include "HUD.h"
 #include "Game.h"
 
-HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
-    hud = new Sprite(hTex, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
+HUD::HUD(Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
     
     tex = rTex;
     font = f;
@@ -35,7 +34,6 @@ HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Fo
 }
 
 HUD::~HUD(){
-    delete hud;
     delete guns;
     delete gunsOff; //ToDo: cuando borras un vector de punteros los punteros se quedan en memoria, habria que arreglar eso
     delete gunsCooldown;
@@ -55,7 +53,6 @@ HUD::~HUD(){
 
     delete buttonDie;
     
-    hud = NULL;
     guns = NULL;
     gunsOff = NULL;
     gunsCooldown = NULL;
@@ -179,7 +176,6 @@ void HUD::changeLifeBoss(int life){
 }
 
 void HUD::drawHUD(bool onRange){
-    Game::Instance()->window->draw(*hud->getSprite());
     drawPlayerHP();
     if (bossModuleEnable && onRange == true) drawBossHP(); 
     if (gunsModuleEnabled) {

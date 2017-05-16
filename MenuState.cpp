@@ -83,6 +83,7 @@ void MenuState::Render(){
 void MenuState::CleanUp(){
     Game::Instance()->rM->releaseTexture("menu-background");
     Game::Instance()->rM->releaseFont("menu");
+    Game::Instance()->rM->releaseMusic("Intro");
     delete principal;
     principal = NULL;
 }

@@ -29,6 +29,7 @@ class Player : public Entity {
         char state;
         
         bool dead;
+        Time *dmgOnPlayer;
     public:
         /**
          * Crea el objeto jugador
@@ -185,6 +186,7 @@ class Player : public Entity {
         bool isAttacking() { return attacking; }
         
         float getInitialSpeed() {return initialSpeed;}
+        Time *getDmgOnPlayer() {return dmgOnPlayer;}
 };
 
 #endif /* PROTAGONISTA_H */
