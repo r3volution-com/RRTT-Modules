@@ -188,7 +188,7 @@ void HUD::drawHUD(bool onRange){
         drawFlash();
         drawFlashCooldown();
     }
-    if (dieModuleEnabled && dieBool) {
+    if (dieModuleEnabled && dieBool && Game::Instance()->getLevelState()->getPaused()) {
         drawDie();
     }
 }
@@ -277,7 +277,7 @@ bool HUD::playerDie(){
         if(dieBool == false){
             //sf::sleep(sf::seconds(1));
             dieBool = true;
-            buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
+            buttonDie->setText("Reintentar", sf::Color::Black, sf::Color::Transparent, font, 20);
         } else {
             buttonDie->hover(Game::Instance()->mouse);
         }

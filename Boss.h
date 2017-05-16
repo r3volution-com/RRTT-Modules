@@ -23,6 +23,7 @@ class Boss : public Enemy{
         bool attacking;
         bool onRange;
         bool start;
+        bool nextState;
         
         int level;
         float timeState;
@@ -31,6 +32,8 @@ class Boss : public Enemy{
         int currentGun;
         
         char dirSprite;
+        
+        int actualDmg;
     public:
         /**
          * Crea un objeto de tipo jefe
@@ -78,8 +81,10 @@ class Boss : public Enemy{
         void setAnimations(Texture *t, Rect<float> newRect);
         void move(float xDir, float yDir);
         void flash(float xDir, float yDir);
-        void createStates();
         void changeState();
+        void damage(int dm);
+        void addState(int s);
+        void addRandomState();
 };
 
 #endif /* BOSS_H */

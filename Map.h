@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "tinyxml2/tinyxml2.h"
+#include <tinyxml2.h>
 #include "libs/Sprite.h"
 #include "Enemy.h"
 

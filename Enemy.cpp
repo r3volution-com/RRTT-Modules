@@ -10,7 +10,7 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     freeze =  false;
     hits = 0;
     flashRange = 0;
-    
+    initialSpeed = sp;
 }
 
 Enemy::~Enemy() {
