@@ -279,8 +279,8 @@ bool HUD::playerDie(){
         if(dieBool == false){
             //sf::sleep(sf::seconds(1));
             dieBool = true;
-            buttonDie->setText("Reintentar", sf::Color::Black, font, 20);
-            buttonDie->setOutline(1, sf::Color::Transparent, sf::Color::White);
+            buttonDie->setText("Reintentar", sf::Color::White, font, 20);
+            buttonDie->setOutline(1, sf::Color(170, 170, 170, 255), sf::Color::Transparent);
         } else {
             buttonDie->hover(Game::Instance()->mouse);
         }

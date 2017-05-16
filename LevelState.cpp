@@ -220,6 +220,7 @@ void LevelState::Input(){
                 switch (clicks){
                     case 0:
                         paused = false;
+                        pauseMenu = false;
                     break;
                     case 1:
 
