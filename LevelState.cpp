@@ -109,12 +109,12 @@ void LevelState::Init(){
     
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), 
-            Rect<float>(100,230,200,20), Rect<float>(190,10,80,80), game->rM->getFont("font"));
-    hud->addGun(Coordinate(20, 20), Rect<float>(10,10,80,80), Rect<float>(0,0,80,80), gunArm->getGunCooldown());
+            Rect<float>(160,0,200,20), Rect<float>(80,160,80,80), game->rM->getFont("font"));
+    hud->addGun(Coordinate(20, 20), Rect<float>(0,0,80,80), Rect<float>(0,0,80,80), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
-    hud->setBossLife(Rect<float>(100,230,200,20));
+    hud->setBossLife(Rect<float>(160,0,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
-    hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
+    hud->setFlash(Coordinate(20, 110), Rect<float>(0, 160, 80, 80), rath->getFlashCooldown());
     hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(100, 100), game->rM->getTexture("button-layout"), Rect<float>(0, 0, 200, 50));
     
     /*****PAUSE MENU*****/
@@ -216,7 +216,10 @@ void LevelState::Input(){
      
         if (rath->isDead()) {
             hud->playerDie();
+            cout << "Antes" << level->getSinSalida() << endl;
             level->setSinSalida(true);
+            cout << "Despues" << level->getSinSalida() << endl;
+            cout << "He muerto: " << level->getBoss()->getOnRange() << endl;
             paused = true;
         }
     } else {
