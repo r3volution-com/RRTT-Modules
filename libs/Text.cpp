@@ -29,11 +29,14 @@ void Text::setText(std::string t){
     }
 }
 
-void Text::setStyles(sf::Color color, sf::Color outlineColor, int outlineThickness, int size){
+void Text::setTextStyle(sf::Color color, int size){
     text->setFillColor(color);
+    text->setCharacterSize(size);
+}
+
+void Text::setOutlineStyle(sf::Color outlineColor, int outlineThickness){
     text->setOutlineColor(outlineColor);
     text->setOutlineThickness(outlineThickness);
-    text->setCharacterSize(size);
 }
 
 sf::Text *Text::getText() {
