@@ -56,12 +56,12 @@ void Level::Init(){
         
 
         //Enemigo izquierda
-        Enemy *enemy = new Enemy(Coordinate(3000,9000), Coordinate(128, 128), 20);
+        Enemy *enemy = new Enemy(Coordinate(3200,9550), Coordinate(128, 128), 20);
         enemy->setType(3);
         enemy->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy->setMaxHP(40);
-        enemy->setDistanceEnemyHome(2000);
-        enemy->setDistancePlayerEnemy(1500);
+        enemy->setDistanceEnemyHome(1400);
+        enemy->setDistancePlayerEnemy(700);
         enemy->setInitialDmg(6);
         enemy->setHitCooldown(new Time(2));
         enemy->setFreeze(22);
@@ -70,13 +70,13 @@ void Level::Init(){
         enemys->push_back(enemy);
         
         //Enemigo abajo derecha
-        Enemy *enemy2 = new Enemy(Coordinate(4000,9350), Coordinate(128, 128), 15);
+        Enemy *enemy2 = new Enemy(Coordinate(3500,8000), Coordinate(128, 128), 15);
         enemy2->setType(2);
         enemy2->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy2->setMaxHP(60);
-        enemy2->setDistanceEnemyHome(1300);
-        enemy2->setDistancePlayerEnemy(800);
-        enemy2->setInitialDmg(4);
+        enemy2->setMaxHP(50);
+        enemy2->setDistanceEnemyHome(1400);
+        enemy2->setDistancePlayerEnemy(700);
+        enemy2->setInitialDmg(5);
         enemy2->setHitCooldown(new Time(0.5));
         enemy2->SetFlashRange(10);
         enemy2->setFlashCooldown(new Time(2));
@@ -85,12 +85,12 @@ void Level::Init(){
         enemys->push_back(enemy2);
         
         //Enemigo arriba centro
-        Enemy *enemy3 = new Enemy(Coordinate(3000,8550), Coordinate(128, 128), 20);
+        Enemy *enemy3 = new Enemy(Coordinate(3500,8700), Coordinate(128, 128), 20);
         enemy3->setType(1);
         enemy3->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy3->setMaxHP(60);
-        enemy3->setDistanceEnemyHome(1000);
-        enemy3->setDistancePlayerEnemy(500);
+        enemy3->setDistanceEnemyHome(1300);
+        enemy3->setDistancePlayerEnemy(650);
         enemy3->setInitialDmg(6);
         enemy3->setHitCooldown(new Time(0.5));
         enemy3->setBlood(game->rM->getTexture("sangre"));
@@ -98,12 +98,12 @@ void Level::Init(){
         enemys->push_back(enemy3);
         
         //Enemigo abajo a la izquierda
-        Enemy *enemy4 = new Enemy(Coordinate(3500,9550), Coordinate(128, 128), 15);
+        Enemy *enemy4 = new Enemy(Coordinate(3450,9750), Coordinate(128, 128), 15);
         enemy4->setType(2);
         enemy4->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         enemy4->setMaxHP(40);
-        enemy4->setDistanceEnemyHome(1300);
-        enemy4->setDistancePlayerEnemy(800);
+        enemy4->setDistanceEnemyHome(1430);
+        enemy4->setDistancePlayerEnemy(715);
         enemy4->setInitialDmg(4);
         enemy4->setHitCooldown(new Time(0.5));
         enemy4->SetFlashRange(10);
@@ -113,17 +113,43 @@ void Level::Init(){
         enemys->push_back(enemy4);
         
         //Primer enemigo camino
-        Enemy *enemy5 = new Enemy(Coordinate(3650,11000), Coordinate(128, 128), 15);
+        Enemy *enemy5 = new Enemy(Coordinate(3650,11500), Coordinate(128, 128), 15);
         enemy5->setType(1);
         enemy5->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy5->setMaxHP(60);
-        enemy5->setDistanceEnemyHome(1200);
-        enemy5->setDistancePlayerEnemy(500);
-        enemy5->setDmgHit(6);
+        enemy5->setMaxHP(50);
+        enemy5->setDistanceEnemyHome(1400);
+        enemy5->setDistancePlayerEnemy(700);
+        enemy5->setDmgHit(5);
         enemy5->setHitCooldown(new Time(0.5));
         enemy5->setBlood(game->rM->getTexture("sangre"));
         
         enemys->push_back(enemy5);
+        
+        Enemy *enemy6 = new Enemy(Coordinate(3250,7700), Coordinate(128, 128), 20);
+        enemy6->setType(3);
+        enemy6->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy6->setMaxHP(40);
+        enemy6->setDistanceEnemyHome(1400);
+        enemy6->setDistancePlayerEnemy(700);
+        enemy6->setInitialDmg(4);
+        enemy6->setHitCooldown(new Time(2));
+        enemy6->setFreeze(18);
+        enemy6->setBlood(game->rM->getTexture("sangre"));
+        
+        enemys->push_back(enemy6);
+        
+        //Enemigo sorpresa
+        Enemy *enemy7 = new Enemy(Coordinate(3200,6300), Coordinate(128, 128), 20);
+        enemy7->setType(1);
+        enemy7->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        enemy7->setMaxHP(80);
+        enemy7->setDistanceEnemyHome(1300);
+        enemy7->setDistancePlayerEnemy(650);
+        enemy7->setInitialDmg(7);
+        enemy7->setHitCooldown(new Time(0.5));
+        enemy7->setBlood(game->rM->getTexture("sangre"));
+        
+        enemys->push_back(enemy7);
         
         Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 3);
         gunArm->setAnimation(game->rM->getTexture("enemy"), Rect<float> (0, 640, 128, 128));
@@ -142,9 +168,9 @@ void Level::Init(){
 
         gunArm->setAttack(bull);
         
-        boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20, 2);
+        boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20, 1);
         boss->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        boss->setMaxHP(550);
+        boss->setMaxHP(470);
         boss->setDistanceEnemyHome(1500);
         boss->setDistancePlayerEnemy(1000);
         boss->setInitialDmg(15);
@@ -174,8 +200,10 @@ void Level::Init(){
         npc->addSentence("Sera mejor que huyas muchacho no te aguarda nada bueno ahi.\n\nPulsa E para continuar", new Coordinate(20, 520));
         npc->addSentence("Un momento, creo que tu cara me suena...\n\nPulsa E para continuar", new Coordinate(20, 520));
         
-        keyIterationNpc = new Text("Pulsa la tecla ""E"" para interacctuar con el NPC cuando estes cerca", Coordinate(450,400), game->rM->getFont("font"), false);
-        keyIterationNpc->setStyles();
+        keyIterationNpc = new Text("Pulsa la tecla ""E"" para interacctuar con el NPC cuando estes cerca", Coordinate(310,600), game->rM->getFont("font"), false);
+        keyIterationNpc->setTextStyle(sf::Color::Black, 25);
+        keyIterationNpc->setOutlineStyle(sf::Color::White, 1);
+        
         /* MURO */
         fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
         fuego->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,525,1280,384));
@@ -191,15 +219,17 @@ void Level::Init(){
         
         //Anyadimos la accion de hablar cuando pulsemos la E
         game->iM->addAction("interactuar", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
+        
+        tri = new Trigonometry();
     }  
 }
 
 void Level::Update(Player* rath, HUD* hud){
     
-    Trigonometry trigo = Trigonometry();
-    int disNpcPlayer = trigo.distance(rath->getCoordinate(), npc->getCoordinate());
-    if(disNpcPlayer < 300){
+    if(disNpcPlayer < 500){
         showIterationNpc = true;
+    }else{
+        showIterationNpc = false;
     }
     
     for (int i = 0; i<enemys->size(); i++){
@@ -214,22 +244,24 @@ void Level::Update(Player* rath, HUD* hud){
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
-            if(enemys->at(i)->getHP() <= 0){
+            if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead() == false){
                 enemys->at(i)->setPosition(100000,100000);
                 enemigosCaidos++;
+                enemys->at(i)->setDead(true);
                 //cout << enemigosCaidos << endl;
             }
         }
         
         if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
             enemys->at(i)->damage(rath->getWeapon()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
-            if(enemys->at(i)->getHP() <= 0){
+            if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead() == false){
                 enemys->at(i)->startBlood(2);
                 enemigosCaidos++;
+                enemys->at(i)->setDead(true);
                 //cout << enemigosCaidos << endl;
             }
         }
-        if(enemys->at(i)->getHP() <= 0){
+        if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead()){
             if(enemys->at(i)->getTimeDead()->getTime() == 0){
                 enemys->at(i)->setPosition(100000,100000);
             }

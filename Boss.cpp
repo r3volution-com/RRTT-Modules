@@ -243,10 +243,10 @@ void Boss::changeState(){
 }
 
 void Boss::AI(Player* rath, HUD* hud){
-    float distance = Enemy::getTrigonometry()->distance(rath->getCoordinate(), Entity::getCoordinate());
-    float distanceIni = Enemy::getTrigonometry()->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
-    Coordinate dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
-    Coordinate ini = Enemy::getTrigonometry()->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
+    float distance = Enemy::getTrigonometry()->distance(*rath->getCoordinate(), *Entity::getCoordinate());
+    float distanceIni = Enemy::getTrigonometry()->distance(*Entity::getCoordinate(), *Entity::getInitialCoordinate());
+    Coordinate dir = Enemy::getTrigonometry()->direction(*rath->getCoordinate(), *Entity::getCoordinate());
+    Coordinate ini = Enemy::getTrigonometry()->direction(*Entity::getInitialCoordinate(), *Entity::getCoordinate());
     bool home = Enemy::getHome();
     
     Boss::getCurrentGun()->getGunCooldown()->start();
@@ -314,7 +314,7 @@ void Boss::AI(Player* rath, HUD* hud){
             if(level == 1){
                 delay->start();
                 if(onDelay == false){
-                    Coordinate aux = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
+                    Coordinate aux = Enemy::getTrigonometry()->direction(*rath->getCoordinate(), *Entity::getCoordinate());
                     dirFlash = new Coordinate(aux.x,aux.y);
                     onDelay = true;
                     delay->restart();
