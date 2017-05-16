@@ -280,6 +280,10 @@ void LevelState::Render(){
         Game::Instance()->getLevelState()->getLevel()->setMuestra(false);
     }
     
+    if(level->getShowIterationNpc()){
+        Game::Instance()->window->draw(level->getKeyIterationNpc()->getText());
+    }
+    
     /*Texto notas */
     if(level->getShowText()==true){
         Game::Instance()->window->draw(*level->getNote()->getBackgroundSprite()->getSprite());

@@ -38,6 +38,8 @@ public:
     bool getMoverse(){return moverse;}
     void setSinSalida(bool booleano) {sinSalida=booleano;};
     bool getSinSalida(){return sinSalida;}
+    bool getShowIterationNpc(){return showIterationNpc;}
+    Text *getKeyIterationNpc(){return keyIterationNpc;}
     
 private:
 
@@ -52,6 +54,9 @@ private:
     bool moverse = false;
     //Que el muro se mantenga
     bool sinSalida = true;
+    
+    bool showIterationNpc;
+    Text *keyIterationNpc;
     Map *map;
     Note *note;
     Boss *boss;

@@ -12,6 +12,7 @@ Level::Level(int numLevel) {
     //respawn[1]=(500,300);
     //respawn[2]=(1000,300);
     //Cargamos todos los elementos del juego
+    showIterationNpc = false;
     Init();
 }
 
@@ -173,6 +174,8 @@ void Level::Init(){
         npc->addSentence("Sera mejor que huyas muchacho no te aguarda nada bueno ahi.\n\nPulsa E para continuar", new Coordinate(20, 520));
         npc->addSentence("Un momento, creo que tu cara me suena...\n\nPulsa E para continuar", new Coordinate(20, 520));
         
+        keyIterationNpc = new Text("Pulsa la tecla ""E"" para interacctuar con el NPC cuando estes cerca", Coordinate(450,400), game->rM->getFont("font"), false);
+        keyIterationNpc->setStyles();
         /* MURO */
         fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
         fuego->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,525,1280,384));
@@ -192,6 +195,13 @@ void Level::Init(){
 }
 
 void Level::Update(Player* rath, HUD* hud){
+    
+    Trigonometry trigo = Trigonometry();
+    int disNpcPlayer = trigo.distance(rath->getCoordinate(), npc->getCoordinate());
+    if(disNpcPlayer < 300){
+        showIterationNpc = true;
+    }
+    
     for (int i = 0; i<enemys->size(); i++){
         if(enemys->at(i)->getHP() > 0){
             enemys->at(i)->AI(rath, hud);
@@ -310,7 +320,6 @@ void Level::Render(){
     /*if(!crystal->getTouched()){
        Game::Instance()->window->draw(*crystal->getCrystalSprite()->getSprite());
     }*/
-    
     for (int i = 0; i<enemys->size(); i++){
         Coordinate inc(enemys->at(i)->getState()->getIC());
         //cout << inc;
