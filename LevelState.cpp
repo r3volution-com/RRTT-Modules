@@ -93,14 +93,14 @@ void LevelState::Init(){
     hud->setBossLife(Rect<float>(5,200,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     hud->setFlash(Coordinate(20, 110), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
-    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(0, 0, 200, 50));
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(513, 925, 200, 50));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("gui-tileset"), 
             new Rect<float>(513,925,200,50), game->rM->getFont("font"));
-    pause->addButton(Coordinate(540,200), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
-    pause->addButton(Coordinate(540,270), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
-    pause->addButton(Coordinate(540,340), "Salir al menu", sf::Color::Black, sf::Color::Transparent, 20);
+    pause->addButton(Coordinate(550,250), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
+    pause->addButton(Coordinate(550,320), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
+    pause->addButton(Coordinate(550,390), "Salir al menu", sf::Color::Black, sf::Color::Transparent, 20);
     pauseMenu = false;
     
     paused = false;
