@@ -13,19 +13,23 @@ MenuState::~MenuState(){
 
 void MenuState::Init(){
     Game *game = Game::Instance();
+    
     game->rM->loadMusic("Intro", "resources/Inicio.ogg");
     game->rM->getMusic("Intro")->getMusic()->setLoop(true);
     game->rM->getMusic("Intro")->getMusic()->play();
+    
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
-    game->rM->loadFont("menu", "resources/font.ttf");
+    game->rM->loadFont("menu", "resources/menu.ttf");
+    
     principal = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
-    principal->addButton(Coordinate (825,270), "Jugar", sf::Color::Black, sf::Color(170, 170, 170, 255), 20);
-    principal->addButton(Coordinate (825,340), "Opciones", sf::Color::Black, sf::Color(170, 170, 170, 255), 20);
-    principal->addButton(Coordinate (825,410), "Salir", sf::Color::Black, sf::Color(170, 170, 170, 255), 20);
+    principal->addButton(Coordinate (825,270), "Jugar", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    principal->addButton(Coordinate (825,340), "Opciones", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    principal->addButton(Coordinate (825,410), "Salir", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
-    opciones->addButton(Coordinate (825,270), "Musica On/Off", sf::Color::Black, sf::Color(170, 170, 170, 255), 20);
-    opciones->addButton(Coordinate (825,340), "FX On/Off", sf::Color::Black, sf::Color(170, 170, 170, 255), 20);
-    opciones->addButton(Coordinate (825,410), "Volver", sf::Color::Black, sf::Color(170, 170, 170, 255), 20);
+    opciones->addButton(Coordinate (825,270), "Musica On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    opciones->addButton(Coordinate (825,340), "FX On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    opciones->addButton(Coordinate (825,410), "Volver", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    
     game->iM->addAction("click", thor::Action(sf::Mouse::Left));
     
     menuactual = 0;
