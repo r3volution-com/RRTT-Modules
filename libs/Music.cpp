@@ -1,4 +1,5 @@
 #include "Music.h"
+#include <iostream>
 
 Music::Music(std::string path) {
     music = new sf::Music();

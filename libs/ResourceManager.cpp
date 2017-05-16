@@ -34,7 +34,7 @@ thor::ResourceLoader<Music> loadM(const char* filename) {
 
 thor::ResourceLoader<Sound> loadS(const char* filename) {
     return thor::ResourceLoader<Sound>([=] () { 
-        return std::unique_ptr<Sound>(new Music(filename)); 
+        return std::unique_ptr<Sound>(new Sound(filename)); 
     },filename);
 }
 

@@ -5,11 +5,13 @@
 
 class Sound {
     private:
-        sf::SoundBuffer buffer;
-        sf::Sound sound;
+        sf::SoundBuffer *buffer;
+        sf::Sound *sound;
     public:
         Sound(std::string path);
         virtual ~Sound();
+        
+        sf::Sound *getSound(){ return sound; }
 };
 
 #endif /* SOUND_H */

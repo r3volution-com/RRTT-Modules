@@ -46,6 +46,10 @@ class Coordinate {
          */
         void setCoordinate(Coordinate coor);
         
+        sf::Vector2f getV2fCoordinate(){
+            return sf::Vector2f(x, y);
+        }
+        
         bool operator ==(const Coordinate &p) const;
         bool operator !=(const Coordinate &p) const;
         Coordinate operator +(const Coordinate &p) const;

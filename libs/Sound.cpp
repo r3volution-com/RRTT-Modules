@@ -1,4 +1,5 @@
 #include "Sound.h"
+#include <iostream>
 
 Sound::Sound(std::string path) {
     buffer = new sf::SoundBuffer();
@@ -7,7 +8,7 @@ Sound::Sound(std::string path) {
         exit(0);
     }
     sound = new sf::Sound();
-    sound->setBuffer(buffer);
+    sound->setBuffer(*buffer);
 }
 
 Sound::~Sound() {

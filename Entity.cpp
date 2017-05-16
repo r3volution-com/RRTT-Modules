@@ -1,10 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(Coordinate position, Coordinate size, float sp) {
+Entity::Entity(Coordinate position, Coordinate s, float sp) {
     speed = sp;
     
+    size = new Coordinate(s);
+    
     coor = new InterpolatedCoordinate(position.x, position.y);
-    hitbox = new Hitbox(position.x, position.y, size.x, size.y);
+    hitbox = new Hitbox(position.x, position.y, s.x, s.y);
     hitbox->setPosition(position);
     initial = new Coordinate(position.x, position.y);
 }

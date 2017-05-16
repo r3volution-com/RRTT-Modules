@@ -37,7 +37,6 @@ void LevelState::Init(){
     Game *game = Game::Instance();
     
     /*****RESOURCES*****/
-    game->rM->loadTexture("sangre", "resources/rojo.jpg");
     game->rM->loadTexture("player", "resources/spritesRATH.png");
     game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
@@ -67,16 +66,6 @@ void LevelState::Init(){
     
     game->iM->addAction("pause", thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce));
     game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
-    
-    /*****Particle*****/
-    blood = new Particles(game->rM->getTexture("sangre"));
-    blood->addParticle(Rect<float> (0, 0, 5, 5));
-    blood->setProperties(20,0.25f,0.75f);
-    blood->setParticlePosition(thor::Distributions::circle(sf::Vector2f(5300,13850), 30));
-    //blood->setParticleRotation(thor::Distributions::uniform(360.f, 0.f));
-    blood->setParticleSpeed(thor::Distribution<sf::Vector2f> (sf::Vector2f(15.0f,-60.0f)));
-    blood->setGravity(500.0f);
-    blood->start(2);
     
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
@@ -112,9 +101,7 @@ void LevelState::Init(){
     rath->addGun(gunArm);
     rath->changeGun(0);
     rath->setPosition(Coordinate(5500, 14250));
-    
-    
-    
+     
     /*****LEVEL*****/
     level = new Level(1);
     
@@ -286,8 +273,6 @@ void LevelState::Render(){
     
     
     /*Render Player and guns*/
-    blood->update();
-    blood->draw();
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
     Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
     if (!rath->getCurrentGun()->getBulletLifetime()->isExpired())

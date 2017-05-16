@@ -10,7 +10,7 @@ class Music {
         Music(std::string path);
         virtual ~Music();
         
-        sf::Font *getMusic() { return music; }
+        sf::Music *getMusic() { return music; }
 };
 
 #endif /* MUSIC_H */

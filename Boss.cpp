@@ -42,6 +42,7 @@ void Boss::gunAttack(){
 
 void Boss::addGun(Gun* gun){
     gun->setPosition(*Entity::getCoordinate());
+    //std::cout << guns->size() << "\n";
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
