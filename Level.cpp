@@ -335,8 +335,12 @@ void Level::Render(){
     
     if(enemigosCaidos < enemys->size() && sinSalida==true){
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
-    } else if(Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange() || sinSalida==false){ 
-        sinSalida = false;
+        cout << "Aun no he muerto: " << Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange() << endl;
+    }else if(Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange()){ 
+        sinSalida = false;        
+    }
+    
+    if(sinSalida==false){
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
     }
     

@@ -13,9 +13,9 @@ MenuState::~MenuState(){
 
 void MenuState::Init(){
     Game *game = Game::Instance();
-    //musica.openFromFile("resources/Inicio.ogg");
-    //musica.setLoop(true);
-    //musica.play();
+    game->rM->loadMusic("Intro", "resources/Inicio.ogg");
+    game->rM->getMusic("Intro")->getMusic()->setLoop(true);
+    game->rM->getMusic("Intro")->getMusic()->play();
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
     game->rM->loadFont("menu", "resources/font.ttf");
     principal = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(513,925,200,50), game->rM->getFont("menu"));
@@ -38,7 +38,7 @@ void MenuState::Input(){
         if (menuactual == 0){
             switch (clicks){
                 case 0:
-                    //musica.stop();
+                    Game::Instance()->rM->getMusic("Intro")->getMusic()->stop();
                     Game::Instance()->ChangeCurrentState("level");
                 break;
                 case 1:
