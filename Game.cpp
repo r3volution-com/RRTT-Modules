@@ -4,6 +4,24 @@ void texto(std::string texto){ //ToDo: quitar, esto es de ejemplo para la consol
     std::cout << "Has escrito: " << texto << "\n";
 }
 
+void onTextEntered(thor::ActionContext<std::string> context) {
+    if (Game::Instance()->console->isActive()){
+        if (context.event->text.unicode < 128 && (context.event->text.unicode != 13 && context.event->text.unicode != 9 && context.event->text.unicode != 8)) {
+            sf::Uint32 character = context.event->text.unicode;
+            std::ostringstream ch;
+            ch << static_cast<char>(character);
+            Game::Instance()->temp += ch.str();
+            Game::Instance()->console->writeCommand(Game::Instance()->temp);
+        } else if (context.event->text.unicode == 8 && Game::Instance()->temp.length() > 0){
+            Game::Instance()->temp.resize(Game::Instance()->temp.length()-1);
+            Game::Instance()->console->writeCommand(Game::Instance()->temp);
+        } else if (context.event->text.unicode == 13){
+            Game::Instance()->console->sendCommand(Game::Instance()->temp);
+            Game::Instance()->temp = "";
+        }
+    }
+}
+
 Game* Game::pinstance = 0;
 
 Game* Game::Instance(){
@@ -75,13 +93,14 @@ Game::Game(){
 void Game::Init(){
     iM->addAction("close", thor::Action(sf::Keyboard::F11, thor::Action::ReleaseOnce) || thor::Action(sf::Event::Closed));
     iM->addAction("console", thor::Action(sf::Keyboard::F12, thor::Action::PressOnce));
+    iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     game->Init();
     fpsTimer->start();
     iaTimer->start();
-    rM->loadTexture("console-bg", "resources/console-bg.png");
+    rM->loadTexture("gui-tileset", "resources/tileset-extra.png");
     rM->loadFont("console", "resources/font.ttf");
     
-    console = new Console(Coordinate(0,500), rM->getTexture("console-bg"), Rect<float>(0,0,1280,220), rM->getFont("console"));
+    console = new Console(Coordinate(0,500), rM->getTexture("gui-tileset"), Rect<float>(0,0,1280,220), rM->getFont("console"));
     console->addCommand("texto", &texto);
     //ToDo: anadir comandos a la consola
 }

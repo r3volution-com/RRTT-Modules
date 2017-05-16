@@ -32,10 +32,7 @@ void Level::Init(){
     Game *game = Game::Instance();
     
     game->rM->loadTexture("sangre", "resources/rojo.png");
-    game->rM->loadTexture("note", "resources/note.png");
     game->rM->loadTexture("pergamino", "resources/pergamino.png");
-    game->rM->loadTexture("npc", "resources/npc.png");
-    game->rM->loadTexture("muro", "resources/muro.png");
     
     //Si estamos en el primer nivel
     if(level==1){
@@ -43,20 +40,18 @@ void Level::Init(){
         map = new Map("resources/MAPAPABLO.tmx");
         
         //Cargamos las notas
-        note = new Note(game->rM->getTexture("note"), Rect<float>(0, 0, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
+        note = new Note(game->rM->getTexture("gui-tileset"), Rect<float>(325, 920, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
         note->setPosition(Coordinate(1950, 13850));
         note->setBackgroundPosition(Coordinate(350, 125));
         note->setText("El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\n "
         "saliendo en multimedia!", sf::Color::Black, sf::Color::White, 1, 25);
     
         //Cargamos los cristales
-        game->rM->loadTexture("crystal", "resources/Crystal.png");
-        
-        crystal = new Crystals(game->rM->getTexture("crystal"), Rect<float>(0, 0, 174, 290));
+        crystal = new Crystals(game->rM->getTexture("gui-tileset"), Rect<float>(300, 920, 174, 290));
         crystal->setPosition(Coordinate(3000, 3000));
         
         //Cargamos los enemigos
-        game->rM->loadTexture("enemy", "resources/ENEMIGOS.png");
+        game->rM->loadTexture("enemy", "resources/enemigosLVL1.png");
         
 
         //Enemigo izquierda
@@ -169,7 +164,7 @@ void Level::Init(){
         
         /* NPC */
         npc = new NPC(Coordinate(4500,13300), Coordinate(128, 128), 2, "Jose");
-        npc->setSprite(game->rM->getTexture("npc"), Rect<float>(0,0,128,128));
+        npc->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,920,128,128));
         npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         npc->getAnimation()->initAnimator();
         npc->getAnimation()->changeAnimation("idle", false);
@@ -180,13 +175,13 @@ void Level::Init(){
         
         /* MURO */
         fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
-        fuego->setSprite(game->rM->getTexture("muro"), Rect<float>(0,0,1280,384));
+        fuego->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,525,1280,384));
         fuego->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         fuego->getAnimation()->initAnimator();
         fuego->getAnimation()->changeAnimation("idle", false);
         
         fuego2 = new Entity(Coordinate(3425,2000), Coordinate(1280, 384), 0);
-        fuego2->setSprite(game->rM->getTexture("muro"), Rect<float>(0,0,1280,384));
+        fuego2->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,525,1280,384));
         fuego2->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
         fuego2->getAnimation()->initAnimator();
         fuego2->getAnimation()->changeAnimation("idle", false);
@@ -266,8 +261,6 @@ void Level::Update(Player* rath, HUD* hud){
 }
 
 void Level::Input(Player* rath, HUD* hud){
-
-    Texture *tex = new Texture("resources/textbox.png");
     int salir = 0;
     
     //NPC
@@ -276,9 +269,8 @@ void Level::Input(Player* rath, HUD* hud){
    
         if(salir==1){
             setMuestra(true);
-            cout << npc->getCurrentSentenceText() << endl;
             //Creamos la caja que va a contener el texto
-            hud->setTextLayer(Coordinate(0,420), Rect <float> (0, 0, 1280, 300) ,tex);
+            hud->setTextLayer(Coordinate(0,420), Rect <float> (0, 222, 1280, 300),Game::Instance()->rM->getTexture("gui-tileset"));
             //Posicionamos lo que va a decir el npc
             hud->setTLayerText(npc->getCurrentSentenceText(), 25, 520);
             //Le damos estilo a lo que va a decir el npc
