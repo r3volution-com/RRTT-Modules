@@ -59,12 +59,10 @@ void Enemy::drawBlood(){
 void Enemy::die(){
     if(direction == 'r' || direction == 'a' || direction == 'c'){
         Entity::getAnimation()->changeAnimation("morirIzquierda",true);
-        std::cout<<"izq"<<"\n";
     }else{
         Entity::getAnimation()->changeAnimation("morirDerecha",true);
-        std::cout<<"der"<<"\n";
     }
-    
+    Entity::getState()->update();
 }
 
 void Enemy::damage(int dm){
