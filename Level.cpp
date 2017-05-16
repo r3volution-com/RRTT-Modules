@@ -392,8 +392,6 @@ void Level::Render(){
         sinSalida = false;
     }
     
-    cout << Game::Instance()->getLevelState()->getRath()->getCoordinate()->y << endl;
-    
     Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());
     
     Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
