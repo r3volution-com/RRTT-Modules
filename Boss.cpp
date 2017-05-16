@@ -218,7 +218,7 @@ void Boss::createStates(){
         for(int y = 2; y < 10; y++){
             num = rand() % 2 + 1;
             states->push_back(num);
-            std::cout<<num<<"\n";
+            //std::cout<<num<<"\n";
         }
     }
 }
@@ -240,9 +240,9 @@ void Boss::changeState(){
 }
 
 void Boss::AI(Player* rath, HUD* hud){
-    std::cout<<"Next: "<<nextState<<"\n";
-    std::cout<<"State: "<<state<<"\n";
-    std::cout<<"HP: "<<Boss::getHP()<<"\n";
+    //std::cout<<"Next: "<<nextState<<"\n";
+    //std::cout<<"State: "<<state<<"\n";
+    //std::cout<<"HP: "<<Boss::getHP()<<"\n";
     float distance = Enemy::getTrigonometry()->distance(rath->getCoordinate(), Entity::getCoordinate());
     float distanceIni = Enemy::getTrigonometry()->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
     Coordinate dir = Enemy::getTrigonometry()->direction(rath->getCoordinate(), Entity::getCoordinate());
