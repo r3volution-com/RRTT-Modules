@@ -146,7 +146,7 @@ void Level::Init(){
 
         gunArm->setAttack(bull);
         
-        boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20, 1);
+        boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20, 2);
         boss->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         boss->setMaxHP(620);
         boss->setDistanceEnemyHome(1500);

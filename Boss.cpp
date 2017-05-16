@@ -154,7 +154,15 @@ void Boss::setAnimations(Texture *t, Rect<float> newRect){
         Entity::getAnimation()->addAnimation("flashAbajo", Coordinate(0, 1024), 1, 0.25f);
         Entity::getAnimation()->addAnimation("flashArriba", Coordinate(0, 1152), 1, 0.25f);
     }else if(level == 2){
-        
+        Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
+        Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
+        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
+        Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(128, 896), 4, 0.5f);
+        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
+        Entity::getAnimation()->addAnimation("flashDerecha", Coordinate(0, 768), 1, 0.25f);
+        Entity::getAnimation()->addAnimation("flashIzquierda", Coordinate(0, 896), 1, 0.25f);
+        Entity::getAnimation()->addAnimation("flashAbajo", Coordinate(0, 1024), 1, 0.25f);
+        Entity::getAnimation()->addAnimation("flashArriba", Coordinate(0, 1152), 1, 0.25f);
     }else if(level == 3){
         
     }
@@ -277,9 +285,9 @@ void Boss::AI(Player* rath, HUD* hud){
          
     }else if(state == 1){ //Aggressive
         if(onRange == true && distance >= 80){
-            Boss::setDmgHit(Boss::getInitialDmg());
-            move(dir.x,dir.y);
             if(level == 1){
+                Boss::setDmgHit(Boss::getInitialDmg());
+                move(dir.x,dir.y);
                 float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
                 aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
                 aux = sqrt(aux);
@@ -299,8 +307,8 @@ void Boss::AI(Player* rath, HUD* hud){
             state = 0;
         }
     }else if(onRange == true && state == 2){ //Defensive
-        move(dir.x,dir.y);
         if(distance >= 100){
+            move(dir.x,dir.y);
             Boss::setDmgHit(Boss::getInitialDmg() * 1.5);
             if(level == 1){
                 delay->start();
@@ -317,7 +325,9 @@ void Boss::AI(Player* rath, HUD* hud){
                     }
                 }
             }else if(level == 2){
-                
+                move(dir.x,dir.y);
+                Boss::setSpeed(Boss::getInitialSpeed() * 1.8);
+                        
             }else if(level == 3){
                 
             }
