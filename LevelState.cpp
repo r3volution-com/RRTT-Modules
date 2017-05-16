@@ -7,24 +7,6 @@
  
 #define PI 3,14159265;
 
-void onTextEntered(thor::ActionContext<std::string> context) {
-    if (Game::Instance()->console->isActive()){
-        if (context.event->text.unicode < 128 && (context.event->text.unicode != 13 && context.event->text.unicode != 9 && context.event->text.unicode != 8)) {
-            sf::Uint32 character = context.event->text.unicode;
-            std::ostringstream ch;
-            ch << static_cast<char>(character);
-            Game::Instance()->temp += ch.str();
-            Game::Instance()->console->writeCommand(Game::Instance()->temp);
-        } else if (context.event->text.unicode == 8 && Game::Instance()->temp.length() > 0){
-            Game::Instance()->temp.resize(Game::Instance()->temp.length()-1);
-            Game::Instance()->console->writeCommand(Game::Instance()->temp);
-        } else if (context.event->text.unicode == 13){
-            Game::Instance()->console->sendCommand(Game::Instance()->temp);
-            Game::Instance()->temp = "";
-        }
-    }
-}
-
 LevelState::LevelState() : GameState(){
     tri = new Trigonometry();
 }
@@ -42,7 +24,6 @@ void LevelState::Init(){
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
-    game->rM->loadTexture("button-layout", "resources/button-layout.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
     /*****INPUTS*****/
@@ -65,7 +46,6 @@ void LevelState::Init(){
     game->iM->addAction("player-gunAttack", thor::Action(sf::Mouse::Right));
     
     game->iM->addAction("pause", thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce));
-    game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
     
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
@@ -107,17 +87,17 @@ void LevelState::Init(){
     
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), 
-            Rect<float>(100,230,200,20), Rect<float>(190,10,80,80), game->rM->getFont("font"));
-    hud->addGun(Coordinate(20, 20), Rect<float>(10,10,80,80), Rect<float>(0,0,80,80), gunArm->getGunCooldown());
+            Rect<float>(5,200,200,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
+    hud->addGun(Coordinate(20, 20), Rect<float>(85,0,82,85), Rect<float>(85,0,82,82), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(100,230,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
-    hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
-    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("button-layout"), Rect<float>(0, 0, 200, 50));
+    hud->setFlash(Coordinate(20, 110), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(0, 0, 200, 50));
     
     /*****PAUSE MENU*****/
-    pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
-            new Rect<float>(0,0,200,50), game->rM->getFont("font"));
+    pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("gui-tileset"), 
+            new Rect<float>(513,925,200,50), game->rM->getFont("font"));
     pause->addButton(Coordinate(540,200), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
     pause->addButton(Coordinate(540,270), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
     pause->addButton(Coordinate(540,340), "Salir al menu", sf::Color::Black, sf::Color::Transparent, 20);
