@@ -215,13 +215,18 @@ void Level::Update(Player* rath, HUD* hud){
                 //cout << enemigosCaidos << endl;
             }
         }
+        
         if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
             enemys->at(i)->damage(rath->getWeapon()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
             if(enemys->at(i)->getHP() <= 0){
                 enemys->at(i)->startBlood(2);
-                enemys->at(i)->setPosition(100000,100000);
                 enemigosCaidos++;
                 //cout << enemigosCaidos << endl;
+            }
+        }
+        if(enemys->at(i)->getHP() <= 0){
+            if(enemys->at(i)->getTimeDead()->getTime() == 0){
+                enemys->at(i)->setPosition(100000,100000);
             }
         }
         
@@ -343,7 +348,6 @@ void Level::Render(){
     
     if(enemigosCaidos < enemys->size() && sinSalida==true){
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
-        cout << "Aun no he muerto: " << Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange() << endl;
     }else if(Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange()){ 
         sinSalida = false;        
     }

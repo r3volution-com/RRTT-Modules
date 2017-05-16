@@ -12,6 +12,7 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     flashRange = 0;
     initialSpeed = sp;
     haveParticles = false;
+    timeDead = new Time(2);
 }
 
 Enemy::~Enemy() {
@@ -56,14 +57,21 @@ void Enemy::drawBlood(){
 }
 
 void Enemy::die(){
-    Entity::getAnimation()->changeAnimation("die",false);
-    //std::cout << "muero" << "\n";
+    if(direction == 'r' || direction == 'a' || direction == 'c'){
+        Entity::getAnimation()->changeAnimation("morirIzquierda",true);
+        std::cout<<"izq"<<"\n";
+    }else{
+        Entity::getAnimation()->changeAnimation("morirDerecha",true);
+        std::cout<<"der"<<"\n";
+    }
+    
 }
 
 void Enemy::damage(int dm){
     if (hp-dm <= 0){
         hp = 0;
-        //die();
+        timeDead->start();
+        die();
     }
     else hp -= dm;
 }
@@ -132,16 +140,22 @@ void Enemy::setAnimations(Texture *t, Rect<float> newRect){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 0), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 0), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 128), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("morirDerecha", Coordinate(128, 1024), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("morirIzquierda", Coordinate(256, 1024), 1, 0.5f);
     }else if(type == 2){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 256), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 256), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 384), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("morirDerecha", Coordinate(384, 1024), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("morirIzquierda", Coordinate(512, 1024), 1, 0.5f);
     }else if(type == 3){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 512), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 512), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 640), 2, 0.5f);
         Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 1, 0.5f);
         Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("morirDerecha", Coordinate(128, 1152), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("morirIzquierda", Coordinate(256, 1152), 1, 0.5f);
     }
     
     Entity::getAnimation()->initAnimator();
