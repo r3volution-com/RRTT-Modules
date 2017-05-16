@@ -274,7 +274,7 @@ void Boss::AI(Player* rath, HUD* hud){
                 Enemy::setHome(home = true);
             }
         }
-        
+         
     }else if(state == 1){ //Aggressive
         if(onRange == true && distance >= 80){
             Boss::setDmgHit(Boss::getInitialDmg());
