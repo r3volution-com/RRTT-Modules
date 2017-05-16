@@ -236,11 +236,16 @@ void LevelState::Input(){
         if (rath->isDead()){
             hud->playerDie();
             if(hud->getButton()->getHover() && Game::Instance()->iM->isActive("click")){
-                rath->respawn(0);
+                if(level->getBoss()->getOnRange()){
+                   rath->respawn(1); 
+                }else{
+                   rath->respawn(0); 
+                }
                 hud->changeLifePlayer(rath->getHP());
                 level->getBoss()->setHP(level->getBoss()->getMaxHP());
                 hud->changeLifeBoss(level->getBoss()->getHP());
                 paused = false;
+                Game::Instance()->getLevelState()->getLevel()->setSinSalida(true);
             }
         }
     }
