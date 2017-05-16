@@ -7,22 +7,26 @@
 #include "libs/Animation.h"
 #include "libs/Time.h"
 #include "libs/Trigonometry.h"
+#include "libs/Particles.h"
 
 class Enemy : public Entity{
     private:
+        Trigonometry *tri;
+        Particles *blood;
         int hp;
         int type;
         int maxHP;
         int flashRange;
-        Time *flashCooldown;
         float maxFlashCooldown;
         float initialSpeed;
-        Trigonometry *tri;
         
         Time *cd;
+        Time *flashCooldown;
         
         bool home;
         bool freeze;
+        bool haveParticles;
+        
         int slowDown;
         int dmgHit;
         int hits;
@@ -44,6 +48,22 @@ class Enemy : public Entity{
         Enemy(Coordinate position, Coordinate size, float sp);
         virtual ~Enemy();
         
+        /**
+         * 
+         * @param texture
+         */
+        void setBlood(Texture *texture);
+        
+        /**
+         * 
+         * @param duration
+         */
+        void startBlood(float duration);
+        
+        /**
+         * 
+         */
+        void drawBlood();
         
         /**
          * Establece la vida maxima

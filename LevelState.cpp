@@ -70,13 +70,13 @@ void LevelState::Init(){
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(150);
+    rath->setMaxHP(50);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
     //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
-    wep->setDamage(10);
+    wep->setDamage(12);
     
     rath->setWeapon(wep);
 
@@ -87,7 +87,7 @@ void LevelState::Init(){
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-    gunArm->setDamage(1);
+    gunArm->setDamage(2);
     
     Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
     bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
@@ -101,9 +101,7 @@ void LevelState::Init(){
     rath->addGun(gunArm);
     rath->changeGun(0);
     rath->setPosition(Coordinate(5500, 14250));
-    
-    
-    
+     
     /*****LEVEL*****/
     level = new Level(1);
     
@@ -188,10 +186,10 @@ void LevelState::Input(){
         rath->getCurrentGun()->update(newPos, mouseAng);
 
         /*Player weapon attack*/
-        if (Game::Instance()->iM->isActive("player-shortAttack")){ //ToDo: hacemos que se ralentize al cargar?
+        if (Game::Instance()->iM->isActive("player-shortAttack")){ 
             rath->weaponShortAttack(mouseAng);
         }
-        if (Game::Instance()->iM->isActive("player-longAttackStart")){
+        if (Game::Instance()->iM->isActive("player-longAttackStart")){//ToDo: hacemos que se ralentize al cargar?
             rath->weaponChargeAttack(mouseAng);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStop")){
@@ -249,6 +247,8 @@ void LevelState::Input(){
             if(hud->getButton()->getHover() && Game::Instance()->iM->isActive("click")){
                 rath->respawn(0);
                 hud->changeLifePlayer(rath->getHP());
+                level->getBoss()->setHP(level->getBoss()->getMaxHP());
+                hud->changeLifeBoss(level->getBoss()->getHP());
                 paused = false;
             }
         }

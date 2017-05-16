@@ -11,6 +11,7 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     hits = 0;
     flashRange = 0;
     initialSpeed = sp;
+    haveParticles = false;
 }
 
 Enemy::~Enemy() {
@@ -27,6 +28,31 @@ void Enemy::flash(float dirX, float dirY){
         Entity::move(flashRange*dirX, flashRange*dirY);
         flashCooldown->restart();
     }
+}
+
+void Enemy::setBlood(Texture *texture){
+    /*****Particle*****/
+    blood = new Particles(texture);
+    blood->addParticle(Rect<float> (0, 0, 5, 5));
+    blood->setProperties(20,0.25f,0.75f);
+    blood->setParticleRotation(thor::Distributions::uniform(360.f, 0.f));
+    blood->setParticleSpeed(thor::Distribution<sf::Vector2f> (sf::Vector2f(15.0f,-60.0f)));
+    blood->setGravity(500.0f);
+    haveParticles = true;
+}
+
+void Enemy::startBlood(float duration){
+    if (haveParticles){
+        blood->setParticlePosition(thor::Distributions::circle(sf::Vector2f(Entity::getCoordinate()->x+(Entity::getSize()->x/2), Entity::getCoordinate()->y+(Entity::getSize()->y/2)), 30));
+        blood->start(duration);
+    }
+}
+
+void Enemy::drawBlood(){
+    if (haveParticles){
+        blood->update();
+        blood->draw();
+    } 
 }
 
 void Enemy::die(){

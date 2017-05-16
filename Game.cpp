@@ -113,7 +113,7 @@ void Game::Render(){
         fpsTimer->restart();
     }
     
-    window->clear();
+    window->clear(sf::Color(72,118,17,255));
     
     game->Render();
     

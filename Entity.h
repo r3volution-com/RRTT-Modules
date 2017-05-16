@@ -8,6 +8,7 @@
 class Entity {
     private:
         InterpolatedCoordinate *coor;
+        Coordinate *size;
         Hitbox *hitbox;
         Animation *anim;
         Coordinate *initial;
@@ -82,6 +83,7 @@ class Entity {
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return anim; }
         float getSpeed() { return speed; }
+        Coordinate *getSize(){ return size; }
         Coordinate *getInitialCoordinate() { return initial;}
 };
 
