@@ -16,7 +16,6 @@
 class HUD {
     private:
         Texture *tex;
-        Sprite *hud;
         Font *font;
         
         Rect<float> *cooldownRect;
@@ -61,7 +60,7 @@ class HUD {
          * @param lRect: Vida
          * @param f: Fuente del texto (puntero)
          */
-        HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f);
+        HUD(Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f);
         virtual ~HUD();
         
         /**
@@ -73,16 +72,20 @@ class HUD {
         
         /**
          * Pues va a ser que no
+         * @param pos: isumaeru,
          * @param rect: isma esto no
          * @param f: esta hecho
          */
-        void setFlash(Rect<float> rect, Time *f);
+        void setFlash(Coordinate pos, Rect<float> rect, Time *f);
         
         /**
          * Sprite de muerte
          * @param dTex: Textura del sprite de muerte (puntero)
+         * @param
+         * @param
+         * @param
          */
-        void setDieSprite(Texture *dTex);
+        void setDieScreen(Texture *dTex, Coordinate coor, Texture* tex, Rect<float> rect);
         
         /**
          * Actualizar capa de texto
@@ -126,14 +129,6 @@ class HUD {
          * Actualiza la vida del jugador
          */
         void setTextLifePlayer();
-        
-        /**
-         * Actualiza un boton
-         * @param coor: Coordenadas del boton (tipo coord)
-         * @param tex: Textura del boton
-         * @param rect: Zona en la que imprimir el boton
-         */
-        void setButton(Coordinate coor, Texture* tex, Rect<float> rect);
         
         /**
          * Cambia al arma activa
@@ -231,7 +226,7 @@ class HUD {
         /**
          * Comprueba si el personaje esta muerto
          */
-        bool checkDie();
+        bool playerDie();
         
         /**
          * Reinicia el reloj del flash

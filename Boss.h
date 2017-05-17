@@ -3,22 +3,37 @@
 
 #include "Enemy.h"
 #include "Gun.h"
+#include "libs/Coordinate.h"
 
 
 class Boss : public Enemy{
     private:
         std::vector<Gun*> *guns;
         
+        Coordinate* dirFlash;
+        
         int state;
+        int actualState;
+        std::vector<int> *states;
         
-        Time *defensive;
+        Time *stateClock;
+        Time *delay;
         
+        bool onDelay;
         bool attacking;
         bool onRange;
+        bool start;
+        bool nextState;
         
         int level;
+        float timeState;
         
+        float initialSpeed;
         int currentGun;
+        
+        char dirSprite;
+        
+        int actualDmg;
     public:
         /**
          * Crea un objeto de tipo jefe
@@ -53,14 +68,23 @@ class Boss : public Enemy{
         bool changeGun(int gun);
         
         void AI(Player* rath, HUD* hud);
-        
-        Gun *getCurrentGun() { return guns->at(currentGun); }
         void attackDone();
         void setPosition(Coordinate newCoor);
         void setPosition(float x, float y);
+        void updatePosition(Coordinate newCoor);
+        void updatePosition(float x, float y);
+        
+        Gun *getCurrentGun() { return guns->at(currentGun); }
         bool isAttacking() { return attacking; }
         bool getOnRange(){return onRange;}
-
+        void setStateClock(Time *def){stateClock = def; timeState = stateClock->getTime(); stateClock = new Time(0);}
+        void setAnimations(Texture *t, Rect<float> newRect);
+        void move(float xDir, float yDir);
+        void flash(float xDir, float yDir);
+        void changeState();
+        void damage(int dm);
+        void addState(int s);
+        void addRandomState();
 };
 
 #endif /* BOSS_H */

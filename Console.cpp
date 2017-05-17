@@ -10,8 +10,10 @@ Console::Console(Coordinate coor, Texture *bg, Rect<float> rect, Font *f) {
     backlog = new Text("---", (coor+10), f, false);
     actual = new Text("", Coordinate(coor.x+5, coor.y+175), f, false);
     
-    backlog->setStyles(sf::Color::Black, sf::Color::White, 1, 20);
-    actual->setStyles(sf::Color::Black, sf::Color::White, 1, 20);
+    backlog->setTextStyle(sf::Color::Black, 20);
+    backlog->setOutlineStyle(sf::Color::White, 1);
+    actual->setTextStyle(sf::Color::Black, 20);
+    actual->setOutlineStyle(sf::Color::White, 1);
     
     commands = std::map<std::string, std::function<void(std::string)>>();
     

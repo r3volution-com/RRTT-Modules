@@ -15,6 +15,8 @@ Weapon::Weapon(Coordinate position, Coordinate size, float speed, float animatio
     attacking = false;
     isLong = false;
     
+    dmg = 0;
+    
     animSpeed = animationSpeed;
     
     vector = new thor::PolarVector2<float>(pieRadius, 0.f);
@@ -79,16 +81,18 @@ int Weapon::releaseAttack(){
 }
 
 void Weapon::shortAttack(char direction){
-    attackLength->restart(animSpeed);
     isLong = false;
-    if(direction == 'u'){
-        hitbox->setPosition(coor->x, coor->y+hitbox->hitbox->height);
-    } else if (direction == 'l'){
-        hitbox->setPosition(coor->x-hitbox->hitbox->width, coor->y);
-    } else if (direction == 'd'){
-        hitbox->setPosition(coor->x, coor->y-hitbox->hitbox->height);
-    } else if (direction == 'r'){
-        hitbox->setPosition(coor->x+hitbox->hitbox->width, coor->y);
+    if(attackLength->isExpired()){
+        attackLength->restart(animSpeed);
+        if(direction == 'u'){
+            hitbox->setPosition(coor->x, coor->y+hitbox->hitbox->height);
+        } else if (direction == 'l'){
+            hitbox->setPosition(coor->x-hitbox->hitbox->width, coor->y);
+        } else if (direction == 'd'){
+            hitbox->setPosition(coor->x, coor->y-hitbox->hitbox->height);
+        } else if (direction == 'r'){
+            hitbox->setPosition(coor->x+hitbox->hitbox->width, coor->y);
+        }
     }
 }
 
@@ -102,6 +106,7 @@ bool Weapon::detectCollisions(Hitbox *other){
         return hitbox->checkCollision(other);
     } else {
         hitbox->setPosition(*coor);
+
     }
     return false;
 }

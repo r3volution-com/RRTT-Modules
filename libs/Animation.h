@@ -40,14 +40,14 @@ class Animation {
          * @param name: nombre de la animacion
          * @param loop: tipo bool bucle
          */
-        void changeAnimation(std::string name, bool loop);
+        void changeAnimation(std::string name, bool oneTime);
         
         /**
          * Animacion en cola
          * @param name: nombre de la animacion 
          * @param loop: tipo bool bucle
          */
-        void queueAnimation(std::string name, bool loop);
+        void queueAnimation(std::string name, bool oneTime);
         
         void initAnimator();
         void updateAnimator();

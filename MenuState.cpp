@@ -7,23 +7,29 @@ MenuState::MenuState() {
 
 MenuState::~MenuState(){
     delete principal;
-    
+
     principal = NULL;
 }
 
 void MenuState::Init(){
     Game *game = Game::Instance();
+    
+    game->rM->loadMusic("Intro", "resources/Inicio.ogg");
+    game->rM->getMusic("Intro")->getMusic()->setLoop(true);
+    game->rM->getMusic("Intro")->getMusic()->play();
+    
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
-    game->rM->loadTexture("button-layout", "resources/button-layout.png");
-    game->rM->loadFont("menu", "resources/font.ttf");
-    principal = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("button-layout"), new Rect<float>(0,0,200,50), game->rM->getFont("menu"));
-    principal->addButton(Coordinate (540,200), "Jugar", sf::Color::Black, sf::Color::Transparent, 20);
-    principal->addButton(Coordinate (540,270), "Opciones", sf::Color::Black, sf::Color::Transparent, 20);
-    principal->addButton(Coordinate (540,340), "Salir", sf::Color::Black, sf::Color::Transparent, 20);
-    opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("button-layout"), new Rect<float>(0,0,200,50), game->rM->getFont("menu"));
-    opciones->addButton(Coordinate (540,200), "Musica On/Off", sf::Color::Black, sf::Color::Transparent, 20);
-    opciones->addButton(Coordinate (540,270), "FX On/Off", sf::Color::Black, sf::Color::Transparent, 20);
-    opciones->addButton(Coordinate (540,340), "Volver", sf::Color::Black, sf::Color::Transparent, 20);
+    game->rM->loadFont("menu", "resources/menu.ttf");
+    
+    principal = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
+    principal->addButton(Coordinate (825,270), "Jugar", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    principal->addButton(Coordinate (825,340), "Opciones", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    principal->addButton(Coordinate (825,410), "Salir", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
+    opciones->addButton(Coordinate (825,270), "Musica On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    opciones->addButton(Coordinate (825,340), "FX On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    opciones->addButton(Coordinate (825,410), "Volver", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    
     game->iM->addAction("click", thor::Action(sf::Mouse::Left));
     
     menuactual = 0;
@@ -36,6 +42,7 @@ void MenuState::Input(){
         if (menuactual == 0){
             switch (clicks){
                 case 0:
+                    Game::Instance()->rM->getMusic("Intro")->getMusic()->stop();
                     Game::Instance()->ChangeCurrentState("level");
                 break;
                 case 1:
@@ -75,8 +82,8 @@ void MenuState::Render(){
 
 void MenuState::CleanUp(){
     Game::Instance()->rM->releaseTexture("menu-background");
-    Game::Instance()->rM->releaseTexture("button-layout");
     Game::Instance()->rM->releaseFont("menu");
+    Game::Instance()->rM->releaseMusic("Intro");
     delete principal;
     principal = NULL;
 }

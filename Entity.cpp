@@ -1,10 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(Coordinate position, Coordinate size, float sp) {
+Entity::Entity(Coordinate position, Coordinate s, float sp) {
     speed = sp;
     
+    size = new Coordinate(s);
+    
     coor = new InterpolatedCoordinate(position.x, position.y);
-    hitbox = new Hitbox(position.x, position.y, size.x, size.y);
+    hitbox = new Hitbox(position.x, position.y, s.x, s.y);
     hitbox->setPosition(position);
     initial = new Coordinate(position.x, position.y);
 }
@@ -36,9 +38,21 @@ void Entity::move(float dirX, float dirY, float sp){
 void Entity::setPosition(Coordinate newCoor){
     anim->setPosition(newCoor);
     hitbox->setPosition(newCoor);
+    coor->setCoordinate(newCoor);
 }
 
 void Entity::setPosition(float x, float y){
+    anim->setPosition(x, y);
+    hitbox->setPosition(x, y);
+    coor->setCoordinate(x, y);
+}
+
+void Entity::updatePosition(Coordinate newCoor){
+    anim->setPosition(newCoor);
+    hitbox->setPosition(newCoor);
+}
+
+void Entity::updatePosition(float x, float y){
     anim->setPosition(x, y);
     hitbox->setPosition(x, y);
 }

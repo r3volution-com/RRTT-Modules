@@ -82,23 +82,23 @@ float Trigonometry::angleWindow(Coordinate end){
     return ang;
 }
 
-float Trigonometry::distance(Coordinate* initial, Coordinate* end){
-    int x = initial->x - end->x;
-    int y = initial->y - end->y;
+float Trigonometry::distance(Coordinate initial, Coordinate end){
+    int x = initial.x - end.x;
+    int y = initial.y - end.y;
     
     float dis = std::sqrt(x*x+y*y);
     return dis;
 }
 
-std::vector<float> Trigonometry::distance(std::vector<Coordinate*> *initial, Coordinate* end){
+std::vector<float> Trigonometry::distance(std::vector<Coordinate> initial, Coordinate end){
     std::vector<int> x = std::vector<int>();
     std::vector<int> y = std::vector<int>();
     
     std::vector<float> dis = std::vector<float>();
     
-    for(int i = 0; i < initial->size(); i++){
-        x[i] = initial->at(i)->x - end->x;
-        y[i] = initial->at(i)->y - end->y;
+    for(int i = 0; i < initial.size(); i++){
+        x[i] = initial.at(i).x - end.x;
+        y[i] = initial.at(i).y - end.y;
         
         dis[i] = std::sqrt(x[i]*x[i]+y[i]*y[i]);
     }
@@ -106,35 +106,35 @@ std::vector<float> Trigonometry::distance(std::vector<Coordinate*> *initial, Coo
     return dis;
 }
 
-Coordinate* Trigonometry::direction(Coordinate* initial, Coordinate* end){
+Coordinate Trigonometry::direction(Coordinate initial, Coordinate end){
     
-    int x = initial->x - end->x;
-    int y = initial->y - end->y;
+    int x = initial.x - end.x;
+    int y = initial.y - end.y;
     
     if(x == 0){
         if(y == 0){
-            return new Coordinate(0, 0);
+            return  Coordinate(0, 0);
         }else if(y < 0){
-            return new Coordinate(0, -1);
+            return  Coordinate(0, -1);
         }else if(y > 0){
-            return new Coordinate(0, 1);
+            return  Coordinate(0, 1);
         }
     }else if(x < 0){
         if(y == 0){
-            return new Coordinate(-1, 0);
+            return  Coordinate(-1, 0);
         }else if(y < 0){
-            return new Coordinate(-1, -1);
+            return  Coordinate(-1, -1);
         }else if(y > 0){
-            return new Coordinate(-1, 1);
+            return  Coordinate(-1, 1);
         }
     }else if(x > 0){
         if(y == 0){
-            return new Coordinate(1, 0);
+            return  Coordinate(1, 0);
         }else if(y < 0){
-            return new Coordinate(1, -1);
+            return  Coordinate(1, -1);
         }else if(y > 0){
-            return new Coordinate(1, +1);
+            return  Coordinate(1, +1);
         }
     }
-    return new Coordinate(0,0);
+    return Coordinate(0,0);
 }

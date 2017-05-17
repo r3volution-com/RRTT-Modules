@@ -13,6 +13,10 @@ class Button {
         Sprite *buttonLayout;
         Rect<float> *buttonData;
         
+        sf::Color *outlineColor;
+        sf::Color *outlineColorHover;
+        int outlineSize;
+        
         bool isHover;
     public:
         /**
@@ -29,11 +33,18 @@ class Button {
          * Actualiza el texto mostrado
          * @param t: String con el texto a mostrar
          * @param color: Color del texto
-         * @param outlineColor: Color del borde del texto
          * @param f: Puntero a la fuente del texto
          * @param size: Tamano de la fuente del texto
          */
-        void setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size);
+        void setText(std::string t, sf::Color color, Font *f, int size);
+        
+        /**
+         * 
+         * @param outlineSize
+         * @param outlineColor
+         * @param outLineColorHover
+         */
+        void setOutline(int oS, sf::Color oC, sf::Color oCH);
         
         /**
          * Cuando el raton se halla sobre el boton

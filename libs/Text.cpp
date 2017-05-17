@@ -10,7 +10,7 @@ Text::Text(std::string t, Coordinate position, Font* f, bool cO) {
     if (centerOrigin){
         sf::FloatRect textRect = text->getLocalBounds();
         text->setOrigin(textRect.width/2.0f, textRect.height/2.0f);
-        text->setPosition(position.x+(textRect.width/4), position.y);
+        text->setPosition(position.x+(textRect.width/6), position.y);
     }
 }
 
@@ -29,11 +29,14 @@ void Text::setText(std::string t){
     }
 }
 
-void Text::setStyles(sf::Color color, sf::Color outlineColor, int outlineThickness, int size){
+void Text::setTextStyle(sf::Color color, int size){
     text->setFillColor(color);
+    text->setCharacterSize(size);
+}
+
+void Text::setOutlineStyle(sf::Color outlineColor, int outlineThickness){
     text->setOutlineColor(outlineColor);
     text->setOutlineThickness(outlineThickness);
-    text->setCharacterSize(size);
 }
 
 sf::Text *Text::getText() {

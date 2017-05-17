@@ -16,7 +16,10 @@ class Player : public Entity {
         int maxHP;
         
         Time *flashCooldown;
+        float flashTime;
         int flashRange;
+        
+        float initialSpeed;
         
         bool attacking;
         bool weaponLoaded;
@@ -24,6 +27,9 @@ class Player : public Entity {
         int currentGun;
         
         char state;
+        
+        bool dead;
+        Time *dmgOnPlayer;
     public:
         /**
          * Crea el objeto jugador
@@ -97,12 +103,12 @@ class Player : public Entity {
          * @param dirX: Flash en la coordenada x
          * @param dirY: Flash en la coordenada y
          */
-        void flash(float dirX, float dirY);
+        void flash();
         
         /**
          * Reaparicion del jugador
          */
-        void respawn(Coordinate coor, int resp);
+        void respawn(int resp);
         
         /**
          * Dano recibido por el jugador
@@ -131,7 +137,7 @@ class Player : public Entity {
          * Actualizar el tiempo de enfriamiento del flash
          * @param cooldown: Tiempo de enfriamiento
          */
-        void setFlashCooldown(Time *cooldown);
+        void setFlashCooldown(float cd);
         
         /**
          * Actualiza la posicion del jugador
@@ -147,6 +153,19 @@ class Player : public Entity {
         void setPosition(float x, float y);
         
         /**
+         * Actualiza la posicion del jugador
+         * @param newCoor: Coodenada. Tipo Coordinate
+         */
+        void updatePosition(Coordinate newCoor);
+        
+        /**
+         * Actualiza la posicion del jugador
+         * @param x: Coordenada x
+         * @param y: Coordenada y
+         */
+        void updatePosition(float x, float y);
+        
+        /**
          *llama a derecha() de gun
          */
         void derechaGun();
@@ -156,6 +175,8 @@ class Player : public Entity {
          */
         void inversaGun();
         
+        int isDead() { return dead; }
+        
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
         Weapon *getWeapon() { return weapon; }
@@ -163,6 +184,9 @@ class Player : public Entity {
         Time *getFlashCooldown() { return flashCooldown; }
         
         bool isAttacking() { return attacking; }
+        
+        float getInitialSpeed() {return initialSpeed;}
+        Time *getDmgOnPlayer() {return dmgOnPlayer;}
 };
 
 #endif /* PROTAGONISTA_H */

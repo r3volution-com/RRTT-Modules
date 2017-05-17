@@ -7,29 +7,38 @@
 #include "libs/Animation.h"
 #include "libs/Time.h"
 #include "libs/Trigonometry.h"
+#include "libs/Particles.h"
 
 class Enemy : public Entity{
     private:
+        Trigonometry *tri;
+        Particles *blood;
         int hp;
         int type;
         int maxHP;
-        int dmg; //daño que hace
         int flashRange;
-        Time *flashCooldown;
         float maxFlashCooldown;
-        Trigonometry *tri;
+        float initialSpeed;
         
         Time *cd;
+        Time *flashCooldown;
+        Time *timeDead;
         
         bool home;
         bool freeze;
+        bool haveParticles;
+        bool dead;
+        
         int slowDown;
         int dmgHit;
         int hits;
+        int initialDmg;
         
         int disPlayerEnemy;
         int disEnemyHome;
 
+        char direction;
+        
         
     public: 
         /**
@@ -41,6 +50,22 @@ class Enemy : public Entity{
         Enemy(Coordinate position, Coordinate size, float sp);
         virtual ~Enemy();
         
+        /**
+         * 
+         * @param texture
+         */
+        void setBlood(Texture *texture);
+        
+        /**
+         * 
+         * @param duration
+         */
+        void startBlood(float duration);
+        
+        /**
+         * 
+         */
+        void drawBlood();
         
         /**
          * Establece la vida maxima
@@ -132,7 +157,7 @@ class Enemy : public Entity{
         void AI(Player *rath, HUD* hud);
         
         int getType(){return type;}
-        int getDmg(){return dmg;}
+        int getDmg(){return dmgHit;}
         int getFlashRange(){return flashRange;}
         float getMaxFlashCooldown(){return maxFlashCooldown;}
         Trigonometry *getTrigonometry(){return tri;}
@@ -143,8 +168,15 @@ class Enemy : public Entity{
         int getDisPlayerEnemy(){return disPlayerEnemy;}
         int getDisEnemyHome(){return disEnemyHome;}
         void setHome(bool value){home = value;}
-        
-        
+        void resetCooldownHit(){cd->restart();}
+        void setAnimations(Texture *t, Rect<float> newRect);
+        float getInitialSpeed() {return initialSpeed;}
+        int getInitialDmg() {return initialDmg;}
+        void setInitialDmg(int dmg) {initialDmg = dmg; dmgHit = dmg; cd->start();} 
+        void setHP(int ahp) {hp = ahp; }
+        Time *getTimeDead() {return timeDead;}
+        bool isDead(){return dead;}
+        void setDead(bool d){ dead = d;}
 };
 
 #endif /* ENEMY_H */
