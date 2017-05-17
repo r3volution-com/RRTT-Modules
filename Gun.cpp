@@ -2,9 +2,8 @@
 #include "libs/Time.h"
 #include "Game.h"
 
-Gun::Gun(Coordinate position, Coordinate size, float cd) {
-    coor = new Coordinate(position);
-    hitbox = new Hitbox(position.x, position.y, size.x, size.y);
+Gun::Gun(float cd) {
+    coor = new Coordinate(0,0);
     bulletLoaded = false;
     gunCooldown = new Time(cd);
     gunCooldown->pause();
@@ -21,11 +20,9 @@ void Gun::setAnimation(Texture *tex, Rect<float> animRect){
 
 Gun::~Gun() {
     delete gunAnimation;
-    delete hitbox;
     delete attack;
     delete gunCooldown;
     gunAnimation = NULL;
-    hitbox = NULL;
     attack = NULL;
     gunCooldown = NULL;
 }
@@ -55,13 +52,11 @@ void Gun::update(Coordinate position, float angle){
 
 void Gun::setPosition(Coordinate position){
     coor->setCoordinate(position);
-    hitbox->setPosition(position);
     gunAnimation->setPosition(position);
 }
 
 void Gun::setPosition(float x, float y){
     coor->setCoordinate(x, y);
-    hitbox->setPosition(x, y);
     gunAnimation->setPosition(x, y);
 }
 

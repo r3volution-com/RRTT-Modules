@@ -25,7 +25,6 @@ class Boss : public Enemy{
         bool start;
         bool nextState;
         
-        int level;
         float timeState;
         
         float initialSpeed;
@@ -41,7 +40,7 @@ class Boss : public Enemy{
          * @param size: tamano del boss
          * @param sp: Velocidad de animacion del jefe
          */
-        Boss(Coordinate position, Coordinate size, float sp, int lvl);
+        Boss(Coordinate position, Coordinate size, float sp);
         virtual ~Boss();
         /**
          * Cambia el estado del jefe

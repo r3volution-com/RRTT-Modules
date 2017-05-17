@@ -10,6 +10,7 @@ class Bullet {
         Hitbox *hitbox;
         Animation *anim;
         Coordinate *initial;
+        int damage;
         
         char type;
         
@@ -52,6 +53,13 @@ class Bullet {
          */
         bool collision(Hitbox *other);
         
+        /**
+         * Actualiza el dano del arma
+         * @param dmg: Dano del arma
+         */
+        void setDamage(int dmg) { damage = dmg; }
+        
+        int getDamage() { return damage; }
         InterpolatedCoordinate *getState() { return coor; }
         Coordinate *getCoordinate() { return coor->getCoordinate(); }
         Hitbox *getHitbox() { return hitbox; }

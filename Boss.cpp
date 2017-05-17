@@ -1,14 +1,13 @@
 #include "Boss.h"
 #include "Game.h"
 
-Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(position, size, sp) {
+Boss::Boss(Coordinate position, Coordinate size, float sp) : Enemy(position, size, sp) {
     state = 0;
     actualState = -1;
     currentGun = -1;
     guns = new std::vector<Gun*>();
     attacking = false;
     onRange = false;
-    level = lvl;
     initialSpeed = sp;
     dirFlash = new Coordinate(0,0);
     delay = new Time(0);
@@ -143,30 +142,15 @@ void Boss::flash(float xDir, float yDir){
 
 void Boss::setAnimations(Texture *t, Rect<float> newRect){
     Entity::setSprite(t, newRect);
-    if(level == 1){
-        Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
-        Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
-        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
-        Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(128, 896), 4, 0.5f);
-        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
-        Entity::getAnimation()->addAnimation("flashDerecha", Coordinate(0, 768), 1, 0.25f);
-        Entity::getAnimation()->addAnimation("flashIzquierda", Coordinate(0, 896), 1, 0.25f);
-        Entity::getAnimation()->addAnimation("flashAbajo", Coordinate(0, 1024), 1, 0.25f);
-        Entity::getAnimation()->addAnimation("flashArriba", Coordinate(0, 1152), 1, 0.25f);
-    }else if(level == 2){
-        Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
-        Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
-        Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
-        Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(128, 896), 4, 0.5f);
-        Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
-        Entity::getAnimation()->addAnimation("flashDerecha", Coordinate(0, 768), 1, 0.25f);
-        Entity::getAnimation()->addAnimation("flashIzquierda", Coordinate(0, 896), 1, 0.25f);
-        Entity::getAnimation()->addAnimation("flashAbajo", Coordinate(0, 1024), 1, 0.25f);
-        Entity::getAnimation()->addAnimation("flashArriba", Coordinate(0, 1152), 1, 0.25f);
-    }else if(level == 3){
-        
-    }
-    
+    Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
+    Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(128, 896), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("flashDerecha", Coordinate(0, 768), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("flashIzquierda", Coordinate(0, 896), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("flashAbajo", Coordinate(0, 1024), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("flashArriba", Coordinate(0, 1152), 1, 0.25f);
     Entity::getAnimation()->initAnimator();
     Entity::getAnimation()->changeAnimation("idle", false); 
 }

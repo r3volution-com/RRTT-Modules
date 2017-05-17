@@ -154,24 +154,24 @@ void Level::Init(){
         
         enemys->push_back(enemy7);
         
-        Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 3);
+        Gun *gunArm = new Gun(3);
         gunArm->setAnimation(game->rM->getTexture("enemy"), Rect<float> (0, 640, 128, 128));
         gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
         gunArm->getAnimation()->initAnimator();    
         gunArm->getAnimation()->changeAnimation("armaIdle", false);
         gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-        gunArm->setDamage(2);
 
-        Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
+        Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2, 't');
         bull->setAnimation(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 512), 2, 0.5f);
         bull->getAnimation()->setOrigin(Coordinate(184,98));
         bull->getAnimation()->initAnimator();
         bull->getAnimation()->changeAnimation("fireIdle", false);
+        bull->setDamage(2);
 
         gunArm->setAttack(bull);
         
-        boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20, 1);
+        boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20);
         boss->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
         boss->setMaxHP(470);
         boss->setDistanceEnemyHome(2000);
@@ -247,7 +247,7 @@ void Level::Update(Player* rath, HUD* hud){
     
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
-            enemys->at(i)->damage(rath->getCurrentGun()->getDamage());
+            enemys->at(i)->damage(rath->getCurrentGun()->getBullet()->getDamage());
             if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead() == false){
                 enemys->at(i)->setPosition(100000,100000);
                 enemigosCaidos++;
@@ -271,7 +271,7 @@ void Level::Update(Player* rath, HUD* hud){
         
     }
     if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
-        boss->damage(rath->getCurrentGun()->getDamage());
+        boss->damage(rath->getCurrentGun()->getBullet()->getDamage());
         hud->changeLifeBoss(boss->getHP());
         if(boss->getHP() <= 0){
             boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
