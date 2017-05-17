@@ -8,7 +8,7 @@ Level::Level(int numLevel) {
     enemys = new std::vector<Enemy*>();
     respawn = new std::vector<Coordinate*>();
     Coordinate* inicio = new Coordinate(5500,14250);
-    Coordinate* beforeBoss = new Coordinate(3200,6500);
+    Coordinate* beforeBoss = new Coordinate(3200,7000);
     respawn->push_back(inicio);
     respawn->push_back(beforeBoss);
     //respawn[1]=(500,300);
@@ -304,6 +304,11 @@ void Level::Update(Player* rath, HUD* hud){
     if(rath->collision(fuego2->getHitbox())){
         rath->move(0,1);
     }  
+    
+    if(play==true){
+       Game::Instance()->rM->getMusic("boss")->getMusic()->play();
+       play=false;
+    }
 }
 
 void Level::Input(Player* rath, HUD* hud){
@@ -387,9 +392,11 @@ void Level::Render(){
     if(enemigosCaidos < enemys->size()){
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
     }else if(sinSalida == false){
+        Game::Instance()->rM->getMusic("Main")->getMusic()->stop();
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
     }else if(Game::Instance()->getLevelState()->getRath()->getCoordinate()->y < 5700){
         sinSalida = false;
+        play = true;
     }
     
     Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());

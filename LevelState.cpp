@@ -51,6 +51,8 @@ void LevelState::Init(){
     /* SONIDOS */
     game->rM->loadSound("ataque", "resources/ataque.ogg");
     game->rM->loadSound("cargar", "resources/cargar.ogg");
+    game->rM->loadMusic("boss", "resources/boss.ogg");
+    game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
@@ -183,7 +185,7 @@ void LevelState::Input(){
 
         /*Player weapon attack*/
         if (Game::Instance()->iM->isActive("player-shortAttack")){
-            Game::Instance()->rM->getSound("ataque")->getSound()->play();
+            //Game::Instance()->rM->getSound("ataque")->getSound()->play();
             rath->weaponShortAttack(mouseAng);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStart")){//ToDo: hacemos que se ralentize al cargar?
@@ -242,6 +244,9 @@ void LevelState::Input(){
         if (rath->isDead()){
             hud->playerDie();
             if(hud->getButton()->getHover() && Game::Instance()->iM->isActive("click")){
+                Game::Instance()->rM->getMusic("boss")->getMusic()->stop();
+                Game::Instance()->getLevelState()->getLevel()->setPlay(false);
+                Game::Instance()->rM->getMusic("Main")->getMusic()->play();
                 if(level->getBoss()->getOnRange()){
                    rath->respawn(1); 
                 }else{

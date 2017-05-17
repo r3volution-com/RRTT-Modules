@@ -39,6 +39,7 @@ public:
     void setSinSalida(bool booleano) {sinSalida=booleano;};
     bool getSinSalida(){return sinSalida;}
     bool getShowIterationNpc(){return showIterationNpc;}
+    void setPlay(bool booleano) {play=booleano;};
     Text *getKeyIterationNpc(){return keyIterationNpc;}
     Trigonometry *getTrignometry(){return tri;}
     int getDisNpcPlayer(){return disNpcPlayer;}
@@ -58,6 +59,8 @@ private:
     bool moverse = false;
     //Que el muro se mantenga
     bool sinSalida = true;
+    //Iniciar musica jefe
+    bool play = false;
     
     bool showIterationNpc;
     
