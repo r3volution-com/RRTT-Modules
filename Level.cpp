@@ -7,8 +7,10 @@ Level::Level(int numLevel) {
     enemigosCaidos = 0;
     enemys = new std::vector<Enemy*>();
     respawn = new std::vector<Coordinate*>();
-    Coordinate* coord = new Coordinate(5500,14250);
-    respawn->push_back(coord);
+    Coordinate* inicio = new Coordinate(5500,14250);
+    Coordinate* beforeBoss = new Coordinate(3200,7000);
+    respawn->push_back(inicio);
+    respawn->push_back(beforeBoss);
     //respawn[1]=(500,300);
     //respawn[2]=(1000,300);
     //Cargamos todos los elementos del juego
@@ -295,13 +297,18 @@ void Level::Update(Player* rath, HUD* hud){
     /* COLISION MUROS*/
     if(rath->collision(fuego->getHitbox()) && enemigosCaidos < enemys->size()){
         rath->move(0,1);
-    }else if(rath->collision(fuego->getHitbox()) && enemigosCaidos >= enemys->size()){
+    }else if(rath->collision(fuego->getHitbox()) && enemigosCaidos >= enemys->size() && sinSalida==false){
         rath->move(0,-1);
     }
     
     if(rath->collision(fuego2->getHitbox())){
         rath->move(0,1);
     }  
+    
+    if(play==true){
+       Game::Instance()->rM->getMusic("boss")->getMusic()->play();
+       play=false;
+    }
 }
 
 void Level::Input(Player* rath, HUD* hud){
@@ -381,14 +388,15 @@ void Level::Render(){
     
     Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
     
-    if(enemigosCaidos < enemys->size() && sinSalida==true){
+    /* MURO FUEGO */
+    if(enemigosCaidos < enemys->size()){
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
-    }else if(Game::Instance()->getLevelState()->getLevel()->getBoss()->getOnRange()){ 
-        sinSalida = false;        
-    }
-    
-    if(sinSalida==false){
+    }else if(sinSalida == false){
+        Game::Instance()->rM->getMusic("Main")->getMusic()->stop();
         Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
+    }else if(Game::Instance()->getLevelState()->getRath()->getCoordinate()->y < 5700){
+        sinSalida = false;
+        play = true;
     }
     
     Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());

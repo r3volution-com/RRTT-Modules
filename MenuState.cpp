@@ -14,9 +14,13 @@ MenuState::~MenuState(){
 void MenuState::Init(){
     Game *game = Game::Instance();
     
+    /* CANCIONES */
     game->rM->loadMusic("Intro", "resources/Inicio.ogg");
     game->rM->getMusic("Intro")->getMusic()->setLoop(true);
     game->rM->getMusic("Intro")->getMusic()->play();
+    
+    game->rM->loadMusic("Main", "resources/main.ogg");
+    game->rM->getMusic("Main")->getMusic()->setLoop(true);
     
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
     game->rM->loadFont("menu", "resources/menu.ttf");
@@ -44,6 +48,7 @@ void MenuState::Input(){
                 case 0:
                     Game::Instance()->rM->getMusic("Intro")->getMusic()->stop();
                     Game::Instance()->ChangeCurrentState("level");
+                    Game::Instance()->rM->getMusic("Main")->getMusic()->play();
                 break;
                 case 1:
                     menuactual = 1;
