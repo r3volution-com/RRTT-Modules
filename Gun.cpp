@@ -39,10 +39,10 @@ void Gun::setAttack(Bullet *atk){
 void Gun::doAttack(){
     if(bulletLoaded && !gunCooldown->isRunning()){
         //gunAnimation->changeAnimation("attack", true);
-        
         gunCooldown->restart(maxCooldown);
         bulletLifetime->restart(attack->getDuration());
     }
+    
 }
 
 void Gun::update(Coordinate position, float angle){

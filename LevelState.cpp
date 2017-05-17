@@ -24,6 +24,7 @@ void LevelState::Init(){
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
     game->rM->loadTexture("damage","resources/dano.png");
+    game->rM->loadTexture("laser","resources/rayo.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
     /*****INPUTS*****/
@@ -77,6 +78,25 @@ void LevelState::Init(){
     bull->getAnimation()->changeAnimation("fireIdle", false);
     
     gunArm->setAttack(bull);
+    
+    Gun *gunArm2 = new Gun(Coordinate(0, 0), Coordinate(128, 128), 2);
+    gunArm2->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
+    gunArm2->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
+    gunArm2->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
+    gunArm2->getAnimation()->initAnimator();    
+    gunArm2->getAnimation()->changeAnimation("armaIdle", false);
+    gunArm2->getAnimation()->setOrigin(Coordinate(56,34));
+    gunArm2->setDamage(15);
+    
+    Bullet *bull2 = new Bullet(Coordinate(0,0), Coordinate(256, 128), 0.5f);
+    bull2->setAnimation(game->rM->getTexture("laser"), Rect<float>(0,0, 256, 128));
+    bull2->getAnimation()->addAnimation("laseridle", Coordinate(0, 0), 3, 0.5f);
+    bull2->getAnimation()->setOrigin(Coordinate(300,64));
+    bull2->getAnimation()->initAnimator();
+    bull2->getAnimation()->changeAnimation("laseridle", true);
+    
+    gunArm2->setAttack(bull2);
+    
     
     rath->addGun(gunArm);
     rath->changeGun(0);
