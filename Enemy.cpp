@@ -247,7 +247,7 @@ void Enemy::AI(Player* rath, HUD* hud){
             home = true;
         }
     }else if(distance < 100){
-        Enemy::updatePosition(*Entity::getCoordinate());
+        Enemy::getState()->update();
         Entity::setSpeed(0);
         if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
             rath->damage(dmgHit);

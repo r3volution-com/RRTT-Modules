@@ -34,6 +34,8 @@ class Boss : public Enemy{
         char dirSprite;
         
         int actualDmg;
+        int angle;
+        
     public:
         /**
          * Crea un objeto de tipo jefe
@@ -85,6 +87,8 @@ class Boss : public Enemy{
         void damage(int dm);
         void addState(int s);
         void addRandomState();
+        int getStateBoss(){return state;}
+        int getAngle(){return angle;}
 };
 
 #endif /* BOSS_H */

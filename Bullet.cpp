@@ -1,11 +1,13 @@
 #include "Bullet.h"
 #include "libs/Time.h"
 
-Bullet::Bullet(Coordinate position, Coordinate size, float d){
+Bullet::Bullet(Coordinate position, Coordinate size, float d, char t){
     coor = new InterpolatedCoordinate(position.x, position.y);
     hitbox = new Hitbox(position.x, position.y, size.x, size.y);
     hitbox->setPosition(position);
     initial = new Coordinate(position.x, position.y);
+    
+    type = t;
     
     duration = d;
 }

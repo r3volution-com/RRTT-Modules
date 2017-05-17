@@ -11,10 +11,11 @@ Boss::Boss(Coordinate position, Coordinate size, float sp, int lvl) : Enemy(posi
     level = lvl;
     initialSpeed = sp;
     dirFlash = new Coordinate(0,0);
-    delay = new Time(0);
+    delay = new Time(0.5f);
     states = new std::vector<int>();
     start = false;
     nextState = false;
+    angle = 0;
 }
 
 Boss::~Boss() {
@@ -222,8 +223,14 @@ void Boss::addState(int s){
 }
 
 void Boss::addRandomState(){
-    int num = rand() % 2 + 1;
-    states->push_back(num);
+    if(level == 1){
+        int num = rand() % 2 + 1;
+        states->push_back(num);
+    }else if(level == 2){
+        int num = rand() % 3 + 2;
+        states->push_back(num);
+    }
+
 }
 
 void Boss::changeState(){
@@ -256,6 +263,7 @@ void Boss::AI(Player* rath, HUD* hud){
         onRange = false;
     }
     
+    
     if(Boss::getHitbox()->checkCollision(rath->getHitbox()) && Boss::getCooldownHit()->isExpired()){
         rath->damage(Boss::getDmg());
         hud->changeLifePlayer(rath->getHP());
@@ -263,7 +271,6 @@ void Boss::AI(Player* rath, HUD* hud){
     }
     
     if(state == 0){ //Pasive
-        Boss::setDmgHit(Boss::getInitialDmg());
         if(onRange == true && distance >= 100){
             changeState();
             start = true;
@@ -281,16 +288,18 @@ void Boss::AI(Player* rath, HUD* hud){
                 Enemy::setHome(home = true);
             }
         }else if(distance < 100){
-            Enemy::updatePosition(*Entity::getCoordinate());
+            Enemy::getState()->update();
             Entity::setSpeed(0);
         }
     }
     
     if(onRange == true && distance >= 100){
+        
         Boss::setDmgHit(Boss::getInitialDmg());
         Entity::setSpeed(Boss::getInitialSpeed());
-        move(dir.x,dir.y);
+        
         if(state == 1){
+            move(dir.x,dir.y);
             float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
             aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
             aux = sqrt(aux);
@@ -301,6 +310,7 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
             }
         }else if(state == 2){
+            move(dir.x,dir.y);
             Boss::setDmgHit(Boss::getInitialDmg() * 1.5);
             delay->start();
             if(onDelay == false){
@@ -316,7 +326,15 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
             }
         }else if(state == 3){
-
+            if(!Boss::isAttacking() && Boss::getCurrentGun()->getGunCooldown()->isExpired()){
+                Boss::gunAttack();
+                Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
+                angle += 45;
+            }            
+        }else if(state == 4){
+            Entity::setSpeed(Enemy::getInitialSpeed() * 1.5);
+            move(dir.x,dir.y);
+            Enemy::setDmgHit(Enemy::getInitialDmg() * 1.5);
         }
     }else{
         state = 0;
