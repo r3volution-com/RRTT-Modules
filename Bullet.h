@@ -11,6 +11,8 @@ class Bullet {
         Animation *anim;
         Coordinate *initial;
         
+        char type;
+        
         float duration;
     public:
         /**
@@ -19,7 +21,7 @@ class Bullet {
          * @param size: Tamano de la bala
          * @param d: duracion de la bala
          */
-        Bullet(Coordinate position, Coordinate size, float d);
+        Bullet(Coordinate position, Coordinate size, float d, char t);
         virtual ~Bullet();
         
         /**
@@ -56,6 +58,7 @@ class Bullet {
         Animation *getAnimation(){ return anim; }
         Coordinate *getInitialCoordinate() { return initial; }
         float getDuration() { return duration; }
+        char getType(){return type;}
 };
 
 #endif /* BULLET_H */
