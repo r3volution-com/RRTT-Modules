@@ -190,6 +190,48 @@ void Level::Init(){
         
         boss->addGun(gunArm);
         
+        boss->getState()->update();*/
+        
+        
+        /*****BOSS LEVEL 2*****/
+        Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 1.0f);
+        gunArm->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
+        gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
+        gunArm->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
+        gunArm->getAnimation()->initAnimator();    
+        gunArm->getAnimation()->changeAnimation("armaIdle", false);
+        gunArm->getAnimation()->setOrigin(Coordinate(56,34));
+        gunArm->setDamage(15);
+
+        Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(256, 128), 0.5f, 'l');
+        bull->setAnimation(game->rM->getTexture("laser"), Rect<float>(0,0, 256, 128));
+        bull->getAnimation()->addAnimation("laseridle", Coordinate(0, 0), 3, 0.5f);
+        bull->getAnimation()->setOrigin(Coordinate(300,64));
+        bull->getAnimation()->initAnimator();
+        bull->getAnimation()->changeAnimation("laseridle", true);
+
+        gunArm->setAttack(bull);
+        
+        boss = new Boss(Coordinate(5000,14250), Coordinate(128, 128), 25, 2);
+        boss->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
+        boss->setMaxHP(900);
+        boss->setDistanceEnemyHome(2000);
+        boss->setDistancePlayerEnemy(1500);
+        boss->setInitialDmg(18);
+        boss->setHitCooldown(new Time(1));
+        boss->SetFlashRange(12);
+        boss->setFlashCooldown(new Time(0.5));
+        boss->setStateClock(new Time(20));
+        boss->addState(3);
+        boss->addState(4);
+        boss->addState(2);
+        srand (time(NULL));
+        for(int y = 0; y < 7; y++){
+            boss->addRandomState();
+        }
+        
+        boss->addGun(gunArm);
+        
         boss->getState()->update();
         
         /* NPC */
@@ -285,7 +327,7 @@ void Level::Update(Player* rath, HUD* hud){
         }
     }
    if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
-        //rath->damage(boss->getCurrentGun()->getDamage());
+        rath->damage(boss->getCurrentGun()->getDamage());
         hud->changeLifePlayer(rath->getHP());
    }
     

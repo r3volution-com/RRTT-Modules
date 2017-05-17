@@ -15,7 +15,6 @@ Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position
     dmgOnPlayer = new Time(0);
 }
 
-
 Player::~Player() {
     delete weapon;
     delete guns;

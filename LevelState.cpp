@@ -76,7 +76,7 @@ void LevelState::Init(){
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
     
-    Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2, 't');
+    Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2, 'f');
     bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     bull->getAnimation()->addAnimation("fireIdle", Coordinate(128, 896), 2, 0.5f);
     bull->getAnimation()->setOrigin(Coordinate(184,98));
@@ -94,7 +94,7 @@ void LevelState::Init(){
     gunArm2->getAnimation()->changeAnimation("armaIdle", false);
     gunArm2->getAnimation()->setOrigin(Coordinate(56,34));
     
-    Bullet *bull2 = new Bullet(Coordinate(0,0), Coordinate(256, 128), 0.5f, 't');
+    Bullet *bull2 = new Bullet(Coordinate(0,0), Coordinate(256, 128), 0.5f, 'l');
     bull2->setAnimation(game->rM->getTexture("laser"), Rect<float>(0,0, 256, 128));
     bull2->getAnimation()->addAnimation("laseridle", Coordinate(0, 0), 3, 0.5f);
     bull2->getAnimation()->setOrigin(Coordinate(300,64));
@@ -151,10 +151,17 @@ void LevelState::Update(){
     }
     
     if (!paused){
-        float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
-        Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
-                level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
-        level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
+        if(level->getBoss()->getStateBoss() != 3 ){
+            float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
+            Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+                    level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+            level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
+        }else{
+            Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+                    level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+            level->getBoss()->getCurrentGun()->update(newBoss, level->getBoss()->getAngle());
+        }
+        
         
         rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 

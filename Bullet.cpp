@@ -7,6 +7,8 @@ Bullet::Bullet(Coordinate position, Coordinate size, float d, char t){
     hitbox->setPosition(position);
     initial = new Coordinate(position.x, position.y);
     
+    type = t;
+    
     duration = d;
 }
 
