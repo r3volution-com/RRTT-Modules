@@ -287,10 +287,10 @@ void Boss::AI(Player* rath, HUD* hud){
     }
     
     if(onRange == true && distance >= 100){
+        Boss::setDmgHit(Boss::getInitialDmg());
         Entity::setSpeed(Boss::getInitialSpeed());
+        move(dir.x,dir.y);
         if(state == 1){
-            Boss::setDmgHit(Boss::getInitialDmg());
-            move(dir.x,dir.y);
             float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
             aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
             aux = sqrt(aux);
@@ -301,7 +301,6 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
             }
         }else if(state == 2){
-            move(dir.x,dir.y);
             Boss::setDmgHit(Boss::getInitialDmg() * 1.5);
             delay->start();
             if(onDelay == false){
