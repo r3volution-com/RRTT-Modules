@@ -285,7 +285,7 @@ void Level::Update(Player* rath, HUD* hud){
         }
     }
    if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
-        rath->damage(boss->getCurrentGun()->getDamage());
+        //rath->damage(boss->getCurrentGun()->getDamage());
         hud->changeLifePlayer(rath->getHP());
    }
     

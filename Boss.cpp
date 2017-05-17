@@ -241,7 +241,6 @@ void Boss::changeState(){
         start = false;
     }
 }
-
 void Boss::AI(Player* rath, HUD* hud){
     float distance = Enemy::getTrigonometry()->distance(*rath->getCoordinate(), *Entity::getCoordinate());
     float distanceIni = Enemy::getTrigonometry()->distance(*Entity::getCoordinate(), *Entity::getInitialCoordinate());
@@ -251,12 +250,18 @@ void Boss::AI(Player* rath, HUD* hud){
     
     Boss::getCurrentGun()->getGunCooldown()->start();
     
-    
     if(distance < Enemy::getDisPlayerEnemy()){
         onRange = true;
     }else{
         onRange = false;
     }
+    
+    if(Boss::getHitbox()->checkCollision(rath->getHitbox()) && Boss::getCooldownHit()->isExpired()){
+        rath->damage(Boss::getDmg());
+        hud->changeLifePlayer(rath->getHP());
+        Boss::resetCooldownHit();
+    }
+    
     if(state == 0){ //Pasive
         Boss::setDmgHit(Boss::getInitialDmg());
         if(onRange == true && distance >= 100){
@@ -276,51 +281,14 @@ void Boss::AI(Player* rath, HUD* hud){
                 Enemy::setHome(home = true);
             }
         }else if(distance < 100){
-            if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-                move(ini.x, ini.y);
-            }else{
-                Enemy::setHome(home = true);
-            }
+            Enemy::updatePosition(*Entity::getCoordinate());
+            Entity::setSpeed(0);
         }
-         
-    }else if(onRange == true && state == 2){ //Defensive
-        if(distance >= 80){
-            move(dir.x,dir.y);
-            Boss::setDmgHit(Boss::getInitialDmg() * 1.5);
-            if(level == 1){
-                delay->start();
-                if(onDelay == false){
-                    Coordinate aux = Enemy::getTrigonometry()->direction(*rath->getCoordinate(), *Entity::getCoordinate());
-                    dirFlash = new Coordinate(aux.x,aux.y);
-                    onDelay = true;
-                    delay->restart();
-                }
-                if(delay->isExpired() && onDelay == true){
-                    if(Enemy::getFlashCooldown()->isExpired()){
-                        flash(dirFlash->x, dirFlash->y);
-                        onDelay = false;
-                    }
-                }
-            }else if(level == 2){
-                move(dir.x,dir.y);
-                Boss::setSpeed(Boss::getInitialSpeed() * 1.8);
-                        
-            }else if(level == 3){
-                
-            }
-            changeState();
-        }else{
-            state = 0;
-        }
-    }
-    if(Boss::getHitbox()->checkCollision(rath->getHitbox()) && Boss::getCooldownHit()->isExpired()){
-        rath->damage(Boss::getDmg());
-        hud->changeLifePlayer(rath->getHP());
-        Boss::resetCooldownHit();
     }
     
-    if(state == 1){
-        if(onRange == true && distance >= 80){
+    if(onRange == true && distance >= 100){
+        Entity::setSpeed(Boss::getInitialSpeed());
+        if(state == 1){
             Boss::setDmgHit(Boss::getInitialDmg());
             move(dir.x,dir.y);
             float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
@@ -332,13 +300,29 @@ void Boss::AI(Player* rath, HUD* hud){
                     Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
                 }
             }
-        }else{
-            state = 0;
+        }else if(state == 2){
+            move(dir.x,dir.y);
+            Boss::setDmgHit(Boss::getInitialDmg() * 1.5);
+            delay->start();
+            if(onDelay == false){
+                Coordinate aux = Enemy::getTrigonometry()->direction(*rath->getCoordinate(), *Entity::getCoordinate());
+                dirFlash = new Coordinate(aux.x,aux.y);
+                onDelay = true;
+                delay->restart();
+            }
+            if(delay->isExpired() && onDelay == true){
+                if(Enemy::getFlashCooldown()->isExpired()){
+                    flash(dirFlash->x, dirFlash->y);
+                    onDelay = false;
+                }
+            }
+        }else if(state == 3){
+
         }
-    }else if(state == 2){
-        
-    }else if(state == 3){
-        
+    }else{
+        state = 0;
     }
+    
+    
     
 }
