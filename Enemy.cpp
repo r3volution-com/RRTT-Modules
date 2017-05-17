@@ -59,9 +59,9 @@ void Enemy::drawBlood(){
 
 void Enemy::die(){
     if(direction == 'r' || direction == 'a' || direction == 'c'){
-        Entity::getAnimation()->changeAnimation("morirIzquierda",true);
-    }else{
         Entity::getAnimation()->changeAnimation("morirDerecha",true);
+    }else{
+        Entity::getAnimation()->changeAnimation("morirIzquierda",true);
     }
     Entity::getState()->update();
 }
@@ -173,6 +173,7 @@ void Enemy::AI(Player* rath, HUD* hud){
         freeze = false;
     }
     if(distance < disPlayerEnemy && distance >= 100){
+        Enemy::setSpeed(Enemy::getInitialSpeed());
         if(distanceIni <= disEnemyHome && home == true){
             int num;
                 
@@ -246,10 +247,12 @@ void Enemy::AI(Player* rath, HUD* hud){
             home = true;
         }
     }else if(distance < 100){
-        if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-            move(ini.x, ini.y);
-        }else{
-            home = true;
+        Enemy::updatePosition(*Entity::getCoordinate());
+        Entity::setSpeed(0);
+        if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
+            rath->damage(dmgHit);
+            hud->changeLifePlayer(rath->getHP()-dmgHit);
+            cd->restart();
         }
     }
 }

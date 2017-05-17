@@ -283,30 +283,6 @@ void Boss::AI(Player* rath, HUD* hud){
             }
         }
          
-    }else if(state == 1){ //Aggressive
-        if(onRange == true && distance >= 80){
-            if(level == 1){
-                Boss::setDmgHit(Boss::getInitialDmg());
-                move(dir.x,dir.y);
-                float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
-                aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
-                aux = sqrt(aux);
-                if(distance < aux*5){
-                    if(!Boss::isAttacking() && Boss::getCurrentGun()->getGunCooldown()->isExpired()){
-                        Boss::gunAttack();
-                        Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
-                    }
-                }
-            }else if(level == 2){
-                Boss::setSpeed(Boss::getInitialSpeed());
-                
-            }else if(level == 3){
-                
-            }
-            changeState();
-        }else{
-            state = 0;
-        }
     }else if(onRange == true && state == 2){ //Defensive
         if(distance >= 80){
             move(dir.x,dir.y);
@@ -342,4 +318,27 @@ void Boss::AI(Player* rath, HUD* hud){
         hud->changeLifePlayer(rath->getHP());
         Boss::resetCooldownHit();
     }
+    
+    if(state == 1){
+        if(onRange == true && distance >= 80){
+            Boss::setDmgHit(Boss::getInitialDmg());
+            move(dir.x,dir.y);
+            float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
+            aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
+            aux = sqrt(aux);
+            if(distance < aux*5){
+                if(!Boss::isAttacking() && Boss::getCurrentGun()->getGunCooldown()->isExpired()){
+                    Boss::gunAttack();
+                    Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
+                }
+            }
+        }else{
+            state = 0;
+        }
+    }else if(state == 2){
+        
+    }else if(state == 3){
+        
+    }
+    
 }

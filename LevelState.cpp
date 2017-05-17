@@ -114,7 +114,7 @@ void LevelState::Init(){
     
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud-spritesheet"), 
-            Rect<float>(5,200,200,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
+            Rect<float>(1,200,205,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
     hud->addGun(Coordinate(20, 20), Rect<float>(85,0,82,85), Rect<float>(85,0,82,82), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(5,200,200,20));

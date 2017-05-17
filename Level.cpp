@@ -252,7 +252,6 @@ void Level::Update(Player* rath, HUD* hud){
                 enemys->at(i)->setPosition(100000,100000);
                 enemigosCaidos++;
                 enemys->at(i)->setDead(true);
-                //cout << enemigosCaidos << endl;
             }
         }
         
@@ -262,7 +261,6 @@ void Level::Update(Player* rath, HUD* hud){
                 enemys->at(i)->startBlood(2);
                 enemigosCaidos++;
                 enemys->at(i)->setDead(true);
-                //cout << enemigosCaidos << endl;
             }
         }
         if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead()){
@@ -289,9 +287,6 @@ void Level::Update(Player* rath, HUD* hud){
    if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
         rath->damage(boss->getCurrentGun()->getDamage());
         hud->changeLifePlayer(rath->getHP());
-        /*if(rath->getHP() <= 0){
-            delete boss;
-        }*/
    }
     
     /* COLISION MUROS*/
