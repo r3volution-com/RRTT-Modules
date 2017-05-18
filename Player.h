@@ -108,7 +108,7 @@ class Player : public Entity {
         /**
          * Reaparicion del jugador
          */
-        void respawn(int resp);
+        void respawn();
         
         /**
          * Dano recibido por el jugador

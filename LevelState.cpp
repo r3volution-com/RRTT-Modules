@@ -274,16 +274,15 @@ void LevelState::Input(){
                 Game::Instance()->rM->getMusic("boss")->getMusic()->stop();
                 Game::Instance()->getLevelState()->getLevel()->setPlay(false);
                 Game::Instance()->rM->getMusic("Main")->getMusic()->play();
-                if(level->getBoss()->getOnRange()){
-                   rath->respawn(1); 
-                }else{
-                   rath->respawn(0); 
-                }
-                hud->changeLifePlayer(rath->getHP());
+                
                 level->getBoss()->setHP(level->getBoss()->getMaxHP());
+                hud->changeLifePlayer(rath->getHP());
                 hud->changeLifeBoss(level->getBoss()->getHP());
-                paused = false;
+                
                 Game::Instance()->getLevelState()->getLevel()->setSinSalida(true);
+                
+                rath->respawn(); 
+                paused = false;
             }
         }
     }
