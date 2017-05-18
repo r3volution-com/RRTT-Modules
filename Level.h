@@ -22,6 +22,7 @@ class Level {
         int level;
         int enemigosCaidos;
         int disNpcPlayer;
+        int actualRespawn;
         bool muestra = false;
         bool showText = false;
         //Comprobar si el npc se tiene que mover
@@ -70,7 +71,7 @@ class Level {
         std::vector<Enemy*> *getEnemys(){return enemys;}
         Crystals *getCrystal(){return crystal;}
         Boss *getBoss(){return boss;}
-        Coordinate* getRespawn(int num){ return respawn->at(num);}
+        Coordinate* getRespawn(){ return respawn->at(actualRespawn);}
         Map* getMap(){ return map; }
         Note* getNote() {return note;}
         NPC* getNPC() {return npc;}
