@@ -125,12 +125,14 @@ void Level::Init(){
         }
     }
     
+    //Cargamos las notas
     if (j.find("notes") != j.end()) {
-        //Cargamos las notas
-        note = new Note(game->rM->getTexture("gui-tileset"), Rect<float>(325, 920, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
-        note->setPosition(Coordinate(1950, 13850));
-        note->setBackgroundPosition(Coordinate(350, 125));
-        note->setText("El", sf::Color::Black, sf::Color::White, 1, 25);
+        for (int i=0; i<j["boss"]["guns"].size(); i++){
+            note = new Note(game->rM->getTexture("gui-tileset"), Rect<float>(325, 920, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
+            note->setPosition(Coordinate(1950, 13850));
+            note->setBackgroundPosition(Coordinate(350, 125));
+            note->setText("El", sf::Color::Black, sf::Color::White, 1, 25);
+        }
     }
     
     if (j.find("crystals") != j.end()) {
