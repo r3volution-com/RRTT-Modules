@@ -43,7 +43,7 @@ void Gun::doAttack(){
     }
     
 }
-
+ 
 void Gun::update(Coordinate position, float angle){
     gunAnimation->setRotation(angle);
     if (bulletLifetime->isRunning()){
