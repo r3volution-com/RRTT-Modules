@@ -7,24 +7,6 @@
  
 #define PI 3,14159265;
 
-void onTextEntered(thor::ActionContext<std::string> context) {
-    if (Game::Instance()->console->isActive()){
-        if (context.event->text.unicode < 128 && (context.event->text.unicode != 13 && context.event->text.unicode != 9 && context.event->text.unicode != 8)) {
-            sf::Uint32 character = context.event->text.unicode;
-            std::ostringstream ch;
-            ch << static_cast<char>(character);
-            Game::Instance()->temp += ch.str();
-            Game::Instance()->console->writeCommand(Game::Instance()->temp);
-        } else if (context.event->text.unicode == 8 && Game::Instance()->temp.length() > 0){
-            Game::Instance()->temp.resize(Game::Instance()->temp.length()-1);
-            Game::Instance()->console->writeCommand(Game::Instance()->temp);
-        } else if (context.event->text.unicode == 13){
-            Game::Instance()->console->sendCommand(Game::Instance()->temp);
-            Game::Instance()->temp = "";
-        }
-    }
-}
-
 LevelState::LevelState() : GameState(){
     tri = new Trigonometry();
 }
@@ -38,11 +20,11 @@ void LevelState::Init(){
     
     /*****RESOURCES*****/
     game->rM->loadTexture("player", "resources/spritesRATH.png");
-    game->rM->loadTexture("hud", "resources/hud.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
-    game->rM->loadTexture("button-layout", "resources/button-layout.png");
+    game->rM->loadTexture("damage","resources/dano.png");
+    game->rM->loadTexture("laser","resources/rayo.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
     /*****INPUTS*****/
@@ -58,92 +40,134 @@ void LevelState::Init(){
     game->iM->addAction("player-flash", thor::Action(sf::Keyboard::F));
     
     game->iM->addAction("player-shortAttack", 
-            thor::Action(sf::Mouse::Left, thor::Action::PressOnce) && thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
+            thor::Action(sf::Mouse::Left, thor::Action::PressOnce));
     game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold));
     game->iM->addAction("player-longAttackStop", thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
     
     game->iM->addAction("player-gunAttack", thor::Action(sf::Mouse::Right));
     
     game->iM->addAction("pause", thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce));
-    game->iM->addActionCallback("text", thor::Action(sf::Event::TextEntered), &onTextEntered);
+    
+    
+    /* SONIDOS */
+    game->rM->loadSound("ataque", "resources/ataque.ogg");
+    game->rM->loadSound("cargar", "resources/cargar.ogg");
+    game->rM->loadMusic("boss", "resources/boss.ogg");
+    game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
+    rath = new Player(Coordinate(5500,14250), Coordinate(40, 100), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    rath->setMaxHP(150);
+    rath->setMaxHP(350);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
-    rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
+    //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
-    wep->setDamage(10);
+    wep->setDamage(12);
     
     rath->setWeapon(wep);
 
-    Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 5);
+    Gun *gunArm = new Gun(5);
     gunArm->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
     gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
     gunArm->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
-    gunArm->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
-    gunArm->getAnimation()->setOrigin(Coordinate(56,38));
+    gunArm->getAnimation()->setOrigin(Coordinate(56,34));
     
-    Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
+    Bullet *bull = new Bullet(Coordinate(128, 128), 2, 'f');
     bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     bull->getAnimation()->addAnimation("fireIdle", Coordinate(128, 896), 2, 0.5f);
     bull->getAnimation()->setOrigin(Coordinate(184,98));
     bull->getAnimation()->initAnimator();
     bull->getAnimation()->changeAnimation("fireIdle", false);
+    bull->setDamage(2);
     
     gunArm->setAttack(bull);
+    
+    Gun *gunArm2 = new Gun(2);
+    gunArm2->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
+    gunArm2->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
+    gunArm2->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
+    gunArm2->getAnimation()->initAnimator();    
+    gunArm2->getAnimation()->changeAnimation("armaIdle", false);
+    gunArm2->getAnimation()->setOrigin(Coordinate(56,34));
+    
+    Bullet *bull2 = new Bullet(Coordinate(256, 128), 0.5f, 'l');
+    bull2->setAnimation(game->rM->getTexture("laser"), Rect<float>(0,0, 256, 128));
+    bull2->getAnimation()->addAnimation("laseridle", Coordinate(0, 0), 3, 0.5f);
+    bull2->getAnimation()->setOrigin(Coordinate(300,64));
+    bull2->getAnimation()->initAnimator();
+    bull2->getAnimation()->changeAnimation("laseridle", true);
+    bull2->setDamage(15);
+    
+    gunArm2->setAttack(bull2);
+    
     
     rath->addGun(gunArm);
     rath->changeGun(0);
     rath->setPosition(Coordinate(5500, 14250));
-    
-    
-    
+     
     /*****LEVEL*****/
     level = new Level(1);
     
     /*****HUD*****/
-    hud = new HUD(game->rM->getTexture("hud"), game->rM->getTexture("hud-spritesheet"), 
-            Rect<float>(100,230,200,20), Rect<float>(190,10,80,80), game->rM->getFont("font"));
-    hud->addGun(Coordinate(20, 20), Rect<float>(10,10,80,80), Rect<float>(0,0,80,80), gunArm->getGunCooldown());
+    hud = new HUD(game->rM->getTexture("hud-spritesheet"), 
+            Rect<float>(1,200,205,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
+    hud->addGun(Coordinate(20, 20), Rect<float>(85,0,82,85), Rect<float>(85,0,82,82), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
-    hud->setBossLife(Rect<float>(100,230,200,20));
+    hud->setBossLife(Rect<float>(5,200,200,20));
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
-    hud->setFlash(Coordinate(20, 110), Rect<float>(10, 100, 80, 80), rath->getFlashCooldown());
-    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(100, 100), game->rM->getTexture("button-layout"), Rect<float>(0, 0, 200, 50));
+    hud->setFlash(Coordinate(20, 110), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(511, 925, 200, 64));
     
     /*****PAUSE MENU*****/
-    pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("button-layout"), 
-            new Rect<float>(0,0,200,50), game->rM->getFont("font"));
-    pause->addButton(Coordinate(540,200), "Continuar", sf::Color::Black, sf::Color::Transparent, 20);
-    pause->addButton(Coordinate(540,270), "Sonido On/Off", sf::Color::Black, sf::Color::Transparent, 20);
-    pause->addButton(Coordinate(540,340), "Salir al menu", sf::Color::Black, sf::Color::Transparent, 20);
+    pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("gui-tileset"), 
+            new Rect<float>(511,925,200,64), game->rM->getFont("font"));
+    pause->addButton(Coordinate(550,250), "Continuar", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    pause->addButton(Coordinate(550,320), "Sonido On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    pause->addButton(Coordinate(550,390), "Salir al menu", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     pauseMenu = false;
     
     paused = false;
+    
+    /*****DAMAGE*****/
+    damage = new Sprite(game->rM->getTexture("damage"),Rect<float>(0, 0, 1280, 720));
 }
 
 void LevelState::Update(){
+    level->setDisNpcPlayer(level->getTrignometry()->distance(*rath->getCoordinate(), *level->getNPC()->getCoordinate()));
+    
+    if(level->getMoverse()==true){
+        if(level->getNPC()->getCoordinate()->y < 20000){
+            level->getNPC()->move(0,20);
+        }else{
+            paused = false;
+            level->setMoverse(false);
+        }if(level->getDisNpcPlayer() > 1000){
+            paused = false;
+        }
+    }
+    
     if (!paused){
-        float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
-        Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
-                level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
-        level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
+        if(level->getBoss()->getStateBoss() != 3 ){
+            float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
+            Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+                    level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+            level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
+        }else{
+            Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+                    level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+            level->getBoss()->getCurrentGun()->update(newBoss, level->getBoss()->getAngle());
+        }
+        
         
         rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 
         level->Update(rath, hud);
-    }else if(paused==true && level->getMoverse()==true){
-        if(level->getNPC()->getCoordinate()->y < 15000){
-            level->getNPC()->move(0,20);
-        }else{
-            paused = false;
-        }
+    }else {
+        
     }
 }
 
@@ -187,14 +211,17 @@ void LevelState::Input(){
         rath->getCurrentGun()->update(newPos, mouseAng);
 
         /*Player weapon attack*/
-        if (Game::Instance()->iM->isActive("player-shortAttack")){ //ToDo: hacemos que se ralentize al cargar?
+        if (Game::Instance()->iM->isActive("player-shortAttack")){
+            //Game::Instance()->rM->getSound("ataque")->getSound()->play();
             rath->weaponShortAttack(mouseAng);
         }
-        if (Game::Instance()->iM->isActive("player-longAttackStart")){
+        if (Game::Instance()->iM->isActive("player-longAttackStart")){//ToDo: hacemos que se ralentize al cargar?
             rath->weaponChargeAttack(mouseAng);
+            rath->setSpeed(rath->getInitialSpeed() * 0.5);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStop")){
             rath->weaponReleaseAttack();
+            rath->setSpeed(rath->getInitialSpeed());
         }
 
         /*Player gun attack*/
@@ -215,6 +242,7 @@ void LevelState::Input(){
      
         if (rath->isDead()) {
             hud->playerDie();
+            level->setSinSalida(true);
             paused = true;
         }
     } else {
@@ -227,12 +255,13 @@ void LevelState::Input(){
                 switch (clicks){
                     case 0:
                         paused = false;
+                        pauseMenu = false;
                     break;
                     case 1:
 
                     break;
                     case 2:
-                        Game::Instance()->ChangeCurrentState("menu");
+                        return Game::Instance()->ChangeCurrentState("menu");
                     break;
                     default: break;
                 }
@@ -242,9 +271,19 @@ void LevelState::Input(){
         if (rath->isDead()){
             hud->playerDie();
             if(hud->getButton()->getHover() && Game::Instance()->iM->isActive("click")){
-                rath->respawn(0);
+                Game::Instance()->rM->getMusic("boss")->getMusic()->stop();
+                Game::Instance()->getLevelState()->getLevel()->setPlay(false);
+                Game::Instance()->rM->getMusic("Main")->getMusic()->play();
+                if(level->getBoss()->getOnRange()){
+                   rath->respawn(1); 
+                }else{
+                   rath->respawn(0); 
+                }
                 hud->changeLifePlayer(rath->getHP());
+                level->getBoss()->setHP(level->getBoss()->getMaxHP());
+                hud->changeLifeBoss(level->getBoss()->getHP());
                 paused = false;
+                Game::Instance()->getLevelState()->getLevel()->setSinSalida(true);
             }
         }
     }
@@ -283,12 +322,27 @@ void LevelState::Render(){
     /*Set Default View*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
     
+    /*Damage*/
+    if(rath->getDmgOnPlayer()->getTime() > 0){
+        Game::Instance()->window->draw(*damage->getSprite());
+    }
+    
     /*HUD*/
     hud->drawHUD(level->getBoss()->getOnRange());
     
     /*Texto NPC */
-    if(level->getMuestra()==true){
+    if(level->getMuestra()==true && //rath->collision(Game::Instance()->getLevelState()->getLevel()->getNPC()->getHitbox())
+            (rath->getCoordinate()->x - Game::Instance()->getLevelState()->getLevel()->getNPC()->getCoordinate()->x) < 300 && (rath->getCoordinate()->x - Game::Instance()->getLevelState()->getLevel()->getNPC()->getCoordinate()->x) > -300 &&
+            (rath->getCoordinate()->y - Game::Instance()->getLevelState()->getLevel()->getNPC()->getCoordinate()->y) < 300 && (rath->getCoordinate()->y - Game::Instance()->getLevelState()->getLevel()->getNPC()->getCoordinate()->y) > -300
+           
+            ){
         hud->drawTextLayer();
+    }else if(level->getMuestra()==true && !rath->collision(Game::Instance()->getLevelState()->getLevel()->getNPC()->getHitbox())){
+        Game::Instance()->getLevelState()->getLevel()->setMuestra(false);
+    }
+    
+    if(level->getShowIterationNpc() && level->getMuestra() == false && paused == false){
+        Game::Instance()->window->draw(*level->getKeyIterationNpc()->getText());
     }
     
     /*Texto notas */
@@ -302,6 +356,12 @@ void LevelState::Render(){
 }
 
 void LevelState::CleanUp(){
+    Game::Instance()->rM->releaseTexture("player");
+    Game::Instance()->rM->releaseTexture("hud");
+    Game::Instance()->rM->releaseTexture("hud-spritesheet");
+    Game::Instance()->rM->releaseTexture("hud-playerdeath");
+    Game::Instance()->rM->releaseTexture("pause-background");
+    Game::Instance()->rM->releaseFont("font");
     delete rath;
     delete tri;
     

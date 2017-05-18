@@ -1,8 +1,7 @@
 #include "HUD.h"
 #include "Game.h"
 
-HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
-    hud = new Sprite(hTex, Rect<float>(0, 0, Game::Instance()->screenSize->x, Game::Instance()->screenSize->y));
+HUD::HUD(Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
     
     tex = rTex;
     font = f;
@@ -13,7 +12,8 @@ HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Fo
     playerHP = new Sprite(tex, lRect); 
     playerHP->setPosition(296.5f,30.0f);
     lifePlayerText = new Text(std::string(), Coordinate(0,0), font, false);
-    lifePlayerText->setStyles(sf::Color::Black, sf::Color::Black, 0, 12);
+    lifePlayerText->setTextStyle(sf::Color::Black, 12);
+    lifePlayerText->setOutlineStyle(sf::Color::Black, 0);
     maxLifePlayer = 100;
     lifePlayer = maxLifePlayer;
     //Fin
@@ -34,7 +34,6 @@ HUD::HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Fo
 }
 
 HUD::~HUD(){
-    delete hud;
     delete guns;
     delete gunsOff; //ToDo: cuando borras un vector de punteros los punteros se quedan en memoria, habria que arreglar eso
     delete gunsCooldown;
@@ -54,7 +53,6 @@ HUD::~HUD(){
 
     delete buttonDie;
     
-    hud = NULL;
     guns = NULL;
     gunsOff = NULL;
     gunsCooldown = NULL;
@@ -136,7 +134,8 @@ void HUD::setTLayerText(std::string s, float x, float y){
 }
 
 void HUD::setTLayerTextParams(int size, sf::Color fillColor, sf::Color outlineColor){
-    currentText->setStyles(fillColor, outlineColor, 1, size);
+    currentText->setTextStyle(fillColor, size);
+    currentText->setOutlineStyle(outlineColor, 1);
 }
 
 void HUD::setTextLifePlayer(){
@@ -177,7 +176,6 @@ void HUD::changeLifeBoss(int life){
 }
 
 void HUD::drawHUD(bool onRange){
-    Game::Instance()->window->draw(*hud->getSprite());
     drawPlayerHP();
     if (bossModuleEnable && onRange == true) drawBossHP(); 
     if (gunsModuleEnabled) {
@@ -188,7 +186,7 @@ void HUD::drawHUD(bool onRange){
         drawFlash();
         drawFlashCooldown();
     }
-    if (dieModuleEnabled && dieBool) {
+    if (dieModuleEnabled && dieBool && Game::Instance()->getLevelState()->getPaused()) {
         drawDie();
     }
 }
@@ -277,7 +275,8 @@ bool HUD::playerDie(){
         if(dieBool == false){
             //sf::sleep(sf::seconds(1));
             dieBool = true;
-            buttonDie->setText("Has Muerto", sf::Color::White, sf::Color::Black, font, 12);
+            buttonDie->setText("Reintentar", sf::Color::White, font, 20);
+            buttonDie->setOutline(1, sf::Color(170, 170, 170, 255), sf::Color::Transparent);
         } else {
             buttonDie->hover(Game::Instance()->mouse);
         }

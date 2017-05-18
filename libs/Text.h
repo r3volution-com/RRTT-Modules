@@ -25,11 +25,17 @@ class Text {
         /**
          * Establece el estilo del textoo¡
          * @param color: Color del texo
-         * @param outlineColor: Color de borde del texto
-         * @param outlineThickness:Color del borde de 
          * @param size
          */
-        void setStyles(sf::Color color, sf::Color outlineColor, int outlineThickness, int size); 
+        void setTextStyle(sf::Color color, int size);
+        
+        /**
+         * Establece el estilo del textoo¡
+         * @param color: Color del texo
+         * @param size
+         */
+        void setOutlineStyle(sf::Color outlineColor, int outlineThickness);
+        
         /**
          * Establece el texto.
          * @param t: Texto a establecer

@@ -10,7 +10,10 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     freeze =  false;
     hits = 0;
     flashRange = 0;
-    
+    initialSpeed = sp;
+    haveParticles = false;
+    timeDead = new Time(2);
+    dead = false;
 }
 
 Enemy::~Enemy() {
@@ -29,15 +32,45 @@ void Enemy::flash(float dirX, float dirY){
     }
 }
 
+void Enemy::setBlood(Texture *texture){
+    /*****Particle*****/
+    blood = new Particles(texture);
+    blood->addParticle(Rect<float> (0, 0, 5, 5));
+    blood->setProperties(20,0.25f,0.75f);
+    blood->setParticleRotation(thor::Distributions::uniform(360.f, 0.f));
+    blood->setParticleSpeed(thor::Distribution<sf::Vector2f> (sf::Vector2f(15.0f,-60.0f)));
+    blood->setGravity(500.0f);
+    haveParticles = true;
+}
+
+void Enemy::startBlood(float duration){
+    if (haveParticles){
+        blood->setParticlePosition(thor::Distributions::circle(sf::Vector2f(Entity::getCoordinate()->x+(Entity::getSize()->x/2), Entity::getCoordinate()->y+(Entity::getSize()->y/2)), 30));
+        blood->start(duration);
+    }
+}
+
+void Enemy::drawBlood(){
+    if (haveParticles){
+        blood->update();
+        blood->draw();
+    } 
+}
+
 void Enemy::die(){
-    Entity::getAnimation()->changeAnimation("die",false);
-    //std::cout << "muero" << "\n";
+    if(direction == 'r' || direction == 'a' || direction == 'c'){
+        Entity::getAnimation()->changeAnimation("morirDerecha",true);
+    }else{
+        Entity::getAnimation()->changeAnimation("morirIzquierda",true);
+    }
+    Entity::getState()->update();
 }
 
 void Enemy::damage(int dm){
     if (hp-dm <= 0){
         hp = 0;
-        //die();
+        timeDead->start();
+        die();
     }
     else hp -= dm;
 }
@@ -106,16 +139,22 @@ void Enemy::setAnimations(Texture *t, Rect<float> newRect){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 0), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 0), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 128), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("morirDerecha", Coordinate(128, 1024), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("morirIzquierda", Coordinate(256, 1024), 1, 0.5f);
     }else if(type == 2){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 256), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 256), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 384), 2, 0.5f);
+        Entity::getAnimation()->addAnimation("morirDerecha", Coordinate(384, 1024), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("morirIzquierda", Coordinate(512, 1024), 1, 0.5f);
     }else if(type == 3){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 512), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 512), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 640), 2, 0.5f);
         Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(0, 768), 1, 0.5f);
         Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("morirDerecha", Coordinate(128, 1152), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("morirIzquierda", Coordinate(256, 1152), 1, 0.5f);
     }
     
     Entity::getAnimation()->initAnimator();
@@ -124,16 +163,17 @@ void Enemy::setAnimations(Texture *t, Rect<float> newRect){
 
 void Enemy::AI(Player* rath, HUD* hud){
     //float angle = tri->angle(rath->getCoordinate(), Entity::getCoordinate());
-    float distance = tri->distance(rath->getCoordinate(), Entity::getCoordinate());
-    float distanceIni = tri->distance(Entity::getCoordinate(), Entity::getInitialCoordinate());
-    Coordinate dir = tri->direction(rath->getCoordinate(), Entity::getCoordinate());
-    Coordinate ini = tri->direction(Entity::getInitialCoordinate(), Entity::getCoordinate());
+    float distance = tri->distance(*rath->getCoordinate(), *Entity::getCoordinate());
+    float distanceIni = tri->distance(*Entity::getCoordinate(), *Entity::getInitialCoordinate());
+    Coordinate dir = tri->direction(*rath->getCoordinate(), *Entity::getCoordinate());
+    Coordinate ini = tri->direction(*Entity::getInitialCoordinate(), *Entity::getCoordinate());
     if(freeze == true && (cd->isExpired() && hits == 1)){
         rath->setSpeed(rath->getSpeed()+slowDown);
         hits = 0;
         freeze = false;
     }
     if(distance < disPlayerEnemy && distance >= 100){
+        Enemy::setSpeed(Enemy::getInitialSpeed());
         if(distanceIni <= disEnemyHome && home == true){
             int num;
                 
@@ -165,11 +205,11 @@ void Enemy::AI(Player* rath, HUD* hud){
             else if(type == 3){
                 if(cd->isExpired()){
                     srand (time(NULL));
-                    num = rand() % 2;
+                    num = rand() % 3;
                 }else{
                     num = 0;
                 }
-                if(distance < disPlayerEnemy && num == 1 && distance > disPlayerEnemy/5 && cd->isExpired()){
+                if(distance < disPlayerEnemy && num == 2 && distance > disPlayerEnemy/5 && cd->isExpired()){
                     cd->restart();
                     freeze = true;
                     if(freeze == true && hits == 0){
@@ -207,10 +247,12 @@ void Enemy::AI(Player* rath, HUD* hud){
             home = true;
         }
     }else if(distance < 100){
-        if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-            move(ini.x, ini.y);
-        }else{
-            home = true;
+        Enemy::getState()->update();
+        Entity::setSpeed(0);
+        if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
+            rath->damage(dmgHit);
+            hud->changeLifePlayer(rath->getHP()-dmgHit);
+            cd->restart();
         }
     }
 }

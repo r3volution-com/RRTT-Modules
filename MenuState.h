@@ -3,6 +3,7 @@
 
 #include "GameState.h"
 #include "Menu.h"
+#include <SFML/Audio.hpp>
 
 class MenuState : public GameState{
     private:

@@ -16,7 +16,6 @@
 class HUD {
     private:
         Texture *tex;
-        Sprite *hud;
         Font *font;
         
         Rect<float> *cooldownRect;
@@ -61,7 +60,7 @@ class HUD {
          * @param lRect: Vida
          * @param f: Fuente del texto (puntero)
          */
-        HUD(Texture *hTex, Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f);
+        HUD(Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f);
         virtual ~HUD();
         
         /**
