@@ -203,11 +203,13 @@ void Boss::damage(int dm){
 }
 
 void Boss::addState(int s){
+    std::cout << "Fixed " << s << "\n";
     states->push_back(s);
 }
 
 void Boss::addRandomState(int from, int to){
-    int num = rand() % to + from;
+    int num = rand() % (to-from+1) + from;
+    std::cout << "Random " << num << "\n";
     states->push_back(num);
 }
 

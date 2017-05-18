@@ -93,11 +93,12 @@ void Level::Init(){
         boss->setFlashCooldown(new Time(j["boss"]["flashCooldown"].get<float>()));
         boss->setStateClock(new Time(j["boss"]["changeStateTimer"].get<float>()));
         srand (time(NULL));
-        for (int i=0; i<j["boss"]["nStates"];i++){
-            if (i >= j["boss"]["states"]["from"] && i <= j["boss"]["states"]["to"])
-                boss->addState(i);
-            else
-                boss->addRandomState(j["boss"]["states"]["from"], j["boss"]["states"]["to"]);
+        for (int i=j["boss"]["states"]["to"].get<int>(); i<=j["boss"]["states"]["from"].get<int>(); i++){
+            boss->addState(i);
+        }
+        int fixedStates = j["boss"]["states"]["to"].get<int>()-j["boss"]["states"]["from"].get<int>();
+        for (int i=fixedStates; i<j["boss"]["nStates"];i++){
+            boss->addRandomState(j["boss"]["states"]["from"], j["boss"]["states"]["to"]);
         }
         for (int i=0; i<j["boss"]["guns"].size(); i++){
             Gun *gunArm = new Gun(j["boss"]["guns"].at(i)["cooldown"].get<float>());
@@ -184,13 +185,7 @@ void Level::Init(){
 }
 
 void Level::Update(Player* rath, HUD* hud){
-    
-    if(disNpcPlayer < 300){
-        showIterationNpc = true;
-    }else{
-        showIterationNpc = false;
-    }
-    
+    /*EJECUTA LAS IAs*/
     for (int i = 0; i<enemys->size(); i++){
         if(enemys->at(i)->getHP() > 0){
             enemys->at(i)->AI(rath, hud);
@@ -199,7 +194,7 @@ void Level::Update(Player* rath, HUD* hud){
     if(boss->getHP() > 0){
         boss->AI(rath, hud);
     }
-    
+    /*Comprueba colisiones*/
     for(int i = 0; i < enemys->size(); i++){
         if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             enemys->at(i)->damage(rath->getCurrentGun()->getBullet()->getDamage());
@@ -209,7 +204,6 @@ void Level::Update(Player* rath, HUD* hud){
                 enemys->at(i)->setDead(true);
             }
         }
-        
         if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
             enemys->at(i)->damage(rath->getWeapon()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
             if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead() == false){
@@ -223,7 +217,6 @@ void Level::Update(Player* rath, HUD* hud){
                 enemys->at(i)->setPosition(100000,100000);
             }
         }
-        
     }
     if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
         boss->damage(rath->getCurrentGun()->getBullet()->getDamage());
@@ -239,18 +232,24 @@ void Level::Update(Player* rath, HUD* hud){
             boss->setPosition(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
         }
     }
-   if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
+    if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
         rath->damage(boss->getCurrentGun()->getBullet()->getDamage());
         hud->changeLifePlayer(rath->getHP());
-   }
+    }
     
-    /* COLISION MUROS*/
+    /*NPC Check*/
+    if(disNpcPlayer < 300){
+        showIterationNpc = true;
+    }else{
+        showIterationNpc = false;
+    }
+    
+    /* COLISIONES con Fuego*/
     if(rath->collision(fuego->getHitbox()) && enemigosCaidos < enemys->size()){
         rath->move(0,1);
     }else if(rath->collision(fuego->getHitbox()) && enemigosCaidos >= enemys->size() && sinSalida==false){
         rath->move(0,-1);
     }
-    
     if(rath->collision(fuego2->getHitbox())){
         rath->move(0,1);
     }  
@@ -263,10 +262,8 @@ void Level::Update(Player* rath, HUD* hud){
 
 void Level::Input(Player* rath, HUD* hud){
     int salir = 0;
-    //NPC
-    if(Game::Instance()->iM->isActive("interactuar") && //rath->collision(npc->getHitbox())
-            disNpcPlayer < 300
-            ){
+    //NPC ToDo: hitbox entre pj y npc
+    if(Game::Instance()->iM->isActive("interactuar") && /*rath->collision(npc->getHitbox())*/ disNpcPlayer < 300){
         salir = npc->nextSentence();
         if(salir==1){
             setMuestra(true);
@@ -278,39 +275,41 @@ void Level::Input(Player* rath, HUD* hud){
             hud->setTLayerTextParams(20, sf::Color::White, sf::Color::Red);
 
             //Posicionamos el nombre del npc
-            hud->setTLayerTalker(npc->getName(), 1125, 435);
-            
+            hud->setTLayerTalker(npc->getName(), 1125, 435);  
         }else{
             setMuestra(false);
             moverse = true;
             Game::Instance()->getLevelState()->setPaused(true);
         }  
     }
-        //NOTA
+    //NOTA
+    if (j.find("notes") != j.end()) {
         if(Game::Instance()->iM->isActive("interactuar") && rath->collision(note->getHitbox()) && showText==false){
             showText = true;
             note->setTaken();
         }else if(Game::Instance()->iM->isActive("interactuar") && rath->collision(note->getHitbox()) && showText==true){
             showText = false;
         }
-        
-        
-        //Anyadir comprobacion de hitbox del personaje con el npc
-        //if(rath->collision(npc->getHitbox())){
-        //}
+    }
 }
 
-void Level::Render(){
+void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo se muestren las cosas que esten a menos de X distancia de nosotros
     //Dibujamos todos los elementos
     map->dibujarMapa(Game::Instance()->window);
     
-    if(!note->getTaken()){
-       Game::Instance()->window->draw(*note->getNoteSprite()->getSprite());
+    //Notas de texto
+    if (j.find("notes") != j.end()) {
+        if(!note->getTaken()){
+           Game::Instance()->window->draw(*note->getNoteSprite()->getSprite());
+        }
     }
-      
+    
+    //Cristales de rayos
     /*if(!crystal->getTouched()){
        Game::Instance()->window->draw(*crystal->getCrystalSprite()->getSprite());
     }*/
+    
+    /*Enemigos*/
     for (int i = 0; i<enemys->size(); i++){
         Coordinate inc(enemys->at(i)->getState()->getIC());
         //cout << inc;
@@ -320,22 +319,22 @@ void Level::Render(){
         enemys->at(i)->drawBlood();
     }
     
+    /*Jefe*/
     boss->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
+    Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
     if (!boss->getCurrentGun()->getBulletLifetime()->isExpired()){
         Game::Instance()->window->draw(*boss->getCurrentGun()->getBullet()->getAnimation()->getSprite());
     } else if (boss->isAttacking()){
         boss->attackDone();
     }
-    
     Coordinate inc2(boss->getState()->getIC());
     boss->getAnimation()->updateAnimator();
     Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     boss->updatePosition(inc2.x, inc2.y);
     
+    /*NPC*/
     Coordinate inc3(npc->getState()->getIC());
-    
     npc->updatePosition(inc3.x, inc3.y);
-    
     Game::Instance()->window->draw(*npc->getAnimation()->getSprite());
     
     /* MURO FUEGO */
@@ -348,10 +347,7 @@ void Level::Render(){
         sinSalida = false;
         play = true;
     }
-    
     Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());
-    
-    Game::Instance()->window->draw(*boss->getAnimation()->getSprite());
 }
 
 void Level::setRespawn(int resp){
