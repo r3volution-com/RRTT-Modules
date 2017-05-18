@@ -319,7 +319,8 @@ void Level::Input(Player* rath, HUD* hud){
     }
     //NOTA
     if (j.find("notes") != j.end()) {
-        if(Game::Instance()->iM->isActive("interactuar") && rath->collision(note->getHitbox()) && showText==false){
+        if(Game::Instance()->iM->isActive("interactuar") && rath->collision(note->getHitbox()) && showText==false && !note->getTaken()){
+            Game::Instance()->rM->getSound("takeNote")->getSound()->play();
             showText = true;
             note->setTaken();
         }else if(Game::Instance()->iM->isActive("interactuar") && rath->collision(note->getHitbox()) && showText==true){

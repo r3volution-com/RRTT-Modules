@@ -55,6 +55,7 @@ void LevelState::Init(){
     game->rM->loadSound("fire", "resources/lanzallamas2.ogg");
     game->rM->loadSound("flash", "resources/flash.ogg");
     game->rM->loadSound("damage", "resources/damage.ogg");
+    game->rM->loadSound("takeNote", "resources/takeNote.ogg");
     game->rM->loadMusic("boss", "resources/boss.ogg");
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
