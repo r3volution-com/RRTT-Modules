@@ -240,7 +240,10 @@ void Level::Input(Player* rath, HUD* hud){
     int salir = 0;
     
     //NPC
-    if(Game::Instance()->iM->isActive("interactuar") && rath->collision(npc->getHitbox())){
+    if(Game::Instance()->iM->isActive("interactuar") && //rath->collision(npc->getHitbox())
+            (rath->getCoordinate()->x - npc->getCoordinate()->x) < 300 && (rath->getCoordinate()->x - npc->getCoordinate()->x) > -300 &&
+            (rath->getCoordinate()->y - npc->getCoordinate()->y) < 300 && (rath->getCoordinate()->y - npc->getCoordinate()->y) > -300
+            ){
         salir = npc->nextSentence();
    
         if(salir==1){

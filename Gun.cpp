@@ -73,6 +73,7 @@ void Gun::setActive() {
 void Gun::derecha(){
     gunAnimation->changeAnimation("idle", true);
     gunAnimation->setOrigin(Coordinate(56,38));
+    
 }
 
 void Gun::inversa(){
