@@ -48,6 +48,8 @@ class Level {
         Crystals *crystal;
         std::vector<Coordinate*> *respawn;
         std::vector<Enemy*> *enemys;
+        
+        sf::RectangleShape *rectan;
     public:
 
         Level(int numLevel);

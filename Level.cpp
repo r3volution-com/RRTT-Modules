@@ -146,6 +146,12 @@ void Level::Init(){
         
         
     }
+    
+    
+    
+    rectan = new sf::RectangleShape();
+    rectan->setSize(sf::Vector2f(boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->width, boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->height));
+    
     //Si estamos en el primer nivel
     if(level==1){
         /* NPC */
@@ -218,6 +224,18 @@ void Level::Update(Player* rath, HUD* hud){
             }
         }
     }
+    
+    if(boss->getStateBoss() != 3 ){
+        float angleBoss = tri->angle(*boss->getCoordinate(),*rath->getCoordinate());
+        Coordinate newBoss = Coordinate(boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+                boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+        boss->getCurrentGun()->update(newBoss, angleBoss);
+    }else{
+        float angleBoss = tri->angle(*boss->getCoordinate(),*rath->getCoordinate());
+        Coordinate newBoss = Coordinate(boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left+boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->width/2, 
+                boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top+boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->height/2);
+        boss->getCurrentGun()->update(newBoss,angleBoss /*boss->getAngle()*/);
+    }
     if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
         boss->damage(rath->getCurrentGun()->getBullet()->getDamage());
         hud->changeLifeBoss(boss->getHP());
@@ -232,6 +250,8 @@ void Level::Update(Player* rath, HUD* hud){
             boss->setPosition(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
         }
     }
+    rectan->setPosition(boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->left,boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->top);
+
     if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
         rath->damage(boss->getCurrentGun()->getBullet()->getDamage());
         hud->changeLifePlayer(rath->getHP());
@@ -330,7 +350,7 @@ void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo
     Coordinate inc2(boss->getState()->getIC());
     boss->getAnimation()->updateAnimator();
     Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
-    //boss->updatePosition(inc2.x, inc2.y);
+    boss->updatePosition(inc2.x, inc2.y);
     
     /*NPC*/
     Coordinate inc3(npc->getState()->getIC());
@@ -348,6 +368,9 @@ void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo
         play = true;
     }
     Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());
+
+
+    Game::Instance()->window->draw(*rectan);
 }
 
 void Level::setRespawn(int resp){
