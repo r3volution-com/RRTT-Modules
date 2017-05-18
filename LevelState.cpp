@@ -56,7 +56,7 @@ void LevelState::Init(){
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(5500,14250), Coordinate(128, 128), 40);
+    rath = new Player(Coordinate(5500,14250), Coordinate(40, 100), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(350);
     rath->setFlashCooldown(2);
@@ -330,7 +330,11 @@ void LevelState::Render(){
     hud->drawHUD(level->getBoss()->getOnRange());
     
     /*Texto NPC */
-    if(level->getMuestra()==true && rath->collision(Game::Instance()->getLevelState()->getLevel()->getNPC()->getHitbox())){
+    if(level->getMuestra()==true && //rath->collision(Game::Instance()->getLevelState()->getLevel()->getNPC()->getHitbox())
+            (rath->getCoordinate()->x - Game::Instance()->getLevelState()->getLevel()->getNPC()->getCoordinate()->x) < 300 && (rath->getCoordinate()->x - Game::Instance()->getLevelState()->getLevel()->getNPC()->getCoordinate()->x) > -300 &&
+            (rath->getCoordinate()->y - Game::Instance()->getLevelState()->getLevel()->getNPC()->getCoordinate()->y) < 300 && (rath->getCoordinate()->y - Game::Instance()->getLevelState()->getLevel()->getNPC()->getCoordinate()->y) > -300
+           
+            ){
         hud->drawTextLayer();
     }else if(level->getMuestra()==true && !rath->collision(Game::Instance()->getLevelState()->getLevel()->getNPC()->getHitbox())){
         Game::Instance()->getLevelState()->getLevel()->setMuestra(false);

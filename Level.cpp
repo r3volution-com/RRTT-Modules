@@ -185,7 +185,7 @@ void Level::Init(){
 
 void Level::Update(Player* rath, HUD* hud){
     
-    if(disNpcPlayer < 500){
+    if(disNpcPlayer < 300){
         showIterationNpc = true;
     }else{
         showIterationNpc = false;
@@ -263,11 +263,11 @@ void Level::Update(Player* rath, HUD* hud){
 
 void Level::Input(Player* rath, HUD* hud){
     int salir = 0;
-    
     //NPC
-    if(Game::Instance()->iM->isActive("interactuar") && rath->collision(npc->getHitbox())){
+    if(Game::Instance()->iM->isActive("interactuar") && //rath->collision(npc->getHitbox())
+            disNpcPlayer < 300
+            ){
         salir = npc->nextSentence();
-   
         if(salir==1){
             setMuestra(true);
             //Creamos la caja que va a contener el texto
