@@ -1,5 +1,6 @@
 {
 	"map": "resources/MAPAPABLO.tmx",
+        "tileset": "resources/TILESET.png",
 	"resources": [
 		{
 			"name": "enemy",

@@ -53,7 +53,7 @@ void Level::Init(){
     }
     
     //Cargamos el mapa
-    map = new Map(j["map"].get<std::string>().c_str());
+    map = new Map(j["map"].get<std::string>().c_str(), j["tileset"].get<std::string>().c_str());
     
     //Cargamos los enemigos
     for (int i=0; i<j["enemys"].size(); i++){
