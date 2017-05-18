@@ -306,11 +306,11 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
             }
         }else if(state == 3){
-            if(!Boss::isAttacking() && Boss::getCurrentGun()->getGunCooldown()->isExpired()){
+            //if(!Boss::isAttacking() && Boss::getCurrentGun()->getGunCooldown()->isExpired()){
                 Boss::gunAttack();
                 Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
-                angle += 45;
-            }            
+                angle += 5;
+            //}            
         }else if(state == 4){
             Entity::setSpeed(Enemy::getInitialSpeed() * 1.5);
             move(dir.x,dir.y);
