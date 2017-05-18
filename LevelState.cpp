@@ -52,6 +52,8 @@ void LevelState::Init(){
     /* SONIDOS */
     game->rM->loadSound("ataque", "resources/ataque.ogg");
     game->rM->loadSound("cargar", "resources/cargar.ogg");
+    game->rM->loadSound("fire", "resources/lanzallamas2.ogg");
+    game->rM->loadSound("flash", "resources/flash.ogg");
     game->rM->loadMusic("boss", "resources/boss.ogg");
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
@@ -111,7 +113,7 @@ void LevelState::Init(){
      
     /*****LEVEL*****/
     level = new Level(1);
-    
+      
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud-spritesheet"), 
             Rect<float>(1,200,205,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
@@ -134,6 +136,7 @@ void LevelState::Init(){
     
     /*****DAMAGE*****/
     damage = new Sprite(game->rM->getTexture("damage"),Rect<float>(0, 0, 1280, 720));
+    
 }
 
 void LevelState::Update(){
@@ -212,14 +215,21 @@ void LevelState::Input(){
 
         /*Player gun attack*/
         //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
-        if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){ 
+        if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking() 
+            && (rath->getCurrentGun()->getGunCooldown()->getTime()==5 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)){
+            //cout << rath->getCurrentGun()->getGunCooldown()->getTime() << endl;
+            Game::Instance()->rM->getSound("fire")->getSound()->play();
             hud->resetClockGuns();
             rath->gunAttack();
             rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
         }
         
         /*Player Flash*/
-        if (Game::Instance()->iM->isActive("player-flash")){
+        if (Game::Instance()->iM->isActive("player-flash") && rath->getFlashCooldown()->getTime()==0
+                && (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)
+                ||  sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||  sf::Keyboard::isKeyPressed(sf::Keyboard::D))){
+            cout << rath->getFlashCooldown()->getTime() << endl;
+            Game::Instance()->rM->getSound("flash")->getSound()->play();
             hud->resetClockFlash();
             rath->flash();
         }

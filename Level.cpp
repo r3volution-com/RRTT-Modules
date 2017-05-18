@@ -173,8 +173,6 @@ void Level::Init(){
         }
     }
     
-    
-    
     rectan = new sf::RectangleShape();
     rectan->setSize(sf::Vector2f(boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->width, boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->height));
     
@@ -182,7 +180,7 @@ void Level::Init(){
     if(level==1){
         
         
-        keyIterationNpc = new Text("Pulsa la tecla \"E\" para interacctuar con el NPC cuando estes cerca", Coordinate(310,600), game->rM->getFont("font"), false);
+        keyIterationNpc = new Text("Pulsa la tecla \"E\" para interactuar con el NPC cuando estes cerca", Coordinate(310,600), game->rM->getFont("font"), false);
         keyIterationNpc->setTextStyle(sf::Color::Black, 25);
         keyIterationNpc->setOutlineStyle(sf::Color::White, 1);
         
