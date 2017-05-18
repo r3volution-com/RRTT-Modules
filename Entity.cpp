@@ -38,23 +38,49 @@ void Entity::move(float dirX, float dirY, float sp){
 void Entity::setPosition(Coordinate newCoor){
     anim->setPosition(newCoor);
     hitbox->setPosition(newCoor);
+    if(hitbox->hitbox->height<anim->getSprite()->getLocalBounds().height){
+       hitbox->setPosition(hitbox->hitbox->left, hitbox->hitbox->top +(anim->getSprite()->getLocalBounds().height - hitbox->hitbox->height));
+    }
+    std::cout<<hitbox->hitbox->width<<" ,"<<anim->getSprite()->getLocalBounds().width<<"\n";
+    if(hitbox->hitbox->width < anim->getSprite()->getLocalBounds().width){
+        hitbox->setPosition(hitbox->hitbox->left + (anim->getSprite()->getLocalBounds().width-hitbox->hitbox->width)/2 , hitbox->hitbox->top);
+    }
+    //AJUSTAR HITBOX A EL DIBUJO
     coor->setCoordinate(newCoor);
 }
 
 void Entity::setPosition(float x, float y){
     anim->setPosition(x, y);
     hitbox->setPosition(x, y);
+     if(hitbox->hitbox->height<anim->getSprite()->getLocalBounds().height){
+       hitbox->setPosition(hitbox->hitbox->left, hitbox->hitbox->top +(anim->getSprite()->getLocalBounds().height - hitbox->hitbox->height));
+    }
+    if(hitbox->hitbox->width < anim->getSprite()->getLocalBounds().width){
+        hitbox->setPosition(hitbox->hitbox->left + (anim->getSprite()->getLocalBounds().width - hitbox->hitbox->width)/2 , hitbox->hitbox->top);
+    }
     coor->setCoordinate(x, y);
 }
 
 void Entity::updatePosition(Coordinate newCoor){
     anim->setPosition(newCoor);
     hitbox->setPosition(newCoor);
+     if(hitbox->hitbox->height<anim->getSprite()->getLocalBounds().height){
+       hitbox->setPosition(hitbox->hitbox->left, hitbox->hitbox->top +(anim->getSprite()->getLocalBounds().height - hitbox->hitbox->height));
+    }
+    if(hitbox->hitbox->width < anim->getSprite()->getLocalBounds().width){
+        hitbox->setPosition(hitbox->hitbox->left + (anim->getSprite()->getLocalBounds().width - hitbox->hitbox->width)/2 , hitbox->hitbox->top);
+    }
 }
 
 void Entity::updatePosition(float x, float y){
     anim->setPosition(x, y);
-    hitbox->setPosition(x, y);
+     if(hitbox->hitbox->height<anim->getSprite()->getLocalBounds().height){
+       hitbox->setPosition(hitbox->hitbox->left, hitbox->hitbox->top +(anim->getSprite()->getLocalBounds().height - hitbox->hitbox->height));
+    }
+    hitbox->setPosition(x, y);if(hitbox->hitbox->width < anim->getSprite()->getLocalBounds().width){
+        hitbox->setPosition(hitbox->hitbox->left + (anim->getSprite()->getLocalBounds().width - hitbox->hitbox->width)/2 , hitbox->hitbox->top);
+    }
+    
 }
         
 bool Entity::collision(Hitbox *other){

@@ -21,10 +21,7 @@ Level::Level(int numLevel) {
 
     showIterationNpc = false;
     
-    Coordinate* inicio = new Coordinate(5500,14250);
-    Coordinate* beforeBoss = new Coordinate(3200,7000);
-    respawn->push_back(inicio);
-    respawn->push_back(beforeBoss);
+    actualRespawn = 0;
     
     Init();
 }
@@ -48,6 +45,11 @@ void Level::Init(){
     //Cargamos los recursos
     for (int i=0; i<j["resources"].size(); i++){
         game->rM->loadTexture(j["resources"].at(i)["name"].get<std::string>(), j["resources"].at(i)["path"].get<std::string>().c_str());
+    }
+    
+    //Cargamos los spawns
+    for (int i=0; i<j["spawn_points"].size(); i++){
+        respawn->push_back(new Coordinate(j["spawn_points"].at(i)["x"], j["spawn_points"].at(i)["y"]));
     }
     
     //Cargamos el mapa
@@ -122,19 +124,29 @@ void Level::Init(){
             boss->addGun(gunArm);
         }
     }
-    //Si estamos en el primer nivel
-    if(level==1){
-        //Cargamos las notas
-        note = new Note(game->rM->getTexture("gui-tileset"), Rect<float>(325, 920, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
-        note->setPosition(Coordinate(1950, 13850));
-        note->setBackgroundPosition(Coordinate(350, 125));
-        note->setText("El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\n "
-        "saliendo en multimedia!", sf::Color::Black, sf::Color::White, 1, 25);
     
+    //Cargamos las notas
+    if (j.find("notes") != j.end()) {
+        for (int i=0; i<j["boss"]["guns"].size(); i++){
+            note = new Note(game->rM->getTexture("gui-tileset"), Rect<float>(325, 920, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
+            note->setPosition(Coordinate(1950, 13850));
+            note->setBackgroundPosition(Coordinate(350, 125));
+            note->setText("El", sf::Color::Black, sf::Color::White, 1, 25);
+        }
+    }
+    
+    if (j.find("crystals") != j.end()) {
         //Cargamos los cristales
         crystal = new Crystals(game->rM->getTexture("gui-tileset"), Rect<float>(300, 920, 174, 290));
         crystal->setPosition(Coordinate(3000, 3000));
+    }
+    
+    if (j.find("npcs") != j.end()) {
         
+        
+    }
+    //Si estamos en el primer nivel
+    if(level==1){
         /* NPC */
         npc = new NPC(Coordinate(4500,13300), Coordinate(128, 128), 2, "Jose");
         npc->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,920,128,128));
@@ -173,7 +185,7 @@ void Level::Init(){
 
 void Level::Update(Player* rath, HUD* hud){
     
-    if(disNpcPlayer < 500){
+    if(disNpcPlayer < 300){
         showIterationNpc = true;
     }else{
         showIterationNpc = false;
@@ -251,11 +263,11 @@ void Level::Update(Player* rath, HUD* hud){
 
 void Level::Input(Player* rath, HUD* hud){
     int salir = 0;
-    
     //NPC
-    if(Game::Instance()->iM->isActive("interactuar") && rath->collision(npc->getHitbox())){
+    if(Game::Instance()->iM->isActive("interactuar") && //rath->collision(npc->getHitbox())
+            disNpcPlayer < 300
+            ){
         salir = npc->nextSentence();
-   
         if(salir==1){
             setMuestra(true);
             //Creamos la caja que va a contener el texto

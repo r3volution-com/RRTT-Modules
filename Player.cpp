@@ -257,11 +257,11 @@ void Player::die(){
     dead = true;
 }
 
-void Player::respawn(int resp){
+void Player::respawn(){
     dead = false;
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
-    Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn(resp)); 
+    Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn()); 
 }
 
 void Player::setFlashCooldown(float cd){ 
