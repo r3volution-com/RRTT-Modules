@@ -54,6 +54,7 @@ void LevelState::Init(){
     game->rM->loadSound("cargar", "resources/cargar.ogg");
     game->rM->loadSound("fire", "resources/lanzallamas2.ogg");
     game->rM->loadSound("flash", "resources/flash.ogg");
+    game->rM->loadSound("damage", "resources/damage.ogg");
     game->rM->loadMusic("boss", "resources/boss.ogg");
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
@@ -157,6 +158,10 @@ void LevelState::Update(){
         level->Update(rath, hud);
     }else {
         
+    }
+    
+    if(rath->getDmgOnPlayer()->getTime() > 0){
+        Game::Instance()->rM->getSound("damage")->getSound()->play();
     }
 }
 
