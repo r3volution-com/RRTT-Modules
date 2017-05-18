@@ -134,6 +134,9 @@ void LevelState::Init(){
     
     /*****DAMAGE*****/
     damage = new Sprite(game->rM->getTexture("damage"),Rect<float>(0, 0, 1280, 720));
+    
+        rectan = new sf::RectangleShape();
+    rectan->setSize(sf::Vector2f(level->getBoss()->getCurrentGun()->getBullet()->getHitbox()->hitbox->width, level->getBoss()->getCurrentGun()->getBullet()->getHitbox()->hitbox->height));
 }
 
 void LevelState::Update(){
@@ -151,21 +154,23 @@ void LevelState::Update(){
     }
     
     if (!paused){
+        level->Update(rath, hud);
+
         if(level->getBoss()->getStateBoss() != 3 ){
             float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
             Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
                     level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
             level->getBoss()->getCurrentGun()->update(newBoss, angleBoss);
         }else{
-            Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
-                    level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
-            level->getBoss()->getCurrentGun()->update(newBoss, level->getBoss()->getAngle());
+            float angleBoss = tri->angle(*level->getBoss()->getCoordinate(),*rath->getCoordinate());
+            Coordinate newBoss = Coordinate(level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left+level->getBoss()->getCurrentGun()->getBullet()->getHitbox()->hitbox->width/2, 
+                    level->getBoss()->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top+level->getBoss()->getCurrentGun()->getBullet()->getHitbox()->hitbox->height/2);
+            level->getBoss()->getCurrentGun()->update(newBoss,angleBoss /*level->getBoss()->getAngle()*/);
         }
         
         
         rath->getWeapon()->detectCollisions(Game::Instance()->mouse); //ToDo: cambiar el mouse por las  hitbox de los enemigos
 
-        level->Update(rath, hud);
     }else {
         
     }
@@ -307,7 +312,10 @@ void LevelState::Render(){
     
     /*Render level*/
     level->Render();
-    
+    rectan->setPosition(level->getBoss()->getCurrentGun()->getBullet()->getHitbox()->hitbox->left,level->getBoss()->getCurrentGun()->getBullet()->getHitbox()->hitbox->top);
+
+
+    Game::Instance()->window->draw(*rectan);
     
     /*Render Player and guns*/
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
@@ -318,6 +326,8 @@ void LevelState::Render(){
         rath->attackDone();
     
     if (rath->getWeapon()->isAttacking()) Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
+    
+    
     
     /*Set Default View*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());

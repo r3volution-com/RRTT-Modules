@@ -106,16 +106,16 @@ void Level::Init(){
             Bullet *bull = new Bullet(Coordinate(j["boss"]["guns"].at(i)["bullet"]["size"]["w"], j["boss"]["guns"].at(i)["bullet"]["size"]["h"]), 
                     j["boss"]["guns"].at(i)["bullet"]["duration"], j["boss"]["guns"].at(i)["bullet"]["type"]);
             bull->setAnimation(game->rM->getTexture(j["boss"]["guns"].at(i)["bullet"]["sprite"]["texture"]), 
-                    Rect<float>(j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"]));
+                    Rect<float>(j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["y"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["w"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["h"]));
             for (int k=0; k<j["boss"]["guns"].at(i)["bullet"]["animations"].size(); k++){
                 bull->getAnimation()->addAnimation(j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["name"].get<std::string>(), 
                         Coordinate(j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["position"]["x"], j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["position"]["y"]), 
                         j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["nSprites"], j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["duration"]);
             }
             bull->getAnimation()->initAnimator();
-            bull->getAnimation()->changeAnimation(j["boss"]["guns"].at(i)["bullet"]["animations"].at(0)["name"], false);
+            bull->getAnimation()->changeAnimation(j["boss"]["guns"].at(i)["bullet"]["animations"].at(0)["name"].get<std::string>(), false);
             bull->setDamage(j["boss"]["guns"].at(i)["bullet"]["damage"]);
-            bull->getAnimation()->setOrigin(Coordinate(184,98));//ToDo: campo en json?
+            bull->getAnimation()->setOrigin(Coordinate(300,64));//ToDo: campo en json?
 
             gunArm->setAttack(bull);
             
@@ -318,7 +318,7 @@ void Level::Render(){
     Coordinate inc2(boss->getState()->getIC());
     boss->getAnimation()->updateAnimator();
     Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
-    boss->updatePosition(inc2.x, inc2.y);
+    //boss->updatePosition(inc2.x, inc2.y);
     
     Coordinate inc3(npc->getState()->getIC());
     
