@@ -13,8 +13,10 @@ Gun::Gun(float cd) {
 void Gun::setAnimation(Texture *tex, Rect<float> animRect){
     gunAnimation = new Animation(tex, animRect);
     gunAnimation->addAnimation("idle", Coordinate(animRect.x, animRect.y), 1, 1.0f);
-    gunAnimation->addAnimation("inversa", Coordinate(animRect.x+128, animRect.y), 1, 1.0f);
-    gunAnimation->addAnimation("atras", Coordinate(animRect.x+256, animRect.y), 1, 1.0f);    
+    gunAnimation->addAnimation("inversa", Coordinate(animRect.x+animRect.w, animRect.y), 1, 1.0f);
+    gunAnimation->addAnimation("atras", Coordinate(animRect.x+(animRect.w*2), animRect.y), 1, 1.0f);    
+    gunAnimation->initAnimator();    
+    gunAnimation->changeAnimation("idle", false);
     gunAnimation->setPosition(*coor);
 }
 

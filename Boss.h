@@ -85,7 +85,7 @@ class Boss : public Enemy{
         void changeState();
         void damage(int dm);
         void addState(int s);
-        void addRandomState();
+        void addRandomState(int from, int to);
         int getStateBoss(){return state;}
         int getAngle(){return angle;}
 };

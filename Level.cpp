@@ -5,16 +5,27 @@ Level::Level(int numLevel) {
     //Guardamos el nivel a cargar
     level = numLevel;
     enemigosCaidos = 0;
+    
+    std::ostringstream path;
+    path << "resources/lvl" << numLevel << ".json";
+    
+    std::ifstream i(path.str());
+    std::ostringstream text;
+    text << i.rdbuf();
+    //std::cout << text.str() << "\n";
+    //i >> j;
+    j = json::parse(text.str());
+    
     enemys = new std::vector<Enemy*>();
     respawn = new std::vector<Coordinate*>();
+
+    showIterationNpc = false;
+    
     Coordinate* inicio = new Coordinate(5500,14250);
     Coordinate* beforeBoss = new Coordinate(3200,7000);
     respawn->push_back(inicio);
     respawn->push_back(beforeBoss);
-    //respawn[1]=(500,300);
-    //respawn[2]=(1000,300);
-    //Cargamos todos los elementos del juego
-    showIterationNpc = false;
+    
     Init();
 }
 
@@ -34,15 +45,85 @@ Level::~Level(){
 void Level::Init(){
     Game *game = Game::Instance();
     
-    game->rM->loadTexture("sangre", "resources/rojo.png");
-    game->rM->loadTexture("pergamino", "resources/pergamino.png");
+    //Cargamos los recursos
+    for (int i=0; i<j["resources"].size(); i++){
+        game->rM->loadTexture(j["resources"].at(i)["name"].get<std::string>(), j["resources"].at(i)["path"].get<std::string>().c_str());
+    }
     
+    //Cargamos el mapa
+    map = new Map(j["map"].get<std::string>().c_str());
+    
+    //Cargamos los enemigos
+    for (int i=0; i<j["enemys"].size(); i++){
+        Enemy *enemy = new Enemy(Coordinate(j["enemys"].at(i)["position"]["x"],j["enemys"].at(i)["position"]["y"]), 
+                Coordinate(j["enemys"].at(i)["size"]["w"], j["enemys"].at(i)["size"]["h"]), j["enemys"].at(i)["speed"]);
+        enemy->setType(j["enemys"].at(i)["type"]);
+        enemy->setAnimations(game->rM->getTexture(j["enemys"].at(i)["sprite"]["texture"].get<std::string>()), 
+                Rect<float>(j["enemys"].at(i)["sprite"]["rect"]["x"],j["enemys"].at(i)["sprite"]["rect"]["y"], j["enemys"].at(i)["sprite"]["rect"]["w"], j["enemys"].at(i)["sprite"]["rect"]["h"]));
+        enemy->setMaxHP(j["enemys"].at(i)["hp"]);
+        enemy->setDistanceEnemyHome(j["enemys"].at(i)["distanceToHome"]);
+        enemy->setDistancePlayerEnemy(j["enemys"].at(i)["distanceToPlayer"]);
+        enemy->setInitialDmg(j["enemys"].at(i)["damage"]);
+        enemy->setHitCooldown(new Time(j["enemys"].at(i)["hitCooldown"].get<float>()));
+        if (j["enemys"].at(i)["bleed"] == true) enemy->setBlood(game->rM->getTexture("sangre"));
+        
+        if (j["enemys"].at(i)["type"] == 2){
+            enemy->SetFlashRange(j["enemys"].at(i)["extra"]["flashRange"]);
+            enemy->setFlashCooldown(new Time(j["enemys"].at(i)["extra"]["flashCooldown"].get<float>()));
+        } else if (j["enemys"].at(i)["type"] == 3){
+            enemy->setFreeze(j["enemys"].at(i)["extra"]["freeze"]);
+        }
+        
+        enemys->push_back(enemy);
+    }
+    
+    if (j.find("boss") != j.end()) {
+        boss = new Boss(Coordinate(j["boss"]["position"]["x"],j["boss"]["position"]["y"]), 
+                Coordinate(j["boss"]["size"]["w"], j["boss"]["size"]["h"]), j["boss"]["speed"]);
+        boss->setAnimations(game->rM->getTexture(j["boss"]["sprite"]["texture"]), 
+                Rect<float>(j["boss"]["sprite"]["rect"]["x"], j["boss"]["sprite"]["rect"]["y"], j["boss"]["sprite"]["rect"]["w"], j["boss"]["sprite"]["rect"]["h"]));
+        boss->setMaxHP(j["boss"]["hp"]);
+        boss->setDistanceEnemyHome(j["boss"]["distanceToHome"]);
+        boss->setDistancePlayerEnemy(j["boss"]["distanceToPlayer"]);
+        boss->setInitialDmg(j["boss"]["damage"]);
+        boss->setHitCooldown(new Time(j["boss"]["hitCooldown"].get<float>()));
+        boss->SetFlashRange(j["boss"]["flashRange"]);
+        boss->setFlashCooldown(new Time(j["boss"]["flashCooldown"].get<float>()));
+        boss->setStateClock(new Time(j["boss"]["changeStateTimer"].get<float>()));
+        srand (time(NULL));
+        for (int i=0; i<j["boss"]["nStates"];i++){
+            if (i >= j["boss"]["states"]["from"] && i <= j["boss"]["states"]["to"])
+                boss->addState(i);
+            else
+                boss->addRandomState(j["boss"]["states"]["from"], j["boss"]["states"]["to"]);
+        }
+        for (int i=0; i<j["boss"]["guns"].size(); i++){
+            Gun *gunArm = new Gun(j["boss"]["guns"].at(i)["cooldown"].get<float>());
+            gunArm->setAnimation(game->rM->getTexture(j["boss"]["guns"].at(i)["sprite"]["texture"]), 
+                    Rect<float> (j["boss"]["guns"].at(i)["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["sprite"]["rect"]["y"], j["boss"]["guns"].at(i)["sprite"]["rect"]["w"], j["boss"]["guns"].at(i)["sprite"]["rect"]["h"]));
+            gunArm->getAnimation()->setOrigin(Coordinate(56,34)); //ToDo: campo en json?
+
+            Bullet *bull = new Bullet(Coordinate(j["boss"]["guns"].at(i)["bullet"]["size"]["w"], j["boss"]["guns"].at(i)["bullet"]["size"]["h"]), 
+                    j["boss"]["guns"].at(i)["bullet"]["duration"], j["boss"]["guns"].at(i)["bullet"]["type"]);
+            bull->setAnimation(game->rM->getTexture(j["boss"]["guns"].at(i)["bullet"]["sprite"]["texture"]), 
+                    Rect<float>(j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["bullet"]["sprite"]["rect"]["x"]));
+            for (int k=0; k<j["boss"]["guns"].at(i)["bullet"]["animations"].size(); k++){
+                bull->getAnimation()->addAnimation(j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["name"].get<std::string>(), 
+                        Coordinate(j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["position"]["x"], j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["position"]["y"]), 
+                        j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["nSprites"], j["boss"]["guns"].at(i)["bullet"]["animations"].at(k)["duration"]);
+            }
+            bull->getAnimation()->initAnimator();
+            bull->getAnimation()->changeAnimation(j["boss"]["guns"].at(i)["bullet"]["animations"].at(0)["name"], false);
+            bull->setDamage(j["boss"]["guns"].at(i)["bullet"]["damage"]);
+            bull->getAnimation()->setOrigin(Coordinate(184,98));//ToDo: campo en json?
+
+            gunArm->setAttack(bull);
+            
+            boss->addGun(gunArm);
+        }
+    }
     //Si estamos en el primer nivel
     if(level==1){
-        //Cargamos el mapa
-        map = new Map("resources/MAPAPABLO.tmx");
-        
-        
         //Cargamos las notas
         note = new Note(game->rM->getTexture("gui-tileset"), Rect<float>(325, 920, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
         note->setPosition(Coordinate(1950, 13850));
@@ -53,186 +134,6 @@ void Level::Init(){
         //Cargamos los cristales
         crystal = new Crystals(game->rM->getTexture("gui-tileset"), Rect<float>(300, 920, 174, 290));
         crystal->setPosition(Coordinate(3000, 3000));
-        
-        //Cargamos los enemigos
-        game->rM->loadTexture("enemy", "resources/enemigosLVL1.png");
-        
-
-        //Enemigo izquierda
-        Enemy *enemy = new Enemy(Coordinate(3200,9550), Coordinate(128, 128), 20);
-        enemy->setType(3);
-        enemy->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy->setMaxHP(40);
-        enemy->setDistanceEnemyHome(1400);
-        enemy->setDistancePlayerEnemy(700);
-        enemy->setInitialDmg(6);
-        enemy->setHitCooldown(new Time(2));
-        enemy->setFreeze(22);
-        enemy->setBlood(game->rM->getTexture("sangre"));
-        
-        enemys->push_back(enemy);
-        
-        //Enemigo abajo derecha
-        Enemy *enemy2 = new Enemy(Coordinate(3500,8000), Coordinate(128, 128), 15);
-        enemy2->setType(2);
-        enemy2->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy2->setMaxHP(50);
-        enemy2->setDistanceEnemyHome(1400);
-        enemy2->setDistancePlayerEnemy(700);
-        enemy2->setInitialDmg(5);
-        enemy2->setHitCooldown(new Time(0.5));
-        enemy2->SetFlashRange(10);
-        enemy2->setFlashCooldown(new Time(2));
-        enemy2->setBlood(game->rM->getTexture("sangre"));
-        
-        enemys->push_back(enemy2);
-        
-        //Enemigo arriba centro
-        Enemy *enemy3 = new Enemy(Coordinate(3500,8700), Coordinate(128, 128), 20);
-        enemy3->setType(1);
-        enemy3->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy3->setMaxHP(60);
-        enemy3->setDistanceEnemyHome(1300);
-        enemy3->setDistancePlayerEnemy(650);
-        enemy3->setInitialDmg(6);
-        enemy3->setHitCooldown(new Time(0.5));
-        enemy3->setBlood(game->rM->getTexture("sangre"));
-        
-        enemys->push_back(enemy3);
-        
-        //Enemigo abajo a la izquierda
-        Enemy *enemy4 = new Enemy(Coordinate(3450,9750), Coordinate(128, 128), 15);
-        enemy4->setType(2);
-        enemy4->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy4->setMaxHP(40);
-        enemy4->setDistanceEnemyHome(1430);
-        enemy4->setDistancePlayerEnemy(715);
-        enemy4->setInitialDmg(4);
-        enemy4->setHitCooldown(new Time(0.5));
-        enemy4->SetFlashRange(10);
-        enemy4->setFlashCooldown(new Time(2));
-        enemy4->setBlood(game->rM->getTexture("sangre"));
-        
-        enemys->push_back(enemy4);
-        
-        //Primer enemigo camino
-        Enemy *enemy5 = new Enemy(Coordinate(3650,11500), Coordinate(128, 128), 15);
-        enemy5->setType(1);
-        enemy5->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy5->setMaxHP(50);
-        enemy5->setDistanceEnemyHome(1400);
-        enemy5->setDistancePlayerEnemy(700);
-        enemy5->setDmgHit(5);
-        enemy5->setHitCooldown(new Time(0.5));
-        enemy5->setBlood(game->rM->getTexture("sangre"));
-        
-        enemys->push_back(enemy5);
-        
-        Enemy *enemy6 = new Enemy(Coordinate(3250,7700), Coordinate(128, 128), 20);
-        enemy6->setType(3);
-        enemy6->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy6->setMaxHP(40);
-        enemy6->setDistanceEnemyHome(1400);
-        enemy6->setDistancePlayerEnemy(700);
-        enemy6->setInitialDmg(4);
-        enemy6->setHitCooldown(new Time(2));
-        enemy6->setFreeze(18);
-        enemy6->setBlood(game->rM->getTexture("sangre"));
-        
-        enemys->push_back(enemy6);
-        
-        //Enemigo sorpresa
-        Enemy *enemy7 = new Enemy(Coordinate(3200,6300), Coordinate(128, 128), 20);
-        enemy7->setType(1);
-        enemy7->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        enemy7->setMaxHP(80);
-        enemy7->setDistanceEnemyHome(1300);
-        enemy7->setDistancePlayerEnemy(650);
-        enemy7->setInitialDmg(7);
-        enemy7->setHitCooldown(new Time(0.5));
-        enemy7->setBlood(game->rM->getTexture("sangre"));
-        
-        enemys->push_back(enemy7);
-        
-        Gun *gunArm = new Gun(3);
-        gunArm->setAnimation(game->rM->getTexture("enemy"), Rect<float> (0, 640, 128, 128));
-        gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
-        gunArm->getAnimation()->initAnimator();    
-        gunArm->getAnimation()->changeAnimation("armaIdle", false);
-        gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-
-        Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2, 't');
-        bull->setAnimation(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        bull->getAnimation()->addAnimation("fireIdle", Coordinate(0, 512), 2, 0.5f);
-        bull->getAnimation()->setOrigin(Coordinate(184,98));
-        bull->getAnimation()->initAnimator();
-        bull->getAnimation()->changeAnimation("fireIdle", false);
-        bull->setDamage(2);
-
-        gunArm->setAttack(bull);
-        
-        boss = new Boss(Coordinate(3500,3900), Coordinate(128, 128), 20);
-        boss->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        boss->setMaxHP(470);
-        boss->setDistanceEnemyHome(2000);
-        boss->setDistancePlayerEnemy(1500);
-        boss->setInitialDmg(15);
-        boss->setHitCooldown(new Time(1));
-        boss->SetFlashRange(8);
-        boss->setFlashCooldown(new Time(0.5));
-        boss->setStateClock(new Time(20));
-        boss->addState(1);
-        boss->addState(2);
-        srand (time(NULL));
-        for(int y = 0; y < 8; y++){
-            boss->addRandomState();
-        }
-        
-        boss->addGun(gunArm);
-        
-        boss->getState()->update();*/
-        
-        
-        /*****BOSS LEVEL 2*****/
-        Gun *gunArm = new Gun(Coordinate(0, 0), Coordinate(128, 128), 1.0f);
-        gunArm->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
-        gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
-        gunArm->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
-        gunArm->getAnimation()->initAnimator();    
-        gunArm->getAnimation()->changeAnimation("armaIdle", false);
-        gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-        gunArm->setDamage(15);
-
-        Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(256, 128), 0.5f, 'l');
-        bull->setAnimation(game->rM->getTexture("laser"), Rect<float>(0,0, 256, 128));
-        bull->getAnimation()->addAnimation("laseridle", Coordinate(0, 0), 3, 0.5f);
-        bull->getAnimation()->setOrigin(Coordinate(300,64));
-        bull->getAnimation()->initAnimator();
-        bull->getAnimation()->changeAnimation("laseridle", true);
-
-        gunArm->setAttack(bull);
-        
-        boss = new Boss(Coordinate(5000,14250), Coordinate(128, 128), 25, 2);
-        boss->setAnimations(game->rM->getTexture("enemy"), Rect<float>(0,0, 128, 128));
-        boss->setMaxHP(900);
-        boss->setDistanceEnemyHome(2000);
-        boss->setDistancePlayerEnemy(1500);
-        boss->setInitialDmg(18);
-        boss->setHitCooldown(new Time(1));
-        boss->SetFlashRange(12);
-        boss->setFlashCooldown(new Time(0.5));
-        boss->setStateClock(new Time(20));
-        boss->addState(3);
-        boss->addState(4);
-        boss->addState(2);
-        srand (time(NULL));
-        for(int y = 0; y < 7; y++){
-            boss->addRandomState();
-        }
-        
-        boss->addGun(gunArm);
-        
-        boss->getState()->update();
         
         /* NPC */
         npc = new NPC(Coordinate(4500,13300), Coordinate(128, 128), 2, "Jose");
@@ -245,7 +146,7 @@ void Level::Init(){
         npc->addSentence("Sera mejor que huyas muchacho no te aguarda nada bueno ahi.\n\nPulsa E para continuar", new Coordinate(20, 520));
         npc->addSentence("Un momento, creo que tu cara me suena...\n\nPulsa E para continuar", new Coordinate(20, 520));
         
-        keyIterationNpc = new Text("Pulsa la tecla ""E"" para interacctuar con el NPC cuando estes cerca", Coordinate(310,600), game->rM->getFont("font"), false);
+        keyIterationNpc = new Text("Pulsa la tecla \"E\" para interacctuar con el NPC cuando estes cerca", Coordinate(310,600), game->rM->getFont("font"), false);
         keyIterationNpc->setTextStyle(sf::Color::Black, 25);
         keyIterationNpc->setOutlineStyle(sf::Color::White, 1);
         
@@ -327,7 +228,7 @@ void Level::Update(Player* rath, HUD* hud){
         }
     }
    if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
-        rath->damage(boss->getCurrentGun()->getDamage());
+        rath->damage(boss->getCurrentGun()->getBullet()->getDamage());
         hud->changeLifePlayer(rath->getHP());
    }
     

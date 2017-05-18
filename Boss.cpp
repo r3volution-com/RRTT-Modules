@@ -206,15 +206,9 @@ void Boss::addState(int s){
     states->push_back(s);
 }
 
-void Boss::addRandomState(){
-    if(level == 1){
-        int num = rand() % 2 + 1;
-        states->push_back(num);
-    }else if(level == 2){
-        int num = rand() % 3 + 2;
-        states->push_back(num);
-    }
-
+void Boss::addRandomState(int from, int to){
+    int num = rand() % to + from;
+    states->push_back(num);
 }
 
 void Boss::changeState(){
