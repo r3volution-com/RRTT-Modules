@@ -127,36 +127,53 @@ void Level::Init(){
     
     //Cargamos las notas
     if (j.find("notes") != j.end()) {
-        for (int i=0; i<j["boss"]["guns"].size(); i++){
-            note = new Note(game->rM->getTexture("gui-tileset"), Rect<float>(325, 920, 128, 128), game->rM->getTexture("pergamino"), Rect<float>(0, 0, 608, 488), game->rM->getFont("font"));
-            note->setPosition(Coordinate(1950, 13850));
-            note->setBackgroundPosition(Coordinate(350, 125));
-            note->setText("El", sf::Color::Black, sf::Color::White, 1, 25);
+        for (int i=0; i<j["notes"].size(); i++){
+            note = new Note(game->rM->getTexture(j["notes"].at(i)["noteSprite"]["texture"].get<std::string>()), 
+                    Rect<float>(j["notes"].at(i)["noteSprite"]["rect"]["x"], j["notes"].at(i)["noteSprite"]["rect"]["y"], j["notes"].at(i)["noteSprite"]["rect"]["w"], j["notes"].at(i)["noteSprite"]["rect"]["h"]), 
+                    game->rM->getTexture(j["notes"].at(i)["paperSprite"]["texture"].get<std::string>()), 
+                    Rect<float>(j["notes"].at(i)["paperSprite"]["rect"]["x"], j["notes"].at(i)["paperSprite"]["rect"]["y"], j["notes"].at(i)["paperSprite"]["rect"]["w"], j["notes"].at(i)["paperSprite"]["rect"]["h"]), 
+                    game->rM->getFont(j["notes"].at(i)["font"].get<std::string>()));
+            note->setPosition(Coordinate(j["notes"].at(i)["notePosition"]["x"], j["notes"].at(i)["notePosition"]["y"]));
+            note->setBackgroundPosition(Coordinate(j["notes"].at(i)["paperPosition"]["x"], j["notes"].at(i)["paperPosition"]["y"]));
+            note->setText(j["notes"].at(i)["text"].get<std::string>(), sf::Color::Black, sf::Color::White, 1, 25);
         }
     }
     
+    //Cargamos los cristales
     if (j.find("crystals") != j.end()) {
-        //Cargamos los cristales
-        crystal = new Crystals(game->rM->getTexture("gui-tileset"), Rect<float>(300, 920, 174, 290));
-        crystal->setPosition(Coordinate(3000, 3000));
+        for (int i=0; i<j["crystals"].size(); i++){
+            crystal = new Crystals(game->rM->getTexture(j["crystals"].at(i)["sprite"]["texture"].get<std::string>()),
+                    Rect<float>(j["crystals"].at(i)["sprite"]["rect"]["x"], j["crystals"].at(i)["sprite"]["rect"]["y"], j["crystals"].at(i)["sprite"]["rect"]["w"], j["crystals"].at(i)["sprite"]["rect"]["h"]));
+            crystal->setPosition(Coordinate(j["crystals"].at(i)["position"]["x"], j["crystals"].at(i)["position"]["y"]));
+        }
     }
     
+    /* NPC */
     if (j.find("npcs") != j.end()) {
-        
-        
+        for (int i=0; i<j["npcs"].size(); i++){
+            npc = new NPC(Coordinate(j["npcs"].at(i)["position"]["x"],j["npcs"].at(i)["position"]["y"]),
+                    Coordinate(j["npcs"].at(i)["size"]["w"], j["npcs"].at(i)["size"]["h"]),
+                    j["npcs"].at(i)["speed"],
+                    j["npcs"].at(i)["name"].get<std::string>());
+            npc->setSprite(game->rM->getTexture(j["npcs"].at(i)["sprite"]["texture"].get<std::string>()),
+                    Rect<float>(j["npcs"].at(i)["sprite"]["rect"]["x"],j["npcs"].at(i)["sprite"]["rect"]["y"],j["npcs"].at(i)["sprite"]["rect"]["w"],j["npcs"].at(i)["sprite"]["rect"]["h"]));
+            for (int x=0; x<j["npcs"].at(i)["animations"].size(); x++){
+                npc->getAnimation()->addAnimation(j["npcs"].at(i)["animations"].at(x)["name"].get<std::string>(),
+                        Coordinate(j["npcs"].at(i)["animations"].at(x)["position"]["x"], j["npcs"].at(i)["animations"].at(x)["position"]["y"]),
+                        j["npcs"].at(i)["animations"].at(x)["nSprites"],
+                        j["npcs"].at(i)["animations"].at(x)["duration"]);
+            }
+            npc->getAnimation()->initAnimator();
+            npc->getAnimation()->changeAnimation(j["npcs"].at(i)["animations"].at(0)["name"].get<std::string>(), false);
+            for (int x=0; x<j["npcs"].at(i)["phrase"].size(); x++){
+                npc->addSentence(j["npcs"].at(i)["phrase"].at(x)["text"].get<std::string>(), 
+                        new Coordinate(j["npcs"].at(i)["phrase"].at(x)["position"]["x"], j["npcs"].at(i)["phrase"].at(x)["position"]["y"]));
+            }
+        }
     }
     //Si estamos en el primer nivel
     if(level==1){
-        /* NPC */
-        npc = new NPC(Coordinate(4500,13300), Coordinate(128, 128), 2, "Jose");
-        npc->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,920,128,128));
-        npc->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
-        npc->getAnimation()->initAnimator();
-        npc->getAnimation()->changeAnimation("idle", false);
-        //aldeano->loadAnimation(tex, Coordinate(0, 128), 3, 0.1f);
-        npc->addSentence("El bosque esta en llamas!!\n\nPulsa E para continuar", new Coordinate(2300, 3800));
-        npc->addSentence("Sera mejor que huyas muchacho no te aguarda nada bueno ahi.\n\nPulsa E para continuar", new Coordinate(20, 520));
-        npc->addSentence("Un momento, creo que tu cara me suena...\n\nPulsa E para continuar", new Coordinate(20, 520));
+        
         
         keyIterationNpc = new Text("Pulsa la tecla \"E\" para interacctuar con el NPC cuando estes cerca", Coordinate(310,600), game->rM->getFont("font"), false);
         keyIterationNpc->setTextStyle(sf::Color::Black, 25);
@@ -273,7 +290,7 @@ void Level::Input(Player* rath, HUD* hud){
             //Creamos la caja que va a contener el texto
             hud->setTextLayer(Coordinate(0,420), Rect <float> (0, 222, 1280, 300),Game::Instance()->rM->getTexture("gui-tileset"));
             //Posicionamos lo que va a decir el npc
-            hud->setTLayerText(npc->getCurrentSentenceText(), 25, 520);
+            hud->setTLayerText(npc->getCurrentSentenceText(), npc->getCurrentSentencePosition()->x, npc->getCurrentSentencePosition()->y);
             //Le damos estilo a lo que va a decir el npc
             hud->setTLayerTextParams(20, sf::Color::White, sf::Color::Red);
 
@@ -308,9 +325,9 @@ void Level::Render(){
        Game::Instance()->window->draw(*note->getNoteSprite()->getSprite());
     }
       
-    /*if(!crystal->getTouched()){
+    if(!crystal->getTouched()){
        Game::Instance()->window->draw(*crystal->getCrystalSprite()->getSprite());
-    }*/
+    }
     for (int i = 0; i<enemys->size(); i++){
         Coordinate inc(enemys->at(i)->getState()->getIC());
         //cout << inc;
@@ -330,7 +347,7 @@ void Level::Render(){
     Coordinate inc2(boss->getState()->getIC());
     boss->getAnimation()->updateAnimator();
     Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
-    //boss->updatePosition(inc2.x, inc2.y);
+    boss->updatePosition(inc2.x, inc2.y);
     
     Coordinate inc3(npc->getState()->getIC());
     

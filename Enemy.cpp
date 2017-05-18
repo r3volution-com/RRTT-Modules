@@ -79,13 +79,11 @@ void Enemy::move(float xDir, float yDir){
     Entity::move(xDir, yDir);
     if (xDir == 1 && yDir == 0) { //Derecha
         if (direction != 'r') {
-            std::cout<<"de"<<"\n";
             Entity::getAnimation()->changeAnimation("correrDerecha", false);
         }
         direction = 'r';
     } else if (xDir == -1 && yDir == 0) { //Izquierda
         if (direction != 'l') {
-            std::cout<<"iz"<<"\n";
             Entity::getAnimation()->changeAnimation("correrIzquierda", false);
         }
         direction = 'l';
