@@ -206,7 +206,7 @@ void LevelState::Input(){
 
         /*Player weapon attack*/
         if (Game::Instance()->iM->isActive("player-shortAttack")){
-            //Game::Instance()->rM->getSound("ataque")->getSound()->play();
+            Game::Instance()->rM->getSound("ataque")->getSound()->play();
             rath->weaponShortAttack(mouseAng);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStart")){//ToDo: hacemos que se ralentize al cargar?
