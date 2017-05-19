@@ -166,7 +166,7 @@ void Enemy::AI(Player* rath, HUD* hud){
     Coordinate dir = tri->direction(*rath->getCoordinate(), *Entity::getCoordinate());
     Coordinate ini = tri->direction(*Entity::getInitialCoordinate(), *Entity::getCoordinate());
     if(freeze == true && (cd->isExpired() && hits == 1)){
-        if(!rath->getSpeed()+slowDown < rath->getInitialSpeed()){
+        if(rath->getSpeed()+slowDown <= rath->getInitialSpeed()){
             rath->setSpeed(rath->getSpeed()+slowDown);
             hits = 0;
             freeze = false;
@@ -219,7 +219,7 @@ void Enemy::AI(Player* rath, HUD* hud){
                     freeze = true;
                     if(freeze == true && hits == 0){
                         hits++;
-                        rath->setSpeed(rath->getSpeed()/slowDown);//ToDo PabloL: Relentiza 3 puntos
+                        rath->setSpeed(rath->getSpeed() - slowDown);//ToDo PabloL: Relentiza 3 puntos
                     }
                 }
             }

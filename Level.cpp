@@ -240,11 +240,10 @@ void Level::Update(){
                     boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
             boss->getCurrentGun()->update(newBoss, angleBoss);
         }else{
-            float angleBoss = tri->angle(*boss->getCoordinate(),*rath->getCoordinate());
             Coordinate newBoss = Coordinate(
                     boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left+boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->width/2, 
                     boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top+boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->height/2);
-            boss->getCurrentGun()->update(newBoss,angleBoss /*boss->getAngle()*/);
+            boss->getCurrentGun()->update(newBoss,boss->getAngle());
         }
         /*Comprueba colisiones*/
         for(int i = 0; i < enemys->size(); i++){
@@ -288,7 +287,12 @@ void Level::Update(){
             rath->damage(boss->getCurrentGun()->getBullet()->getDamage());
             hud->changeLifePlayer(rath->getHP());
         }
-
+        
+        if(boss->getOnRange() && !seeBoss){
+            actualRespawn++;
+            seeBoss = true;
+        }
+        
         //NPC ToDo: hitbox entre pj y npc
         /*NPC Distance Check*/
         if (j.find("npcs") != j.end()) {

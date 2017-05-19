@@ -114,7 +114,7 @@ void LevelState::Init(){
     
     rath->addGun(gunArm);
     rath->changeGun(0);
-    rath->setPosition(Coordinate(3950, 14250));
+    rath->setPosition(Coordinate(0, 0));
       
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud-spritesheet"), 
@@ -140,7 +140,7 @@ void LevelState::Init(){
     /*Creamos el nivel*/
     level = new Level(rath, hud); 
     //Y lo iniciamos
-    level->Init(1);
+    level->Init(2);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }
