@@ -251,7 +251,6 @@ void Level::Update(){
             boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
         }
    }
-
     if(rath->getWeapon()->detectCollisions(boss->getHitbox())){
         boss->damage(rath->getWeapon()->getDamage());
         hud->changeLifeBoss(boss->getHP());

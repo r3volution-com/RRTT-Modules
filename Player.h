@@ -30,6 +30,7 @@ class Player : public Entity {
         
         bool dead;
         Time *dmgOnPlayer;
+        
     public:
         /**
          * Crea el objeto jugador
@@ -174,6 +175,8 @@ class Player : public Entity {
          *llama a inversa() de gun
          */
         void inversaGun();
+        
+        void setSpeed(float sp);
         
         int isDead() { return dead; }
         
