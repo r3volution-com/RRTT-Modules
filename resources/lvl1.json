@@ -136,25 +136,25 @@
             "nStates": 10,
             "states": {"from": 1, "to": 2},
             "guns": [
-                    {
-                            "cooldown": 3,
-                            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
-                            "bullet": {
-                                    "size": {"w": 128, "h": 128},
-                                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-                                    "type": 1,
-                                    "damage": 3,
-                                    "duration": 2,
-                                    "animations": [
-                                            {
-                                                    "name": "idle",
-                                                    "position": {"x": 0, "y": 512},
-                                                    "nSprites": 2,
-                                                    "duration": 0.5
-                                            }
-                                    ]
-                            }
+                {
+                    "cooldown": 3,
+                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                    "bullet": {
+                            "size": {"w": 128, "h": 128},
+                            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                            "type": 1,
+                            "damage": 3,
+                            "duration": 2,
+                            "animations": [
+                                    {
+                                            "name": "idle",
+                                            "position": {"x": 0, "y": 512},
+                                            "nSprites": 2,
+                                            "duration": 0.5
+                                    }
+                            ]
                     }
+                }
             ]
 
     },

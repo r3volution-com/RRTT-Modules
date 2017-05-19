@@ -276,6 +276,10 @@ void Boss::AI(Player* rath, HUD* hud){
         Entity::setSpeed(Boss::getInitialSpeed());
         
         if(state == 1){
+            if(guns->size() > 1 && currentGun != 0){
+                currentGun = 0;
+                changeGun(currentGun);
+            }
             move(dir.x,dir.y);
             float aux = (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->width);
             aux = aux + (Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height*Boss::getCurrentGun()->getBullet()->getHitbox()->hitbox->height);
@@ -303,6 +307,10 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
             }
         }else if(state == 3){
+            if(guns->size() > 1 && currentGun != 1){
+                currentGun = 1;
+                changeGun(currentGun);
+            }
             Entity::setSpeed(Boss::getInitialSpeed() * 0.5);
             move(dir.x,dir.y);
             if(!Boss::getHitbox()->checkCollision(rath->getHitbox())){
@@ -323,6 +331,9 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
                 Boss::gunAttack();
                 Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
+                if(currentGun == 1){
+                    angle += 15;
+                }
             }
             
             
