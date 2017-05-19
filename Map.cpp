@@ -241,15 +241,6 @@ void Map::dibujarMapa(sf::RenderWindow *window){
     }
 }
 
-int Map::colision(Hitbox *hitbox){
-    for(int i = 0; i < muros->size(); i++){
-        if(hitbox->checkCollision(muros->at(i))){
-            return i;
-        }
-    }
-    return -1;
-}
-
 int Map::getGid(Enemy *enemy, int id1, int id2){
     
     //Obtenemos las coordenadas del enemigo

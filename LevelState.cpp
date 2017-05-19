@@ -140,7 +140,7 @@ void LevelState::Init(){
     /*Creamos el nivel*/
     level = new Level(rath, hud); 
     //Y lo iniciamos
-    level->Init(2);
+    level->Init(1);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }

@@ -68,6 +68,8 @@ class Level {
         
         Coordinate* getRespawn(){ return respawn->at(actualRespawn);}
 
+        Hitbox *colision(Hitbox *hitbox);
+
         std::vector<Enemy*> *getEnemys(){return enemys;}
         Boss *getBoss(){return boss;}
         Map* getMap(){ return map; }
