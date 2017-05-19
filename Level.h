@@ -43,7 +43,6 @@ class Level {
         Boss *boss;
         Trigonometry *tri;
         Text *keyIterationNpc;
-
         //Vectores
         std::vector<Coordinate*> *respawn;
         std::vector<Enemy*> *enemys;

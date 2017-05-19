@@ -219,7 +219,7 @@ void Level::Update(){
             boss->AI(rath, hud);
         }
         /*Actualiza la posicion del jefe*/
-        if(boss->getStateBoss() != 3 ){
+        if(boss->getCurrentGun()->getBullet()->getType() != 2){
             float angleBoss = tri->angle(*boss->getCoordinate(),*rath->getCoordinate());
             Coordinate newBoss = Coordinate(boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
                     boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
@@ -315,7 +315,8 @@ void Level::Update(){
     }
     if(rath->collision(fuego2->getHitbox())){
         rath->move(0,1);
-    }
+    }            
+            
 }
 
 void Level::Input(){
