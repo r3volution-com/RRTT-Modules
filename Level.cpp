@@ -19,9 +19,8 @@ Level::Level(Player* r, HUD* h) {
     actualRespawn = 0;
     npcMoving = -1;
     paused = false;
-    
-    //NPC
     showNPCText = false;
+    showNoteText = false;
 }
 
 Level::~Level(){
@@ -334,7 +333,7 @@ void Level::Input(){
         if (j.find("notes") != j.end()) {
             for (int i=0; i<notes->size(); i++){
                 if(rath->collision(notes->at(i)->getHitbox())){
-                    if (!showNoteText){
+                    if (!showNoteText && !notes->at(i)->getTaken()){
                         showNoteText = true;
                         notes->at(i)->setTaken();
                     } else {
@@ -358,8 +357,10 @@ void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo
             }
             /*Texto notas */
             if(showNoteText){
+                Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
                 Game::Instance()->window->draw(*notes->at(i)->getBackgroundSprite()->getSprite());
                 Game::Instance()->window->draw(*notes->at(i)->getText()->getText());
+                Game::Instance()->window->setView(Game::Instance()->cameraView);
             }
         }
     }
