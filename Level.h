@@ -31,10 +31,11 @@ class Level {
         int enemigosCaidos;
         int actualRespawn;
         int npcMoving;
+        bool seeBoss;
         bool showNPCText;
         bool showNoteText;
         bool paused;
-
+        
         //Objetos
         HUD *hud;
         Player *rath;

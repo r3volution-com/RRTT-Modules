@@ -192,6 +192,7 @@ void Level::Init(int numLevel){
 
     //Si estamos en el primer nivel
     if(level==1 || level==2){
+        seeBoss = false;
         fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
         fuego->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,525,1280,384));
         fuego->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
@@ -271,7 +272,12 @@ void Level::Update(){
             rath->damage(boss->getCurrentGun()->getBullet()->getDamage());
             hud->changeLifePlayer(rath->getHP());
         }
-
+        
+        if(boss->getOnRange() && !seeBoss){
+            actualRespawn++;
+            seeBoss = true;
+        }
+        
         //NPC ToDo: hitbox entre pj y npc
         /*NPC Distance Check*/
         if (j.find("npcs") != j.end()) {
