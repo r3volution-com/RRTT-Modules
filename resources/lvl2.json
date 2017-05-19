@@ -40,7 +40,7 @@
 		},
 		{
 			"type": 2,
-			"position": {"x": 3500, "y": 8000},
+			"position": {"x": 2750, "y": 6750},
 			"size": {"w": 128, "h": 128},
 			"speed": 15,
 			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
@@ -54,7 +54,7 @@
 		},
 		{
 			"type": 3,
-			"position": {"x": 3500, "y": 8700},
+			"position": {"x": 3000, "y": 8000},
 			"size": {"w": 128, "h": 128},
 			"speed": 20,
 			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
@@ -68,7 +68,7 @@
 		},
 		{
 			"type": 2,
-			"position": {"x": 3450, "y": 9750},
+			"position": {"x": 2550, "y": 9750},
 			"size": {"w": 128, "h": 128},
 			"speed": 15,
 			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
@@ -83,7 +83,7 @@
 		},
 		{	
 			"type": 3,
-			"position": {"x": 3650, "y": 11500},
+			"position": {"x": 3350, "y": 11500},
 			"size": {"w": 128, "h": 128},
 			"speed": 15,
 			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
@@ -111,7 +111,7 @@
 		},
 		{
 			"type": 2,
-			"position": {"x": 3200, "y": 6300},
+			"position": {"x": 3250, "y": 6750},
 			"size": {"w": 128, "h": 128},
 			"speed": 20,
 			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
@@ -122,10 +122,36 @@
 			"hitCooldown": 0.5,
 			"bleed": true,
 			"extra": {"flashRange": 10, "flashCooldown": 2}
+		},
+		{
+			"type": 1,
+			"position": {"x": 5250, "y": 6750},
+			"size": {"w": 128, "h": 128},
+			"speed": 20,
+			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+			"hp": 40,
+			"distanceToHome": 1400,
+			"distanceToPlayer": 700,
+			"damage": 6,
+			"hitCooldown": 0.5,
+			"bleed": true
+		},
+                {
+			"type": 1,
+			"position": {"x": 4750, "y": 6000},
+			"size": {"w": 128, "h": 128},
+			"speed": 20,
+			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+			"hp": 40,
+			"distanceToHome": 1400,
+			"distanceToPlayer": 700,
+			"damage": 6,
+			"hitCooldown": 0.5,
+			"bleed": true
 		}
 	],
 	"boss": {
-            "position": {"x": 5200, "y": 14250},
+            "position": {"x": 3500, "y": 3000},
             "size": {"w": 128, "h": 128},
             "speed": 25,
             "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
