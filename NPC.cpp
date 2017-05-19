@@ -5,6 +5,7 @@ NPC::NPC(Coordinate position, Coordinate size, float sp, std::string npcName) : 
     sentences = new std::vector<std::string>();
     sentencePosition = new std::vector<Coordinate *>();
     name = npcName;
+    inRange = false;
 }
 
 NPC::~NPC() {

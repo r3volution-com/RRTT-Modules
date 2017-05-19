@@ -149,15 +149,12 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
-    if (level->getNpcMove()) paused = false;
-    else paused = false;
     if (!paused){
-        level->Update();
+        if(rath->getDmgOnPlayer()->getTime() > 0){
+            Game::Instance()->rM->getSound("damage")->getSound()->play();
+        }
     }
-    
-    if(rath->getDmgOnPlayer()->getTime() > 0){
-        Game::Instance()->rM->getSound("damage")->getSound()->play();
-    }
+    level->Update();
 }
 
 void LevelState::Input(){
@@ -217,7 +214,6 @@ void LevelState::Input(){
         //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
         if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking() 
             && (rath->getCurrentGun()->getGunCooldown()->getTime()==5 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)){
-            //cout << rath->getCurrentGun()->getGunCooldown()->getTime() << endl;
             Game::Instance()->rM->getSound("fire")->getSound()->play();
             hud->resetClockGuns();
             rath->gunAttack();
@@ -233,12 +229,10 @@ void LevelState::Input(){
             hud->resetClockFlash();
             rath->flash();
         }
-        
-        level->Input();
-     
+        //Pausar la partida si rath muere
         if (rath->isDead()) {
             hud->playerDie();
-            level->setSinSalida(true);
+            level->setSinSalida(true); //Fuego
             paused = true;
         }
     } else {
@@ -282,6 +276,7 @@ void LevelState::Input(){
             }
         }
     }
+    level->Input();
 }
 
 void LevelState::Render(){
