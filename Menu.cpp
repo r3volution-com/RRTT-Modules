@@ -25,7 +25,8 @@ Menu::~Menu() {
 
 void Menu::addButton(Coordinate position, std::string text, sf::Color color, sf::Color outlineColor, int size){
     Button *button = new Button(position, buttonLayout, *buttonTextureRect);
-    button->setText(text, color, outlineColor, buttonFont, size);
+    button->setText(text, color, buttonFont, size);
+    button->setOutline(1, outlineColor, sf::Color::Transparent);
     buttons->push_back(button);
 }
 

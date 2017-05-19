@@ -19,6 +19,8 @@ class Player : public Entity {
         float flashTime;
         int flashRange;
         
+        float initialSpeed;
+        
         bool attacking;
         bool weaponLoaded;
         
@@ -27,6 +29,8 @@ class Player : public Entity {
         char state;
         
         bool dead;
+        Time *dmgOnPlayer;
+        
     public:
         /**
          * Crea el objeto jugador
@@ -105,7 +109,7 @@ class Player : public Entity {
         /**
          * Reaparicion del jugador
          */
-        void respawn(int resp);
+        void respawn();
         
         /**
          * Dano recibido por el jugador
@@ -172,15 +176,21 @@ class Player : public Entity {
          */
         void inversaGun();
         
+        void setSpeed(float sp);
+        
         int isDead() { return dead; }
         
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
+        int getGunNumber() { return currentGun; }
         Weapon *getWeapon() { return weapon; }
         Gun *getCurrentGun() { return guns->at(currentGun); }
         Time *getFlashCooldown() { return flashCooldown; }
         
         bool isAttacking() { return attacking; }
+        
+        float getInitialSpeed() {return initialSpeed;}
+        Time *getDmgOnPlayer() {return dmgOnPlayer;}
 };
 
 #endif /* PROTAGONISTA_H */

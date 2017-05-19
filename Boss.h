@@ -13,20 +13,28 @@ class Boss : public Enemy{
         Coordinate* dirFlash;
         
         int state;
+        int actualState;
+        std::vector<int> *states;
         
-        Time *defensive;
+        Time *stateClock;
         Time *delay;
         
         bool onDelay;
         bool attacking;
         bool onRange;
+        bool start;
+        bool nextState;
         
-        int level;
+        float timeState;
         
         float initialSpeed;
         int currentGun;
         
         char dirSprite;
+        
+        int actualDmg;
+        int angle;
+        
     public:
         /**
          * Crea un objeto de tipo jefe
@@ -34,7 +42,7 @@ class Boss : public Enemy{
          * @param size: tamano del boss
          * @param sp: Velocidad de animacion del jefe
          */
-        Boss(Coordinate position, Coordinate size, float sp, int lvl);
+        Boss(Coordinate position, Coordinate size, float sp);
         virtual ~Boss();
         /**
          * Cambia el estado del jefe
@@ -70,10 +78,16 @@ class Boss : public Enemy{
         Gun *getCurrentGun() { return guns->at(currentGun); }
         bool isAttacking() { return attacking; }
         bool getOnRange(){return onRange;}
-        void setDefensive(Time *def){defensive = def;}
+        void setStateClock(Time *def){stateClock = def; timeState = stateClock->getTime(); stateClock = new Time(0);}
         void setAnimations(Texture *t, Rect<float> newRect);
         void move(float xDir, float yDir);
         void flash(float xDir, float yDir);
+        void changeState();
+        void damage(int dm);
+        void addState(int s);
+        void addRandomState(int from, int to);
+        int getStateBoss(){return state;}
+        int getAngle(){return angle;}
 };
 
 #endif /* BOSS_H */

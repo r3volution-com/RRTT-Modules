@@ -9,8 +9,10 @@ Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position
     flashRange=0;
     flashTime=0;
     flashCooldown = new Time(0);
+    initialSpeed = sp;
     attacking = false;
     dead = false;
+    dmgOnPlayer = new Time(0);
 }
 
 Player::~Player() {
@@ -103,9 +105,9 @@ void Player::move(float xDir, float yDir){
             float xSpeed = xDir*getSpeed();
             float ySpeed = yDir*getSpeed();
             Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
-            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
-            if(collision != -1){
-                Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
+            Hitbox *collision = Game::Instance()->getLevelState()->getLevel()->colision(&next);
+            if(collision != NULL){
+                Coordinate resolver = next.resolveCollision(collision, Coordinate(xSpeed, ySpeed));
                 xDir = resolver.x;
                 yDir = resolver.y;
             }
@@ -236,13 +238,8 @@ void Player::flash(){
             float xSpeed = xDir*getSpeed()*flashRange;
             float ySpeed = yDir*getSpeed()*flashRange;
             Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
-            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
-            /*if(collision != -1){
-                Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
-                xDir = resolver.x;
-                yDir = resolver.y;
-            }*/
-            if (collision == -1){
+            Hitbox *collision = Game::Instance()->getLevelState()->getLevel()->colision(&next);
+            if (collision == NULL){
                 Entity::move(xDir*flashRange, yDir*flashRange);
                 flashCooldown->restart(flashTime);
             }
@@ -255,11 +252,11 @@ void Player::die(){
     dead = true;
 }
 
-void Player::respawn(int resp){
+void Player::respawn(){
     dead = false;
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
-    Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn(resp)); 
+    Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn()); 
 }
 
 void Player::setFlashCooldown(float cd){ 
@@ -267,6 +264,7 @@ void Player::setFlashCooldown(float cd){
 }
 
 void Player::damage(int dmg){
+    dmgOnPlayer->restart(0.5f);
     if (hp-dmg <= 0){
         hp = 0;
         die();
@@ -281,6 +279,14 @@ void Player::setPosition(Coordinate newCoor){
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
         guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+    }
+}
+
+void Player::setSpeed(float sp){
+    if(sp > initialSpeed/4){
+        Entity::setSpeed(sp);
+    }else{
+        Entity::setSpeed(initialSpeed/4);
     }
 }
 

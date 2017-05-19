@@ -21,8 +21,35 @@ class Game {
         GameState *game;
         
         Time *fpsTimer;
+        
+    protected:
+        Game(); //: game(&intro) {}
+        virtual ~Game();
+        Game(const Game & );
+        Game &operator = (const Game & );
+        
     public:
         static Game* Instance();
+        
+        Coordinate *screenSize;
+        sf::RenderWindow *window;
+        sf::View cameraView;
+        
+        ResourceManager *rM;
+        Event *iM;
+        Hitbox *mouse;
+        Console *console;
+        std::string temp;
+        
+        Time *iaTimer;
+        int iaPS;
+        int fps;
+        int fpsCounter;
+        
+        float maxTime;
+        float currentTime;
+        float deltaTime;
+        float interpolation;
         
         /**
          * Se realizan las primeras ejecuciones (se declara y ejecuta todo)
@@ -50,33 +77,6 @@ class Game {
          */
         void ChangeCurrentState(const std::string &state);
         LevelState *getLevelState(){return level;}
-        virtual ~Game();
-        
-        Coordinate *screenSize;
-        sf::RenderWindow *window;
-        sf::View cameraView;
-        
-        ResourceManager *rM;
-        Event *iM;
-        Hitbox *mouse;
-        Console *console;
-        std::string temp;
-        
-        Time *iaTimer;
-        int iaPS;
-        int fps;
-        int fpsCounter;
-        
-        float maxTime;
-        float currentTime;
-        float deltaTime;
-        float interpolation;
-        
-        
-    protected:
-        Game(); //: game(&intro) {}
-        Game(const Game & );
-        Game &operator = (const Game & );
 };
 
 #endif /* GAME_H */

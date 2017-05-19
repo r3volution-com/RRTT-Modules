@@ -20,19 +20,26 @@ Button::~Button() {
     buttonData = NULL;
 }
 
-void Button::setText(std::string t, sf::Color color, sf::Color outlineColor, Font *f, int size){
+void Button::setText(std::string t, sf::Color color, Font *f, int size){
     text = new Text(t, Coordinate(buttonData->x+(buttonData->w/2), buttonData->y+(buttonData->h/2)), f, true);
-    text->setStyles(color, outlineColor, 1, size);
+    text->setTextStyle(color, size);
+    
+}
+
+void Button::setOutline(int oS, sf::Color oC, sf::Color oCH){
+    outlineSize = oS;
+    outlineColor = new sf::Color(oC);
+    outlineColorHover = new sf::Color(oCH);
 }
 
 void Button::hover(Hitbox *mouse){
     if (hitbox->checkCollision(mouse) && !isHover){
         buttonLayout->changeSpriteRect(Rect<float>(buttonLayout->getOriginalSpriteRect()->x+buttonData->w, buttonLayout->getOriginalSpriteRect()->y, buttonData->w, buttonData->h));
-
+        text->setOutlineStyle(*outlineColor, outlineSize);
         isHover = true;
     } else if (!hitbox->checkCollision(mouse) && isHover){
         buttonLayout->changeSpriteRect(*buttonLayout->getOriginalSpriteRect());
-        
+        text->setOutlineStyle(*outlineColorHover, outlineSize);
         isHover = false;
     }
 }

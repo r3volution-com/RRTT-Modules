@@ -20,15 +20,24 @@ void Particles::setProperties(int rate, float minLifetime, float maxLifetime){
     else emitter->setParticleLifetime(thor::Distributions::uniform(sf::seconds(minLifetime), sf::seconds(maxLifetime)));
 }
 
-void Particles::setTransformProperties(thor::Distribution<sf::Vector2f> particlePosition, thor::Distribution<float> particleRotation, thor::Distribution<sf::Vector2f> particleScale){
+void Particles::setParticlePosition(thor::Distribution<sf::Vector2f> particlePosition){
     emitter->setParticlePosition(particlePosition);
+}
+
+void Particles::setParticleRotation(thor::Distribution<float> particleRotation){
     emitter->setParticleRotation(particleRotation);
+}
+
+void Particles::setParticleScale(thor::Distribution<sf::Vector2f> particleScale){
     emitter->setParticleScale(particleScale);
 }
 
-void Particles::setTransformSpeed(thor::Distribution<sf::Vector2f> particleVelocity, thor::Distribution<float> particleRotationSpeed){
-    emitter->setParticleVelocity(particleVelocity);
+void Particles::setParticleRotationSpeed(thor::Distribution<float> particleRotationSpeed){
     emitter->setParticleRotationSpeed(particleRotationSpeed);
+}
+
+void Particles::setParticleSpeed(thor::Distribution<sf::Vector2f> particleVelocity){
+    emitter->setParticleVelocity(particleVelocity);
 }
 
 void Particles::setGravity(float force){
@@ -42,7 +51,7 @@ void Particles::setFading(float from, float to){
     system->addAffector(thor::AnimationAffector(fader));
 }
 
-void Particles::addParticle(Rect<int> rect){
+void Particles::addParticle(Rect<float> rect){
     system->addTextureRect(rect.getIntRect());
 }
 

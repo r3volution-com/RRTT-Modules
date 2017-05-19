@@ -1,12 +1,15 @@
 #include "Map.h"
 #include "Game.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-Map::Map(const char* ruta) {
+Map::Map(const char* ruta, const char* texture) {
  
     doc.LoadFile(ruta);
+    
+    _tilesetTexture = new Texture(texture);
 
     map = doc.FirstChildElement("map");
 
@@ -122,8 +125,8 @@ void Map::dataTiles(){
 
 void Map::matrizSprites(){
     
-    Texture *_tilesetTexture = new Texture("resources/TILESET.png");
-    
+    //j["map"].get<std::string>().c_str()
+     
     Rect <float> *medidas = new Rect <float> (0, 0, 128, 128);
     
     _tilemapSprite = new Sprite***[_numLayers];
@@ -236,15 +239,6 @@ void Map::dibujarMapa(sf::RenderWindow *window){
             }
         }
     }
-}
-
-int Map::colision(Hitbox *hitbox){
-    for(int i = 0; i < muros->size(); i++){
-        if(hitbox->checkCollision(muros->at(i))){
-            return i;
-        }
-    }
-    return -1;
 }
 
 int Map::getGid(Enemy *enemy, int id1, int id2){
