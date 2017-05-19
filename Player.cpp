@@ -287,6 +287,14 @@ void Player::setPosition(Coordinate newCoor){
     }
 }
 
+void Player::setSpeed(float sp){
+    if(!sp < initialSpeed/4){
+        Entity::setSpeed(sp);
+    }else{
+        Entity::setSpeed(initialSpeed/4);
+    }
+}
+
 void Player::setPosition(float x, float y){
     Entity::setPosition(x, y);
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
