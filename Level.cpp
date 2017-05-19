@@ -310,11 +310,11 @@ void Level::Update(){
 }
 
 void Level::Input(){
-    if(Game::Instance()->iM->isActive("interactuar")){
+    if(Game::Instance()->iM->isActive("interact")){
         //NPCs
         if (j.find("npcs") != j.end()) {
             for (int i=0; i<npcs->size(); i++){
-                if (tri->distance(*rath->getCoordinate(), *npcs->at(i)->getCoordinate()) < 300){
+                if (npcs->at(i)->getRange()){
                     if(npcs->at(i)->nextSentence()){
                         showNPCText = true;
                         //Posicionamos el nombre del npc
@@ -382,13 +382,10 @@ void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo
             if (npcs->at(i)->getRange()){
                 Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
                 Game::Instance()->window->draw(*keyIterationNpc->getText());
-                Game::Instance()->window->setView(Game::Instance()->cameraView);
-            }
-            std::cout << "SIP " << showNPCText << "\n";
-            if(showNPCText){
-                if (tri->distance(*rath->getCoordinate(), *npcs->at(i)->getCoordinate()) < 300){
+                if(showNPCText){
                     hud->drawTextLayer();
                 }
+                Game::Instance()->window->setView(Game::Instance()->cameraView);
             }
         }
     }
