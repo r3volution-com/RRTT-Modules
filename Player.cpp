@@ -288,7 +288,7 @@ void Player::setPosition(Coordinate newCoor){
 }
 
 void Player::setSpeed(float sp){
-    if(!sp < initialSpeed/4){
+    if(sp > initialSpeed/4){
         Entity::setSpeed(sp);
     }else{
         Entity::setSpeed(initialSpeed/4);
