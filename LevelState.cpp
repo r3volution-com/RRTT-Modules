@@ -114,7 +114,7 @@ void LevelState::Init(){
     
     rath->addGun(gunArm);
     rath->changeGun(0);
-    rath->setPosition(Coordinate(3950, 14250));
+    rath->setPosition(Coordinate(0, 0));
       
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud-spritesheet"), 
