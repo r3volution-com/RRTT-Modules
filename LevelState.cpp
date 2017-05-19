@@ -56,6 +56,10 @@ void LevelState::Init(){
     /* SONIDOS */
     game->rM->loadSound("ataque", "resources/ataque.ogg");
     game->rM->loadSound("cargar", "resources/cargar.ogg");
+    game->rM->loadSound("fire", "resources/lanzallamas2.ogg");
+    game->rM->loadSound("flash", "resources/flash.ogg");
+    game->rM->loadSound("damage", "resources/damage.ogg");
+    game->rM->loadSound("takeNote", "resources/takeNote.ogg");
     game->rM->loadMusic("boss", "resources/boss.ogg");
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
@@ -146,6 +150,10 @@ void LevelState::Update(){
     if (!paused){
         level->Update();
     }
+    
+    if(rath->getDmgOnPlayer()->getTime() > 0){
+        Game::Instance()->rM->getSound("damage")->getSound()->play();
+    }
 }
 
 void LevelState::Input(){
@@ -189,7 +197,7 @@ void LevelState::Input(){
 
         /*Player weapon attack*/
         if (Game::Instance()->iM->isActive("player-shortAttack")){
-            //Game::Instance()->rM->getSound("ataque")->getSound()->play();
+            Game::Instance()->rM->getSound("ataque")->getSound()->play();
             rath->weaponShortAttack(mouseAng);
         }
         if (Game::Instance()->iM->isActive("player-longAttackStart")){//ToDo: hacemos que se ralentize al cargar?
@@ -203,14 +211,21 @@ void LevelState::Input(){
 
         /*Player gun attack*/
         //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
-        if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){ 
+        if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking() 
+            && (rath->getCurrentGun()->getGunCooldown()->getTime()==5 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)){
+            //cout << rath->getCurrentGun()->getGunCooldown()->getTime() << endl;
+            Game::Instance()->rM->getSound("fire")->getSound()->play();
             hud->resetClockGuns();
             rath->gunAttack();
             rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
         }
         
         /*Player Flash*/
-        if (Game::Instance()->iM->isActive("player-flash")){
+        if (Game::Instance()->iM->isActive("player-flash") && rath->getFlashCooldown()->getTime()==0
+                && (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)
+                ||  sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||  sf::Keyboard::isKeyPressed(sf::Keyboard::D))){
+            cout << rath->getFlashCooldown()->getTime() << endl;
+            Game::Instance()->rM->getSound("flash")->getSound()->play();
             hud->resetClockFlash();
             rath->flash();
         }

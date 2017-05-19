@@ -4,6 +4,7 @@
 #include <tinyxml2.h>
 #include "libs/Sprite.h"
 #include "Enemy.h"
+#include "libs/json.hpp"
 
 using namespace tinyxml2;
 
@@ -20,6 +21,7 @@ class Map {
         int ***_tilemap;
         std::vector<Hitbox*> *muros;
         bool colisiona;
+        Texture *_tilesetTexture;
         
     public:
         XMLDocument doc;
@@ -32,7 +34,7 @@ class Map {
         bool todo=true;
         Sprite ****_tilemapSprite;
         
-        Map(const char* ruta);
+        Map(const char* ruta, const char* texture);
         
         virtual ~Map();
         
