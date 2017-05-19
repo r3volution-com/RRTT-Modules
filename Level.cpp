@@ -379,11 +379,14 @@ void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo
             Coordinate inc3(npcs->at(i)->getState()->getIC());
             npcs->at(i)->updatePosition(inc3.x, inc3.y);
             Game::Instance()->window->draw(*npcs->at(i)->getAnimation()->getSprite());
-            if(showNPCText==true){
-                if ((rath->getCoordinate()->x - npcs->at(i)->getCoordinate()->x) < 300 &&
-                (rath->getCoordinate()->x - npcs->at(i)->getCoordinate()->x) > -300 &&
-                (rath->getCoordinate()->y - npcs->at(i)->getCoordinate()->y) < 300 &&
-                (rath->getCoordinate()->y - npcs->at(i)->getCoordinate()->y) > -300){
+            if (npcs->at(i)->getRange()){
+                Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
+                Game::Instance()->window->draw(*keyIterationNpc->getText());
+                Game::Instance()->window->setView(Game::Instance()->cameraView);
+            }
+            std::cout << "SIP " << showNPCText << "\n";
+            if(showNPCText){
+                if (tri->distance(*rath->getCoordinate(), *npcs->at(i)->getCoordinate()) < 300){
                     hud->drawTextLayer();
                 }
             }
