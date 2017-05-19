@@ -163,8 +163,8 @@
                 "noteSprite": {"texture": "gui-tileset", "rect": {"x": 325, "y": 920, "w": 128, "h": 128}},
                 "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
                 "font": "font",
-                "notePosition": {"x": 1950, "y": 13850},
-                "paperPosition": {"x": 1950, "y": 13850},
+                "notePosition": {"x": 3000, "y": 6500},
+                "paperPosition": {"x": 3000, "y": 6500},
                 "text": "El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\nsaliendo en multimedia!"  
             }
         ],

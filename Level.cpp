@@ -187,7 +187,7 @@ void Level::Init(int numLevel){
     }
 
     //Si estamos en el primer nivel
-    if(level==1){
+    if(level==1 || level==2){
         fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
         fuego->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,525,1280,384));
         fuego->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
@@ -220,11 +220,10 @@ void Level::Update(){
                     boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
             boss->getCurrentGun()->update(newBoss, angleBoss);
         }else{
-            float angleBoss = tri->angle(*boss->getCoordinate(),*rath->getCoordinate());
             Coordinate newBoss = Coordinate(
                     boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left+boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->width/2, 
                     boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top+boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->height/2);
-            boss->getCurrentGun()->update(newBoss,angleBoss /*boss->getAngle()*/);
+            boss->getCurrentGun()->update(newBoss,boss->getAngle());
         }
         /*Comprueba colisiones*/
         for(int i = 0; i < enemys->size(); i++){
