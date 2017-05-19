@@ -9,7 +9,7 @@
 #include "NPC.h"
 #include "Map.h"
 #include "Gun.h"
-#include "Crystals.h"
+#include "Crystal.h"
 #include "libs/json.hpp"
 
 using json = nlohmann::json;
@@ -21,12 +21,11 @@ class Level {
         //Player se carga en levelState 
         int level;
         int enemigosCaidos;
-        int disNpcPlayer;
         int actualRespawn;
         bool muestra = false;
         bool showText = false;
         //Comprobar si el npc se tiene que mover
-        bool moverse = false;
+        bool npcMove = false;
         //Que el muro se mantenga
         bool sinSalida = true;
         //Iniciar musica jefe
@@ -34,55 +33,53 @@ class Level {
 
         bool showIterationNpc;
 
-
-        Text *keyIterationNpc;
+        HUD *hud;
+        Player *rath;
         Map *map;
-        Note *note;
         Boss *boss;
-        NPC *npc;
+        Trigonometry *tri;
+        Text *keyIterationNpc;
         Entity *fuego;
         Entity *fuego2;
-        Trigonometry *tri;
 
-        Gun *gun;
-        Crystals *crystal;
         std::vector<Coordinate*> *respawn;
         std::vector<Enemy*> *enemys;
-        
-        sf::RectangleShape *rectan;
+        std::vector<Note*> *notes;
+        std::vector<NPC*> *npcs;
+        std::vector<Crystal*> *crystals;
     public:
 
-        Level(int numLevel);
+        Level(Player* r, HUD* h);
         virtual ~Level();
 
-        void Init();
+        void Init(int numLevel);
 
-        void Input(Player* rath, HUD* hud);
+        void Input();
 
-        void Update(Player* rath, HUD* hud);
+        void Update();
 
         void Render();
         
+        void CleanUp();
+        
         void setRespawn(int resp);
         void setMuestra(bool booleano) {muestra=booleano;};
-        void setMoverse(bool booleano) {moverse=booleano;};
+        void setNpcMove(bool booleano) {npcMove=booleano;};
         void setSinSalida(bool booleano) {sinSalida=booleano;};
-        void setDisNpcPlayer(int dis){disNpcPlayer = dis;}
         void setPlay(bool booleano) {play=booleano;};
 
         std::vector<Enemy*> *getEnemys(){return enemys;}
-        Crystals *getCrystal(){return crystal;}
+        /*Crystal *getCrystal(){return crystal;}
+        Note* getNote() {return note;}
+        NPC* getNPC() {return npc;}*/
         Boss *getBoss(){return boss;}
         Coordinate* getRespawn(){ return respawn->at(actualRespawn);}
         Map* getMap(){ return map; }
-        Note* getNote() {return note;}
-        NPC* getNPC() {return npc;}
         Text *getKeyIterationNpc(){return keyIterationNpc;}
         Trigonometry *getTrignometry(){return tri;}
-        int getDisNpcPlayer(){return disNpcPlayer;}
         bool getMuestra() {return muestra;};
         bool getShowText() {return showText;}
-        bool getMoverse(){return moverse;}
+        bool getNpcMove(){return npcMove;}
         bool getSinSalida(){return sinSalida;}
         bool getShowIterationNpc(){return showIterationNpc;}
 };
