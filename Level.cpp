@@ -172,10 +172,7 @@ void Level::Init(){
             }
         }
     }
-    
-    rectan = new sf::RectangleShape();
-    rectan->setSize(sf::Vector2f(boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->width, boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->height));
-    
+        
     //Si estamos en el primer nivel
     if(level==1){
         
@@ -265,7 +262,6 @@ void Level::Update(Player* rath, HUD* hud){
             boss->setPosition(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
         }
     }
-    rectan->setPosition(boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->left,boss->getCurrentGun()->getBullet()->getHitbox()->hitbox->top);
 
     if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
         rath->damage(boss->getCurrentGun()->getBullet()->getDamage());
@@ -385,8 +381,6 @@ void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo
     }
     Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());
 
-
-    Game::Instance()->window->draw(*rectan);
 }
 
 void Level::setRespawn(int resp){
