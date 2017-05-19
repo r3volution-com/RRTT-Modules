@@ -67,6 +67,8 @@ class Level {
         void setPlay(bool booleano) {play=booleano;}
         void setSinSalida(bool booleano) {sinSalida=booleano;}
 
+        int colision(Hitbox *hitbox);
+
         std::vector<Enemy*> *getEnemys(){return enemys;}
         Boss *getBoss(){return boss;}
         Map* getMap(){ return map; }

@@ -74,12 +74,6 @@ class Map {
         void dibujarMapa(sf::RenderWindow *window);
         
         /**
-         * Accede a la capa de objetos y verifica si estos colisionan con el jugador o no
-         * @param hitbox: hitbox a checkear: 
-         */
-        
-        int colision(Hitbox *hitbox);
-        /**
          * Accede al gid del tile en el que se encuentre el enemigo
          * @param enemy: Enemigo en el gid
          * @param id1: Id del jugador
@@ -90,6 +84,7 @@ class Map {
         
         
         Hitbox *getColHitbox(int i){return muros->at(i);}
+        std::vector<Hitbox*> *getMuros(){return muros;}
 };
 
 #endif /* MAP_H */

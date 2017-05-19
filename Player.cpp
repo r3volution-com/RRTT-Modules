@@ -105,7 +105,7 @@ void Player::move(float xDir, float yDir){
             float xSpeed = xDir*getSpeed();
             float ySpeed = yDir*getSpeed();
             Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
-            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
+            int collision = Game::Instance()->getLevelState()->getLevel()->colision(&next);
             if(collision != -1){
                 Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
                 xDir = resolver.x;
@@ -238,7 +238,7 @@ void Player::flash(){
             float xSpeed = xDir*getSpeed()*flashRange;
             float ySpeed = yDir*getSpeed()*flashRange;
             Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
-            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
+            int collision = Game::Instance()->getLevelState()->getLevel()->colision(&next);
             /*if(collision != -1){
                 Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
                 xDir = resolver.x;

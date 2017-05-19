@@ -435,3 +435,12 @@ void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo
     }
     Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());
 }
+
+int Level::colision(Hitbox *hitbox){
+    for(int i = 0; i < map->getMuros()->size(); i++){
+        if(hitbox->checkCollision(map->getMuros()->at(i))){
+            return i;
+        }
+    }
+    return -1;
+}
