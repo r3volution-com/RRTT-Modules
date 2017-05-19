@@ -141,7 +141,7 @@ void LevelState::Init(){
      
     /*****LEVEL*****/
     /*Creamos el nivel*/
-    level = new Level(rath, hud);
+    level = new Level(rath, hud); 
     //Y lo iniciamos
     level->Init(1);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
