@@ -73,7 +73,7 @@ void LevelState::Init(){
     rath->setMaxHP(150);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
-    //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
+    rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     wep->setDamage(10);
@@ -86,8 +86,8 @@ void LevelState::Init(){
     gunArm->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
-    gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-    gunArm->setDamage(1);
+    gunArm->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
+    gunArm->getAnimation()->setOrigin(Coordinate(56,38));
     
     Bullet *bull = new Bullet(Coordinate(0,0), Coordinate(128, 128), 2);
     bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
