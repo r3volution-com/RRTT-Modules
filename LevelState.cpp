@@ -229,7 +229,6 @@ void LevelState::Input(){
         //Pausar la partida si rath muere
         if (rath->isDead()) {
             hud->playerDie();
-            level->setSinSalida(true); //Fuego
             paused = true;
         }
     } else {
@@ -266,7 +265,7 @@ void LevelState::Input(){
                 hud->changeLifePlayer(rath->getHP());
                 hud->changeLifeBoss(level->getBoss()->getHP());
                 
-                Game::Instance()->getLevelState()->getLevel()->setSinSalida(true);
+                level->setBossZone(false);
                 
                 rath->respawn(); 
                 paused = false;
@@ -304,8 +303,6 @@ void LevelState::Render(){
         rath->attackDone();
     
     if (rath->getWeapon()->isAttacking()) Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
-    
-    
     
     /*Set Default View*/
     Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
