@@ -1,6 +1,10 @@
 {
 	"map": "resources/MAPAPABLO.tmx",
         "tileset": "resources/TILESET.png",
+        "spawn_points": [
+            {"x": 5500, "y": 14250},
+            {"x": 3200, "y": 7000}
+        ],
 	"resources": [
 		{
 			"name": "enemy",
