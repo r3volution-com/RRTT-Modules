@@ -10,19 +10,13 @@
 #include "Map.h"
 #include "Gun.h"
 #include "Crystal.h"
+#include "Obstacle.h"
 #include "libs/json.hpp"
 
 using json = nlohmann::json;
 
 class Level {
     private:
-        //Que el muro se mantenga
-        bool sinSalida = true;
-        //Iniciar musica jefe
-        bool play = false;
-        Entity *fuego;
-        Entity *fuego2;
-        
         //Json
         json j;
 
@@ -35,7 +29,11 @@ class Level {
         bool showNPCText;
         bool showNoteText;
         bool paused;
+        bool bossZone;
+        //Iniciar musica jefe
+        bool play = false;
         
+
         //Objetos
         HUD *hud;
         Player *rath;
@@ -43,13 +41,14 @@ class Level {
         Boss *boss;
         Trigonometry *tri;
         Text *keyIterationNpc;
-
         //Vectores
         std::vector<Coordinate*> *respawn;
         std::vector<Enemy*> *enemys;
         std::vector<Note*> *notes;
         std::vector<NPC*> *npcs;
         std::vector<Crystal*> *crystals;
+        std::vector<Obstacle*> *preObstacles;
+        std::vector<Obstacle*> *postObstacles;
     public:
         Level(Player* r, HUD* h);
         virtual ~Level();
@@ -65,7 +64,9 @@ class Level {
         void CleanUp();
         
         void setPlay(bool booleano) {play=booleano;}
-        void setSinSalida(bool booleano) {sinSalida=booleano;}
+        void setBossZone(bool b) { bossZone = b; }
+        
+        Coordinate* getRespawn(){ return respawn->at(actualRespawn);}
 
         int colision(Hitbox *hitbox);
 
@@ -73,8 +74,6 @@ class Level {
         Boss *getBoss(){return boss;}
         Map* getMap(){ return map; }
         Trigonometry *getTrignometry(){return tri;}
-        Coordinate* getRespawn(){ return respawn->at(actualRespawn);}
-        bool getSinSalida(){return sinSalida;}
 };
 
 #endif /* LEVEL_H */

@@ -47,7 +47,7 @@ void Boss::addGun(Gun* gun){
 }
 
 bool Boss::changeGun(int gun){
-    if (gun >= 0 && gun < guns->size() && currentGun > -1){
+    if (gun >= 0 && gun < guns->size() && currentGun > -1 && gun != currentGun){
         guns->at(currentGun)->setActive();
         currentGun = gun;
         guns->at(currentGun)->setActive();
@@ -314,6 +314,18 @@ void Boss::AI(Player* rath, HUD* hud){
             Entity::setSpeed(Enemy::getInitialSpeed() * 1.5);
             move(dir.x,dir.y);
             Enemy::setDmgHit(Enemy::getInitialDmg() * 1.5);
+        }else if(state == 5){
+            if(getCurrentGun()->getGunCooldown()->isExpired()){
+                srand (time(NULL));
+                int num = rand() % 2;
+                if(currentGun != num){
+                    changeGun(num);
+                }
+                Boss::gunAttack();
+                Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
+            }
+            
+            
         }
     }else{
         state = 0;
