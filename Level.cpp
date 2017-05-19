@@ -464,11 +464,21 @@ void Level::Render(){
     }
 }
 
-int Level::colision(Hitbox *hitbox){
+Hitbox *Level::colision(Hitbox *hitbox){
     for(int i = 0; i < map->getMuros()->size(); i++){
         if(hitbox->checkCollision(map->getMuros()->at(i))){
-            return i;
+            return map->getMuros()->at(i);
         }
     }
-    return -1;
+    for(int i=0; i<preObstacles->size(); i++){
+        if(preObstacles->at(i)->getActive() && hitbox->checkCollision(preObstacles->at(i)->getHitbox())){
+            return preObstacles->at(i)->getHitbox();
+        }
+    }
+    for (int i=0; i<postObstacles->size(); i++){
+        if(postObstacles->at(i)->getActive() && hitbox->checkCollision(postObstacles->at(i)->getHitbox())){
+            return postObstacles->at(i)->getHitbox();
+        }
+    }
+    return NULL;
 }
