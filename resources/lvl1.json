@@ -120,18 +120,18 @@
 	"boss": {
 		"position": {"x": 5200, "y": 14250},
 		"size": {"w": 128, "h": 128},
-		"speed": 20,
+		"speed": 25,
 		"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-		"hp": 900,
+		"hp": 800,
 		"distanceToHome": 2000,
 		"distanceToPlayer": 1500,
-		"damage": 15,
+		"damage": 20,
 		"hitCooldown": 1,
-		"flashRange": 8, 
+		"flashRange": 10, 
 		"flashCooldown": 0.5,
 		"changeStateTimer": 20,
 		"nStates": 10,
-		"states": {"from": 3, "to": 3},
+		"states": {"from": 2, "to": 4},
 		"guns": [
 			{
 				"cooldown": 0,
@@ -140,14 +140,14 @@
 					"size": {"w": 128, "h": 128},
                                         "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
                                         "type": 1,
-					"damage": 3,
+					"damage": 5,
 					"duration": 2,
 					"animations": [
 						{
 							"name": "idle",
 							"position": {"x": 0, "y": 0},
 							"nSprites": 3,
-							"duration": 1
+							"duration": 0.3
 						}
 					]
 				}

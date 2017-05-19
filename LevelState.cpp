@@ -122,7 +122,6 @@ void LevelState::Init(){
     hud->addGun(Coordinate(20, 20), Rect<float>(85,0,82,85), Rect<float>(85,0,82,82), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(5,200,200,20));
-    hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     hud->setFlash(Coordinate(20, 110), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
     hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(511, 925, 200, 64));
     
@@ -142,6 +141,8 @@ void LevelState::Init(){
     level = new Level(rath, hud);
     //Y lo iniciamos
     level->Init(1);
+    hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
+    std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }
 
 void LevelState::Update(){
