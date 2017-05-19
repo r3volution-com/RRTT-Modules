@@ -117,36 +117,36 @@
 		}
 	],
 	"boss": {
-		"position": {"x": 5200, "y": 14250},
+		"position": {"x": 3500, "y": 3900},
 		"size": {"w": 128, "h": 128},
-		"speed": 25,
+		"speed": 20,
 		"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-		"hp": 800,
+		"hp": 500,
 		"distanceToHome": 2000,
 		"distanceToPlayer": 1500,
-		"damage": 20,
+		"damage": 15,
 		"hitCooldown": 1,
-		"flashRange": 10, 
+		"flashRange": 8, 
 		"flashCooldown": 0.5,
 		"changeStateTimer": 20,
 		"nStates": 10,
-		"states": {"from": 2, "to": 4},
+		"states": {"from": 1, "to": 2},
 		"guns": [
 			{
-				"cooldown": 0,
-				"sprite": {"texture": "rayo", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+				"cooldown": 3,
+				"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
 				"bullet": {
 					"size": {"w": 128, "h": 128},
-                                        "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
+                                        "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
                                         "type": 1,
-					"damage": 5,
+					"damage": 3,
 					"duration": 2,
 					"animations": [
 						{
 							"name": "idle",
-							"position": {"x": 0, "y": 0},
-							"nSprites": 3,
-							"duration": 0.3
+							"position": {"x": 0, "y": 512},
+							"nSprites": 2,
+							"duration": 0.5
 						}
 					]
 				}
