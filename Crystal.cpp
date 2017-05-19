@@ -1,29 +1,29 @@
-#include "Crystals.h"
+#include "Crystal.h"
 #include <iostream>
 
-Crystals::Crystals(Texture *tex, Rect<float> rect) {
+Crystal::Crystal(Texture *tex, Rect<float> rect) {
     hitbox = new Hitbox(0, 0, rect.w, rect.h);
     
     sprite = new Sprite(tex, rect);
     touched = false;
 }
 
-Crystals::~Crystals() {
+Crystal::~Crystal() {
     delete hitbox;
     delete sprite;
     hitbox = NULL;
     sprite = NULL;
 }
 
-void Crystals::setPosition(Coordinate pos){
+void Crystal::setPosition(Coordinate pos){
     sprite->setPosition(pos);
     hitbox->setPosition(pos);
 }
 
-void Crystals::setTouched(){
+void Crystal::setTouched(){
     touched = true;
 }
 
-bool Crystals::collision(Hitbox *other){
+bool Crystal::collision(Hitbox *other){
     return hitbox->checkCollision(other);
 }

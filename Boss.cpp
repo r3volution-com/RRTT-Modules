@@ -273,7 +273,7 @@ void Boss::AI(Player* rath, HUD* hud){
         }
     }
     
-    if(onRange == true && distance >= 100){
+    if(onRange == true && distance >= 80){
         
         Boss::setDmgHit(Boss::getInitialDmg());
         Entity::setSpeed(Boss::getInitialSpeed());
@@ -306,11 +306,13 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
             }
         }else if(state == 3){
-            if(!Boss::isAttacking() && Boss::getCurrentGun()->getGunCooldown()->isExpired()){
+            Entity::setSpeed(Boss::getInitialSpeed() * 0.5);
+            move(dir.x,dir.y);
+            if(!Boss::getHitbox()->checkCollision(rath->getHitbox())){
                 Boss::gunAttack();
                 Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
-                angle += 5;
-            }            
+                angle += 15;
+            }        
         }else if(state == 4){
             Entity::setSpeed(Enemy::getInitialSpeed() * 1.5);
             move(dir.x,dir.y);

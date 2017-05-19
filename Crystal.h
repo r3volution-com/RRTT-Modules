@@ -7,7 +7,7 @@
 #include "libs/Sprite.h"
 #include "Player.h"
 
-class Crystals {
+class Crystal {
 private:
     Hitbox *hitbox;
     Sprite *sprite;
@@ -18,8 +18,8 @@ public:
      * @param tex: Textura del cristal
      * @param rect: Zona en la que se va a imprimir el cristal
      */
-    Crystals(Texture *tex, Rect<float> rect);
-    virtual ~Crystals();
+    Crystal(Texture *tex, Rect<float> rect);
+    virtual ~Crystal();
     
     /**
      * Actualiza la posicion del cristal
