@@ -46,36 +46,41 @@ void Level::Init(int numLevel){
         game->rM->loadTexture(j["resources"].at(i)["name"].get<std::string>(), j["resources"].at(i)["path"].get<std::string>().c_str());
     }
     
-    //Cargamos los spawns
-    for (int i=0; i<j["spawn_points"].size(); i++){
-        respawn->push_back(new Coordinate(j["spawn_points"].at(i)["x"], j["spawn_points"].at(i)["y"]));
-    }
-    
     //Cargamos el mapa
     map = new Map(j["map"].get<std::string>().c_str(), j["tileset"].get<std::string>().c_str());
     
-    //Cargamos los enemigos
-    for (int i=0; i<j["enemys"].size(); i++){
-        Enemy *enemy = new Enemy(Coordinate(j["enemys"].at(i)["position"]["x"],j["enemys"].at(i)["position"]["y"]), 
-                Coordinate(j["enemys"].at(i)["size"]["w"], j["enemys"].at(i)["size"]["h"]), j["enemys"].at(i)["speed"]);
-        enemy->setType(j["enemys"].at(i)["type"]);
-        enemy->setAnimations(game->rM->getTexture(j["enemys"].at(i)["sprite"]["texture"].get<std::string>()), 
-                Rect<float>(j["enemys"].at(i)["sprite"]["rect"]["x"],j["enemys"].at(i)["sprite"]["rect"]["y"], j["enemys"].at(i)["sprite"]["rect"]["w"], j["enemys"].at(i)["sprite"]["rect"]["h"]));
-        enemy->setMaxHP(j["enemys"].at(i)["hp"]);
-        enemy->setDistanceEnemyHome(j["enemys"].at(i)["distanceToHome"]);
-        enemy->setDistancePlayerEnemy(j["enemys"].at(i)["distanceToPlayer"]);
-        enemy->setInitialDmg(j["enemys"].at(i)["damage"]);
-        enemy->setHitCooldown(new Time(j["enemys"].at(i)["hitCooldown"].get<float>()));
-        if (j["enemys"].at(i)["bleed"] == true) enemy->setBlood(game->rM->getTexture("sangre"));
-        
-        if (j["enemys"].at(i)["type"] == 2){
-            enemy->SetFlashRange(j["enemys"].at(i)["extra"]["flashRange"]);
-            enemy->setFlashCooldown(new Time(j["enemys"].at(i)["extra"]["flashCooldown"].get<float>()));
-        } else if (j["enemys"].at(i)["type"] == 3){
-            enemy->setFreeze(j["enemys"].at(i)["extra"]["freeze"]);
+    //Cargamos los spawns
+    if (j.find("spawn_points") != j.end()) {
+        for (int i=0; i<j["spawn_points"].size(); i++){
+            respawn->push_back(new Coordinate(j["spawn_points"].at(i)["x"], j["spawn_points"].at(i)["y"]));
         }
-        
-        enemys->push_back(enemy);
+        rath->setPosition(*getRespawn()); 
+    }
+    
+    //Cargamos los enemigos
+    if (j.find("enemys") != j.end()) {
+        for (int i=0; i<j["enemys"].size(); i++){
+            Enemy *enemy = new Enemy(Coordinate(j["enemys"].at(i)["position"]["x"],j["enemys"].at(i)["position"]["y"]), 
+                    Coordinate(j["enemys"].at(i)["size"]["w"], j["enemys"].at(i)["size"]["h"]), j["enemys"].at(i)["speed"]);
+            enemy->setType(j["enemys"].at(i)["type"]);
+            enemy->setAnimations(game->rM->getTexture(j["enemys"].at(i)["sprite"]["texture"].get<std::string>()), 
+                    Rect<float>(j["enemys"].at(i)["sprite"]["rect"]["x"],j["enemys"].at(i)["sprite"]["rect"]["y"], j["enemys"].at(i)["sprite"]["rect"]["w"], j["enemys"].at(i)["sprite"]["rect"]["h"]));
+            enemy->setMaxHP(j["enemys"].at(i)["hp"]);
+            enemy->setDistanceEnemyHome(j["enemys"].at(i)["distanceToHome"]);
+            enemy->setDistancePlayerEnemy(j["enemys"].at(i)["distanceToPlayer"]);
+            enemy->setInitialDmg(j["enemys"].at(i)["damage"]);
+            enemy->setHitCooldown(new Time(j["enemys"].at(i)["hitCooldown"].get<float>()));
+            if (j["enemys"].at(i)["bleed"] == true) enemy->setBlood(game->rM->getTexture("sangre"));
+
+            if (j["enemys"].at(i)["type"] == 2){
+                enemy->SetFlashRange(j["enemys"].at(i)["extra"]["flashRange"]);
+                enemy->setFlashCooldown(new Time(j["enemys"].at(i)["extra"]["flashCooldown"].get<float>()));
+            } else if (j["enemys"].at(i)["type"] == 3){
+                enemy->setFreeze(j["enemys"].at(i)["extra"]["freeze"]);
+            }
+
+            enemys->push_back(enemy);
+        }
     }
     
     //Cargamos el jefe
