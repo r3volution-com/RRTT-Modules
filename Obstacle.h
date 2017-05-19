@@ -1,27 +1,47 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   Obstacle.h
- * Author: mario
- *
- * Created on 18 de mayo de 2017, 17:48
- */
-
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 
-class Obstacle {
-public:
-    Obstacle();
-    Obstacle(const Obstacle& orig);
-    virtual ~Obstacle();
-private:
+#include "libs/Hitbox.h"
+#include "libs/Animation.h"
 
+class Obstacle {
+    private:
+        Hitbox *hitbox;
+        Animation *anim;
+        Coordinate *initial;
+        
+        bool active;
+    public:
+        /**
+         * 
+         * @param position
+         * @param s
+         * @param t
+         * @param newRect
+         */
+        Obstacle(Coordinate position, Coordinate s, Texture *t, Rect<float> newRect);
+        virtual ~Obstacle();
+        
+        /**
+         * Actualiza la posicion de la entidad
+         * @param newCoor: Nueva coordenada de posicion
+         */
+        void setPosition(Coordinate newCoor);
+        /**
+         * Actualiza la posicion de la entidad
+         * @param x: Coordenada X de la posicion
+         * @param y: Coordenada Y de la posicion
+         */
+        void setPosition(float x, float y);
+        /**
+         * 
+         * @param a
+         */
+        void setActive(bool a) { active = a; }
+        
+        Hitbox *getHitbox() { return hitbox; }
+        Animation *getAnimation(){ return anim; }
+        bool getActive() { return active; }
 };
 
 #endif /* OBSTACLE_H */
-

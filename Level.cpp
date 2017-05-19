@@ -12,6 +12,8 @@ Level::Level(Player* r, HUD* h) {
     npcs = new std::vector<NPC*>();
     notes = new std::vector<Note*>();
     crystals = new std::vector<Crystal*>();
+    preObstacles = new std::vector<Obstacle*>();
+    postObstacles = new std::vector<Obstacle*>();
     tri = new Trigonometry();
     
     //Inicializamos variables
@@ -21,10 +23,11 @@ Level::Level(Player* r, HUD* h) {
     paused = false;
     showNPCText = false;
     showNoteText = false;
+    bossZone = false;
 }
 
 Level::~Level(){
-    //En cleanup
+    //ToDo: Borrar tri y los vectores
 }
 
 void Level::Init(int numLevel){
@@ -189,20 +192,33 @@ void Level::Init(int numLevel){
         keyIterationNpc->setTextStyle(sf::Color::Black, 25);
         keyIterationNpc->setOutlineStyle(sf::Color::White, 1);
     }
-
-    //Si estamos en el primer nivel
-    if(level==1){
-        fuego = new Entity(Coordinate(2500,5800), Coordinate(1280, 384), 0);
-        fuego->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,525,1280,384));
-        fuego->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
-        fuego->getAnimation()->initAnimator();
-        fuego->getAnimation()->changeAnimation("idle", false);
-        
-        fuego2 = new Entity(Coordinate(3425,2000), Coordinate(1280, 384), 0);
-        fuego2->setSprite(game->rM->getTexture("gui-tileset"), Rect<float>(0,525,1280,384));
-        fuego2->getAnimation()->addAnimation("idle", Coordinate(0,0), 4, 1.0f);
-        fuego2->getAnimation()->initAnimator();
-        fuego2->getAnimation()->changeAnimation("idle", false);  
+    
+    //Cargamos obstaculos anteriores a la zona del jefe
+    if (j.find("preBossObstacles") != j.end()) {
+        for (int i=0; i<j["preBossObstacles"].size(); i++){
+            Obstacle *o = new Obstacle(
+                    Coordinate(j["preBossObstacles"].at(i)["position"]["x"],j["preBossObstacles"].at(i)["position"]["y"]), 
+                    Coordinate(j["preBossObstacles"].at(i)["size"]["w"], j["preBossObstacles"].at(i)["size"]["h"]),
+                    game->rM->getTexture(j["preBossObstacles"].at(i)["sprite"]["texture"]), 
+                    Rect<float>(j["preBossObstacles"].at(i)["sprite"]["rect"]["x"],j["preBossObstacles"].at(i)["sprite"]["rect"]["y"],j["preBossObstacles"].at(i)["sprite"]["rect"]["w"],j["preBossObstacles"].at(i)["sprite"]["rect"]["h"]));
+            o->setActive(true);
+            
+            preObstacles->push_back(o);
+        }
+    }
+    
+    //Cargamos obstaculos posteriores a la zona del jefe
+    if (j.find("postBossObstacles") != j.end()) {
+        for (int i=0; i<j["postBossObstacles"].size(); i++){
+            Obstacle *o = new Obstacle(
+                    Coordinate(j["postBossObstacles"].at(i)["position"]["x"],j["postBossObstacles"].at(i)["position"]["y"]), 
+                    Coordinate(j["postBossObstacles"].at(i)["size"]["w"], j["postBossObstacles"].at(i)["size"]["h"]),
+                    game->rM->getTexture(j["postBossObstacles"].at(i)["sprite"]["texture"]), 
+                    Rect<float>(j["postBossObstacles"].at(i)["sprite"]["rect"]["x"],j["postBossObstacles"].at(i)["sprite"]["rect"]["y"],j["postBossObstacles"].at(i)["sprite"]["rect"]["w"],j["postBossObstacles"].at(i)["sprite"]["rect"]["h"]));
+            o->setActive(true);
+            
+            postObstacles->push_back(o);
+        }
     }
 }
 
@@ -282,6 +298,27 @@ void Level::Update(){
                 else npcs->at(i)->setInRange(false);
             }
         }
+        //PreBossObstacles
+        if (j.find("preBossObstacles") != j.end()) {
+            if(rath->getCoordinate()->y < 5700){
+                bossZone = true;
+                play = true;
+            } else {
+                bossZone = false;
+                play = false;
+            }
+            if (enemigosCaidos == enemys->size()){
+                if (bossZone) {
+                    for (int i=0; i<preObstacles->size(); i++){
+                        preObstacles->at(i)->setActive(true);
+                    }
+                } else {
+                    for (int i=0; i<preObstacles->size(); i++){
+                        preObstacles->at(i)->setActive(false);
+                    }
+                }
+            }
+        }
         /*Musica del boss*/
         if(play==true){
            Game::Instance()->rM->getMusic("boss")->getMusic()->play();
@@ -302,55 +339,51 @@ void Level::Update(){
         }
     }
     
-    /* Colisiones con fuego*/
-    if(rath->collision(fuego->getHitbox()) && enemigosCaidos < enemys->size()){
-        rath->move(0,1);
-    }else if(rath->collision(fuego->getHitbox()) && enemigosCaidos >= enemys->size() && sinSalida==false){
-        rath->move(0,-1);
-    }
-    if(rath->collision(fuego2->getHitbox())){
-        rath->move(0,1);
-    }
 }
 
 void Level::Input(){
-    if(Game::Instance()->iM->isActive("interact")){
-        //NPCs
-        if (j.find("npcs") != j.end()) {
-            for (int i=0; i<npcs->size(); i++){
-                if (npcs->at(i)->getRange()){
-                    if(npcs->at(i)->nextSentence()){
-                        showNPCText = true;
-                        //Posicionamos el nombre del npc
-                        hud->setTLayerTalker(npcs->at(i)->getName(), 1125, 435); 
-                        //Posicionamos lo que va a decir el npc
-                        hud->setTLayerText(npcs->at(i)->getCurrentSentenceText(), npcs->at(i)->getCurrentSentencePosition()->x, npcs->at(i)->getCurrentSentencePosition()->y); 
-                    }else{
-                        showNPCText = false;
-                        npcMoving = i;
-                        paused = true;
-                        Game::Instance()->getLevelState()->setPaused(true);
+    if (!paused){
+        if(Game::Instance()->iM->isActive("interact")){
+            //NPCs
+            if (j.find("npcs") != j.end()) {
+                for (int i=0; i<npcs->size(); i++){
+                    if (npcs->at(i)->getRange()){
+                        if(npcs->at(i)->nextSentence()){
+                            showNPCText = true;
+                            //Posicionamos el nombre del npc
+                            hud->setTLayerTalker(npcs->at(i)->getName(), 1125, 435); 
+                            //Posicionamos lo que va a decir el npc
+                            hud->setTLayerText(npcs->at(i)->getCurrentSentenceText(), npcs->at(i)->getCurrentSentencePosition()->x, npcs->at(i)->getCurrentSentencePosition()->y); 
+                        }else{
+                            showNPCText = false;
+                            npcMoving = i;
+                            paused = true;
+                            Game::Instance()->getLevelState()->setPaused(true);
+                        }
+                    }
+                }
+            }
+            //NOTAS
+            if (j.find("notes") != j.end()) {
+                for (int i=0; i<notes->size(); i++){
+                    if(rath->collision(notes->at(i)->getHitbox())){
+                        if (!showNoteText && !notes->at(i)->getTaken()){
+                            showNoteText = true;
+                            notes->at(i)->setTaken();
+                        } else {
+                            showNoteText = false;
+                        }
                     }
                 }
             }
         }
-        //NOTAS
-        if (j.find("notes") != j.end()) {
-            for (int i=0; i<notes->size(); i++){
-                if(rath->collision(notes->at(i)->getHitbox())){
-                    if (!showNoteText && !notes->at(i)->getTaken()){
-                        showNoteText = true;
-                        notes->at(i)->setTaken();
-                    } else {
-                        showNoteText = false;
-                    }
-                }
-            }
-        }
+    } else {
+        //Si no esta pausado
     }
 }
 
-void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo se muestren las cosas que esten a menos de X distancia de nosotros
+void Level::Render(){
+    //ToDo: Para subir los FPS quizas podriamos hacer que solo se muestren las cosas que esten a menos de X distancia de nosotros
     //Dibujamos todos los elementos
     map->dibujarMapa(Game::Instance()->window);
     
@@ -418,15 +451,11 @@ void Level::Render(){ //ToDo: Para subir los FPS quizas podriamos hacer que solo
     boss->getAnimation()->updateAnimator();
     Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     
-    /* MURO FUEGO */
-    if(enemigosCaidos < enemys->size()){
-        Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
-    }else if(sinSalida == false){
-        Game::Instance()->rM->getMusic("Main")->getMusic()->stop();
-        Game::Instance()->window->draw(*fuego->getAnimation()->getSprite());
-    }else if(Game::Instance()->getLevelState()->getRath()->getCoordinate()->y < 5700){
-        sinSalida = false;
-        play = true;
+    /* MURO Jefe */
+    for (int i=0; i<preObstacles->size(); i++){
+        if (preObstacles->at(i)->getActive()) Game::Instance()->window->draw(*preObstacles->at(i)->getAnimation()->getSprite());
     }
-    Game::Instance()->window->draw(*fuego2->getAnimation()->getSprite());
+    for (int i=0; i<postObstacles->size(); i++){
+        if (postObstacles->at(i)->getActive()) Game::Instance()->window->draw(*postObstacles->at(i)->getAnimation()->getSprite());
+    }
 }

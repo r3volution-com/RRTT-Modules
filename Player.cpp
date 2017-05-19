@@ -238,13 +238,8 @@ void Player::flash(){
             float xSpeed = xDir*getSpeed()*flashRange;
             float ySpeed = yDir*getSpeed()*flashRange;
             Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
-            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
-            /*if(collision != -1){
-                Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
-                xDir = resolver.x;
-                yDir = resolver.y;
-            }*/
-            if (collision == -1){
+            int wallCollision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
+            if (wallCollision == -1){
                 Entity::move(xDir*flashRange, yDir*flashRange);
                 flashCooldown->restart(flashTime);
             }
