@@ -21,7 +21,7 @@
 	],
 	"enemys": [
 		{
-			"type": 3,
+			"type": 1,
 			"position": {"x": 3500, "y": 8000},
 			"size": {"w": 128, "h": 128},
 			"speed": 20,
@@ -31,8 +31,7 @@
 			"distanceToPlayer": 700,
 			"damage": 6,
 			"hitCooldown": 0.5,
-			"bleed": true,
-			"extra": {"freeze": 22}
+			"bleed": true
 		},
 		{
 			"type": 2,
@@ -90,7 +89,7 @@
 			"bleed": true
 		},
 		{	
-			"type": 3,
+			"type": 2,
 			"position": {"x": 3250, "y": 7700},
 			"size": {"w": 128, "h": 128},
 			"speed": 20,
@@ -101,7 +100,7 @@
 			"damage": 4,
 			"hitCooldown": 0.5,
 			"bleed": true,
-			"extra": {"freeze": 18}
+			"extra": {"flashRange": 10, "flashCooldown": 2}
 		},
 		{
 			"type": 1,

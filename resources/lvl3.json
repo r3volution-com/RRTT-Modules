@@ -1,5 +1,5 @@
 {
-	"map": "resources/Boss.tmx",
+	"map": "resources/mountain.tmx",
         "tileset": "resources/TilesetBoss5.png",
 	"resources": [
 		{
