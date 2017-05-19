@@ -64,7 +64,7 @@ void LevelState::Init(){
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(5500,14250), Coordinate(40, 100), 40);
+    rath = new Player(Coordinate(3950,14250), Coordinate(40, 100), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(350);
     rath->setFlashCooldown(2);
@@ -114,8 +114,8 @@ void LevelState::Init(){
     
     rath->addGun(gunArm);
     rath->changeGun(0);
-    rath->setPosition(Coordinate(5500, 14250));
-    
+    rath->setPosition(Coordinate(3950, 14250));
+      
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud-spritesheet"), 
             Rect<float>(1,200,205,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
@@ -138,7 +138,7 @@ void LevelState::Init(){
      
     /*****LEVEL*****/
     /*Creamos el nivel*/
-    level = new Level(rath, hud);
+    level = new Level(rath, hud); 
     //Y lo iniciamos
     level->Init(1);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
@@ -146,15 +146,12 @@ void LevelState::Init(){
 }
 
 void LevelState::Update(){
-    if (level->getNpcMove()) paused = false;
-    else paused = false;
     if (!paused){
-        level->Update();
+        if(rath->getDmgOnPlayer()->getTime() > 0){
+            Game::Instance()->rM->getSound("damage")->getSound()->play();
+        }
     }
-    
-    if(rath->getDmgOnPlayer()->getTime() > 0){
-        Game::Instance()->rM->getSound("damage")->getSound()->play();
-    }
+    level->Update();
 }
 
 void LevelState::Input(){
@@ -214,7 +211,6 @@ void LevelState::Input(){
         //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
         if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking() 
             && (rath->getCurrentGun()->getGunCooldown()->getTime()==5 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)){
-            //cout << rath->getCurrentGun()->getGunCooldown()->getTime() << endl;
             Game::Instance()->rM->getSound("fire")->getSound()->play();
             hud->resetClockGuns();
             rath->gunAttack();
@@ -230,12 +226,10 @@ void LevelState::Input(){
             hud->resetClockFlash();
             rath->flash();
         }
-        
-        level->Input();
-     
+        //Pausar la partida si rath muere
         if (rath->isDead()) {
             hud->playerDie();
-            level->setSinSalida(true);
+            level->setSinSalida(true); //Fuego
             paused = true;
         }
     } else {
@@ -279,6 +273,7 @@ void LevelState::Input(){
             }
         }
     }
+    level->Input();
 }
 
 void LevelState::Render(){

@@ -10,6 +10,8 @@ class NPC : public Entity {
         std::vector<std::string> *sentences;
         std::vector<Coordinate*> *sentencePosition;
         int currentSentence;
+        
+        bool inRange;
     public:
         /**
          * Crea el objeto npc
@@ -42,6 +44,10 @@ class NPC : public Entity {
          * @return 
          */
         bool nextSentence();
+        
+        void setInRange(bool b){ inRange = b; }
+        
+        bool getRange(){ return inRange; }
         std::string getName() { return name; };
         std::string getCurrentSentenceText();
         Coordinate *getCurrentSentencePosition();
