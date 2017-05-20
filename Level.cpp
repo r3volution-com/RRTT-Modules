@@ -17,10 +17,12 @@ Level::Level(Player* r, HUD* h) {
     tri = new Trigonometry();
     
     //Inicializamos variables
+    level = 0;
     enemigosCaidos = 0;
     actualRespawn = 0;
     npcMoving = -1;
     distanceToLock = 0;
+    seeBoss = false;
     paused = false;
     showNPCText = false;
     showNoteText = false;
@@ -506,4 +508,86 @@ Hitbox *Level::colision(Hitbox *hitbox){
         }
     }
     return NULL;
+}
+
+void Level::CleanUp(){
+    
+    //Recorremos los resources del JSON
+    for (int i=0; i<j["resources"].size(); i++){
+        Game::Instance()->rM->releaseTexture(j["resources"].at(i)["name"].get<std::string>());
+    }
+    
+    //Vaciar los vectores
+    for(int i=0; i < enemys->size(); i++){
+        delete enemys->at(i);
+        enemys->at(i) = NULL;
+    }
+    
+    enemys->clear();
+    
+    for(int i=0; i < respawn->size(); i++){
+        delete respawn->at(i);
+        respawn->at(i) = NULL;
+    }
+    
+    respawn->clear();
+    
+    for(int i=0; i < npcs->size(); i++){
+        delete npcs->at(i);
+        npcs->at(i) = NULL;
+    }
+    
+    npcs->clear();
+    
+    for(int i=0; i < notes->size(); i++){
+        delete notes->at(i);
+        notes->at(i) = NULL;
+    }
+    
+    notes->clear();
+    
+    for(int i=0; i < crystals->size(); i++){
+        delete crystals->at(i);
+        crystals->at(i) = NULL;
+    }
+    
+    crystals->clear();
+    
+    for(int i=0; i < preObstacles->size(); i++){
+        delete preObstacles->at(i);
+        preObstacles->at(i) = NULL;
+    }
+    
+    preObstacles->clear();
+    
+    for(int i=0; i < postObstacles->size(); i++){
+        delete postObstacles->at(i);
+        postObstacles->at(i) = NULL;
+    }
+    
+    postObstacles->clear();
+    
+    //Hacemos delete de los elementos de Level
+    delete map;
+    delete boss;
+    delete keyIterationNpc;
+    
+    map = NULL;
+    boss = NULL;
+    keyIterationNpc = NULL;
+    
+    //Reinicializamos las variables
+    level = 0;
+    enemigosCaidos = 0;
+    actualRespawn = 0;
+    npcMoving = -1;
+    distanceToLock = 0;
+    seeBoss = false;
+    showNPCText = false;
+    showNoteText = false;
+    paused = false;
+    bossZone = false;
+    //Iniciar musica jefe
+    play = false;
+    
 }
