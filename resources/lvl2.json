@@ -152,7 +152,7 @@
 	],
 	"boss": {
             "position": {"x": 3500, "y": 3000},
-            "size": {"w": 128, "h": 128},
+            "size": {"w": 40, "h": 100},
             "speed": 25,
             "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
             "hp": 800,
@@ -208,7 +208,7 @@
             {
                 "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
                 "position": {"x": 4500, "y": 13300},
-                "size": {"w": 128, "h": 128},
+                "size": {"w": 50, "h": 90},
                 "speed": 2,
                 "name": "Jose",
                 "animations": [

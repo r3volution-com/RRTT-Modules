@@ -119,7 +119,7 @@
 	],
 	"boss": {
 		"position": {"x": 5200, "y": 14250},
-		"size": {"w": 128, "h": 128},
+		"size": {"w": 40, "h": 100},
 		"speed": 20,
 		"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
 		"hp": 900,
