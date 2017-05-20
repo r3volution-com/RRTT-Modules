@@ -6,14 +6,7 @@ Level::Level(Player* r, HUD* h) {
     rath = r;
     hud = h;
     
-    //Inicializamos vectores
-    enemys = new std::vector<Enemy*>();
-    respawn = new std::vector<Coordinate*>();
-    npcs = new std::vector<NPC*>();
-    notes = new std::vector<Note*>();
-    crystals = new std::vector<Crystal*>();
-    preObstacles = new std::vector<Obstacle*>();
-    postObstacles = new std::vector<Obstacle*>();
+    //Inicializamos objetos
     tri = new Trigonometry();
     
     //Inicializamos variables
@@ -59,7 +52,7 @@ void Level::Init(int numLevel){
     //Cargamos los spawns
     if (j.find("spawn_points") != j.end()) {
         for (int i=0; i<j["spawn_points"].size(); i++){
-            respawn->push_back(new Coordinate(j["spawn_points"].at(i)["x"], j["spawn_points"].at(i)["y"]));
+            respawn.push_back(new Coordinate(j["spawn_points"].at(i)["x"], j["spawn_points"].at(i)["y"]));
         }
         rath->setPosition(*getRespawn()); 
     }
@@ -86,7 +79,7 @@ void Level::Init(int numLevel){
                 enemy->setFreeze(j["enemys"].at(i)["extra"]["freeze"]);
             }
 
-            enemys->push_back(enemy);
+            enemys.push_back(enemy);
         }
     }
     
@@ -151,7 +144,7 @@ void Level::Init(int numLevel){
             note->setBackgroundPosition(Coordinate(j["notes"].at(i)["paperPosition"]["x"], j["notes"].at(i)["paperPosition"]["y"]));
             note->setText(j["notes"].at(i)["text"].get<std::string>(), sf::Color::Black, sf::Color::White, 1, 25);
             
-            notes->push_back(note);
+            notes.push_back(note);
         }
     }
     
@@ -161,7 +154,7 @@ void Level::Init(int numLevel){
             Crystal *crystal = new Crystal(game->rM->getTexture(j["crystals"].at(i)["sprite"]["texture"].get<std::string>()),
                     Rect<float>(j["crystals"].at(i)["sprite"]["rect"]["x"], j["crystals"].at(i)["sprite"]["rect"]["y"], j["crystals"].at(i)["sprite"]["rect"]["w"], j["crystals"].at(i)["sprite"]["rect"]["h"]));
             crystal->setPosition(Coordinate(j["crystals"].at(i)["position"]["x"], j["crystals"].at(i)["position"]["y"]));
-            crystals->push_back(crystal);
+            crystals.push_back(crystal);
         }
     }
     
@@ -187,7 +180,7 @@ void Level::Init(int numLevel){
                 npc->addSentence(j["npcs"].at(i)["phrase"].at(x)["text"].get<std::string>(), 
                         new Coordinate(j["npcs"].at(i)["phrase"].at(x)["position"]["x"], j["npcs"].at(i)["phrase"].at(x)["position"]["y"]));
             }
-            npcs->push_back(npc);
+            npcs.push_back(npc);
         }
         //Creamos la caja que va a contener el texto
         hud->setTextLayer(Coordinate(0,420), Rect <float> (0, 222, 1280, 300),Game::Instance()->rM->getTexture("gui-tileset"));
@@ -209,7 +202,7 @@ void Level::Init(int numLevel){
                     Rect<float>(j["preBossObstacles"].at(i)["sprite"]["rect"]["x"],j["preBossObstacles"].at(i)["sprite"]["rect"]["y"],j["preBossObstacles"].at(i)["sprite"]["rect"]["w"],j["preBossObstacles"].at(i)["sprite"]["rect"]["h"]));
             o->setActive(true);
             
-            preObstacles->push_back(o);
+            preObstacles.push_back(o);
         }
     }
     
@@ -223,17 +216,60 @@ void Level::Init(int numLevel){
                     Rect<float>(j["postBossObstacles"].at(i)["sprite"]["rect"]["x"],j["postBossObstacles"].at(i)["sprite"]["rect"]["y"],j["postBossObstacles"].at(i)["sprite"]["rect"]["w"],j["postBossObstacles"].at(i)["sprite"]["rect"]["h"]));
             o->setActive(true);
             
-            postObstacles->push_back(o);
+            postObstacles.push_back(o);
         }
+    }
+    
+    //Cargamos los endPoints
+    if (j.find("endPoints") != j.end()) {
+        for (int i=0; i<j["endPoints"].size(); i++){
+            Hitbox *endpoint = new Hitbox(j["endPoints"].at(i)["position"]["x"],j["endPoints"].at(i)["position"]["y"],j["endPoints"].at(i)["size"]["w"],j["endPoints"].at(i)["size"]["h"]);
+            
+            endPoints.push_back(endpoint);
+        }
+    }
+    
+    //Añadimos arma a player si hay alguna
+    if (j.find("addGun") != j.end()){
+        Gun *gunArm = new Gun(j["addGun"]["cooldown"].get<float>());
+        gunArm->setAnimation(game->rM->getTexture(j["addGun"]["sprite"]["texture"]), 
+                Rect<float> (j["addGun"]["sprite"]["rect"]["x"], j["addGun"]["sprite"]["rect"]["y"], j["addGun"]["sprite"]["rect"]["w"], j["addGun"]["sprite"]["rect"]["h"]));
+        gunArm->getAnimation()->setOrigin(Coordinate(j["addGun"]["origin"]["x"],j["addGun"]["origin"]["y"])); //ToDo: campo en json?
+
+        Bullet *bull = new Bullet(Coordinate(j["addGun"]["bullet"]["size"]["w"], j["addGun"]["bullet"]["size"]["h"]), 
+                j["addGun"]["bullet"]["duration"], j["addGun"]["bullet"]["type"]);
+        bull->setAnimation(game->rM->getTexture(j["addGun"]["bullet"]["sprite"]["texture"]), 
+                Rect<float>(j["addGun"]["bullet"]["sprite"]["rect"]["x"], j["addGun"]["bullet"]["sprite"]["rect"]["y"], j["addGun"]["bullet"]["sprite"]["rect"]["w"], j["addGun"]["bullet"]["sprite"]["rect"]["h"]));
+        for (int k=0; k<j["addGun"]["bullet"]["animations"].size(); k++){
+            bull->getAnimation()->addAnimation(j["addGun"]["bullet"]["animations"].at(k)["name"].get<std::string>(), 
+                    Coordinate(j["addGun"]["bullet"]["animations"].at(k)["position"]["x"], j["addGun"]["bullet"]["animations"].at(k)["position"]["y"]), 
+                    j["addGun"]["bullet"]["animations"].at(k)["nSprites"], j["addGun"]["bullet"]["animations"].at(k)["duration"]);
+        }
+        bull->getAnimation()->initAnimator();
+        bull->getAnimation()->changeAnimation(j["addGun"]["bullet"]["animations"].at(0)["name"].get<std::string>(), false);
+        bull->setDamage(j["addGun"]["bullet"]["damage"]);
+        bull->getAnimation()->setOrigin(Coordinate(j["addGun"]["bullet"]["origin"]["x"],j["addGun"]["bullet"]["origin"]["y"]));//ToDo: campo en json?
+
+        gunArm->setAttack(bull);
+
+        rath->addGun(gunArm);
+        rath->changeGun(0);
+        
+        hud->addGun(
+                Coordinate(j["addGun"]["hudSprite"]["position"]["x"], j["addGun"]["hudSprite"]["position"]["x"]), 
+                Rect<float>(j["addGun"]["hudSprite"]["rectOn"]["x"],j["addGun"]["hudSprite"]["rectOn"]["y"],j["addGun"]["hudSprite"]["rectOn"]["w"],j["addGun"]["hudSprite"]["rectOn"]["h"]), 
+                Rect<float>(j["addGun"]["hudSprite"]["rectOff"]["x"],j["addGun"]["hudSprite"]["rectOff"]["y"],j["addGun"]["hudSprite"]["rectOff"]["w"],j["addGun"]["hudSprite"]["rectOff"]["h"]), 
+                gunArm->getGunCooldown());
+        hud->changeActiveGun(0);
     }
 }
 
 void Level::Update(){
     if (!paused){
         /*EJECUTA LAS IAs*/
-        for (int i = 0; i<enemys->size(); i++){
-            if(enemys->at(i)->getHP() > 0){
-                enemys->at(i)->AI(rath, hud);
+        for (int i = 0; i<enemys.size(); i++){
+            if(enemys.at(i)->getHP() > 0){
+                enemys.at(i)->AI(rath, hud);
             }
         }
         if(boss->getHP() > 0){
@@ -252,36 +288,36 @@ void Level::Update(){
             boss->getCurrentGun()->update(newBoss,boss->getAngle());
         }
         /*Comprueba colisiones*/
-        for(int i = 0; i < enemys->size(); i++){
-            if (enemys->at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
-                enemys->at(i)->damage(rath->getCurrentGun()->getBullet()->getDamage());
-                if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead() == false){
-                    enemys->at(i)->setPosition(100000,100000);
+        for(int i = 0; i < enemys.size(); i++){
+            if (rath->getGunNumber() >= 0 && enemys.at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+                enemys.at(i)->damage(rath->getCurrentGun()->getBullet()->getDamage());
+                if(enemys.at(i)->getHP() <= 0 && enemys.at(i)->isDead() == false){
+                    enemys.at(i)->setPosition(100000,100000);
                     enemigosCaidos++;
-                    enemys->at(i)->setDead(true);
+                    enemys.at(i)->setDead(true);
                 }
             }
-            if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
-                enemys->at(i)->damage(rath->getWeapon()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
-                if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead() == false){
-                    enemys->at(i)->startBlood(2);
+            if(rath->getWeapon()->detectCollisions(enemys.at(i)->getHitbox())){
+                enemys.at(i)->damage(rath->getWeapon()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
+                if(enemys.at(i)->getHP() <= 0 && enemys.at(i)->isDead() == false){
+                    enemys.at(i)->startBlood(2);
                     enemigosCaidos++;
-                    enemys->at(i)->setDead(true);
+                    enemys.at(i)->setDead(true);
                 }
             }
-            if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead()){
-                if(enemys->at(i)->getTimeDead()->getTime() == 0){
-                    enemys->at(i)->setPosition(100000,100000);
+            if(enemys.at(i)->getHP() <= 0 && enemys.at(i)->isDead()){
+                if(enemys.at(i)->getTimeDead()->getTime() == 0){
+                    enemys.at(i)->setPosition(100000,100000);
                 }
             }
         }
-        if (boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+        if (rath->getGunNumber() >= 0 && boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             boss->damage(rath->getCurrentGun()->getBullet()->getDamage());
             hud->changeLifeBoss(boss->getHP());
             if(boss->getHP() <= 0){
                 if (j.find("postBossObstacles") != j.end()) {
-                    for (int i=0; i<postObstacles->size(); i++){
-                        postObstacles->at(i)->setActive(false);
+                    for (int i=0; i<postObstacles.size(); i++){
+                        postObstacles.at(i)->setActive(false);
                     }
                 }
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
@@ -292,14 +328,14 @@ void Level::Update(){
             hud->changeLifeBoss(boss->getHP());
             if(boss->getHP() <= 0){
                 if (j.find("postBossObstacles") != j.end()) {
-                    for (int i=0; i<postObstacles->size(); i++){
-                        postObstacles->at(i)->setActive(false);
+                    for (int i=0; i<postObstacles.size(); i++){
+                        postObstacles.at(i)->setActive(false);
                     }
                 }
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
         }
-        if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
+        if (rath->getGunNumber() >= 0 && boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
             rath->damage(boss->getCurrentGun()->getBullet()->getDamage());
             hud->changeLifePlayer(rath->getHP());
         }
@@ -312,10 +348,10 @@ void Level::Update(){
         //NPC ToDo: hitbox entre pj y npc
         /*NPC Distance Check*/
         if (j.find("npcs") != j.end()) {
-            for (int i=0; i<npcs->size(); i++){
-                int disNpcPlayer = tri->distance(*rath->getCoordinate(), *npcs->at(i)->getCoordinate());
-                if(disNpcPlayer < 300) npcs->at(i)->setInRange(true);
-                else npcs->at(i)->setInRange(false);
+            for (int i=0; i<npcs.size(); i++){
+                int disNpcPlayer = tri->distance(*rath->getCoordinate(), *npcs.at(i)->getCoordinate());
+                if(disNpcPlayer < 300) npcs.at(i)->setInRange(true);
+                else npcs.at(i)->setInRange(false);
             }
         }
         //PreBossObstacles
@@ -328,14 +364,14 @@ void Level::Update(){
                 bossZone = false;
                 play = false;
             }
-            if (enemigosCaidos == enemys->size()){
+            if (enemigosCaidos == enemys.size()){
                 if (bossZone) {
-                    for (int i=0; i<preObstacles->size(); i++){
-                        preObstacles->at(i)->setActive(true);
+                    for (int i=0; i<preObstacles.size(); i++){
+                        preObstacles.at(i)->setActive(true);
                     }
                 } else {
-                    for (int i=0; i<preObstacles->size(); i++){
-                        preObstacles->at(i)->setActive(false);
+                    for (int i=0; i<preObstacles.size(); i++){
+                        preObstacles.at(i)->setActive(false);
                     }
                 }
             }
@@ -345,15 +381,22 @@ void Level::Update(){
            Game::Instance()->rM->getMusic("boss")->getMusic()->play();
            play=false;
         }
-        
+        //Comprobamos los endPoints
+        if (j.find("endPoints") != j.end()) {
+            for (int i=0; i<endPoints.size();i++){
+                if (endPoints.at(i)->checkCollision(rath->getHitbox())){
+                    Game::Instance()->getLevelState()->changeLevel();
+                }
+            }
+        }
     }
     
     if (j.find("npcs") != j.end()) {
         if (npcMoving != -1){
-            if(npcs->at(npcMoving)->getCoordinate()->y < 20000 && npcs->at(npcMoving)->getCoordinate()->x < 20000){
-                npcs->at(npcMoving)->move(npcs->at(npcMoving)->getRunawayDirection()->x,npcs->at(npcMoving)->getRunawayDirection()->y);
+            if(npcs.at(npcMoving)->getCoordinate()->y < 20000 && npcs.at(npcMoving)->getCoordinate()->x < 20000){
+                npcs.at(npcMoving)->move(npcs.at(npcMoving)->getRunawayDirection()->x,npcs.at(npcMoving)->getRunawayDirection()->y);
             }
-            int disNpcPlayer = tri->distance(*rath->getCoordinate(), *npcs->at(npcMoving)->getCoordinate());
+            int disNpcPlayer = tri->distance(*rath->getCoordinate(), *npcs.at(npcMoving)->getCoordinate());
             if (disNpcPlayer > 1000){
                 paused = false;
                 Game::Instance()->getLevelState()->setPaused(false);
@@ -367,14 +410,14 @@ void Level::Input(){
         if(Game::Instance()->iM->isActive("interact")){
             //NPCs
             if (j.find("npcs") != j.end()) {
-                for (int i=0; i<npcs->size(); i++){
-                    if (npcs->at(i)->getRange()){
-                        if(npcs->at(i)->nextSentence()){
+                for (int i=0; i<npcs.size(); i++){
+                    if (npcs.at(i)->getRange()){
+                        if(npcs.at(i)->nextSentence()){
                             showNPCText = true;
                             //Posicionamos el nombre del npc
-                            hud->setTLayerTalker(npcs->at(i)->getName(), 1125, 435); 
+                            hud->setTLayerTalker(npcs.at(i)->getName(), 1125, 435); 
                             //Posicionamos lo que va a decir el npc
-                            hud->setTLayerText(npcs->at(i)->getCurrentSentenceText(), npcs->at(i)->getCurrentSentencePosition()->x, npcs->at(i)->getCurrentSentencePosition()->y); 
+                            hud->setTLayerText(npcs.at(i)->getCurrentSentenceText(), npcs.at(i)->getCurrentSentencePosition()->x, npcs.at(i)->getCurrentSentencePosition()->y); 
                         }else{
                             showNPCText = false;
                             npcMoving = i;
@@ -389,11 +432,11 @@ void Level::Input(){
                 if (showNoteText) {
                     showNoteText = false;
                 }
-                for (int i=0; i<notes->size(); i++){
-                    if(rath->collision(notes->at(i)->getHitbox())){
-                        if (!showNoteText && !notes->at(i)->getTaken()){
+                for (int i=0; i<notes.size(); i++){
+                    if(rath->collision(notes.at(i)->getHitbox())){
+                        if (!showNoteText && !notes.at(i)->getTaken()){
                             showNoteText = true;
-                            notes->at(i)->setTaken();
+                            notes.at(i)->setTaken();
                         }
                     }
                 }
@@ -410,15 +453,15 @@ void Level::Render(){
     map->dibujarMapa(Game::Instance()->window);
     //Notas de texto
     if (j.find("notes") != j.end()) {
-        for (int i=0; i<notes->size(); i++){
-            if(!notes->at(i)->getTaken()){
-               Game::Instance()->window->draw(*notes->at(i)->getNoteSprite()->getSprite());
+        for (int i=0; i<notes.size(); i++){
+            if(!notes.at(i)->getTaken()){
+               Game::Instance()->window->draw(*notes.at(i)->getNoteSprite()->getSprite());
             }
             /*Texto notas */
             if(showNoteText){
                 Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-                Game::Instance()->window->draw(*notes->at(i)->getBackgroundSprite()->getSprite());
-                Game::Instance()->window->draw(*notes->at(i)->getText()->getText());
+                Game::Instance()->window->draw(*notes.at(i)->getBackgroundSprite()->getSprite());
+                Game::Instance()->window->draw(*notes.at(i)->getText()->getText());
                 Game::Instance()->window->setView(Game::Instance()->cameraView);
             }
         }
@@ -426,20 +469,20 @@ void Level::Render(){
     
     //Cristales de rayos
     if (j.find("crystals") != j.end()) {
-        for (int i=0; i<crystals->size(); i++){
-            if(!crystals->at(i)->getTouched()){
-                Game::Instance()->window->draw(*crystals->at(i)->getCrystalSprite()->getSprite());
+        for (int i=0; i<crystals.size(); i++){
+            if(!crystals.at(i)->getTouched()){
+                Game::Instance()->window->draw(*crystals.at(i)->getCrystalSprite()->getSprite());
             }
         }
     }
     
     /*NPC*/
     if (j.find("npcs") != j.end()) {
-        for (int i=0; i<npcs->size(); i++){
-            Coordinate inc3(npcs->at(i)->getState()->getIC());
-            npcs->at(i)->updatePosition(inc3.x, inc3.y);
-            Game::Instance()->window->draw(*npcs->at(i)->getAnimation()->getSprite());
-            if (npcs->at(i)->getRange()){
+        for (int i=0; i<npcs.size(); i++){
+            Coordinate inc3(npcs.at(i)->getState()->getIC());
+            npcs.at(i)->updatePosition(inc3.x, inc3.y);
+            Game::Instance()->window->draw(*npcs.at(i)->getAnimation()->getSprite());
+            if (npcs.at(i)->getRange()){
                 Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
                 if (npcMoving == -1) Game::Instance()->window->draw(*keyIterationNpc->getText());
                 if(showNPCText){
@@ -451,12 +494,12 @@ void Level::Render(){
     }
     
     /*Enemigos*/
-    for (int i = 0; i<enemys->size(); i++){
-        Coordinate inc(enemys->at(i)->getState()->getIC());
-        enemys->at(i)->updatePosition(inc.x, inc.y);
-        enemys->at(i)->getAnimation()->updateAnimator();
-        Game::Instance()->window->draw(*enemys->at(i)->getAnimation()->getSprite());
-        enemys->at(i)->drawBlood();
+    for (int i = 0; i<enemys.size(); i++){
+        Coordinate inc(enemys.at(i)->getState()->getIC());
+        enemys.at(i)->updatePosition(inc.x, inc.y);
+        enemys.at(i)->getAnimation()->updateAnimator();
+        Game::Instance()->window->draw(*enemys.at(i)->getAnimation()->getSprite());
+        enemys.at(i)->drawBlood();
     }
     
     /*Jefe*/
@@ -473,11 +516,11 @@ void Level::Render(){
     Game::Instance()->window->draw(*boss->getCurrentGun()->getAnimation()->getSprite());
     
     /* MURO Jefe */
-    for (int i=0; i<preObstacles->size(); i++){
-        if (preObstacles->at(i)->getActive()) Game::Instance()->window->draw(*preObstacles->at(i)->getAnimation()->getSprite());
+    for (int i=0; i<preObstacles.size(); i++){
+        if (preObstacles.at(i)->getActive()) Game::Instance()->window->draw(*preObstacles.at(i)->getAnimation()->getSprite());
     }
-    for (int i=0; i<postObstacles->size(); i++){
-        if (postObstacles->at(i)->getActive()) Game::Instance()->window->draw(*postObstacles->at(i)->getAnimation()->getSprite());
+    for (int i=0; i<postObstacles.size(); i++){
+        if (postObstacles.at(i)->getActive()) Game::Instance()->window->draw(*postObstacles.at(i)->getAnimation()->getSprite());
     }
 }
 
@@ -487,24 +530,24 @@ Hitbox *Level::colision(Hitbox *hitbox){
             return map->getMuros()->at(i);
         }
     }
-    for(int i=0; i<preObstacles->size(); i++){
-        if(preObstacles->at(i)->getActive() && hitbox->checkCollision(preObstacles->at(i)->getHitbox())){
-            return preObstacles->at(i)->getHitbox();
+    for(int i=0; i<preObstacles.size(); i++){
+        if(preObstacles.at(i)->getActive() && hitbox->checkCollision(preObstacles.at(i)->getHitbox())){
+            return preObstacles.at(i)->getHitbox();
         }
     }
-    for (int i=0; i<postObstacles->size(); i++){
-        if(postObstacles->at(i)->getActive() && hitbox->checkCollision(postObstacles->at(i)->getHitbox())){
-            return postObstacles->at(i)->getHitbox();
+    for (int i=0; i<postObstacles.size(); i++){
+        if(postObstacles.at(i)->getActive() && hitbox->checkCollision(postObstacles.at(i)->getHitbox())){
+            return postObstacles.at(i)->getHitbox();
         }
     }
-    for (int i=0; i<npcs->size(); i++){
-        if(hitbox->checkCollision(npcs->at(i)->getHitbox())){
-            return npcs->at(i)->getHitbox();
+    for (int i=0; i<npcs.size(); i++){
+        if(hitbox->checkCollision(npcs.at(i)->getHitbox())){
+            return npcs.at(i)->getHitbox();
         }
     }
-    for (int i=0; i<crystals->size(); i++){
-        if(hitbox->checkCollision(crystals->at(i)->getHitbox())){
-            return crystals->at(i)->getHitbox();
+    for (int i=0; i<crystals.size(); i++){
+        if(hitbox->checkCollision(crystals.at(i)->getHitbox())){
+            return crystals.at(i)->getHitbox();
         }
     }
     return NULL;
@@ -518,62 +561,70 @@ void Level::CleanUp(){
     }
     
     //Vaciar los vectores
-    for(int i=0; i < enemys->size(); i++){
-        delete enemys->at(i);
-        enemys->at(i) = NULL;
+    //ToDo: da segmentation fault aqui
+    /*for(int i=0; i < enemys.size(); i++){
+        delete enemys.at(i);
+        //enemys.at(i) = NULL;
+    }*/
+    
+    enemys.clear();
+    
+    for(int i=0; i < respawn.size(); i++){
+        delete respawn.at(i);
+        respawn.at(i) = NULL;
     }
     
-    enemys->clear();
+    respawn.clear();
     
-    for(int i=0; i < respawn->size(); i++){
-        delete respawn->at(i);
-        respawn->at(i) = NULL;
+    for(int i=0; i < npcs.size(); i++){
+        delete npcs.at(i);
+        npcs.at(i) = NULL;
     }
     
-    respawn->clear();
+    npcs.clear();
     
-    for(int i=0; i < npcs->size(); i++){
-        delete npcs->at(i);
-        npcs->at(i) = NULL;
+    for(int i=0; i < notes.size(); i++){
+        delete notes.at(i);
+        notes.at(i) = NULL;
     }
     
-    npcs->clear();
+    notes.clear();
     
-    for(int i=0; i < notes->size(); i++){
-        delete notes->at(i);
-        notes->at(i) = NULL;
+    for(int i=0; i < crystals.size(); i++){
+        delete crystals.at(i);
+        crystals.at(i) = NULL;
     }
     
-    notes->clear();
+    crystals.clear();
     
-    for(int i=0; i < crystals->size(); i++){
-        delete crystals->at(i);
-        crystals->at(i) = NULL;
+    for(int i=0; i < preObstacles.size(); i++){
+        delete preObstacles.at(i);
+        preObstacles.at(i) = NULL;
     }
     
-    crystals->clear();
+    preObstacles.clear();
     
-    for(int i=0; i < preObstacles->size(); i++){
-        delete preObstacles->at(i);
-        preObstacles->at(i) = NULL;
+    for(int i=0; i < postObstacles.size(); i++){
+        delete postObstacles.at(i);
+        postObstacles.at(i) = NULL;
     }
     
-    preObstacles->clear();
+    postObstacles.clear();
     
-    for(int i=0; i < postObstacles->size(); i++){
-        delete postObstacles->at(i);
-        postObstacles->at(i) = NULL;
+    for(int i=0; i < endPoints.size(); i++){
+        delete endPoints.at(i);
+        //endPoints->at(i) = NULL;
     }
     
-    postObstacles->clear();
+    endPoints.clear();
     
     //Hacemos delete de los elementos de Level
-    delete map;
-    delete boss;
+    //delete map; ToDo: da segmentation fault aqui
+    //delete boss; ToDo: da segmentation fault aqui
     delete keyIterationNpc;
     
-    map = NULL;
-    boss = NULL;
+    //map = NULL; 
+    //boss = NULL;
     keyIterationNpc = NULL;
     
     //Reinicializamos las variables

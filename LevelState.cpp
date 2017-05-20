@@ -78,7 +78,6 @@ void LevelState::Init(){
     /*****HUD*****/
     hud = new HUD(game->rM->getTexture("hud-spritesheet"), 
             Rect<float>(1,200,205,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
-    hud->addGun(Coordinate(20, 20), Rect<float>(85,0,82,85), Rect<float>(85,0,82,82), gunArm->getGunCooldown());
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(5,200,200,20));
     hud->setFlash(Coordinate(20, 110), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
@@ -99,7 +98,8 @@ void LevelState::Init(){
     /*Creamos el nivel*/
     level = new Level(rath, hud); 
     //Y lo iniciamos
-    level->Init(1);
+    currentLevel = 1;
+    level->Init(currentLevel);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     //std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }
@@ -146,12 +146,8 @@ void LevelState::Input(){
         } else {
             rath->move(0,0);
         }
-
-        /*Player gun rotation*/
+            
         float mouseAng = tri->angleWindow(Coordinate(Game::Instance()->mouse->hitbox->left, Game::Instance()->mouse->hitbox->top));
-        Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
-                rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
-        rath->getCurrentGun()->update(newPos, mouseAng);
 
         /*Player weapon attack*/
         if (Game::Instance()->iM->isActive("player-shortAttack")){
@@ -167,14 +163,20 @@ void LevelState::Input(){
             rath->setSpeed(rath->getInitialSpeed());
         }
 
-        /*Player gun attack*/
-        //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
-        if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking() 
-            && (rath->getCurrentGun()->getGunCooldown()->getTime()==5 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)){
-            Game::Instance()->rM->getSound("fire")->getSound()->play();
-            hud->resetClockGuns();
-            rath->gunAttack();
-            rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
+        if (rath->getGunNumber() >= 0){
+            /*Player gun rotation*/
+            Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
+                    rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
+            rath->getCurrentGun()->update(newPos, mouseAng);
+            //std::cout << "YAY\n";
+            /*Player gun attack*/
+            //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
+            if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){
+                if (rath->getCurrentGun()->getGunCooldown()->getTime()==5 || rath->getCurrentGun()->getGunCooldown()->getTime()==0) Game::Instance()->rM->getSound("fire")->getSound()->play();
+                hud->resetClockGuns();
+                rath->gunAttack();
+                rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
+            }
         }
         
         /*Player Flash*/
@@ -240,8 +242,10 @@ void LevelState::Input(){
 void LevelState::Render(){
     /*Update animators*/
     rath->getAnimation()->updateAnimator();
-    rath->getCurrentGun()->getAnimation()->updateAnimator();
-    rath->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
+    if (rath->getGunNumber() >= 0){
+        rath->getCurrentGun()->getAnimation()->updateAnimator();
+        rath->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
+    }
     
     /*Interpolate*/
     if (*rath->getState()->getLastCoordinate() != *rath->getState()->getNextCoordinate()){
@@ -258,11 +262,13 @@ void LevelState::Render(){
     
     /*Render Player and guns*/
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
-    Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
-    if (!rath->getCurrentGun()->getBulletLifetime()->isExpired())
-        Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
-    else if (rath->isAttacking())
-        rath->attackDone();
+    if (rath->getGunNumber() >= 0){
+        Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
+        if (!rath->getCurrentGun()->getBulletLifetime()->isExpired())
+            Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
+        else if (rath->isAttacking())
+            rath->attackDone();
+    }
     
     if (rath->getWeapon()->isAttacking()) Game::Instance()->window->draw(*rath->getWeapon()->getPie()->getShape());
     
@@ -300,4 +306,10 @@ void LevelState::CleanUp(){
 
     rath = NULL;
     tri = NULL;
+}
+
+void LevelState::changeLevel(){
+    currentLevel++;
+    level->CleanUp();
+    level->Init(currentLevel);
 }

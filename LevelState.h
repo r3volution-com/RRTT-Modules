@@ -23,6 +23,8 @@ class LevelState : public GameState {
         Menu *pause;
         Sprite *damage;
         
+        int currentLevel;
+        
         float colX = 0.0f; //ToDo pabloF: esto aqui no y no se declaran valores en el .h
         float colY = 0.0f;
         
@@ -56,6 +58,8 @@ class LevelState : public GameState {
          * Encargado de limpiar
          */
         void CleanUp();
+        
+        void changeLevel();
         
         Level *getLevel(){return level;}
         Player *getRath(){return rath;}

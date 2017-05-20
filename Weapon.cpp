@@ -48,7 +48,7 @@ void Weapon::loadAttack(char direction){
             loadingAttack = true;
             dir = direction;
             vector->phi = 0;
-            std::cout << "Largo entra\n";
+            //std::cout << "Largo entra\n";
         } else if (pie->getFilledAngle() <= 360) {
             pie->setFilledAngle(degreesPerTick);
             pie->getShape()->setPosition(coor->x + hitbox->hitbox->width/2, coor->y + hitbox->hitbox->height/2);
@@ -91,7 +91,7 @@ int Weapon::releaseAttack(){
 
 void Weapon::shortAttack(char direction){
     if(attackLength->isExpired() && !loadingAttack){
-            std::cout << "corto\n";
+            //std::cout << "corto\n";
         isLong = false;
         attackLength->restart(animSpeed);
         if(direction == 'u'){

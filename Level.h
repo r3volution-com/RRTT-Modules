@@ -43,13 +43,14 @@ class Level {
         Trigonometry *tri;
         Text *keyIterationNpc;
         //Vectores
-        std::vector<Coordinate*> *respawn;
-        std::vector<Enemy*> *enemys;
-        std::vector<Note*> *notes;
-        std::vector<NPC*> *npcs;
-        std::vector<Crystal*> *crystals;
-        std::vector<Obstacle*> *preObstacles;
-        std::vector<Obstacle*> *postObstacles;
+        std::vector<Coordinate*> respawn;
+        std::vector<Enemy*> enemys;
+        std::vector<Note*> notes;
+        std::vector<NPC*> npcs;
+        std::vector<Crystal*> crystals;
+        std::vector<Obstacle*> preObstacles;
+        std::vector<Obstacle*> postObstacles;
+        std::vector<Hitbox*> endPoints;
     public:
         Level(Player* r, HUD* h);
         virtual ~Level();
@@ -67,11 +68,11 @@ class Level {
         void setPlay(bool booleano) {play=booleano;}
         void setBossZone(bool b) { bossZone = b; }
         
-        Coordinate* getRespawn(){ return respawn->at(actualRespawn);}
+        Coordinate* getRespawn(){ return respawn.at(actualRespawn);}
 
         Hitbox *colision(Hitbox *hitbox);
 
-        std::vector<Enemy*> *getEnemys(){return enemys;}
+        std::vector<Enemy*> getEnemys(){return enemys;}
         Boss *getBoss(){return boss;}
         Map* getMap(){ return map; }
         Trigonometry *getTrignometry(){return tri;}

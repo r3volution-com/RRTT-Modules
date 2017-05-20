@@ -1,260 +1,292 @@
 {
-	"map": "resources/mountain.tmx",
-        "tileset": "resources/mountainTileset.png",
-        "spawn_points": [
-            {"x": 3950, "y": 14250},
-            {"x": 4750, "y": 5900}
-        ],
-	"resources": [
-		{
-			"name": "enemy",
-			"path": "resources/enemigosLVL1.png"
-		},
-		{
-			"name": "sangre",
-			"path": "resources/rojo.png"
-		},
-		{
-			"name": "pergamino",
-			"path": "resources/pergamino.png"
-		},
-                {
-			"name": "rayo",
-			"path": "resources/rayo.png"
-		}
-	],
-	"enemys": [
-		{
-			"type": 3,
-			"position": {"x": 3500, "y": 8000},
-			"size": {"w": 128, "h": 128},
-			"speed": 20,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 40,
-			"distanceToHome": 1400,
-			"distanceToPlayer": 700,
-			"damage": 6,
-			"hitCooldown": 0.5,
-			"bleed": true,
-			"extra": {"freeze": 22}
-		},
-		{
-			"type": 2,
-			"position": {"x": 2750, "y": 6750},
-			"size": {"w": 128, "h": 128},
-			"speed": 15,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 40,
-			"distanceToHome": 1400,
-			"distanceToPlayer": 700,
-			"damage": 6,
-			"hitCooldown": 0.5,
-			"bleed": true,
-			"extra": {"flashRange": 10, "flashCooldown": 2}
-		},
-		{
-			"type": 3,
-			"position": {"x": 3000, "y": 8000},
-			"size": {"w": 128, "h": 128},
-			"speed": 20,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 60,
-			"distanceToHome": 1300,
-			"distanceToPlayer": 650,
-			"damage": 6,
-			"hitCooldown": 0.5,
-			"bleed": true,
-                        "extra": {"freeze": 22}
-		},
-		{
-			"type": 2,
-			"position": {"x": 2550, "y": 9750},
-			"size": {"w": 128, "h": 128},
-			"speed": 15,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 40,
-			"distanceToHome": 1400,
-			"distanceToPlayer": 715,
-			"damage": 4,
-			"hitCooldown": 0.5,
-			"bleed": true,
-			"extra": {"flashRange": 10, "flashCooldown": 2}
-			
-		},
-		{	
-			"type": 3,
-			"position": {"x": 3350, "y": 11500},
-			"size": {"w": 128, "h": 128},
-			"speed": 15,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 50,
-			"distanceToHome": 1400,
-			"distanceToPlayer": 700,
-			"damage": 5,
-			"hitCooldown": 0.5,
-			"bleed": true,
-                        "extra": {"freeze": 22}
-		},
-		{	
-			"type": 3,
-			"position": {"x": 3250, "y": 7700},
-			"size": {"w": 128, "h": 128},
-			"speed": 20,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 40,
-			"distanceToHome": 1400,
-			"distanceToPlayer": 700,
-			"damage": 4,
-			"hitCooldown": 0.5,
-			"bleed": true,
-			"extra": {"freeze": 18}
-		},
-		{
-			"type": 2,
-			"position": {"x": 3250, "y": 6750},
-			"size": {"w": 128, "h": 128},
-			"speed": 20,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 80,
-			"distanceToHome": 1300,
-			"distanceToPlayer": 650,
-			"damage": 7,
-			"hitCooldown": 0.5,
-			"bleed": true,
-			"extra": {"flashRange": 10, "flashCooldown": 2}
-		},
-		{
-			"type": 1,
-			"position": {"x": 5250, "y": 6750},
-			"size": {"w": 128, "h": 128},
-			"speed": 20,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 40,
-			"distanceToHome": 1400,
-			"distanceToPlayer": 700,
-			"damage": 6,
-			"hitCooldown": 0.5,
-			"bleed": true
-		},
-                {
-			"type": 1,
-			"position": {"x": 4750, "y": 6000},
-			"size": {"w": 128, "h": 128},
-			"speed": 20,
-			"sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-			"hp": 40,
-			"distanceToHome": 1400,
-			"distanceToPlayer": 700,
-			"damage": 6,
-			"hitCooldown": 0.5,
-			"bleed": true
-		}
-	],
-	"boss": {
-            "position": {"x": 3500, "y": 3000},
-            "size": {"w": 40, "h": 100},
-            "speed": 25,
+    "map": "resources/mountain.tmx",
+    "tileset": "resources/mountainTileset.png",
+    "spawn_points": [
+        {"x": 3950, "y": 14250},
+        {"x": 4750, "y": 5900}
+    ],
+    "resources": [
+        {
+            "name": "enemy",
+            "path": "resources/enemigosLVL1.png"
+        },
+        {
+            "name": "sangre",
+            "path": "resources/rojo.png"
+        },
+        {
+            "name": "pergamino",
+            "path": "resources/pergamino.png"
+        },
+        {
+            "name": "rayo",
+            "path": "resources/rayo.png"
+        }
+    ],
+    "enemys": [
+        {
+            "type": 3,
+            "position": {"x": 3500, "y": 8000},
+            "size": {"w": 128, "h": 128},
+            "speed": 20,
             "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "hp": 800,
-            "distanceToHome": 2000,
-            "distanceToPlayer": 1500,
-            "damage": 15,
-            "hitCooldown": 1,
-            "flashRange": 8,
-            "flashCooldown": 0.5,
-            "changeStateTimer": 20,
-            "distanceToLock": 1600,
-            "nStates": 10,
-            "states": {"from": 2, "to": 4},
-            "guns": [
-                {
-                    "cooldown": 0,
-                    "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
-                    "origin": {"x": 56, "y": 34},
-                    "bullet": {
-                        "size": {"w": 128, "h": 128},
-                        "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
-                        "origin": {"x": 300, "y": 64},
-                        "type": 2,
-                        "damage": 5,
-                        "duration": 2,
-                        "animations": [
-                            {
-                                "name": "idle",
-                                "position": {"x": 0, "y": 0},
-                                "nSprites": 3,
-                                "duration": 0.3
-                            }
-                        ]
-                    }
-                }
-            ]
+            "hp": 40,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 700,
+            "damage": 6,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"freeze": 22}
+        },
+        {
+            "type": 2,
+            "position": {"x": 2750, "y": 6750},
+            "size": {"w": 128, "h": 128},
+            "speed": 15,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 40,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 700,
+            "damage": 6,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"flashRange": 10, "flashCooldown": 2}
+        },
+        {
+            "type": 3,
+            "position": {"x": 3000, "y": 8000},
+            "size": {"w": 128, "h": 128},
+            "speed": 20,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 60,
+            "distanceToHome": 1300,
+            "distanceToPlayer": 650,
+            "damage": 6,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"freeze": 22}
+        },
+        {
+            "type": 2,
+            "position": {"x": 2550, "y": 9750},
+            "size": {"w": 128, "h": 128},
+            "speed": 15,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 40,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 715,
+            "damage": 4,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"flashRange": 10, "flashCooldown": 2}
 
         },
-        "notes": [
+        {	
+            "type": 3,
+            "position": {"x": 3350, "y": 11500},
+            "size": {"w": 128, "h": 128},
+            "speed": 15,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 50,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 700,
+            "damage": 5,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"freeze": 22}
+        },
+        {	
+            "type": 3,
+            "position": {"x": 3250, "y": 7700},
+            "size": {"w": 128, "h": 128},
+            "speed": 20,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 40,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 700,
+            "damage": 4,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"freeze": 18}
+        },
+        {
+            "type": 2,
+            "position": {"x": 3250, "y": 6750},
+            "size": {"w": 128, "h": 128},
+            "speed": 20,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 80,
+            "distanceToHome": 1300,
+            "distanceToPlayer": 650,
+            "damage": 7,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"flashRange": 10, "flashCooldown": 2}
+        },
+        {
+            "type": 1,
+            "position": {"x": 5250, "y": 6750},
+            "size": {"w": 128, "h": 128},
+            "speed": 20,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 40,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 700,
+            "damage": 6,
+            "hitCooldown": 0.5,
+            "bleed": true
+        },
+        {
+            "type": 1,
+            "position": {"x": 4750, "y": 6000},
+            "size": {"w": 128, "h": 128},
+            "speed": 20,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 40,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 700,
+            "damage": 6,
+            "hitCooldown": 0.5,
+            "bleed": true
+        }
+    ],
+    "boss": {
+        "position": {"x": 3500, "y": 3000},
+        "size": {"w": 40, "h": 100},
+        "speed": 25,
+        "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+        "hp": 800,
+        "distanceToHome": 2000,
+        "distanceToPlayer": 1500,
+        "damage": 15,
+        "hitCooldown": 1,
+        "flashRange": 8,
+        "flashCooldown": 0.5,
+        "changeStateTimer": 20,
+        "distanceToLock": 1600,
+        "nStates": 10,
+        "states": {"from": 2, "to": 4},
+        "guns": [
             {
-                "noteSprite": {"texture": "gui-tileset", "rect": {"x": 325, "y": 920, "w": 128, "h": 128}},
-                "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
-                "font": "font",
-                "notePosition": {"x": 3000, "y": 6500},
-                "paperPosition": {"x": 500, "y": 100},
-                "text": "El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\nsaliendo en multimedia!"  
-            }
-        ],
-        "crystals": [
-            {
-                "sprite": {"texture": "gui-tileset", "rect": {"x": 128, "y": 920, "w": 174, "h": 290}},
-                "position": {"x": 3000, "y": 3000}
-            }
-        ],
-        "npcs": [
-            {
-                "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
-                "position": {"x": 4500, "y": 13300},
-                "size": {"w": 50, "h": 90},
-                "speed": 40,
-                "name": "Jose",
-                "runawayDirection": {"x": 1, "y": 0},
-                "animations": [
+                "cooldown": 0,
+                "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                "origin": {"x": 56, "y": 34},
+                "bullet": {
+                    "size": {"w": 128, "h": 128},
+                    "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
+                    "origin": {"x": 300, "y": 64},
+                    "type": 2,
+                    "damage": 5,
+                    "duration": 2,
+                    "animations": [
                         {
-                                "name": "idle",
-                                "position": {"x": 0, "y": 0},
-                                "nSprites": 1,
-                                "duration": 1.0
+                            "name": "idle",
+                            "position": {"x": 0, "y": 0},
+                            "nSprites": 3,
+                            "duration": 0.3
                         }
-                ],
-                "phrase": [
-                    {
-                        "text": "Parece ser que aqui tambien hay enemigos.\n\nPulsa E para continuar",
-                        "position": {"x": 20, "y": 520}
-                    },
-                    {
-                        "text": "Oh dios otra vez tu, deberias estar muerto.\n\nPulsa E para continuar",
-                        "position": {"x": 20, "y": 520}
-                    },
-                    {
-                        "text": "Esa arma..., no se como lo hiciste muchacho pero te aconsejo que te des media vuelta.\n\nPulsa E para continuar",
-                        "position": {"x": 20, "y": 520}
-                    },
-                    {
-                        "text": "Bueno, sera mejor que me vaya, suerte...\n\nPulsa E para continuar",
-                        "position": {"x": 20, "y": 520}
-                    }
-                ]
-            }
-        ],
-        "preBossObstacles": [
-            {
-                "position": {"x": 4100, "y": 5300},
-                "size": {"w": 1280, "h": 384},
-                "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
-            }
-        ],
-        "postBossObstacles": [
-            {
-                "position": {"x": 2300, "y": 2125},
-                "size": {"w": 1280, "h": 384},
-                "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+                    ]
+                }
             }
         ]
+
+    },
+    "notes": [
+        {
+            "noteSprite": {"texture": "gui-tileset", "rect": {"x": 325, "y": 920, "w": 128, "h": 128}},
+            "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
+            "font": "font",
+            "notePosition": {"x": 3000, "y": 6500},
+            "paperPosition": {"x": 500, "y": 100},
+            "text": "El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\nsaliendo en multimedia!"  
+        }
+    ],
+    "crystals": [
+        {
+            "sprite": {"texture": "gui-tileset", "rect": {"x": 128, "y": 920, "w": 174, "h": 290}},
+            "position": {"x": 3000, "y": 3000}
+        }
+    ],
+    "npcs": [
+        {
+            "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
+            "position": {"x": 4500, "y": 13300},
+            "size": {"w": 50, "h": 90},
+            "speed": 40,
+            "name": "Jose",
+            "runawayDirection": {"x": 1, "y": 0},
+            "animations": [
+                    {
+                        "name": "idle",
+                        "position": {"x": 0, "y": 0},
+                        "nSprites": 1,
+                        "duration": 1.0
+                    }
+            ],
+            "phrase": [
+                {
+                    "text": "Parece ser que aqui tambien hay enemigos.\n\nPulsa E para continuar",
+                    "position": {"x": 20, "y": 520}
+                },
+                {
+                    "text": "Oh dios otra vez tu, deberias estar muerto.\n\nPulsa E para continuar",
+                    "position": {"x": 20, "y": 520}
+                },
+                {
+                    "text": "Esa arma..., no se como lo hiciste muchacho pero te aconsejo que te des media vuelta.\n\nPulsa E para continuar",
+                    "position": {"x": 20, "y": 520}
+                },
+                {
+                    "text": "Bueno, sera mejor que me vaya, suerte...\n\nPulsa E para continuar",
+                    "position": {"x": 20, "y": 520}
+                }
+            ]
+        }
+    ],
+    "preBossObstacles": [
+        {
+            "position": {"x": 4100, "y": 5300},
+            "size": {"w": 1280, "h": 384},
+            "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+        }
+    ],
+    "postBossObstacles": [
+        {
+            "position": {"x": 2300, "y": 2125},
+            "size": {"w": 1280, "h": 384},
+            "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+        }
+    ],
+    "endPoints": [
+        {
+            "position": {"x": 2300, "y": 1500},
+            "size": {"w": 1280, "h": 400}
+        }
+    ],
+    "addGun": {
+        "cooldown": 2,
+        "sprite": {"texture": "player", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+        "origin": {"x": 56, "y": 34},
+        "bullet": {
+            "size": {"w": 128, "h": 128},
+            "sprite": {"texture": "player", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "origin": {"x": 184, "y": 98},
+            "type": 1,
+            "damage": 15,
+            "duration": 2,
+            "animations": [
+                {
+                    "name": "idle",
+                    "position": {"x": 128, "y": 896},
+                    "nSprites": 2,
+                    "duration": 0.5
+                }
+            ]
+        },
+        "hudSprite": {
+            "position": {"x": 20, "y": 20},
+            "rectOn": {"x": 85, "y": 0, "w": 82, "h": 85},
+            "rectOff": {"x": 85, "y": 0, "w": 82, "h": 85}
+        }
+    }
 }
