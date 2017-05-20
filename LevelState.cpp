@@ -98,10 +98,9 @@ void LevelState::Init(){
     /*Creamos el nivel*/
     level = new Level(rath, hud); 
     //Y lo iniciamos
-    currentLevel = 1;
+    currentLevel = 2;
     level->Init(currentLevel);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
-    //std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }
 
 void LevelState::Update(){

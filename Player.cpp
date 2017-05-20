@@ -117,7 +117,7 @@ void Player::move(float xDir, float yDir){
 }
 
 void Player::addGun(Gun* gun){
-    gun->setPosition(*Entity::getCoordinate());
+    gun->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
