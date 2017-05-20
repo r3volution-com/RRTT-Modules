@@ -71,47 +71,8 @@ void LevelState::Init(){
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     wep->setDamage(12);
-    
     rath->setWeapon(wep);
-
-    Gun *gunArm = new Gun(5);
-    gunArm->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
-    gunArm->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
-    gunArm->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
-    gunArm->getAnimation()->initAnimator();    
-    gunArm->getAnimation()->changeAnimation("armaIdle", false);
-    gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-
-    Bullet *bull = new Bullet(Coordinate(128, 128), 2, 'f');
-    bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
-    bull->getAnimation()->addAnimation("fireIdle", Coordinate(128, 896), 2, 0.5f);
-    bull->getAnimation()->setOrigin(Coordinate(184,98));
-    bull->getAnimation()->initAnimator();
-    bull->getAnimation()->changeAnimation("fireIdle", false);
-    bull->setDamage(2);
     
-    gunArm->setAttack(bull);
-    
-    Gun *gunArm2 = new Gun(2);
-    gunArm2->setAnimation(game->rM->getTexture("player"), Rect<float> (0, 640, 128, 128));
-    gunArm2->getAnimation()->addAnimation("armaIdle", Coordinate(0, 512), 1, 2.0f);
-    gunArm2->getAnimation()->addAnimation("armaIzq", Coordinate(128, 512), 1, 2.0f);
-    gunArm2->getAnimation()->initAnimator();    
-    gunArm2->getAnimation()->changeAnimation("armaIdle", false);
-    gunArm2->getAnimation()->setOrigin(Coordinate(56,34));
-    
-    Bullet *bull2 = new Bullet(Coordinate(256, 128), 0.5f, 'l');
-    bull2->setAnimation(game->rM->getTexture("laser"), Rect<float>(0,0, 256, 128));
-    bull2->getAnimation()->addAnimation("laseridle", Coordinate(0, 0), 3, 0.5f);
-    bull2->getAnimation()->setOrigin(Coordinate(300,64));
-    bull2->getAnimation()->initAnimator();
-    bull2->getAnimation()->changeAnimation("laseridle", true);
-    bull2->setDamage(15);
-    
-    gunArm2->setAttack(bull2);
-    
-    rath->addGun(gunArm);
-    rath->changeGun(0);
     rath->setPosition(Coordinate(0, 0));
       
     /*****HUD*****/
