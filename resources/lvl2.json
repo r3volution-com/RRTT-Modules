@@ -3,7 +3,7 @@
         "tileset": "resources/mountainTileset.png",
         "spawn_points": [
             {"x": 3950, "y": 14250},
-            {"x": 3950, "y": 14000}
+            {"x": 4750, "y": 5900}
         ],
 	"resources": [
 		{
