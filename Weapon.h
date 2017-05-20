@@ -24,7 +24,7 @@ class Weapon {
         
         int dmg;
         
-        bool attacking;
+        bool loadingAttack;
         bool isLong;
         
         char dir;
@@ -61,6 +61,8 @@ class Weapon {
          */
         int releaseAttack();
         
+        void update();
+        
         /**
          * Mueve la hitbox
          */
@@ -79,7 +81,7 @@ class Weapon {
          */
         
         int getDamage() { return dmg; }
-        bool isAttacking() { return attacking; }
+        bool isAttacking() { return loadingAttack; }
         char getDirection() { return dir; }
         Time *getTime() { return attackLength; }
         Pie *getPie() { return pie; }

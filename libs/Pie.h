@@ -12,6 +12,8 @@ class Pie {
         int pieRadius;
         int pieTotalPoints;
         int pieFilledPoints;
+        
+        char direction;
 
         void addPoint(sf::Vector2f vector);
     public:
@@ -23,6 +25,9 @@ class Pie {
         void setOutline(float outlineThickness, const sf::Color& outlineColor);
         
         void setFilledAngle(int increment);
+        
+        void setDirection(char d){ direction = d; }
+        char getDirection(){ return direction; }
         
         int getFilledAngle() { return 360.f * pieFilledPoints / pieTotalPoints; }
         
