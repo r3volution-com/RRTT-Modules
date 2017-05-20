@@ -28,8 +28,6 @@ Level::Level(Player* r, HUD* h) {
     showNoteText = false;
     bossZone = false;
     
-    shape = new sf::RectangleShape();
-    shape->setSize(sf::Vector2f(128, 128));
 }
 
 Level::~Level(){
@@ -263,7 +261,6 @@ void Level::Update(){
                     enemys->at(i)->setDead(true);
                 }
             }
-            shape->setPosition(rath->getWeapon()->getHitbox()->hitbox->left, rath->getWeapon()->getHitbox()->hitbox->top);
             if(rath->getWeapon()->detectCollisions(enemys->at(i)->getHitbox())){
                 enemys->at(i)->damage(rath->getWeapon()->getDamage());//ToDo: Meter daño a la guadaña, esta el arma ahora
                 if(enemys->at(i)->getHP() <= 0 && enemys->at(i)->isDead() == false){
@@ -287,7 +284,6 @@ void Level::Update(){
                         postObstacles->at(i)->setActive(false);
                     }
                 }
-                
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
         }
@@ -300,7 +296,6 @@ void Level::Update(){
                         postObstacles->at(i)->setActive(false);
                     }
                 }
-                
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
         }
@@ -484,7 +479,6 @@ void Level::Render(){
     for (int i=0; i<postObstacles->size(); i++){
         if (postObstacles->at(i)->getActive()) Game::Instance()->window->draw(*postObstacles->at(i)->getAnimation()->getSprite());
     }
-    Game::Instance()->window->draw(*shape);
 }
 
 Hitbox *Level::colision(Hitbox *hitbox){
@@ -506,6 +500,11 @@ Hitbox *Level::colision(Hitbox *hitbox){
     for (int i=0; i<npcs->size(); i++){
         if(hitbox->checkCollision(npcs->at(i)->getHitbox())){
             return npcs->at(i)->getHitbox();
+        }
+    }
+    for (int i=0; i<crystals->size(); i++){
+        if(hitbox->checkCollision(crystals->at(i)->getHitbox())){
+            return crystals->at(i)->getHitbox();
         }
     }
     return NULL;
