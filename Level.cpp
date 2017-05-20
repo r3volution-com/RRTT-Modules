@@ -20,6 +20,7 @@ Level::Level(Player* r, HUD* h) {
     enemigosCaidos = 0;
     actualRespawn = 0;
     npcMoving = -1;
+    distanceToLock = 0;
     paused = false;
     showNPCText = false;
     showNoteText = false;
@@ -100,6 +101,7 @@ void Level::Init(int numLevel){
         boss->SetFlashRange(j["boss"]["flashRange"]);
         boss->setFlashCooldown(new Time(j["boss"]["flashCooldown"].get<float>()));
         boss->setStateClock(new Time(j["boss"]["changeStateTimer"].get<float>()));
+        distanceToLock = j["boss"]["distanceToLock"];
         srand (time(NULL));
         for (int i=j["boss"]["states"]["to"].get<int>(); i<=j["boss"]["states"]["from"].get<int>(); i++){
             boss->addState(i);
@@ -112,7 +114,7 @@ void Level::Init(int numLevel){
             Gun *gunArm = new Gun(j["boss"]["guns"].at(i)["cooldown"].get<float>());
             gunArm->setAnimation(game->rM->getTexture(j["boss"]["guns"].at(i)["sprite"]["texture"]), 
                     Rect<float> (j["boss"]["guns"].at(i)["sprite"]["rect"]["x"], j["boss"]["guns"].at(i)["sprite"]["rect"]["y"], j["boss"]["guns"].at(i)["sprite"]["rect"]["w"], j["boss"]["guns"].at(i)["sprite"]["rect"]["h"]));
-            gunArm->getAnimation()->setOrigin(Coordinate(56,34)); //ToDo: campo en json?
+            gunArm->getAnimation()->setOrigin(Coordinate(j["boss"]["guns"].at(i)["origin"]["x"],j["boss"]["guns"].at(i)["origin"]["y"])); //ToDo: campo en json?
 
             Bullet *bull = new Bullet(Coordinate(j["boss"]["guns"].at(i)["bullet"]["size"]["w"], j["boss"]["guns"].at(i)["bullet"]["size"]["h"]), 
                     j["boss"]["guns"].at(i)["bullet"]["duration"], j["boss"]["guns"].at(i)["bullet"]["type"]);
@@ -126,7 +128,7 @@ void Level::Init(int numLevel){
             bull->getAnimation()->initAnimator();
             bull->getAnimation()->changeAnimation(j["boss"]["guns"].at(i)["bullet"]["animations"].at(0)["name"].get<std::string>(), false);
             bull->setDamage(j["boss"]["guns"].at(i)["bullet"]["damage"]);
-            bull->getAnimation()->setOrigin(Coordinate(300,64));//ToDo: campo en json?
+            bull->getAnimation()->setOrigin(Coordinate(j["boss"]["guns"].at(i)["bullet"]["origin"]["x"],j["boss"]["guns"].at(i)["bullet"]["origin"]["y"]));//ToDo: campo en json?
 
             gunArm->setAttack(bull);
             
@@ -175,6 +177,7 @@ void Level::Init(int numLevel){
                         j["npcs"].at(i)["animations"].at(x)["nSprites"],
                         j["npcs"].at(i)["animations"].at(x)["duration"]);
             }
+            npc->setRunawayDirection(j["npcs"].at(i)["runawayDirection"]["x"], j["npcs"].at(i)["runawayDirection"]["y"]);
             npc->getAnimation()->initAnimator();
             npc->getAnimation()->changeAnimation(j["npcs"].at(i)["animations"].at(0)["name"].get<std::string>(), false);
             for (int x=0; x<j["npcs"].at(i)["phrase"].size(); x++){
@@ -304,7 +307,8 @@ void Level::Update(){
         }
         //PreBossObstacles
         if (j.find("preBossObstacles") != j.end()) {
-            if(rath->getCoordinate()->y < 5700){
+            int disPlayerBoss = tri->distance(*rath->getCoordinate(), *boss->getCoordinate());
+            if(disPlayerBoss < distanceToLock){
                 bossZone = true;
                 play = true;
             } else {
@@ -331,8 +335,8 @@ void Level::Update(){
     } else {
         if (j.find("npcs") != j.end()) {
             if (npcMoving != -1){
-                if(npcs->at(npcMoving)->getCoordinate()->y < 20000){
-                    npcs->at(npcMoving)->move(0,20);
+                if(npcs->at(npcMoving)->getCoordinate()->y < 20000 && npcs->at(npcMoving)->getCoordinate()->x < 20000){
+                    npcs->at(npcMoving)->move(npcs->at(npcMoving)->getRunawayDirection()->x,npcs->at(npcMoving)->getRunawayDirection()->y);
                 }
                 int disNpcPlayer = tri->distance(*rath->getCoordinate(), *npcs->at(npcMoving)->getCoordinate());
                 if (disNpcPlayer > 1000){
@@ -369,13 +373,14 @@ void Level::Input(){
             }
             //NOTAS
             if (j.find("notes") != j.end()) {
+                if (showNoteText) {
+                    showNoteText = false;
+                }
                 for (int i=0; i<notes->size(); i++){
                     if(rath->collision(notes->at(i)->getHitbox())){
                         if (!showNoteText && !notes->at(i)->getTaken()){
                             showNoteText = true;
                             notes->at(i)->setTaken();
-                        } else {
-                            showNoteText = false;
                         }
                     }
                 }
@@ -424,7 +429,7 @@ void Level::Render(){
             Game::Instance()->window->draw(*npcs->at(i)->getAnimation()->getSprite());
             if (npcs->at(i)->getRange()){
                 Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-                Game::Instance()->window->draw(*keyIterationNpc->getText());
+                if (npcMoving == -1) Game::Instance()->window->draw(*keyIterationNpc->getText());
                 if(showNPCText){
                     hud->drawTextLayer();
                 }

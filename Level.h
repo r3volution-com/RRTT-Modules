@@ -25,6 +25,7 @@ class Level {
         int enemigosCaidos;
         int actualRespawn;
         int npcMoving;
+        int distanceToLock;
         bool seeBoss;
         bool showNPCText;
         bool showNoteText;

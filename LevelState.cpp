@@ -44,9 +44,8 @@ void LevelState::Init(){
     
     game->iM->addAction("interact", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
     
-    game->iM->addAction("player-shortAttack", 
-            thor::Action(sf::Mouse::Left, thor::Action::PressOnce));
-    game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold));
+    game->iM->addAction("player-shortAttack", thor::Action(sf::Mouse::Left, thor::Action::PressOnce) && !thor::Action(sf::Mouse::Left, thor::Action::Hold));
+    game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold) && !thor::Action(sf::Mouse::Left, thor::Action::PressOnce));
     game->iM->addAction("player-longAttackStop", thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
     
     game->iM->addAction("player-gunAttack", thor::Action(sf::Mouse::Right));
@@ -142,7 +141,7 @@ void LevelState::Init(){
     //Y lo iniciamos
     level->Init(1);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
-    std::cout<<level->getBoss()->getMaxHP()<<"\n";
+    //std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }
 
 void LevelState::Update(){
@@ -221,7 +220,7 @@ void LevelState::Input(){
         if (Game::Instance()->iM->isActive("player-flash") && rath->getFlashCooldown()->getTime()==0
                 && (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)
                 ||  sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||  sf::Keyboard::isKeyPressed(sf::Keyboard::D))){
-            cout << rath->getFlashCooldown()->getTime() << endl;
+            //cout << rath->getFlashCooldown()->getTime() << endl;
             Game::Instance()->rM->getSound("flash")->getSound()->play();
             hud->resetClockFlash();
             rath->flash();
@@ -261,6 +260,7 @@ void LevelState::Input(){
                 Game::Instance()->getLevelState()->getLevel()->setPlay(false);
                 Game::Instance()->rM->getMusic("Main")->getMusic()->play();
                 
+                level->getBoss()->setPosition(*level->getBoss()->getInitialCoordinate());
                 level->getBoss()->setHP(level->getBoss()->getMaxHP());
                 hud->changeLifePlayer(rath->getHP());
                 hud->changeLifeBoss(level->getBoss()->getHP());

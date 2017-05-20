@@ -135,13 +135,16 @@
             "changeStateTimer": 20,
             "nStates": 10,
             "states": {"from": 1, "to": 2},
+            "distanceToLock": 1600,
             "guns": [
                 {
                     "cooldown": 3,
                     "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                    "origin": {"x": 56, "y": 34},
                     "bullet": {
                             "size": {"w": 128, "h": 128},
                             "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                            "origin": {"x": 300, "y": 64},
                             "type": 1,
                             "damage": 3,
                             "duration": 2,
@@ -168,19 +171,14 @@
             "text": "El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\nsaliendo en multimedia!"  
         }
     ],
-    "crystals": [
-        {
-            "sprite": {"texture": "gui-tileset", "rect": {"x": 128, "y": 920, "w": 174, "h": 290}},
-            "position": {"x": 3000, "y": 3000}
-        }
-    ],
     "npcs": [
         {
             "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
             "position": {"x": 4500, "y": 13300},
             "size": {"w": 128, "h": 128},
-            "speed": 2,
+            "speed": 40,
             "name": "Jose",
+            "runawayDirection": {"x": 0, "y": 1},
             "animations": [
                     {
                             "name": "idle",
