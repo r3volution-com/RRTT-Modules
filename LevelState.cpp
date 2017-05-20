@@ -63,7 +63,7 @@ void LevelState::Init(){
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(3950,14250), Coordinate(40, 100), 40);
+    rath = new Player(Coordinate(3950,14250), Coordinate(64, 100), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(350);
     rath->setFlashCooldown(2);
