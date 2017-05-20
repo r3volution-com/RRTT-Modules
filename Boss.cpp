@@ -44,6 +44,7 @@ void Boss::addGun(Gun* gun){
     gun->setPosition(*Entity::getCoordinate());
     guns->push_back(gun);
     currentGun = guns->size()-1;
+    guns->at(currentGun)->getGunCooldown()->start();
 }
 
 bool Boss::changeGun(int gun){
@@ -323,17 +324,30 @@ void Boss::AI(Player* rath, HUD* hud){
             move(dir.x,dir.y);
             Enemy::setDmgHit(Enemy::getInitialDmg() * 1.5);
         }else if(state == 5){
-            if(getCurrentGun()->getGunCooldown()->isExpired()){
+            Entity::setSpeed(Boss::getInitialSpeed() * 0.8);
+            move(dir.x,dir.y);
+            if(getCurrentGun()->getBulletLifetime()->isExpired()){
                 srand (time(NULL));
                 int num = rand() % 2;
-                if(currentGun != num){
-                    changeGun(num);
+                if(num == 0 && guns->at(1)->getGunCooldown()->isExpired()){
+                    currentGun = 1;
+                    changeGun(currentGun);
+                }else if(num == 1 && guns->at(0)->getGunCooldown()->isExpired()){
+                    currentGun = 0;
+                    changeGun(currentGun);
                 }
+            }
+            if(getCurrentGun()->getGunCooldown()->isExpired()){
+            //changeGun(0);
                 Boss::gunAttack();
                 Boss::getCurrentGun()->getBullet()->setPosition(*Boss::getCurrentGun()->getCoordinate());
-                if(currentGun == 1){
-                    angle += 15;
-                }
+            }
+            if(currentGun == 1){
+                angle += 15;
+            }
+            std::cout<<rath->getFlashCooldown()->getTime()<<"\n";
+            if(rath->getFlashCooldown()->isRunning() && getFlashCooldown()->isExpired()){
+                flash(dir.x,dir.y);
             }
         }
     }else{
