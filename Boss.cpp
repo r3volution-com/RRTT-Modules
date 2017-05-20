@@ -335,8 +335,6 @@ void Boss::AI(Player* rath, HUD* hud){
                     angle += 15;
                 }
             }
-            
-            
         }
     }else{
         state = 0;
