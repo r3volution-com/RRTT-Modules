@@ -264,13 +264,13 @@ void Boss::AI(Player* rath, HUD* hud){
             }else{
                 Enemy::setHome(home = true);
             }
-        }else if(distance < 100){
+        }else if(Boss::getHitbox()->checkCollision(rath->getHitbox())){
             Enemy::getState()->update();
             Entity::setSpeed(0);
         }
     }
     
-    if(onRange == true && distance >= 80){
+    if(onRange == true && !Boss::getHitbox()->checkCollision(rath->getHitbox())){
         
         Boss::setDmgHit(Boss::getInitialDmg());
         Entity::setSpeed(Boss::getInitialSpeed());
