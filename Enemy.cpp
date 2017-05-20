@@ -251,10 +251,10 @@ void Enemy::AI(Player* rath, HUD* hud){
         }else{
             home = true;
         }
-    }else if(distance < 100){
+    }else if(Entity::getHitbox()->checkCollision(rath->getHitbox())){
         Enemy::getState()->update();
         Entity::setSpeed(0);
-        if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
+        if(cd->isExpired()){
             rath->damage(dmgHit);
             hud->changeLifePlayer(rath->getHP()-dmgHit);
             cd->restart();

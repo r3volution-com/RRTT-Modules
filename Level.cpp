@@ -278,7 +278,7 @@ void Level::Update(){
             if(boss->getHP() <= 0){
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
-       }
+        }
         if(rath->getWeapon()->detectCollisions(boss->getHitbox())){
             boss->damage(rath->getWeapon()->getDamage());
             hud->changeLifeBoss(boss->getHP());
@@ -346,7 +346,6 @@ void Level::Update(){
             }
         }
     }
-    
 }
 
 void Level::Input(){
@@ -395,7 +394,6 @@ void Level::Render(){
     //ToDo: Para subir los FPS quizas podriamos hacer que solo se muestren las cosas que esten a menos de X distancia de nosotros
     //Dibujamos todos los elementos
     map->dibujarMapa(Game::Instance()->window);
-    
     //Notas de texto
     if (j.find("notes") != j.end()) {
         for (int i=0; i<notes->size(); i++){

@@ -63,7 +63,7 @@ void LevelState::Init(){
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(3950,14250), Coordinate(40, 100), 40);
+    rath = new Player(Coordinate(3950,14250), Coordinate(64, 100), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(350);
     rath->setFlashCooldown(2);
@@ -138,7 +138,7 @@ void LevelState::Init(){
     /*Creamos el nivel*/
     level = new Level(rath, hud); 
     //Y lo iniciamos
-    level->Init(1);
+    level->Init(2);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     //std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }
