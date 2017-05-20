@@ -276,6 +276,12 @@ void Level::Update(){
             boss->damage(rath->getCurrentGun()->getBullet()->getDamage());
             hud->changeLifeBoss(boss->getHP());
             if(boss->getHP() <= 0){
+                if (j.find("postBossObstacles") != j.end()) {
+                    for (int i=0; i<postObstacles->size(); i++){
+                        postObstacles->at(i)->setActive(false);
+                    }
+                }
+                
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
        }
@@ -283,7 +289,13 @@ void Level::Update(){
             boss->damage(rath->getWeapon()->getDamage());
             hud->changeLifeBoss(boss->getHP());
             if(boss->getHP() <= 0){
-                boss->setPosition(10000,10000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
+                if (j.find("postBossObstacles") != j.end()) {
+                    for (int i=0; i<postObstacles->size(); i++){
+                        postObstacles->at(i)->setActive(false);
+                    }
+                }
+                
+                boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
         }
         if (boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
@@ -332,6 +344,7 @@ void Level::Update(){
            Game::Instance()->rM->getMusic("boss")->getMusic()->play();
            play=false;
         }
+        
     } else {
         if (j.find("npcs") != j.end()) {
             if (npcMoving != -1){
