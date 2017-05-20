@@ -44,9 +44,8 @@ void LevelState::Init(){
     
     game->iM->addAction("interact", thor::Action(sf::Keyboard::Key::E, thor::Action::PressOnce));
     
-    game->iM->addAction("player-shortAttack", 
-            thor::Action(sf::Mouse::Left, thor::Action::PressOnce));
-    game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold));
+    game->iM->addAction("player-shortAttack", thor::Action(sf::Mouse::Left, thor::Action::PressOnce) && !thor::Action(sf::Mouse::Left, thor::Action::Hold));
+    game->iM->addAction("player-longAttackStart", thor::Action(sf::Mouse::Left, thor::Action::Hold) && !thor::Action(sf::Mouse::Left, thor::Action::PressOnce));
     game->iM->addAction("player-longAttackStop", thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
     
     game->iM->addAction("player-gunAttack", thor::Action(sf::Mouse::Right));
@@ -150,6 +149,7 @@ void LevelState::Update(){
         if(rath->getDmgOnPlayer()->getTime() > 0){
             Game::Instance()->rM->getSound("damage")->getSound()->play();
         }
+        rath->getWeapon()->update();
     }
     level->Update();
 }

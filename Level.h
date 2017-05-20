@@ -49,6 +49,8 @@ class Level {
         std::vector<Crystal*> *crystals;
         std::vector<Obstacle*> *preObstacles;
         std::vector<Obstacle*> *postObstacles;
+        
+        sf::RectangleShape *shape;
     public:
         Level(Player* r, HUD* h);
         virtual ~Level();
