@@ -54,9 +54,9 @@ Map::Map(const char* ruta, const char* texture) {
     
     //Mostramos valores de la capa de objetos
     for(int i=0; i<_objectX.size(); i++){
-        cout << "X: " << _objectX.at(i) << ", Y: " 
+        /*cout << "X: " << _objectX.at(i) << ", Y: " 
              << _objectY.at(i) << ", W: " << _objectW.at(i) 
-             << " , H: " << _objectH.at(i) << endl;
+             << " , H: " << _objectH.at(i) << endl;*/
     }
     
     //Almacenamos las etiquetas tiles

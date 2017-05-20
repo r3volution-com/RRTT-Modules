@@ -41,7 +41,7 @@ void Entity::setPosition(Coordinate newCoor){
     if(hitbox->hitbox->height<anim->getSprite()->getLocalBounds().height){
        hitbox->setPosition(hitbox->hitbox->left, hitbox->hitbox->top +(anim->getSprite()->getLocalBounds().height - hitbox->hitbox->height));
     }
-    std::cout<<hitbox->hitbox->width<<" ,"<<anim->getSprite()->getLocalBounds().width<<"\n";
+    //std::cout<<hitbox->hitbox->width<<" ,"<<anim->getSprite()->getLocalBounds().width<<"\n";
     if(hitbox->hitbox->width < anim->getSprite()->getLocalBounds().width){
         hitbox->setPosition(hitbox->hitbox->left + (anim->getSprite()->getLocalBounds().width-hitbox->hitbox->width)/2 , hitbox->hitbox->top);
     }

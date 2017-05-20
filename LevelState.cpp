@@ -63,12 +63,11 @@ void LevelState::Init(){
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/
-    rath = new Player(Coordinate(3950,14250), Coordinate(40, 100), 40);
+    rath = new Player(Coordinate(3950,14250), Coordinate(64, 100), 40);
     rath->setAnimations(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     rath->setMaxHP(350);
     rath->setFlashCooldown(2);
     rath->setFlashRange(10);
-    //rath->getAnimation()->getSprite()->setScale(1.5f, 1.5f);
     
     Weapon *wep = new Weapon(Coordinate(2500,5300), Coordinate(128, 128), 1, 0.25f);
     wep->setDamage(12);
@@ -82,7 +81,7 @@ void LevelState::Init(){
     gunArm->getAnimation()->initAnimator();    
     gunArm->getAnimation()->changeAnimation("armaIdle", false);
     gunArm->getAnimation()->setOrigin(Coordinate(56,34));
-    
+
     Bullet *bull = new Bullet(Coordinate(128, 128), 2, 'f');
     bull->setAnimation(game->rM->getTexture("player"), Rect<float>(0,0, 128, 128));
     bull->getAnimation()->addAnimation("fireIdle", Coordinate(128, 896), 2, 0.5f);
@@ -139,9 +138,9 @@ void LevelState::Init(){
     /*Creamos el nivel*/
     level = new Level(rath, hud); 
     //Y lo iniciamos
-    level->Init(1);
+    level->Init(2);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
-    std::cout<<level->getBoss()->getMaxHP()<<"\n";
+    //std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }
 
 void LevelState::Update(){
@@ -221,7 +220,7 @@ void LevelState::Input(){
         if (Game::Instance()->iM->isActive("player-flash") && rath->getFlashCooldown()->getTime()==0
                 && (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)
                 ||  sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||  sf::Keyboard::isKeyPressed(sf::Keyboard::D))){
-            cout << rath->getFlashCooldown()->getTime() << endl;
+            //cout << rath->getFlashCooldown()->getTime() << endl;
             Game::Instance()->rM->getSound("flash")->getSound()->play();
             hud->resetClockFlash();
             rath->flash();
@@ -261,6 +260,7 @@ void LevelState::Input(){
                 Game::Instance()->getLevelState()->getLevel()->setPlay(false);
                 Game::Instance()->rM->getMusic("Main")->getMusic()->play();
                 
+                level->getBoss()->setPosition(*level->getBoss()->getInitialCoordinate());
                 level->getBoss()->setHP(level->getBoss()->getMaxHP());
                 hud->changeLifePlayer(rath->getHP());
                 hud->changeLifeBoss(level->getBoss()->getHP());

@@ -30,6 +30,9 @@ bool NPC::nextSentence(){
         return false;
     }
 }
+void NPC::setRunawayDirection(int x, int y){
+    runawayDirection = new Coordinate(x, y);
+}
 std::string NPC::getCurrentSentenceText(){
     return sentences->at(currentSentence);
 }

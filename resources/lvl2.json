@@ -3,7 +3,7 @@
         "tileset": "resources/mountainTileset.png",
         "spawn_points": [
             {"x": 3950, "y": 14250},
-            {"x": 3950, "y": 14000}
+            {"x": 4750, "y": 5900}
         ],
 	"resources": [
 		{
@@ -152,7 +152,7 @@
 	],
 	"boss": {
             "position": {"x": 3500, "y": 3000},
-            "size": {"w": 128, "h": 128},
+            "size": {"w": 40, "h": 100},
             "speed": 25,
             "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
             "hp": 800,
@@ -163,16 +163,19 @@
             "flashRange": 10,
             "flashCooldown": 0.5,
             "changeStateTimer": 20,
+            "distanceToLock": 1600,
             "nStates": 10,
             "states": {"from": 2, "to": 4},
             "guns": [
                 {
                     "cooldown": 0,
                     "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                    "origin": {"x": 56, "y": 34},
                     "bullet": {
                         "size": {"w": 128, "h": 128},
-                                            "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
-                                            "type": 1,
+                        "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
+                        "origin": {"x": 300, "y": 64},
+                        "type": 1,
                         "damage": 5,
                         "duration": 2,
                         "animations": [
@@ -208,9 +211,10 @@
             {
                 "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
                 "position": {"x": 4500, "y": 13300},
-                "size": {"w": 128, "h": 128},
-                "speed": 2,
+                "size": {"w": 50, "h": 90},
+                "speed": 40,
                 "name": "Jose",
+                "runawayDirection": {"x": 1, "y": 0},
                 "animations": [
                         {
                                 "name": "idle",
@@ -237,6 +241,20 @@
                         "position": {"x": 20, "y": 520}
                     }
                 ]
+            }
+        ],
+        "preBossObstacles": [
+            {
+                "position": {"x": 4100, "y": 5300},
+                "size": {"w": 1280, "h": 384},
+                "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+            }
+        ],
+        "postBossObstacles": [
+            {
+                "position": {"x": 2300, "y": 2125},
+                "size": {"w": 1280, "h": 384},
+                "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
             }
         ]
 }
