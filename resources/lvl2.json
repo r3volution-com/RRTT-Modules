@@ -212,7 +212,7 @@
                 "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
                 "position": {"x": 4500, "y": 13300},
                 "size": {"w": 50, "h": 90},
-                "speed": 2,
+                "speed": 40,
                 "name": "Jose",
                 "runawayDirection": {"x": 1, "y": 0},
                 "animations": [
@@ -241,6 +241,20 @@
                         "position": {"x": 20, "y": 520}
                     }
                 ]
+            }
+        ],
+        "preBossObstacles": [
+            {
+                "position": {"x": 4100, "y": 5300},
+                "size": {"w": 1280, "h": 384},
+                "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+            }
+        ],
+        "postBossObstacles": [
+            {
+                "position": {"x": 2300, "y": 2125},
+                "size": {"w": 1280, "h": 384},
+                "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
             }
         ]
 }
