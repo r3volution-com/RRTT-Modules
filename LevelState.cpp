@@ -99,7 +99,7 @@ void LevelState::Init(){
     /*Creamos el nivel*/
     level = new Level(rath, hud); 
     //Y lo iniciamos
-    level->Init(2);
+    level->Init(1);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     //std::cout<<level->getBoss()->getMaxHP()<<"\n";
 }
@@ -195,7 +195,6 @@ void LevelState::Input(){
         /*Pause menu*/
         if (pauseMenu){
             pause->checkHover(Game::Instance()->mouse);
-
             if (Game::Instance()->iM->isActive("click")){
                 int clicks = pause->checkClicks();
                 switch (clicks){
@@ -223,12 +222,14 @@ void LevelState::Input(){
                 
                 level->getBoss()->setPosition(*level->getBoss()->getInitialCoordinate());
                 level->getBoss()->setHP(level->getBoss()->getMaxHP());
-                hud->changeLifePlayer(rath->getHP());
                 hud->changeLifeBoss(level->getBoss()->getHP());
                 
                 level->setBossZone(false);
                 
-                rath->respawn(); 
+                rath->respawn();
+                
+                hud->changeLifePlayer(rath->getHP());
+                
                 paused = false;
             }
         }
