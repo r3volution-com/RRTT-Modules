@@ -148,6 +148,7 @@ void LevelState::Update(){
         if(rath->getDmgOnPlayer()->getTime() > 0){
             Game::Instance()->rM->getSound("damage")->getSound()->play();
         }
+        rath->getWeapon()->update();
     }
     level->Update();
 }
