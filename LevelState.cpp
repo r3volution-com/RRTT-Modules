@@ -149,6 +149,7 @@ void LevelState::Input(){
         float mouseAng = tri->angleWindow(Coordinate(Game::Instance()->mouse->hitbox->left, Game::Instance()->mouse->hitbox->top));
 
         /*Player weapon attack*/
+        //ToDo: A veces a la hora de realizar el ataque corto entra tambien en player-longAttackStart por lo que el sonido se queda bug
         if (Game::Instance()->iM->isActive("player-shortAttack")){
             Game::Instance()->rM->getSound("ataque")->getSound()->play();
             rath->weaponShortAttack(mouseAng);
@@ -171,7 +172,9 @@ void LevelState::Input(){
             /*Player gun attack*/
             //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
             if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){
-                if (rath->getCurrentGun()->getGunCooldown()->getTime()==5 || rath->getCurrentGun()->getGunCooldown()->getTime()==0) Game::Instance()->rM->getSound("fire")->getSound()->play();
+                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)
+                    Game::Instance()->rM->getSound("fire")->getSound()->play();
+                
                 hud->resetClockGuns();
                 rath->gunAttack();
                 rath->getCurrentGun()->getBullet()->setPosition(*rath->getCurrentGun()->getCoordinate());
@@ -182,7 +185,6 @@ void LevelState::Input(){
         if (Game::Instance()->iM->isActive("player-flash") && rath->getFlashCooldown()->getTime()==0
                 && (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)
                 ||  sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||  sf::Keyboard::isKeyPressed(sf::Keyboard::D))){
-            //cout << rath->getFlashCooldown()->getTime() << endl;
             Game::Instance()->rM->getSound("flash")->getSound()->play();
             hud->resetClockFlash();
             rath->flash();
@@ -218,7 +220,7 @@ void LevelState::Input(){
             hud->playerDie();
             if(hud->getButton()->getHover() && Game::Instance()->iM->isActive("click")){
                 Game::Instance()->rM->getMusic("boss")->getMusic()->stop();
-                Game::Instance()->getLevelState()->getLevel()->setPlay(false);
+                Game::Instance()->getLevelState()->getLevel()->setIsEnter(false);
                 Game::Instance()->rM->getMusic("Main")->getMusic()->play();
                 
                 level->getBoss()->setPosition(*level->getBoss()->getInitialCoordinate());

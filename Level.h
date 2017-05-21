@@ -33,6 +33,7 @@ class Level {
         bool bossZone;
         //Iniciar musica jefe
         bool play = false;
+        bool isEnter = false;
         
 
         //Objetos
@@ -65,7 +66,7 @@ class Level {
         
         void CleanUp();
         
-        void setPlay(bool booleano) {play=booleano;}
+        void setIsEnter(bool booleano) {isEnter=booleano;}
         void setBossZone(bool b) { bossZone = b; }
         
         Coordinate* getRespawn(){ return respawn.at(actualRespawn);}
