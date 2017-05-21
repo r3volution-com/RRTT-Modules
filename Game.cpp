@@ -4,6 +4,42 @@ void texto(std::string texto){ //ToDo: quitar, esto es de ejemplo para la consol
     std::cout << "Has escrito: " << texto << "\n";
 }
 
+void selectlevel(std::string texto){
+    
+}
+
+void spawnenemy(std::string texto){
+    //Ponerle el tipo (ccon todo predefinido) y la posicion sera la tuya + algo)
+}
+
+void nocooldown(std::string texto){
+    Game::Instance()->getLevelState()->
+}
+
+void godmode(std::string texto){
+    
+}
+
+void noclip(std::string texto){
+    
+}
+
+void teleport(std::string texto){
+    
+}
+
+void deathtouch(std::string texto){
+    
+}
+
+void speed(std::string texto){
+    
+}
+
+void disableia(std::string texto){
+    
+}
+
 void onTextEntered(thor::ActionContext<std::string> context) {
     if (Game::Instance()->console->isActive()){
         if (context.event->text.unicode < 128 && (context.event->text.unicode != 13 && context.event->text.unicode != 9 && context.event->text.unicode != 8)) {

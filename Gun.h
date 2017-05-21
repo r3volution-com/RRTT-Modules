@@ -74,6 +74,10 @@ class Gun {
          /**
           * setea la animacion del arama a derecha
           */
+        void setCooldown(float aux);
+        /**
+         * Define el cooldown del arma
+         */
         void derecha();
           /**
           * setea la animacion del arama a isquierda

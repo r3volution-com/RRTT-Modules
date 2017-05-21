@@ -84,3 +84,7 @@ void Gun::atras(){
     gunAnimation->changeAnimation("atras", true);
     gunAnimation->setOrigin(Coordinate(56,38));
 }
+
+void Gun::setCooldown(float aux){
+    maxCooldown=aux;
+}
