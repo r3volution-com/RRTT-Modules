@@ -6,20 +6,21 @@
 #include "libs/Animation.h"
 class Bullet {
     private:
-        InterpolatedCoordinate *coor;
         Hitbox *hitbox;
         Animation *anim;
-        Coordinate *initial;
+        int damage;
+        
+        int type;
         
         float duration;
     public:
         /**
          * Creacion del objeto bala
          * @param position: Posicion de la bala. Tipo Coordinates
-         * @param size: Tamano de la bala
          * @param d: duracion de la bala
+         * @param t: tipo de la bala
          */
-        Bullet(Coordinate position, Coordinate size, float d);
+        Bullet(Coordinate size, float d, int t);
         virtual ~Bullet();
         
         /**
@@ -50,12 +51,17 @@ class Bullet {
          */
         bool collision(Hitbox *other);
         
-        InterpolatedCoordinate *getState() { return coor; }
-        Coordinate *getCoordinate() { return coor->getCoordinate(); }
+        /**
+         * Actualiza el dano del arma
+         * @param dmg: Dano del arma
+         */
+        void setDamage(int dmg) { damage = dmg; }
+        
+        int getDamage() { return damage; }
         Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return anim; }
-        Coordinate *getInitialCoordinate() { return initial; }
         float getDuration() { return duration; }
+        int getType(){return type;}
 };
 
 #endif /* BULLET_H */

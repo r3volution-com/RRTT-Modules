@@ -9,7 +9,10 @@ class NPC : public Entity {
         std::string name;
         std::vector<std::string> *sentences;
         std::vector<Coordinate*> *sentencePosition;
+        Coordinate *runawayDirection;
         int currentSentence;
+        
+        bool inRange;
     public:
         /**
          * Crea el objeto npc
@@ -42,7 +45,19 @@ class NPC : public Entity {
          * @return 
          */
         bool nextSentence();
+        
+        /**
+         * 
+         * @param x
+         * @param y
+         */
+        void setRunawayDirection(int x, int y);
+        
+        void setInRange(bool b){ inRange = b; }
+        
+        bool getRange(){ return inRange; }
         std::string getName() { return name; };
+        Coordinate *getRunawayDirection() { return runawayDirection; }
         std::string getCurrentSentenceText();
         Coordinate *getCurrentSentencePosition();
 };

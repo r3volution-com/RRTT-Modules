@@ -1,0 +1,83 @@
+{
+	"map": "resources/Boss.tmx",
+        "tileset": "resources/TilesetBossfinal.png",
+        "spawn_points": [
+            {"x": 650, "y": 3650},
+            {"x": 650, "y": 3650}
+        ],
+	"resources": [
+		{
+			"name": "enemy",
+			"path": "resources/enemigosLVL1.png"
+		},
+		{
+			"name": "sangre",
+			"path": "resources/rojo.png"
+		},
+		{
+			"name": "pergamino",
+			"path": "resources/pergamino.png"
+		},
+                {
+			"name": "rayo",
+			"path": "resources/rayo.png"
+		}
+	],
+	"boss": {
+            "position": {"x": 3500, "y": 3000},
+            "size": {"w": 40, "h": 100},
+            "speed": 25,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 800,
+            "distanceToHome": 2000,
+            "distanceToPlayer": 1500,
+            "damage": 20,
+            "hitCooldown": 1,
+            "flashRange": 10,
+            "flashCooldown": 0.5,
+            "changeStateTimer": 20,
+            "distanceToLock": 1600,
+            "nStates": 10,
+            "states": {"from": 2, "to": 4},
+            "guns": [
+                {
+                    "cooldown": 0,
+                    "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                    "origin": {"x": 56, "y": 34},
+                    "bullet": {
+                        "size": {"w": 128, "h": 128},
+                        "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
+                        "origin": {"x": 300, "y": 64},
+                        "type": 1,
+                        "damage": 5,
+                        "duration": 2,
+                        "animations": [
+                            {
+                                "name": "idle",
+                                "position": {"x": 0, "y": 0},
+                                "nSprites": 3,
+                                "duration": 0.3
+                            }
+                        ]
+                    }
+                }
+            ]
+
+        },
+        "notes": [
+            {
+                "noteSprite": {"texture": "gui-tileset", "rect": {"x": 325, "y": 920, "w": 128, "h": 128}},
+                "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
+                "font": "font",
+                "notePosition": {"x": 3000, "y": 6500},
+                "paperPosition": {"x": 500, "y": 100},
+                "text": "El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\nsaliendo en multimedia!"  
+            }
+        ],
+        "crystals": [
+            {
+                "sprite": {"texture": "gui-tileset", "rect": {"x": 128, "y": 920, "w": 174, "h": 290}},
+                "position": {"x": 3000, "y": 3000}
+            }
+        ]
+}

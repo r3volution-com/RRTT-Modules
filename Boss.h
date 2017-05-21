@@ -25,7 +25,6 @@ class Boss : public Enemy{
         bool start;
         bool nextState;
         
-        int level;
         float timeState;
         
         float initialSpeed;
@@ -34,6 +33,8 @@ class Boss : public Enemy{
         char dirSprite;
         
         int actualDmg;
+        int angle;
+        
     public:
         /**
          * Crea un objeto de tipo jefe
@@ -41,7 +42,7 @@ class Boss : public Enemy{
          * @param size: tamano del boss
          * @param sp: Velocidad de animacion del jefe
          */
-        Boss(Coordinate position, Coordinate size, float sp, int lvl);
+        Boss(Coordinate position, Coordinate size, float sp);
         virtual ~Boss();
         /**
          * Cambia el estado del jefe
@@ -84,7 +85,9 @@ class Boss : public Enemy{
         void changeState();
         void damage(int dm);
         void addState(int s);
-        void addRandomState();
+        void addRandomState(int from, int to);
+        int getStateBoss(){return state;}
+        int getAngle(){return angle;}
 };
 
 #endif /* BOSS_H */

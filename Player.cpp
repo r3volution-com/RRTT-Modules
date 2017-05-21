@@ -49,55 +49,55 @@ void Player::move(float xDir, float yDir){
         if (xDir == 1 && yDir == 0) { //Derecha
             if (state != 'r') {
                 Entity::getAnimation()->changeAnimation("correrDerecha", false);
-                guns->at(currentGun)->derecha();
+                if (currentGun >= 0) guns->at(currentGun)->derecha();
             }
             state = 'r';
         } else if (xDir == -1 && yDir == 0) { //Izquierda
             if (state != 'l') {
                 Entity::getAnimation()->changeAnimation("correrIzquierda", false);
-                guns->at(currentGun)->inversa();
+                if (currentGun >= 0) guns->at(currentGun)->inversa();
             }
             state = 'l';
         } else if (xDir == 0 && yDir == 1) { //Abajo
             if (state != 'd') {
                 Entity::getAnimation()->changeAnimation("correrAbajo", false);
-                guns->at(currentGun)->derecha();
+                if (currentGun >= 0) guns->at(currentGun)->derecha();
             }
             state = 'd';
         } else if (xDir == 0 && yDir == -1) { //Arriba
             if (state!='u') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
-                guns->at(currentGun)->atras();                
+                if (currentGun >= 0) guns->at(currentGun)->atras();                
             }
             state='u';
         } else if (xDir == 1 && yDir == -1){ //Arriba derecha
             if (state!='a') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
-                guns->at(currentGun)->atras();                
+                if (currentGun >= 0) guns->at(currentGun)->atras();                
             }
             state='a';
         } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
             if (state != 'b') {
                 Entity::getAnimation()->changeAnimation("correrIzquierda", false);
-                guns->at(currentGun)->inversa();
+                if (currentGun >= 0) guns->at(currentGun)->inversa();
             }
             state = 'b';
         } else if (xDir == 1 && yDir == 1){ //Derecha abajo
             if (state != 'c') {
                 Entity::getAnimation()->changeAnimation("correrDerecha", false);
-                guns->at(currentGun)->derecha();
+                if (currentGun >= 0) guns->at(currentGun)->derecha();
             }
             state = 'c';
         } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
             if (state != 'e') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
-                guns->at(currentGun)->atras();
+                if (currentGun >= 0) guns->at(currentGun)->atras();
             }
             state='e';
         } else {
             if (state != 'i'){
                 Entity::getAnimation()->changeAnimation("idle", false);
-                guns->at(currentGun)->derecha();
+                if (currentGun >= 0) guns->at(currentGun)->derecha();
                 state='i';
             }
         }
@@ -105,9 +105,9 @@ void Player::move(float xDir, float yDir){
             float xSpeed = xDir*getSpeed();
             float ySpeed = yDir*getSpeed();
             Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
-            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
-            if(collision != -1){
-                Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
+            Hitbox *collision = Game::Instance()->getLevelState()->getLevel()->colision(&next);
+            if(collision != NULL){
+                Coordinate resolver = next.resolveCollision(collision, Coordinate(xSpeed, ySpeed));
                 xDir = resolver.x;
                 yDir = resolver.y;
             }
@@ -117,7 +117,7 @@ void Player::move(float xDir, float yDir){
 }
 
 void Player::addGun(Gun* gun){
-    gun->setPosition(*Entity::getCoordinate());
+    gun->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     guns->push_back(gun);
     currentGun = guns->size()-1;
 }
@@ -238,13 +238,8 @@ void Player::flash(){
             float xSpeed = xDir*getSpeed()*flashRange;
             float ySpeed = yDir*getSpeed()*flashRange;
             Hitbox next(getHitbox()->hitbox->left+xSpeed, getHitbox()->hitbox->top+ySpeed, getHitbox()->hitbox->width, getHitbox()->hitbox->height);
-            int collision = Game::Instance()->getLevelState()->getLevel()->getMap()->colision(&next);
-            /*if(collision != -1){
-                Coordinate resolver = next.resolveCollision(Game::Instance()->getLevelState()->getLevel()->getMap()->getColHitbox(collision), Coordinate(xSpeed, ySpeed));
-                xDir = resolver.x;
-                yDir = resolver.y;
-            }*/
-            if (collision == -1){
+            Hitbox *collision = Game::Instance()->getLevelState()->getLevel()->colision(&next);
+            if (collision == NULL){
                 Entity::move(xDir*flashRange, yDir*flashRange);
                 flashCooldown->restart(flashTime);
             }
@@ -257,11 +252,11 @@ void Player::die(){
     dead = true;
 }
 
-void Player::respawn(int resp){
+void Player::respawn(){
     dead = false;
     hp = maxHP;
     Entity::getAnimation()->changeAnimation("respawn",false);
-    Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn(resp)); 
+    Entity::setPosition(*Game::Instance()->getLevelState()->getLevel()->getRespawn()); 
 }
 
 void Player::setFlashCooldown(float cd){ 
@@ -284,6 +279,14 @@ void Player::setPosition(Coordinate newCoor){
     if (currentGun >= 0){
         guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
         guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+    }
+}
+
+void Player::setSpeed(float sp){
+    if(sp > initialSpeed/4){
+        Entity::setSpeed(sp);
+    }else{
+        Entity::setSpeed(initialSpeed/4);
     }
 }
 

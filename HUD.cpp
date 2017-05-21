@@ -187,6 +187,7 @@ void HUD::drawHUD(bool onRange){
         drawFlashCooldown();
     }
     if (dieModuleEnabled && dieBool && Game::Instance()->getLevelState()->getPaused()) {
+
         drawDie();
     }
 }

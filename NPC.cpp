@@ -5,6 +5,7 @@ NPC::NPC(Coordinate position, Coordinate size, float sp, std::string npcName) : 
     sentences = new std::vector<std::string>();
     sentencePosition = new std::vector<Coordinate *>();
     name = npcName;
+    inRange = false;
 }
 
 NPC::~NPC() {
@@ -28,6 +29,9 @@ bool NPC::nextSentence(){
         currentSentence = -1;
         return false;
     }
+}
+void NPC::setRunawayDirection(int x, int y){
+    runawayDirection = new Coordinate(x, y);
 }
 std::string NPC::getCurrentSentenceText(){
     return sentences->at(currentSentence);

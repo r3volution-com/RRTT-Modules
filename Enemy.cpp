@@ -59,9 +59,9 @@ void Enemy::drawBlood(){
 
 void Enemy::die(){
     if(direction == 'r' || direction == 'a' || direction == 'c'){
-        Entity::getAnimation()->changeAnimation("morirIzquierda",true);
-    }else{
         Entity::getAnimation()->changeAnimation("morirDerecha",true);
+    }else{
+        Entity::getAnimation()->changeAnimation("morirIzquierda",true);
     }
     Entity::getState()->update();
 }
@@ -79,13 +79,11 @@ void Enemy::move(float xDir, float yDir){
     Entity::move(xDir, yDir);
     if (xDir == 1 && yDir == 0) { //Derecha
         if (direction != 'r') {
-            std::cout<<"de"<<"\n";
             Entity::getAnimation()->changeAnimation("correrDerecha", false);
         }
         direction = 'r';
     } else if (xDir == -1 && yDir == 0) { //Izquierda
         if (direction != 'l') {
-            std::cout<<"iz"<<"\n";
             Entity::getAnimation()->changeAnimation("correrIzquierda", false);
         }
         direction = 'l';
@@ -168,11 +166,19 @@ void Enemy::AI(Player* rath, HUD* hud){
     Coordinate dir = tri->direction(*rath->getCoordinate(), *Entity::getCoordinate());
     Coordinate ini = tri->direction(*Entity::getInitialCoordinate(), *Entity::getCoordinate());
     if(freeze == true && (cd->isExpired() && hits == 1)){
-        rath->setSpeed(rath->getSpeed()+slowDown);
-        hits = 0;
-        freeze = false;
+        if(rath->getSpeed()+slowDown <= rath->getInitialSpeed()){
+            rath->setSpeed(rath->getSpeed()+slowDown);
+            hits = 0;
+            freeze = false;
+        }else{
+            rath->setSpeed(rath->getInitialSpeed());
+            hits = 0;
+            freeze = false;
+        }
+        
     }
     if(distance < disPlayerEnemy && distance >= 100){
+        Enemy::setSpeed(Enemy::getInitialSpeed());
         if(distanceIni <= disEnemyHome && home == true){
             int num;
                 
@@ -213,7 +219,7 @@ void Enemy::AI(Player* rath, HUD* hud){
                     freeze = true;
                     if(freeze == true && hits == 0){
                         hits++;
-                        rath->setSpeed(rath->getSpeed()-slowDown);//ToDo PabloL: Relentiza 3 puntos
+                        rath->setSpeed(rath->getSpeed() - slowDown);//ToDo PabloL: Relentiza 3 puntos
                     }
                 }
             }
@@ -245,11 +251,13 @@ void Enemy::AI(Player* rath, HUD* hud){
         }else{
             home = true;
         }
-    }else if(distance < 100){
-        if(Entity::getCoordinate() != Entity::getInitialCoordinate() && distanceIni > 10 ){
-            move(ini.x, ini.y);
-        }else{
-            home = true;
+    }else if(Entity::getHitbox()->checkCollision(rath->getHitbox())){
+        Enemy::getState()->update();
+        Entity::setSpeed(0);
+        if(cd->isExpired()){
+            rath->damage(dmgHit);
+            hud->changeLifePlayer(rath->getHP()-dmgHit);
+            cd->restart();
         }
     }
 }

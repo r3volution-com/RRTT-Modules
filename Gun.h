@@ -12,24 +12,23 @@ class Gun {
     private:
         Coordinate *coor;
         Animation *gunAnimation;
-        Hitbox *hitbox;
         
         Time *gunCooldown;
         float maxCooldown;
-        int damage;
         bool active;
         
         Bullet *attack;
-        Time *bulletLifetime;
+        Time *bulletLifetime; //ToDo: No estoy seguro si Gun deberia manejar esto
         bool bulletLoaded;
+        
+        char type;
+        Time *charge;
     public:
         /**
          * Crea objeto arma
-         * @param position: Posicion del arma 
-         * @param size: tamano del arma
          * @param cd: cooldown
          */
-        Gun(Coordinate position, Coordinate size, float cd);
+        Gun(float cd);
         virtual ~Gun();
         
         /**
@@ -88,17 +87,9 @@ class Gun {
          */ 
         void atras();
         
-        /**
-         * Actualiza el dano del arma
-         * @param dmg: Dano del arma
-         */
-        void setDamage(int dmg) { damage = dmg; }
-        
         bool getActive() { return active; }
         Time *getBulletLifetime() { return bulletLifetime; }
         Time *getGunCooldown() { return gunCooldown; }
-        int getDamage() { return damage; }
-        Hitbox *getHitbox() { return hitbox; }
         Animation *getAnimation(){ return gunAnimation; }
         Bullet *getBullet(){return attack;}
         Coordinate *getCoordinate(){return coor;}

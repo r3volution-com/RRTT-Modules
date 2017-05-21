@@ -1,27 +1,24 @@
 #include "Bullet.h"
 #include "libs/Time.h"
 
-Bullet::Bullet(Coordinate position, Coordinate size, float d){
-    coor = new InterpolatedCoordinate(position.x, position.y);
-    hitbox = new Hitbox(position.x, position.y, size.x, size.y);
-    hitbox->setPosition(position);
-    initial = new Coordinate(position.x, position.y);
+Bullet::Bullet(Coordinate size, float d, int t){
+    hitbox = new Hitbox(0, 0, size.x, size.y);
+    
+    type = t;
     
     duration = d;
 }
 
 Bullet::~Bullet() {
-    delete coor;
     delete hitbox;
     delete anim;
-    coor = NULL;
     hitbox = NULL;
     anim = NULL;
 }
 
 void Bullet::setAnimation(Texture *t, Rect<float> newRect){
     anim = new Animation(t, Rect<float>(newRect.x, newRect.y, newRect.w, newRect.h));
-    anim->setPosition(*initial);
+    anim->setPosition(0,0);
 }
 
 void Bullet::setPosition(Coordinate newCoor){
