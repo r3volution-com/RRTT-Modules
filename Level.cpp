@@ -256,7 +256,7 @@ void Level::Init(int numLevel){
         rath->changeGun(0);
         
         hud->addGun(
-                Coordinate(j["addGun"]["hudSprite"]["position"]["x"], j["addGun"]["hudSprite"]["position"]["x"]), 
+                Coordinate(j["addGun"]["hudSprite"]["position"]["x"], j["addGun"]["hudSprite"]["position"]["y"]), 
                 Rect<float>(j["addGun"]["hudSprite"]["rectOn"]["x"],j["addGun"]["hudSprite"]["rectOn"]["y"],j["addGun"]["hudSprite"]["rectOn"]["w"],j["addGun"]["hudSprite"]["rectOn"]["h"]), 
                 Rect<float>(j["addGun"]["hudSprite"]["rectOff"]["x"],j["addGun"]["hudSprite"]["rectOff"]["y"],j["addGun"]["hudSprite"]["rectOff"]["w"],j["addGun"]["hudSprite"]["rectOff"]["h"]), 
                 gunArm->getGunCooldown());
@@ -295,7 +295,7 @@ void Level::Update(){
         }
         /*Comprueba colisiones*/
         for(int i = 0; i < enemys.size(); i++){
-            if (rath->getGunNumber() >= 0 && enemys.at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+            if (rath->getCurrentGunId() >= 0 && enemys.at(i)->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
                 enemys.at(i)->damage(rath->getCurrentGun()->getBullet()->getDamage());
                 if(enemys.at(i)->getHP() <= 0 && enemys.at(i)->isDead() == false){
                     enemys.at(i)->setPosition(100000,100000);
@@ -317,7 +317,7 @@ void Level::Update(){
                 }
             }
         }
-        if (rath->getGunNumber() >= 0 && boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
+        if (rath->getCurrentGunId() >= 0 && boss->getHitbox()->checkCollision(rath->getCurrentGun()->getBullet()->getHitbox()) && rath->isAttacking()){
             boss->damage(rath->getCurrentGun()->getBullet()->getDamage());
             hud->changeLifeBoss(boss->getHP());
             if(boss->getHP() <= 0){
@@ -347,7 +347,7 @@ void Level::Update(){
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
         }
-        if (rath->getGunNumber() >= 0 && boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
+        if (rath->getCurrentGunId() >= 0 && boss->getCurrentGun()->getBullet()->getHitbox()->checkCollision(rath->getHitbox()) && boss->isAttacking()){
             rath->damage(boss->getCurrentGun()->getBullet()->getDamage());
             hud->changeLifePlayer(rath->getHP());
         }

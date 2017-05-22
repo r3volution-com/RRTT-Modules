@@ -61,9 +61,11 @@ class LevelState : public GameState {
         
         void changeLevel();
         
+        void setPaused(bool boolean){paused = boolean;}
+        
         Level *getLevel(){return level;}
         Player *getRath(){return rath;}
-        void setPaused(bool boolean){paused = boolean;}
+        HUD *getHUD() {return hud;}
         bool getPaused(){return paused;}
         
         virtual ~LevelState();

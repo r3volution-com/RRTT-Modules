@@ -85,7 +85,7 @@
         }
     ],
     "addGun": {
-        "cooldown": 2,
+        "cooldown": 8,
         "sprite": {"texture": "player", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
         "origin": {"x": 56, "y": 34},
         "bullet": {
@@ -107,7 +107,7 @@
         "hudSprite": {
             "position": {"x": 20, "y": 120},
             "rectOn": {"x": 0, "y": 0, "w": 82, "h": 82},
-            "rectOff": {"x": 0, "y": 0, "w": 82, "h": 82}
+            "rectOff": {"x": 0, "y": 85, "w": 82, "h": 82}
         }
     },
     "loading": {
