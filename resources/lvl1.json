@@ -151,7 +151,7 @@
         "guns": [
             {
                 "cooldown": 3,
-                "sprite": {"texture": "JEFE", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                "sprite": {"texture": "JEFE", "rect": {"x": 0, "y": 896, "w": 128, "h": 128}},
                 "origin": {"x": 56, "y": 34},
                 "bullet": {
                     "size": {"w": 128, "h": 128},
@@ -184,7 +184,7 @@
     ],
     "npcs": [
         {
-            "sprite": {"texture": "Misc", "rect": {"x": 124, "y": 384, "w": 128, "h": 128}},
+            "sprite": {"texture": "Misc", "rect": {"x": 1024, "y": 384, "w": 128, "h": 128}},
             "position": {"x": 4500, "y": 13300},
             "size": {"w": 50, "h": 90},
             "speed": 40,
