@@ -41,7 +41,7 @@ void LevelState::Init(){
     paused = false;
     
     /*****RESOURCES*****/
-    game->rM->loadTexture("player", "resources/spritesRATH.png");
+    game->rM->loadTexture("player", "resources/sprites/spritesRATH.png");
     game->rM->loadTexture("hud-spritesheet", "resources/sprites_hud.png");
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
@@ -74,13 +74,13 @@ void LevelState::Init(){
     game->iM->addAction("pause", thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce));
     
     /* SONIDOS */
-    game->rM->loadSound("ataque", "resources/ataque.ogg");
-    game->rM->loadSound("cargar", "resources/cargar.ogg");
-    game->rM->loadSound("fire", "resources/lanzallamas2.ogg");
-    game->rM->loadSound("flash", "resources/flash.ogg");
-    game->rM->loadSound("damage", "resources/damage.ogg");
-    game->rM->loadSound("takeNote", "resources/takeNote.ogg");
-    game->rM->loadMusic("boss", "resources/boss.ogg");
+    game->rM->loadSound("ataque", "resources/sonidos/ataque.ogg");
+    game->rM->loadSound("cargar", "resources/sonidos/cargar.ogg");
+    game->rM->loadSound("fire", "resources/sonidos/lanzallamas2.ogg");
+    game->rM->loadSound("flash", "resources/sonidos/flash.ogg");
+    game->rM->loadSound("damage", "resources/sonidos/damage.ogg");
+    game->rM->loadSound("takeNote", "resources/sonidos/takeNote.ogg");
+    game->rM->loadMusic("boss", "resources/sonidos/boss.ogg");
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/

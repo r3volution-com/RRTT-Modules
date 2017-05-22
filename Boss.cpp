@@ -155,12 +155,12 @@ void Boss::setAnimations(Texture *t, Rect<float> newRect){
     Entity::getAnimation()->addAnimation("idle", Coordinate(0, 0), 4, 5.0f);
     Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(0, 128), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrArriba", Coordinate(0, 256), 4, 0.5f);
-    Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(128, 896), 4, 0.5f);
+    Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(0, 512), 4, 0.5f);
     Entity::getAnimation()->addAnimation("correrAbajo", Coordinate(0, 384), 4, 0.5f);
-    Entity::getAnimation()->addAnimation("flashDerecha", Coordinate(0, 768), 1, 0.25f);
-    Entity::getAnimation()->addAnimation("flashIzquierda", Coordinate(0, 896), 1, 0.25f);
-    Entity::getAnimation()->addAnimation("flashAbajo", Coordinate(0, 1024), 1, 0.25f);
-    Entity::getAnimation()->addAnimation("flashArriba", Coordinate(0, 1152), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("flashDerecha", Coordinate(0, 640), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("flashIzquierda", Coordinate(128, 640), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("flashAbajo", Coordinate(256, 640), 1, 0.25f);
+    Entity::getAnimation()->addAnimation("flashArriba", Coordinate(384, 640), 1, 0.25f);
     Entity::getAnimation()->initAnimator();
     Entity::getAnimation()->changeAnimation("idle", false); 
 }

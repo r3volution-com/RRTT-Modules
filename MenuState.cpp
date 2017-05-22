@@ -19,11 +19,11 @@ void MenuState::Init(){
     Game *game = Game::Instance();
     
     /* CANCIONES Y SONIDOS */
-    game->rM->loadMusic("Intro", "resources/Inicio.ogg");
+    game->rM->loadMusic("Intro", "resources/sonidos/Inicio.ogg");
     game->rM->getMusic("Intro")->getMusic()->setLoop(true);
     game->rM->getMusic("Intro")->getMusic()->play();
     
-    game->rM->loadMusic("Main", "resources/main.ogg");
+    game->rM->loadMusic("Main", "resources/sonidos/main.ogg");
     game->rM->getMusic("Main")->getMusic()->setLoop(true);
     
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
