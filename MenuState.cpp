@@ -1,5 +1,11 @@
 #include "MenuState.h"
 #include "Game.h"
+#include <sys/types.h>
+
+bool file_exists (const std::string& name) {
+  struct stat buffer;   
+  return (stat (name.c_str(), &buffer) == 0); 
+}
 
 MenuState::MenuState() {
     
@@ -28,7 +34,7 @@ void MenuState::Init(){
     game->rM->loadSound("menu", "resources/menu.ogg");
     
     principal = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
-    principal->addButton(Coordinate (825,270), "Jugar", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    principal->addButton(Coordinate (825,270), "Nueva partida", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     principal->addButton(Coordinate (825,340), "Opciones", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     principal->addButton(Coordinate (825,410), "Salir", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));

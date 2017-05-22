@@ -87,7 +87,7 @@ void LevelState::Init(){
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("gui-tileset"), 
             new Rect<float>(511,925,200,64), game->rM->getFont("font"));
     pause->addButton(Coordinate(550,250), "Continuar", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
-    pause->addButton(Coordinate(550,320), "Sonido On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    pause->addButton(Coordinate(550,320), "Guardar partida", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     pause->addButton(Coordinate(550,390), "Salir al menu", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     pauseMenu = false;
     
@@ -205,7 +205,7 @@ void LevelState::Input(){
                         pauseMenu = false;
                     break;
                     case 1:
-
+                           //ToDo: GUARDAR PARTIDA AQUI FOLKLORE
                     break;
                     case 2:
                         return Game::Instance()->ChangeCurrentState("menu");
