@@ -20,6 +20,7 @@ Level::Level(Player* r, HUD* h) {
     showNPCText = false;
     showNoteText = false;
     bossZone = false;
+    activeIA = true;
     
 }
 

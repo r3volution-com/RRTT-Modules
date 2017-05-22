@@ -150,13 +150,27 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
+    if (Game::Instance()->iM->isActive("console")){
+        if(Game::Instance()->console->isActive()){
+            paused=true;
+            level->setPause(true); 
+        }else{
+            paused=false;
+            level->setPause(false);
+        }
+    } 
+    
     if (Game::Instance()->iM->isActive("pause")) {
         if (paused == true) {
-            paused = false;
-            pauseMenu = false;
+            if(pauseMenu){
+                paused = false;
+                pauseMenu = false;
+            }
         } else {
-            paused = true;
-            pauseMenu = true;
+            if(!pauseMenu){
+                paused = true;
+                pauseMenu = true;
+            }
         }
     }
     if (!paused){
