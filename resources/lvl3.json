@@ -28,7 +28,7 @@
         },
         {
             "name": "Bullet",
-			"path": "resources/sprites/Bullet.png"
+            "path": "resources/sprites/Bullet.png"
         },
         {
             "name": "load",

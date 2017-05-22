@@ -32,7 +32,7 @@
             },
             {
                     "name": "load",
-                    "path": "resources/loading_lvl2.png"
+                    "path": "resources/loading_lvl1.png"
             }
     ],
     "enemys": [
@@ -140,8 +140,8 @@
         "hp": 500,
         "distanceToHome": 2000,
         "distanceToPlayer": 1500,
-        "damage": 15,
-        "hitCooldown": 1,
+        "damage": 20,
+        "hitCooldown": 0.8,
         "flashRange": 8, 
         "flashCooldown": 0.5,
         "changeStateTimer": 20,

@@ -193,6 +193,7 @@ class Player : public Entity {
         float getInitialSpeed() {return initialSpeed;}
         Time *getDmgOnPlayer() {return dmgOnPlayer;}
         std::vector<Gun*> getGuns() {return guns;}
+        void restoreHP() {hp = maxHP;}
 };
 
 #endif /* PROTAGONISTA_H */
