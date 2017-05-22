@@ -237,7 +237,7 @@
             "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
             "font": "font",
             "notePosition": {"x": 3000, "y": 6500},
-            "paperPosition": {"x": 500, "y": 100},
+            "paperPosition": {"x": 336, "y": 116},
             "text": "El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\nsaliendo en multimedia!"  
         }
     ],

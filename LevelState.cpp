@@ -106,7 +106,7 @@ void LevelState::Init(){
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(5,200,200,20));
     hud->setFlash(Coordinate(110, 20), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
-    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(0,535,318,64));
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(480, 320), game->rM->getTexture("gui-tileset"), Rect<float>(0,535,318,64));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("gui-tileset"), 
@@ -122,7 +122,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 2;
+    currentLevel = 1;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;
