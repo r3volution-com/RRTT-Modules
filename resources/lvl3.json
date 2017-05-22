@@ -24,7 +24,7 @@
         },
         {
             "name": "load",
-            "path": "resources/loading_lvl2.jpg"
+            "path": "resources/finish.png"
         }
     ],
     "boss": {
