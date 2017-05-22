@@ -27,6 +27,10 @@ HUD::HUD(Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
     dieModuleEnabled = false;
     textModuleEnabled = false;
     bossModuleEnable = false;
+    textSprite = NULL;
+    talker = NULL;
+    currentText = NULL;
+    lifePlayerText = NULL;
 }
 
 HUD::~HUD(){
@@ -48,11 +52,6 @@ HUD::~HUD(){
     }
     gunsCooldown.clear();
     
-    for (int i=0; i<gunTimers.size(); i++){
-        delete gunTimers.at(i);
-        gunTimers.at(i) = NULL;
-    }
-    gunTimers.clear();
     
     delete playerHP;
     delete bossHP;
@@ -62,11 +61,11 @@ HUD::~HUD(){
     delete cooldownRect;
     //delete clockFlash; ToDo: da error
 
-    delete textSprite;
-    delete talker;
-    delete currentText;
+    if(textSprite != NULL)delete textSprite;
+    if(talker != NULL)delete talker;
+    if(currentText != NULL)delete currentText;
 
-    delete lifePlayerText;
+    if(lifePlayerText != NULL)delete lifePlayerText;
 
     //delete buttonDie; ToDo: da error
     
@@ -218,7 +217,6 @@ void HUD::drawGun(){
 
 void HUD::drawPlayerHP(){
     Game::Instance()->window->draw(*playerHP->getSprite());
-    Game::Instance()->window->draw(*lifePlayerText->getText());
 }
 
 void HUD::drawBossHP(){
