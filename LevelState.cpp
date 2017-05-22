@@ -360,6 +360,7 @@ void LevelState::Render(){
 
 void LevelState::CleanUp(){
     Game *game = Game::Instance();
+    Game::Instance()->rM->releaseMusic("Main");
     game->rM->releaseTexture("player");
     game->rM->releaseTexture("hud-spritesheet");
     game->rM->releaseTexture("hud-playerdeath");
