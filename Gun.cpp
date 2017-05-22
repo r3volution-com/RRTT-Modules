@@ -24,9 +24,15 @@ Gun::~Gun() {
     delete gunAnimation;
     delete attack;
     delete gunCooldown;
+    delete coor;
+    delete bulletLifetime;
+    delete charge;
     gunAnimation = NULL;
     attack = NULL;
     gunCooldown = NULL;
+    coor = NULL;
+    bulletLifetime = NULL;
+    charge = NULL;
 }
 
 void Gun::setAttack(Bullet *atk){

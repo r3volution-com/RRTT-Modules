@@ -21,6 +21,10 @@
         {
             "name": "rayo",
             "path": "resources/rayo.png"
+        },
+        {
+            "name": "load",
+            "path": "resources/loading_lvl2.jpg"
         }
     ],
     "enemys": [
@@ -259,7 +263,7 @@
     ],
     "endPoints": [
         {
-            "position": {"x": 2300, "y": 1750},
+            "position": {"x": 3950, "y": 13500},
             "size": {"w": 1280, "h": 400}
         }
     ],
@@ -288,5 +292,11 @@
             "rectOn": {"x": 85, "y": 0, "w": 82, "h": 85},
             "rectOff": {"x": 85, "y": 0, "w": 82, "h": 85}
         }
+    },
+    "loading": {
+        "texture": {"name": "load"},
+        "position": {"x": 0, "y": 0},
+        "size": {"w": 1280, "h": 720},
+        "duration": 3
     }
 }

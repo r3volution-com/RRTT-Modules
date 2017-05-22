@@ -69,12 +69,12 @@ void Level::Init(int numLevel){
             enemy->setDistanceEnemyHome(j["enemys"].at(i)["distanceToHome"]);
             enemy->setDistancePlayerEnemy(j["enemys"].at(i)["distanceToPlayer"]);
             enemy->setInitialDmg(j["enemys"].at(i)["damage"]);
-            enemy->setHitCooldown(new Time(j["enemys"].at(i)["hitCooldown"].get<float>()));
+            enemy->setHitCooldown(j["enemys"].at(i)["hitCooldown"].get<float>());
             if (j["enemys"].at(i)["bleed"] == true) enemy->setBlood(game->rM->getTexture("sangre"));
 
             if (j["enemys"].at(i)["type"] == 2){
                 enemy->SetFlashRange(j["enemys"].at(i)["extra"]["flashRange"]);
-                enemy->setFlashCooldown(new Time(j["enemys"].at(i)["extra"]["flashCooldown"].get<float>()));
+                enemy->setFlashCooldown(j["enemys"].at(i)["extra"]["flashCooldown"].get<float>());
             } else if (j["enemys"].at(i)["type"] == 3){
                 enemy->setFreeze(j["enemys"].at(i)["extra"]["freeze"]);
             }
@@ -93,10 +93,10 @@ void Level::Init(int numLevel){
         boss->setDistanceEnemyHome(j["boss"]["distanceToHome"]);
         boss->setDistancePlayerEnemy(j["boss"]["distanceToPlayer"]);
         boss->setInitialDmg(j["boss"]["damage"]);
-        boss->setHitCooldown(new Time(j["boss"]["hitCooldown"].get<float>()));
+        boss->setHitCooldown(j["boss"]["hitCooldown"].get<float>());
         boss->SetFlashRange(j["boss"]["flashRange"]);
-        boss->setFlashCooldown(new Time(j["boss"]["flashCooldown"].get<float>()));
-        boss->setStateClock(new Time(j["boss"]["changeStateTimer"].get<float>()));
+        boss->setFlashCooldown(j["boss"]["flashCooldown"].get<float>());
+        boss->setStateClock(j["boss"]["changeStateTimer"].get<float>());
         distanceToLock = j["boss"]["distanceToLock"];
         srand (time(NULL));
         for (int i=j["boss"]["states"]["to"].get<int>(); i<=j["boss"]["states"]["from"].get<int>(); i++){
@@ -262,6 +262,12 @@ void Level::Init(int numLevel){
                 gunArm->getGunCooldown());
         hud->changeActiveGun(0);
     }
+    //PANTALLA DE CARGA
+    if (j.find("loading") != j.end()) {
+        loading = new Sprite(game->rM->getTexture(j["loading"]["texture"]["name"].get<std::string>()),
+                Rect<float>(j["loading"]["position"]["x"],j["loading"]["position"]["y"],j["loading"]["size"]["w"],j["loading"]["size"]["h"]));
+        loadTime = new Time(j["loading"]["duration"].get<float>());
+    }
 }
 
 void Level::Update(){
@@ -391,7 +397,13 @@ void Level::Update(){
         if (j.find("endPoints") != j.end()) {
             for (int i=0; i<endPoints.size();i++){
                 if (endPoints.at(i)->checkCollision(rath->getHitbox())){
-                    Game::Instance()->getLevelState()->changeLevel();
+                    loadTime->start();
+                    if(!loadTime->isExpired()){
+                        loaded = true;
+                    }else{
+                        loaded = false;
+                        Game::Instance()->getLevelState()->changeLevel();
+                    }
                 }
             }
         }
@@ -568,10 +580,12 @@ void Level::CleanUp(){
     
     //Vaciar los vectores
     //ToDo: da segmentation fault aqui
-    /*for(int i=0; i < enemys.size(); i++){
+    //std::cout<<enemys.size()<<"\n";
+    for(int i=0; i < enemys.size(); i++){
+        //std::cout<<i<<" "<<enemys.at(i)->getCoordinate()->x<<"\n";
         delete enemys.at(i);
         //enemys.at(i) = NULL;
-    }*/
+    }
     
     enemys.clear();
     
@@ -626,12 +640,17 @@ void Level::CleanUp(){
     
     //Hacemos delete de los elementos de Level
     //delete map; ToDo: da segmentation fault aqui
-    //delete boss; ToDo: da segmentation fault aqui
+    delete boss; //ToDo: da segmentation fault aqui
     delete keyIterationNpc;
     
+    delete loading;
+    delete loadTime;
+    
     //map = NULL; 
-    //boss = NULL;
+    boss = NULL;
     keyIterationNpc = NULL;
+    loading = NULL;
+    loadTime = NULL;
     
     //Reinicializamos las variables
     level = 0;
@@ -646,5 +665,11 @@ void Level::CleanUp(){
     bossZone = false;
     //Iniciar musica jefe
     play = false;
+    loaded = false;
     
+    rath->getFlashCooldown()->restart(0);
+    
+    for (int i=0; i<rath->getGuns()->size(); i++){
+        rath->getGuns()->at(i)->getGunCooldown()->restart(0);
+    }
 }

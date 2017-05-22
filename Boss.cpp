@@ -5,21 +5,30 @@ Boss::Boss(Coordinate position, Coordinate size, float sp) : Enemy(position, siz
     state = 0;
     actualState = -1;
     currentGun = -1;
-    guns = new std::vector<Gun*>();
     attacking = false;
     onRange = false;
     initialSpeed = sp;
     dirFlash = new Coordinate(0,0);
     delay = new Time(0.5f);
-    states = new std::vector<int>();
     start = false;
     nextState = false;
     angle = 0;
+    stateClock = new Time(0);
 }
 
 Boss::~Boss() {
-    delete guns;
-    guns = NULL;
+    delete stateClock;
+    delete delay;
+    delete dirFlash;
+    stateClock = NULL;
+    delay = NULL;
+    dirFlash = NULL;
+    states.clear();
+    for (int i=0; i<guns.size(); i++){
+        delete guns.at(i);
+        guns.at(i) = NULL;
+    }
+    guns.clear();
 }
 
 void Boss::changeState(int s){
@@ -34,7 +43,7 @@ void Boss::changeState(int s){
 
 void Boss::gunAttack(){
     if (currentGun>-1 && attacking == false) {
-        guns->at(currentGun)->doAttack();
+        guns.at(currentGun)->doAttack();
         attacking = true;
         //ToDo pabloF: Traerte aqui la animacion de ataque con arma secundaria
     }
@@ -42,16 +51,16 @@ void Boss::gunAttack(){
 
 void Boss::addGun(Gun* gun){
     gun->setPosition(*Entity::getCoordinate());
-    guns->push_back(gun);
-    currentGun = guns->size()-1;
-    guns->at(currentGun)->getGunCooldown()->start();
+    guns.push_back(gun);
+    currentGun = guns.size()-1;
+    guns.at(currentGun)->getGunCooldown()->start();
 }
 
 bool Boss::changeGun(int gun){
-    if (gun >= 0 && gun < guns->size() && currentGun > -1 && gun != currentGun){
-        guns->at(currentGun)->setActive();
+    if (gun >= 0 && gun < guns.size() && currentGun > -1 && gun != currentGun){
+        guns.at(currentGun)->setActive();
         currentGun = gun;
-        guns->at(currentGun)->setActive();
+        guns.at(currentGun)->setActive();
         return true;
     } else return false;
 }
@@ -65,55 +74,55 @@ void Boss::move(float xDir, float yDir){
     if (xDir == 1 && yDir == 0) { //Derecha
         if (dirSprite != 'r') {
             Entity::getAnimation()->changeAnimation("correrDerecha", false);
-            guns->at(currentGun)->derecha();
+            guns.at(currentGun)->derecha();
         }
         dirSprite = 'r';
     } else if (xDir == -1 && yDir == 0) { //Izquierda
         if (dirSprite != 'l') {
             Entity::getAnimation()->changeAnimation("correrIzquierda", false);
-            guns->at(currentGun)->inversa();
+            guns.at(currentGun)->inversa();
         }
         dirSprite = 'l';
     } else if (xDir == 0 && yDir == 1) { //Abajo
         if (dirSprite != 'd') {
             Entity::getAnimation()->changeAnimation("correrAbajo", false);
-            guns->at(currentGun)->inversa();
+            guns.at(currentGun)->inversa();
         }
         dirSprite = 'd';
     } else if (xDir == 0 && yDir == -1) { //Arriba
         if (dirSprite!='u') {
             Entity::getAnimation()->changeAnimation("correrArriba", false);
-            guns->at(currentGun)->atras();                
+            guns.at(currentGun)->atras();                
         }
         dirSprite='u';
     } else if (xDir == 1 && yDir == -1){ //Arriba derecha
         if (dirSprite!='a') {
             Entity::getAnimation()->changeAnimation("correrArriba", false);
-            guns->at(currentGun)->atras();                
+            guns.at(currentGun)->atras();                
         }
         dirSprite='a';
     } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
         if (dirSprite != 'b') {
             Entity::getAnimation()->changeAnimation("correrIzquierda", false);
-            guns->at(currentGun)->inversa();
+            guns.at(currentGun)->inversa();
         }
         dirSprite = 'b';
     } else if (xDir == 1 && yDir == 1){ //Derecha abajo
         if (dirSprite != 'c') {
             Entity::getAnimation()->changeAnimation("correrDerecha", false);
-            guns->at(currentGun)->derecha();
+            guns.at(currentGun)->derecha();
         }
         dirSprite = 'c';
     } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
         if (dirSprite != 'e') {
             Entity::getAnimation()->changeAnimation("correrArriba", false);
-            guns->at(currentGun)->atras();
+            guns.at(currentGun)->atras();
         }
         dirSprite='e';
     } else {
         if (dirSprite != 'i'){
             Entity::getAnimation()->changeAnimation("idle", false);
-            guns->at(currentGun)->derecha();
+            guns.at(currentGun)->derecha();
             dirSprite='i';
         }
     }
@@ -159,32 +168,32 @@ void Boss::setAnimations(Texture *t, Rect<float> newRect){
 void Boss::setPosition(Coordinate newCoor){
     Entity::setPosition(newCoor);
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+        guns.at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
     }
 }
 
 void Boss::setPosition(float x, float y){
     Entity::setPosition(x, y);
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
 }
 
 void Boss::updatePosition(Coordinate newCoor){
     Entity::updatePosition(newCoor);
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+        guns.at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
     }
 }
 
 void Boss::updatePosition(float x, float y){
     Entity::updatePosition(x, y);
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
 }
 
@@ -194,7 +203,7 @@ void Boss::damage(int dm){
         //die();
     }
     else Boss::setHP(Boss::getHP()-dm);
-    if(actualDmg + dm >= Enemy::getMaxHP()/states->size()){
+    if(actualDmg + dm >= Enemy::getMaxHP()/states.size()){
         nextState = true;
         actualDmg = 0;
     }else{
@@ -203,26 +212,26 @@ void Boss::damage(int dm){
 }
 
 void Boss::addState(int s){
-    states->push_back(s);
+    states.push_back(s);
 }
 
 void Boss::addRandomState(int from, int to){
     int num = rand() % (to-from+1) + from;
-    states->push_back(num);
+    states.push_back(num);
 }
 
 void Boss::changeState(){
     if(stateClock->isExpired() || nextState == true){
         actualState++;
-        if(actualState >= states->size()){
+        if(actualState >= states.size()){
             actualState = 0;
         }
-        state = states->at(actualState);
+        state = states.at(actualState);
         stateClock->restart(timeState);
         nextState = false;
     }
     if(state == 0 && start == true){
-        state = states->at(actualState);
+        state = states.at(actualState);
         start = false;
     }
 }
@@ -277,7 +286,7 @@ void Boss::AI(Player* rath, HUD* hud){
         Entity::setSpeed(Boss::getInitialSpeed());
         
         if(state == 1){
-            if(guns->size() > 1 && currentGun != 0){
+            if(guns.size() > 1 && currentGun != 0){
                 currentGun = 0;
                 changeGun(currentGun);
             }
@@ -308,7 +317,7 @@ void Boss::AI(Player* rath, HUD* hud){
                 }
             }
         }else if(state == 3){
-            if(guns->size() > 1 && currentGun != 1){
+            if(guns.size() > 1 && currentGun != 1){
                 currentGun = 1;
                 changeGun(currentGun);
             }
@@ -329,10 +338,10 @@ void Boss::AI(Player* rath, HUD* hud){
             if(getCurrentGun()->getBulletLifetime()->isExpired()){
                 srand (time(NULL));
                 int num = rand() % 2;
-                if(num == 0 && guns->at(1)->getGunCooldown()->isExpired()){
+                if(num == 0 && guns.at(1)->getGunCooldown()->isExpired()){
                     currentGun = 1;
                     changeGun(currentGun);
-                }else if(num == 1 && guns->at(0)->getGunCooldown()->isExpired()){
+                }else if(num == 1 && guns.at(0)->getGunCooldown()->isExpired()){
                     currentGun = 0;
                     changeGun(currentGun);
                 }

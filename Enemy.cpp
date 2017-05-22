@@ -14,21 +14,26 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     haveParticles = false;
     timeDead = new Time(2);
     dead = false;
+    flashCooldown = new Time(0);
 }
 
 Enemy::~Enemy() {
     delete flashCooldown;
     delete cd;
     delete tri;
+    delete blood;
+    delete timeDead;
     flashCooldown = NULL;
     cd = NULL;
     tri = NULL;
+    blood = NULL;
+    timeDead = NULL;
 }
 
 void Enemy::flash(float dirX, float dirY){
     if(flashCooldown->isExpired()){
         Entity::move(flashRange*dirX, flashRange*dirY);
-        flashCooldown->restart();
+        flashCooldown->restart(maxFlashCooldown);
     }
 }
 
@@ -125,10 +130,14 @@ void Enemy::move(float xDir, float yDir){
     }
 }
 
-void Enemy::setFlashCooldown(Time *cooldown){ 
-    flashCooldown = cooldown;
-    maxFlashCooldown = cooldown->getTime();
-    flashCooldown->start();
+void Enemy::setFlashCooldown(float cooldown){ 
+    maxFlashCooldown = cooldown;
+    flashCooldown->restart(maxFlashCooldown);
+}
+
+void Enemy::setHitCooldown(float cool){
+    cd->restart(cool);
+    coolHit = cool;
 }
 
 void Enemy::setAnimations(Texture *t, Rect<float> newRect){
@@ -215,7 +224,7 @@ void Enemy::AI(Player* rath, HUD* hud){
                     num = 0;
                 }
                 if(distance < disPlayerEnemy && num == 2 && distance > disPlayerEnemy/5 && cd->isExpired()){
-                    cd->restart();
+                    cd->restart(coolHit);
                     freeze = true;
                     if(freeze == true && hits == 0){
                         hits++;
@@ -226,7 +235,7 @@ void Enemy::AI(Player* rath, HUD* hud){
             if(Entity::getHitbox()->checkCollision(rath->getHitbox()) && cd->isExpired()){
                 rath->damage(dmgHit);
                 hud->changeLifePlayer(rath->getHP()-dmgHit);
-                cd->restart();
+                cd->restart(coolHit);
             }
         }else{
             if(distanceIni >= disEnemyHome || home == false){
@@ -257,7 +266,7 @@ void Enemy::AI(Player* rath, HUD* hud){
         if(cd->isExpired()){
             rath->damage(dmgHit);
             hud->changeLifePlayer(rath->getHP()-dmgHit);
-            cd->restart();
+            cd->restart(coolHit);
         }
     }
 }

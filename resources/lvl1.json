@@ -21,6 +21,10 @@
         {
             "name": "rayo",
             "path": "resources/rayo.png"
+        },
+        {
+            "name": "load",
+            "path": "resources/loading_lvl2.jpg"
         }
     ],
     "enemys": [
@@ -221,5 +225,11 @@
             "position": {"x": 3425, "y": 1000},
             "size": {"w": 1280, "h": 400}
         }
-    ]
+    ],
+    "loading": {
+        "texture": {"name": "load"},
+        "position": {"x": 0, "y": 0},
+        "size": {"w": 1280, "h": 720},
+        "duration": 3
+    }
 }

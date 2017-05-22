@@ -2,6 +2,8 @@
 
 Time::Time() {
     clock = new thor::StopWatch();
+    timer = NULL;
+    cTimer = NULL;
     type = 0;
 }
 
@@ -10,6 +12,8 @@ Time::Time(float time){
     timer->reset(sf::seconds(time));
     timerTime = time;
     type = 1;
+    cTimer = NULL;
+    clock = NULL;
 }
 
 Time::Time(float time, std::function<void(thor::CallbackTimer&)> listener){
@@ -18,12 +22,14 @@ Time::Time(float time, std::function<void(thor::CallbackTimer&)> listener){
     cTimer->connect(listener);
     timerTime = time;
     type = 2;
+    clock = NULL;
+    timer = NULL;
 }
 
 Time::~Time() {
-    delete clock;
-    delete timer;
-    delete cTimer;
+    if(clock != NULL) delete clock;
+    if(timer != NULL) delete timer;
+    if(cTimer != NULL) delete cTimer;
     clock = NULL;
     timer = NULL;
     cTimer = NULL;

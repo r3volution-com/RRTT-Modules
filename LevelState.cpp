@@ -80,7 +80,7 @@ void LevelState::Init(){
             Rect<float>(1,200,205,20), Rect<float>(170,85,82,82), game->rM->getFont("font"));
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(5,200,200,20));
-    hud->setFlash(Coordinate(20, 110), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
+    hud->setFlash(Coordinate(110, 20), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
     hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(511, 925, 200, 64));
     
     /*****PAUSE MENU*****/
@@ -281,7 +281,11 @@ void LevelState::Render(){
     }
     
     /*HUD*/
-    hud->drawHUD(level->getBoss()->getOnRange());
+    if(level->getLoaded()){
+        Game::Instance()->window->draw(*level->getLoading()->getSprite());
+    }else{
+        hud->drawHUD(level->getBoss()->getOnRange());
+    }
       
     /*Pause*/
     if (paused && pauseMenu) pause->drawMenu();
