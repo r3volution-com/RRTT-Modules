@@ -265,6 +265,7 @@ void Level::Init(int numLevel){
     }
     //PANTALLA DE CARGA
     if (j.find("loading") != j.end()) {
+        std::cout<<j["loading"]["texture"]["name"].get<std::string>()<<"\n";
         loading = new Sprite(game->rM->getTexture(j["loading"]["texture"]["name"].get<std::string>()),
                 Rect<float>(j["loading"]["position"]["x"],j["loading"]["position"]["y"],j["loading"]["size"]["w"],j["loading"]["size"]["h"]));
         loadTime = new Time(j["loading"]["duration"].get<float>());

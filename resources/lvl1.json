@@ -29,6 +29,10 @@
             {
                     "name": "Bullet",
                     "path": "resources/sprites/Bullet.png"
+            },
+            {
+                    "name": "load",
+                    "path": "resources/loading_lvl2.png"
             }
     ],
     "enemys": [
@@ -180,7 +184,7 @@
     ],
     "npcs": [
         {
-            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
+            "sprite": {"texture": "Misc", "rect": {"x": 124, "y": 384, "w": 128, "h": 128}},
             "position": {"x": 4500, "y": 13300},
             "size": {"w": 50, "h": 90},
             "speed": 40,
@@ -214,14 +218,14 @@
         {
             "position": {"x": 2500, "y": 5800},
             "size": {"w": 1280, "h": 384},
-            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 0, "w": 1280, "h": 384}}
         }
     ],
     "postBossObstacles": [
         {
             "position": {"x": 3425, "y": 2000},
             "size": {"w": 1280, "h": 384},
-            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 0, "w": 1280, "h": 384}}
         }
     ],
     "endPoints": [

@@ -186,7 +186,7 @@ class Player : public Entity {
         Weapon *getWeapon() { return weapon; }
         Gun *getCurrentGun() { return guns.at(currentGun); }
         Time *getFlashCooldown() { return flashCooldown; }
-        int getGunsNumber(){ return guns->size(); }
+        int getGunsNumber(){ return guns.size(); }
         
         bool isAttacking() { return attacking; }
         
