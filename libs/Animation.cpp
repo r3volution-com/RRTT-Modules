@@ -14,15 +14,15 @@ Animation::Animation(Texture *t, Rect<float> tRect) {
 Animation::~Animation() {
     delete spriteRect;
     delete sprite;
-    delete clock;
-    delete animations;
-    delete animator;
+    //delete clock;
+    //delete animations;
+    //delete animator;
 
     spriteRect = NULL;
     sprite = NULL;
-    clock = NULL;
-    animations = NULL;
-    animator = NULL;
+    //clock = NULL;
+    //animations = NULL;
+    //animator = NULL;
 }
 
 void Animation::addAnimation(std::string name, Coordinate clipCoord, int nSprites, float duration) {
