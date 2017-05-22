@@ -226,10 +226,10 @@ void LevelState::Input(){
             /*Player gun attack*/
             //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
             if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){
-                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0 && rath->getCurrentGunId()==0)
+                if (rath->getCurrentGunId()==0)
                     Game::Instance()->rM->getSound("fire")->getSound()->play();
                 
-                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0 && rath->getCurrentGunId()==1)
+                if (rath->getCurrentGunId()==1)
                     Game::Instance()->rM->getSound("laser")->getSound()->play();
                 
                 hud->resetClockGuns();
