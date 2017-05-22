@@ -117,7 +117,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 1;
+    currentLevel = 3;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;
@@ -258,13 +258,13 @@ void LevelState::Input(){
                 
                 level->getBoss()->setPosition(*level->getBoss()->getInitialCoordinate());
                 level->getBoss()->setHP(level->getBoss()->getMaxHP());
-                hud->changeLifeBoss(level->getBoss()->getHP());
                 
                 level->setBossZone(false);
                 
                 rath->respawn();
                 
                 hud->changeLifePlayer(rath->getHP());
+                hud->changeLifeBoss(level->getBoss()->getHP());
                 
                 paused = false;
             }
