@@ -11,7 +11,7 @@ private:
     Sprite *background;
     Text *backlog;
     Text *actual;
-    std::vector<std::string> *history;
+    std::vector<std::string> history;
     
     std::map<std::string, std::function<void(std::string)>> commands;
     

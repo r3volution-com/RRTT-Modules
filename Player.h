@@ -10,7 +10,7 @@
 class Player : public Entity {
     private:
         Weapon *weapon;
-        std::vector<Gun*> *guns;
+        std::vector<Gun*> guns;
         
         int hp;
         int maxHP;
@@ -184,7 +184,7 @@ class Player : public Entity {
         int getMaxHP() { return maxHP; }
         int getCurrentGunId() { return currentGun; }
         Weapon *getWeapon() { return weapon; }
-        Gun *getCurrentGun() { return guns->at(currentGun); }
+        Gun *getCurrentGun() { return guns.at(currentGun); }
         Time *getFlashCooldown() { return flashCooldown; }
         int getGunsNumber(){ return guns->size(); }
         
@@ -192,7 +192,7 @@ class Player : public Entity {
         
         float getInitialSpeed() {return initialSpeed;}
         Time *getDmgOnPlayer() {return dmgOnPlayer;}
-        std::vector<Gun*> *getGuns() {return guns;}
+        std::vector<Gun*> getGuns() {return guns;}
 };
 
 #endif /* PROTAGONISTA_H */

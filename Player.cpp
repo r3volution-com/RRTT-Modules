@@ -5,7 +5,6 @@
 Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position, size, sp){
     currentGun = -1;
     weaponLoaded = false;
-    guns = new std::vector<Gun*>();
     flashRange=0;
     flashTime=0;
     flashCooldown = new Time(0);
@@ -16,10 +15,18 @@ Player::Player(Coordinate position, Coordinate size, float sp) : Entity(position
 }
 
 Player::~Player() {
+    for (int i=0; i<guns.size(); i++){
+        delete guns.at(i);
+        guns.at(i) = NULL;
+    }
+    guns.clear();
+    
     delete weapon;
-    delete guns;
+    delete flashCooldown;
+    delete dmgOnPlayer;
     weapon = NULL;
-    guns = NULL;
+    flashCooldown = NULL;
+    dmgOnPlayer = NULL;
 }
 
 void Player::setAnimations(Texture *t, Rect<float> newRect){
@@ -49,55 +56,55 @@ void Player::move(float xDir, float yDir){
         if (xDir == 1 && yDir == 0) { //Derecha
             if (state != 'r') {
                 Entity::getAnimation()->changeAnimation("correrDerecha", false);
-                if (currentGun >= 0) guns->at(currentGun)->derecha();
+                if (currentGun >= 0) guns.at(currentGun)->derecha();
             }
             state = 'r';
         } else if (xDir == -1 && yDir == 0) { //Izquierda
             if (state != 'l') {
                 Entity::getAnimation()->changeAnimation("correrIzquierda", false);
-                if (currentGun >= 0) guns->at(currentGun)->inversa();
+                if (currentGun >= 0) guns.at(currentGun)->inversa();
             }
             state = 'l';
         } else if (xDir == 0 && yDir == 1) { //Abajo
             if (state != 'd') {
                 Entity::getAnimation()->changeAnimation("correrAbajo", false);
-                if (currentGun >= 0) guns->at(currentGun)->derecha();
+                if (currentGun >= 0) guns.at(currentGun)->derecha();
             }
             state = 'd';
         } else if (xDir == 0 && yDir == -1) { //Arriba
             if (state!='u') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
-                if (currentGun >= 0) guns->at(currentGun)->atras();                
+                if (currentGun >= 0) guns.at(currentGun)->atras();                
             }
             state='u';
         } else if (xDir == 1 && yDir == -1){ //Arriba derecha
             if (state!='a') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
-                if (currentGun >= 0) guns->at(currentGun)->atras();                
+                if (currentGun >= 0) guns.at(currentGun)->atras();                
             }
             state='a';
         } else if (xDir == -1 && yDir == 1){ //Abajo izquierda
             if (state != 'b') {
                 Entity::getAnimation()->changeAnimation("correrIzquierda", false);
-                if (currentGun >= 0) guns->at(currentGun)->inversa();
+                if (currentGun >= 0) guns.at(currentGun)->inversa();
             }
             state = 'b';
         } else if (xDir == 1 && yDir == 1){ //Derecha abajo
             if (state != 'c') {
                 Entity::getAnimation()->changeAnimation("correrDerecha", false);
-                if (currentGun >= 0) guns->at(currentGun)->derecha();
+                if (currentGun >= 0) guns.at(currentGun)->derecha();
             }
             state = 'c';
         } else if (xDir == -1 && yDir == -1){ //Izquierda arriba
             if (state != 'e') {
                 Entity::getAnimation()->changeAnimation("correrArriba", false);
-                if (currentGun >= 0) guns->at(currentGun)->atras();
+                if (currentGun >= 0) guns.at(currentGun)->atras();
             }
             state='e';
         } else {
             if (state != 'i'){
                 Entity::getAnimation()->changeAnimation("idle", false);
-                if (currentGun >= 0) guns->at(currentGun)->derecha();
+                if (currentGun >= 0) guns.at(currentGun)->derecha();
                 state='i';
             }
         }
@@ -118,15 +125,15 @@ void Player::move(float xDir, float yDir){
 
 void Player::addGun(Gun* gun){
     gun->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-    guns->push_back(gun);
-    currentGun = guns->size()-1;
+    guns.push_back(gun);
+    currentGun = guns.size()-1;
 }
 
 bool Player::changeGun(int gun){
-    if (gun >= 0 && gun < guns->size() && currentGun > -1){
-        guns->at(currentGun)->setActive();
+    if (gun >= 0 && gun < guns.size() && currentGun > -1){
+        guns.at(currentGun)->setActive();
         currentGun = gun;
-        guns->at(currentGun)->setActive();
+        guns.at(currentGun)->setActive();
         return true;
     } else return false;
 }
@@ -200,7 +207,7 @@ void Player::weaponReleaseAttack(){
 
 void Player::gunAttack(){
     if (currentGun>-1 && attacking == false) {
-        guns->at(currentGun)->doAttack();
+        guns.at(currentGun)->doAttack();
         attacking = true;
     }
 }
@@ -261,6 +268,7 @@ void Player::respawn(){
 
 void Player::setFlashCooldown(float cd){ 
     flashTime = cd;
+    //flashCooldown->restart(flashTime);
 }
 
 void Player::damage(int dmg){
@@ -277,8 +285,8 @@ void Player::setPosition(Coordinate newCoor){
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+        guns.at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
     }
 }
 
@@ -294,8 +302,8 @@ void Player::setPosition(float x, float y){
     Entity::setPosition(x, y);
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
 }
 
@@ -304,8 +312,8 @@ void Player::updatePosition(Coordinate newCoor){
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
+        guns.at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+50));
     }
 }
 
@@ -313,8 +321,8 @@ void Player::updatePosition(float x, float y){
     Entity::updatePosition(x, y);
     if (weaponLoaded) weapon->setPosition(*Entity::getCoordinate());
     if (currentGun >= 0){
-        guns->at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
-        guns->at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
+        guns.at(currentGun)->getBullet()->setPosition(Coordinate(Entity::getCoordinate()->x+60, Entity::getCoordinate()->y+40));
     }
 }
 
@@ -324,12 +332,12 @@ void Player::attackDone(){
 
 void Player::derechaGun(){
      if (currentGun >= 0){
-        guns->at(currentGun)->derecha();
+        guns.at(currentGun)->derecha();
      }
 }
 
 void Player::inversaGun(){
      if (currentGun >= 0){
-        guns->at(currentGun)->inversa();
+        guns.at(currentGun)->inversa();
      }
 }

@@ -23,7 +23,17 @@ Weapon::Weapon(Coordinate position, Coordinate size, float speed, float animatio
 }
 
 Weapon::~Weapon() {
+    delete coor;
+    delete hitbox;
+    delete attackLength;
+    delete pie;
+    delete vector;
     
+    coor = NULL;
+    hitbox = NULL;
+    attackLength = NULL;
+    pie = NULL;
+    vector = NULL;
 }
 
 void Weapon::loadAttack(char direction){

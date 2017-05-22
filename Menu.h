@@ -13,7 +13,7 @@ class Menu {
         Sprite *background;
         Texture *buttonLayout;
         Rect<float> *buttonTextureRect;
-        std::vector<Button*> *buttons; 
+        std::vector<Button*> buttons; 
         Font *buttonFont;
     public:
         /**

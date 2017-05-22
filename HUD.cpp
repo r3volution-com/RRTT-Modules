@@ -18,10 +18,10 @@ HUD::HUD(Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
     lifePlayer = maxLifePlayer;
     //Fin
     
-    guns = new std::vector<Sprite*>();
-    gunsOff = new std::vector<Sprite*>();
-    gunsCooldown = new std::vector<Sprite*>();
-    gunTimers = new std::vector<Time*>();
+    guns = std::vector<Sprite*>();
+    gunsOff = std::vector<Sprite*>();
+    gunsCooldown = std::vector<Sprite*>();
+    gunTimers = std::vector<Time*>();
     activeGun = 0;
     
     dieBool = false;
@@ -34,15 +34,36 @@ HUD::HUD(Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
 }
 
 HUD::~HUD(){
-    delete guns;
-    delete gunsOff; //ToDo: cuando borras un vector de punteros los punteros se quedan en memoria, habria que arreglar eso
-    delete gunsCooldown;
+    for (int i=0; i<guns.size(); i++){
+        delete guns.at(i);
+        guns.at(i) = NULL;
+    }
+    guns.clear();
+    
+    for (int i=0; i<gunsOff.size(); i++){
+        delete gunsOff.at(i);
+        gunsOff.at(i) = NULL;
+    }
+    gunsOff.clear();
+    
+    for (int i=0; i<gunsCooldown.size(); i++){
+        delete gunsCooldown.at(i);
+        gunsCooldown.at(i) = NULL;
+    }
+    gunsCooldown.clear();
+    
+    for (int i=0; i<gunTimers.size(); i++){
+        delete gunTimers.at(i);
+        gunTimers.at(i) = NULL;
+    }
+    gunTimers.clear();
+    
     delete playerHP;
     delete bossHP;
     delete flash;
     delete flashCooldown;
     delete die;
-
+    delete cooldownRect;
     delete clockFlash;
 
     delete textSprite;
@@ -53,15 +74,12 @@ HUD::~HUD(){
 
     delete buttonDie;
     
-    guns = NULL;
-    gunsOff = NULL;
-    gunsCooldown = NULL;
     playerHP = NULL;
     bossHP = NULL;
     flash = NULL;
     flashCooldown = NULL;
     die = NULL;
-
+    cooldownRect = NULL;
     clockFlash = NULL; 
 
     textSprite = NULL;
@@ -84,11 +102,11 @@ void HUD::addGun(Coordinate position, Rect<float> rect, Rect<float> rectOff, Tim
     
     tempCd->setSize(0,0);
     
-    guns->push_back(temp);
-    gunsOff->push_back(tempOff);
-    gunsCooldown->push_back(tempCd);
+    guns.push_back(temp);
+    gunsOff.push_back(tempOff);
+    gunsCooldown.push_back(tempCd);
     
-    gunTimers->push_back(g);
+    gunTimers.push_back(g);
     gunsModuleEnabled = true;
 }
 
@@ -148,7 +166,7 @@ void HUD::setTextLifePlayer(){
 }
 
 void HUD::changeActiveGun(int gun){
-    if (gun >= 0 && gun < guns->size()) activeGun = gun;
+    if (gun >= 0 && gun < guns.size()) activeGun = gun;
 }
 
 void HUD::changeMaxLifePlayer(int maxLife){
@@ -193,11 +211,11 @@ void HUD::drawHUD(bool onRange){
 }
 
 void HUD::drawGun(){
-    for (int i = 0; i < guns->size(); i++){
+    for (int i = 0; i < guns.size(); i++){
         if (activeGun == i){
-            Game::Instance()->window->draw(*guns->at(i)->getSprite());
+            Game::Instance()->window->draw(*guns.at(i)->getSprite());
         } else {
-            Game::Instance()->window->draw(*gunsOff->at(i)->getSprite());
+            Game::Instance()->window->draw(*gunsOff.at(i)->getSprite());
         }
     }
 }
@@ -226,12 +244,12 @@ void HUD::drawFlashCooldown(){
 }
 
 void HUD::drawGunCooldown(){
-    for (int i=0; i<guns->size(); i++){
-        if(gunTimers->at(i)->isRunning()){
-            gunsCooldown->at(i)->setSize(gunsCooldown->at(i)->getActualSpriteRect()->w-
-                ((gunsCooldown->at(i)->getOriginalSpriteRect()->w/gunTimers->at(i)->getMaxTime())/Game::Instance()->fps), 
-                gunsCooldown->at(i)->getActualSpriteRect()->h);
-            Game::Instance()->window->draw(*gunsCooldown->at(i)->getSprite());
+    for (int i=0; i<guns.size(); i++){
+        if(gunTimers.at(i)->isRunning()){
+            gunsCooldown.at(i)->setSize(gunsCooldown.at(i)->getActualSpriteRect()->w-
+                ((gunsCooldown.at(i)->getOriginalSpriteRect()->w/gunTimers.at(i)->getMaxTime())/Game::Instance()->fps), 
+                gunsCooldown.at(i)->getActualSpriteRect()->h);
+            Game::Instance()->window->draw(*gunsCooldown.at(i)->getSprite());
         }
     }
 }
@@ -249,8 +267,8 @@ void HUD::resetClockFlash(){
 }
 
 void HUD::resetClockGuns(){ 
-    if (!gunTimers->at(activeGun)->isRunning()) {
-        gunsCooldown->at(activeGun)->restoreSize();
+    if (!gunTimers.at(activeGun)->isRunning()) {
+        gunsCooldown.at(activeGun)->restoreSize();
     }
 }
 

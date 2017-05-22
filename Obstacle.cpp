@@ -12,6 +12,13 @@ Obstacle::Obstacle(Coordinate position, Coordinate s, Texture *t, Rect<float> ne
 }
 
 Obstacle::~Obstacle() {
+    delete hitbox;
+    delete anim;
+    delete initial;
+    
+    hitbox = NULL;
+    anim = NULL;
+    initial = NULL;
 }
 
 void Obstacle::setPosition(Coordinate newCoor){

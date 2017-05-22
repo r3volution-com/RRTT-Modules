@@ -20,10 +20,18 @@ Console::Console(Coordinate coor, Texture *bg, Rect<float> rect, Font *f) {
     active = false;
     historyLength = 7;
     
-    history = new std::vector<std::string>();
+    history = std::vector<std::string>();
 }
 
 Console::~Console() {
+    delete background;
+    delete backlog;
+    delete actual;
+    history.clear();
+    commands.clear();
+    background = NULL;
+    backlog = NULL;
+    actual = NULL;
 }
 
 void Console::addCommand(std::string command, std::function<void(std::string)> function){
@@ -35,12 +43,12 @@ void Console::writeCommand(std::string text){
 }
 
 void Console::writeInBacklog(std::string command){
-    history->push_back(command);
+    history.push_back(command);
     std::string text = "";
     int start = 0;
-    if (((int)history->size()-historyLength) > 0) start = ((int)history->size()-historyLength);
-    for (int i = start; i < history->size(); i++){
-        text = text + history->at(i) + "\n";
+    if (((int)history.size()-historyLength) > 0) start = ((int)history.size()-historyLength);
+    for (int i = start; i < history.size(); i++){
+        text = text + history.at(i) + "\n";
     }
     backlog->setText(text);
 }

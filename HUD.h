@@ -20,10 +20,10 @@ class HUD {
         
         Rect<float> *cooldownRect;
         
-        std::vector<Sprite*> *guns;
-        std::vector<Sprite*> *gunsOff;
-        std::vector<Sprite*> *gunsCooldown;
-        std::vector<Time*> *gunTimers;
+        std::vector<Sprite*> guns;
+        std::vector<Sprite*> gunsOff;
+        std::vector<Sprite*> gunsCooldown;
+        std::vector<Time*> gunTimers;
         int activeGun;
         
         Sprite *playerHP;
@@ -159,14 +159,6 @@ class HUD {
          * @param life: Vida del boss (tipo int)
          */
         void changeLifeBoss(int life);
-        
-        
-        
-        /*std::vector<Sprite*> getSpriteGunsOn(){return guns;}
-        std::vector<Sprite*> getSpriteGunsOff(){return gunsOff;}
-        std::vector<Sprite*> getSpriteGunsCooldown(){return gunsCooldown;}
-        Sprite* getSpriteFlash(){return flash;}
-        Sprite* getSpriteFlashCooldown(){return flashCooldown;}*/
         
         /**
          * Dibuja el hud
