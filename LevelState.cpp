@@ -416,6 +416,7 @@ void LevelState::changeLevel(){
             finish = true;
         }else{
             finish = false;
+            level->CleanUp();
             return Game::Instance()->ChangeCurrentState("menu");
         }
         

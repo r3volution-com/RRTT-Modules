@@ -15,19 +15,20 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     timeDead = new Time(2);
     dead = false;
     flashCooldown = new Time(0);
+    blood = NULL;
 }
 
 Enemy::~Enemy() {
-    /*delete flashCooldown;
+    delete flashCooldown;
     delete cd;
     delete tri;
-    delete blood;
+    if(blood != NULL) delete blood;
     delete timeDead;
     flashCooldown = NULL;
     cd = NULL;
     tri = NULL;
     blood = NULL;
-    timeDead = NULL;*/
+    timeDead = NULL;
 }
 
 void Enemy::flash(float dirX, float dirY){

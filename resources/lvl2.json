@@ -265,7 +265,7 @@
     ],
     "npcs": [
         {
-            "sprite": "texture": "Misc", "rect": {"x": 1024, "y": 384, "w": 128, "h": 128}},
+            "sprite": {"texture": "Misc", "rect": {"x": 1024, "y": 384, "w": 128, "h": 128}},
             "position": {"x": 4500, "y": 13300},
             "size": {"w": 50, "h": 90},
             "speed": 40,
