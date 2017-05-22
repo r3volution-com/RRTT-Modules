@@ -280,7 +280,7 @@ void LevelState::Render(){
     Game::Instance()->window->setView(Game::Instance()->cameraView);
     
     /*Render level*/
-    level->Render();
+    level->RenderLevel();
     
     /*Render Player and guns*/
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
@@ -303,11 +303,9 @@ void LevelState::Render(){
     }
     
     /*HUD*/
-    if(level->getLoaded()){
-        Game::Instance()->window->draw(*level->getLoading()->getSprite());
-    }else{
-        hud->drawHUD(level->getBoss()->getOnRange());
-    }
+    hud->drawHUD(level->getBoss()->getOnRange());
+    
+    level->RenderView();
       
     /*Pause*/
     if (paused && pauseMenu) pause->drawMenu();

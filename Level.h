@@ -67,7 +67,9 @@ class Level {
 
         void Update();
 
-        void Render();
+        void RenderLevel();
+        
+        void RenderView();
         
         void CleanUp();
         
