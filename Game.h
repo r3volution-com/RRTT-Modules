@@ -40,6 +40,7 @@ class Game {
         Hitbox *mouse;
         Console *console;
         std::string temp;
+        std::string currentScene;
         
         Time *iaTimer;
         int iaPS;
@@ -77,6 +78,9 @@ class Game {
          */
         void ChangeCurrentState(const std::string &state);
         LevelState *getLevelState(){return level;}
+        std::string getCurrentScene(){
+            return currentScene;
+        }
 };
 
 #endif /* GAME_H */
