@@ -320,6 +320,9 @@ void Level::Update(){
                         postObstacles.at(i)->setActive(false);
                     }
                 }
+                //Volvemos a la cancion normal
+                Game::Instance()->rM->getMusic("boss")->getMusic()->stop();
+                Game::Instance()->rM->getMusic("Main")->getMusic()->play();
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
         }
@@ -332,6 +335,9 @@ void Level::Update(){
                         postObstacles.at(i)->setActive(false);
                     }
                 }
+                //Volvemos a la cancion normal
+                Game::Instance()->rM->getMusic("boss")->getMusic()->stop();
+                Game::Instance()->rM->getMusic("Main")->getMusic()->play();
                 boss->setPosition(100000,100000); //ToDo PabloL: Poner un setActive para bloquear la ia cuando muera en Enemy
             }
         }
@@ -377,9 +383,9 @@ void Level::Update(){
             }
         }
         /*Musica del boss*/
-        if(play==true){
+        if(play==true && isEnter==false){
            Game::Instance()->rM->getMusic("boss")->getMusic()->play();
-           play=false;
+           isEnter=true;
         }
         //Comprobamos los endPoints
         if (j.find("endPoints") != j.end()) {

@@ -2,8 +2,8 @@
 	"map": "resources/Boss.tmx",
         "tileset": "resources/TilesetBossfinal.png",
         "spawn_points": [
-            {"x": 650, "y": 3650},
-            {"x": 650, "y": 3650}
+            {"x": 2565, "y": 5600},
+            {"x": 2565, "y": 5600}
         ],
 	"resources": [
 		{

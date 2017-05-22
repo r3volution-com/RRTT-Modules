@@ -33,6 +33,7 @@ class Level {
         bool bossZone;
         //Iniciar musica jefe
         bool play = false;
+        bool isEnter = false;
         
 
         //Objetos
@@ -64,15 +65,16 @@ class Level {
         void Render();
         
         void CleanUp();
+        
         /**
-         * Actualiza el comienzo del juego
+         * Actualiza el lanzamiento del nivel
          * @param booleano
          */
-        void setPlay(bool booleano) {play=booleano;}
+        void setIsEnter(bool booleano) {isEnter=booleano;}
         
         /**
          * Actualiza la zona del boss
-         * @param b
+         * @param b: Zona del boss
          */
         void setBossZone(bool b) { bossZone = b; }
         
