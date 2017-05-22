@@ -144,7 +144,7 @@
                 "bullet": {
                     "size": {"w": 128, "h": 128},
                     "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-                    "origin": {"x": 184, "y": 98},
+                    "origin": {"x": 185, "y": 72},
                     "type": 1,
                     "damage": 3,
                     "duration": 2,

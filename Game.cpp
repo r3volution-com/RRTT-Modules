@@ -1,7 +1,78 @@
 #include "Game.h"
 
 void texto(std::string texto){ //ToDo: quitar, esto es de ejemplo para la consola
-    std::cout << "Has escrito: " << texto << "\n";
+}
+
+/**
+ * Comando para seleccionar el nivel que dese jugar
+ * @param texto: Comando
+ */
+void selectlevel(std::string texto){
+    
+}
+
+/**
+ * Comando para hacer aparecer enemigos
+ * @param texto: Comando
+ */
+void spawnenemy(std::string texto){
+    //Ponerle el tipo (ccon todo predefinido) y la posicion sera la tuya + algo)
+}
+
+/**
+ * Comando para que los cooldown se bajen a cero
+ * @param texto: Comando
+ */
+void nocooldown(std::string texto){
+    Game::Instance()->getLevelState()->
+}
+
+/**
+ * Comando para aumentar mucho la vida del jugador
+ * @param texto: Comando
+ */
+void godmode(std::string texto){
+    
+}
+
+/**
+ * Comando para atravesar paredes
+ * @param texto: Comando
+ */
+void noclip(std::string texto){
+    
+}
+
+/**
+ * Comando para teletransportarte a una posicion
+ * @param texto: Comando
+ */
+void teleport(std::string texto){
+    
+}
+
+/**
+ * Comando para aumentar mucho el dano del jugador
+ * @param texto: Comando
+ */
+void deathtouch(std::string texto){
+    
+}
+
+/**
+ * Comando para cambiar la velocidad de movimiento
+ * @param texto: Comando
+ */
+void speed(std::string texto){
+    
+}
+
+/**
+ * Comando para desactivar la IA
+ * @param texto: Comando
+ */
+void disableia(std::string texto){
+    
 }
 
 void onTextEntered(thor::ActionContext<std::string> context) {

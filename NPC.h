@@ -47,12 +47,16 @@ class NPC : public Entity {
         bool nextSentence();
         
         /**
-         * 
-         * @param x
-         * @param y
+         * Actualiza la direccion en la que corre el npc
+         * @param x: Coordenada x
+         * @param y: Coordenada y
          */
         void setRunawayDirection(int x, int y);
         
+        /**
+         * Actualiza si esta en el rango
+         * @param b: Mira si esta en rango
+         */
         void setInRange(bool b){ inRange = b; }
         
         bool getRange(){ return inRange; }

@@ -76,15 +76,64 @@ class Boss : public Enemy{
         void updatePosition(float x, float y);
         
         Gun *getCurrentGun() { return guns->at(currentGun); }
+        
+        /**
+         * Comprueba si esta atacando
+         * @return attacking
+         */
         bool isAttacking() { return attacking; }
+        
+        /**
+         * Comprueba si está en el rango
+         * @return 
+         */
         bool getOnRange(){return onRange;}
+        
+        /**
+         * Actualiza el reloj de estados 
+         * @param def: De tipo tiempo
+         */
         void setStateClock(Time *def){stateClock = def; timeState = stateClock->getTime(); stateClock = new Time(0);}
+        
+        /**
+         * Actualiza las animaciones del boss
+         * @param t: Sprite que utiliza
+         * @param newRect: Zona que imprime
+         */
         void setAnimations(Texture *t, Rect<float> newRect);
+        
+        /**
+         * Movimiento del boss
+         * @param xDir: Coordenada x. Tipo float
+         * @param yDir: Coordenada y. Tipo float
+         */
         void move(float xDir, float yDir);
+        
+        /**
+         * Flash del boss
+         * @param xDir
+         * @param yDir
+         */
         void flash(float xDir, float yDir);
         void changeState();
+        
+        /**
+         * Dano que realiza el boss
+         * @param dm: Cantidad de dano
+         */
         void damage(int dm);
+        
+        /**
+         * Anadir estado al boss
+         * @param s: Numero del estado
+         */
         void addState(int s);
+        
+        /**
+         * Anadir estado aleatorio al boss
+         * @param from: Estado actual
+         * @param to: Estado al que tiene que cambiar
+         */
         void addRandomState(int from, int to);
         int getStateBoss(){return state;}
         int getAngle(){return angle;}

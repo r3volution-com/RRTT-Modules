@@ -345,7 +345,6 @@ void Boss::AI(Player* rath, HUD* hud){
             if(currentGun == 1){
                 angle += 15;
             }
-            std::cout<<rath->getFlashCooldown()->getTime()<<"\n";
             if(rath->getFlashCooldown()->isRunning() && getFlashCooldown()->isExpired()){
                 flash(dir.x,dir.y);
             }

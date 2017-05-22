@@ -34,6 +34,7 @@ void Button::setOutline(int oS, sf::Color oC, sf::Color oCH){
 
 void Button::hover(Hitbox *mouse){
     if (hitbox->checkCollision(mouse) && !isHover){
+        Game::Instance()->rM->getSound("menu")->getSound()->play();
         buttonLayout->changeSpriteRect(Rect<float>(buttonLayout->getOriginalSpriteRect()->x+buttonData->w, buttonLayout->getOriginalSpriteRect()->y, buttonData->w, buttonData->h));
         text->setOutlineStyle(*outlineColor, outlineSize);
         isHover = true;

@@ -151,7 +151,6 @@ void Map::matrizSprites(){
 
                     medidas->setRect(newX-_tileWidth, newY, 128, 128);
                     
-                    //cout << medidas->getFloatRect() << "\n";
                     
                     //Si fuera 0 no creo sprite...
                     

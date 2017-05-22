@@ -15,15 +15,11 @@ Save::Save() {
 
     level->QueryIntAttribute("level", &_numLevel);
     
-    cout << "Numero del nivel: " << level->FirstAttribute()->Value() << endl;
    
     coords = doc.FirstChildElement("rath");
     
     level->QueryIntAttribute("x", &_rX);
     level->QueryIntAttribute("y", &_rY);
-    
-    cout << "Coordenada x de rath: " << _rX << endl;
-    cout << "Coordenada y de rath: " << _rY << endl;
     
         
     XMLElement *nivel = doc.FirstChildElement("level")->ToElement();

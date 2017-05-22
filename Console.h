@@ -46,6 +46,11 @@ public:
      * @param command: Comando a enviar por consola
      */
     void sendCommand(std::string command);
+    
+    /**
+     * Escribe en el backlog
+     * @param command: Comando a escribir
+     */
     void writeInBacklog(std::string command);
     
     /**
