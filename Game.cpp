@@ -24,7 +24,7 @@ void spawnenemy(std::string texto){
  * @param texto: Comando
  */
 void nocooldown(std::string texto){
-    Game::Instance()->getLevelState()->
+    //Game::Instance()->getLevelState()->
 }
 
 /**
