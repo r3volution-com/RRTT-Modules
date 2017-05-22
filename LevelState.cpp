@@ -165,11 +165,13 @@ void LevelState::Input(){
             if(pauseMenu){
                 paused = false;
                 pauseMenu = false;
+                level->setPause(false);
             }
         } else {
             if(!pauseMenu){
                 paused = true;
                 pauseMenu = true;
+                level->setPause(true);
             }
         }
     }
@@ -254,6 +256,7 @@ void LevelState::Input(){
                     case 0:
                         paused = false;
                         pauseMenu = false;
+                        level->setPause(false);
                     break;
                     case 1:
                     {
