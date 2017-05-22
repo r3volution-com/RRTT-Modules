@@ -58,6 +58,7 @@ void LevelState::Init(){
     game->rM->loadSound("flash", "resources/sonidos/flash.ogg");
     game->rM->loadSound("damage", "resources/sonidos/damage.ogg");
     game->rM->loadSound("takeNote", "resources/sonidos/takeNote.ogg");
+    
     game->rM->loadMusic("boss", "resources/sonidos/boss.ogg");
     
     /*****INPUTS*****/
@@ -221,8 +222,11 @@ void LevelState::Input(){
             /*Player gun attack*/
             //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
             if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){
-                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)
+                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0 && rath->getCurrentGunId()==0)
                     Game::Instance()->rM->getSound("fire")->getSound()->play();
+                
+                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0 && rath->getCurrentGunId()==1)
+                    
                 
                 hud->resetClockGuns();
                 rath->gunAttack();

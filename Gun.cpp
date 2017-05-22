@@ -21,7 +21,7 @@ void Gun::setAnimation(Texture *tex, Rect<float> animRect){
 }
 
 Gun::~Gun() {
-    delete gunAnimation;
+    /*delete gunAnimation;
     delete attack;
     delete gunCooldown;
     delete coor;
@@ -32,7 +32,7 @@ Gun::~Gun() {
     gunCooldown = NULL;
     coor = NULL;
     bulletLifetime = NULL;
-    charge = NULL;
+    charge = NULL;*/
 }
 
 void Gun::setAttack(Bullet *atk){
