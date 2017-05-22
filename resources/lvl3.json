@@ -21,11 +21,7 @@
                 {
 			"name": "rayo",
 			"path": "resources/rayo.png"
-		},
-                {
-                    "name": "load",
-                    "path": "resources/loading_lvl2.jpg"
-                }
+		}
 	],
 	"boss": {
             "position": {"x": 3500, "y": 3000},
@@ -83,11 +79,5 @@
                 "sprite": {"texture": "gui-tileset", "rect": {"x": 128, "y": 920, "w": 174, "h": 290}},
                 "position": {"x": 3000, "y": 3000}
             }
-        ],
-        "loading": {
-            "texture": {"name": "load"},
-            "position": {"x": 0, "y": 0},
-            "size": {"w": 1280, "h": 720},
-            "duration": 3
-        }
+        ]
 }
