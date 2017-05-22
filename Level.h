@@ -64,8 +64,16 @@ class Level {
         void Render();
         
         void CleanUp();
-        
+        /**
+         * Actualiza el comienzo del juego
+         * @param booleano
+         */
         void setPlay(bool booleano) {play=booleano;}
+        
+        /**
+         * Actualiza la zona del boss
+         * @param b
+         */
         void setBossZone(bool b) { bossZone = b; }
         
         Coordinate* getRespawn(){ return respawn.at(actualRespawn);}

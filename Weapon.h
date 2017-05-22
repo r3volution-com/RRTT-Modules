@@ -73,12 +73,11 @@ class Weapon {
          */
         void shortAttack(char direction);
         
-        void setDamage(int damage) { dmg = damage; }
-        
         /**
-         * 
-         * @return 
+         * Actualiza el dano realizado
+         * @param damage: dano realizado
          */
+        void setDamage(int damage) { dmg = damage; }
         
         int getDamage() { return dmg; }
         bool isAttacking() { return loadingAttack; }

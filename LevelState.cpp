@@ -167,7 +167,6 @@ void LevelState::Input(){
             Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
                     rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
             rath->getCurrentGun()->update(newPos, mouseAng);
-            //std::cout << "YAY\n";
             /*Player gun attack*/
             //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
             if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){
@@ -182,7 +181,6 @@ void LevelState::Input(){
         if (Game::Instance()->iM->isActive("player-flash") && rath->getFlashCooldown()->getTime()==0
                 && (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)
                 ||  sf::Keyboard::isKeyPressed(sf::Keyboard::S) ||  sf::Keyboard::isKeyPressed(sf::Keyboard::D))){
-            //cout << rath->getFlashCooldown()->getTime() << endl;
             Game::Instance()->rM->getSound("flash")->getSound()->play();
             hud->resetClockFlash();
             rath->flash();
