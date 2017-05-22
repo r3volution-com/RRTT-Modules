@@ -24,9 +24,6 @@ void MenuState::Init(){
     game->rM->getMusic("Intro")->getMusic()->setLoop(true);
     game->rM->getMusic("Intro")->getMusic()->play();
     
-    game->rM->loadMusic("Main", "resources/sonidos/main.ogg");
-    game->rM->getMusic("Main")->getMusic()->setLoop(true);
-    
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
     game->rM->loadFont("menu", "resources/menu.ttf");
     game->rM->loadTexture("loading-game", "resources/loading_game.png");
@@ -116,7 +113,7 @@ void MenuState::Render(){
 void MenuState::CleanUp(){
     Game::Instance()->rM->releaseTexture("menu-background");
     Game::Instance()->rM->releaseTexture("loading-game");
-    Game::Instance()->rM->releaseFont("menu");
+    //Game::Instance()->rM->releaseFont("menu");
     Game::Instance()->rM->releaseMusic("Intro");
     delete principal;
     delete loading;

@@ -22,7 +22,6 @@ class Gun {
         bool bulletLoaded;
         
         char type;
-        Time *charge;
     public:
         /**
          * Crea objeto arma

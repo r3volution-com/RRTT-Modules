@@ -51,12 +51,16 @@ void LevelState::Init(){
     game->rM->loadFont("font", "resources/font.ttf");
     
     /* SONIDOS */
+    game->rM->loadMusic("Main", "resources/sonidos/main.ogg");
+    game->rM->getMusic("Main")->getMusic()->setLoop(true);
+    
     game->rM->loadSound("ataque", "resources/sonidos/ataque.ogg");
     game->rM->loadSound("cargar", "resources/sonidos/cargar.ogg");
     game->rM->loadSound("fire", "resources/sonidos/lanzallamas2.ogg");
     game->rM->loadSound("flash", "resources/sonidos/flash.ogg");
     game->rM->loadSound("damage", "resources/sonidos/damage.ogg");
     game->rM->loadSound("takeNote", "resources/sonidos/takeNote.ogg");
+    game->rM->loadSound("laser", "resources/sonidos/laser.ogg");
     game->rM->loadMusic("boss", "resources/sonidos/boss.ogg");
     
     /*****INPUTS*****/
@@ -222,8 +226,11 @@ void LevelState::Input(){
             /*Player gun attack*/
             //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
             if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){
-                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)
+                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0 && rath->getCurrentGunId()==0)
                     Game::Instance()->rM->getSound("fire")->getSound()->play();
+                
+                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0 && rath->getCurrentGunId()==1)
+                    Game::Instance()->rM->getSound("laser")->getSound()->play();
                 
                 hud->resetClockGuns();
                 rath->gunAttack();
@@ -352,6 +359,7 @@ void LevelState::Render(){
 
 void LevelState::CleanUp(){
     Game *game = Game::Instance();
+    Game::Instance()->rM->releaseMusic("Main");
     game->rM->releaseTexture("player");
     game->rM->releaseTexture("hud-spritesheet");
     game->rM->releaseTexture("hud-playerdeath");
@@ -407,6 +415,7 @@ void LevelState::changeLevel(){
             finish = true;
         }else{
             finish = false;
+            level->CleanUp();
             return Game::Instance()->ChangeCurrentState("menu");
         }
         
