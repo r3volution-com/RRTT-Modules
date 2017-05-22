@@ -32,7 +32,7 @@
             },
             {
                     "name": "load",
-                    "path": "resources/loading_lvl2.png"
+                    "path": "resources/loading_lvl1.png"
             }
     ],
     "enemys": [
@@ -140,8 +140,8 @@
         "hp": 500,
         "distanceToHome": 2000,
         "distanceToPlayer": 1500,
-        "damage": 15,
-        "hitCooldown": 1,
+        "damage": 25,
+        "hitCooldown": 0.8,
         "flashRange": 8, 
         "flashCooldown": 0.5,
         "changeStateTimer": 20,
@@ -178,7 +178,7 @@
             "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
             "font": "font",
             "notePosition": {"x": 1950, "y": 13850},
-            "paperPosition": {"x": 100, "y": 100},
+            "paperPosition": {"x": 336, "y": 116},
             "text": "El amor y el odio no son ciegos, \nsino que estan cegados por \nel fuego que llevan dentro.\n\nPD: Saluda, que estas\nsaliendo en multimedia!"  
         }
     ],

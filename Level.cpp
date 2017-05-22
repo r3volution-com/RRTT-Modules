@@ -269,6 +269,9 @@ void Level::Init(int numLevel){
                 Rect<float>(j["loading"]["position"]["x"],j["loading"]["position"]["y"],j["loading"]["size"]["w"],j["loading"]["size"]["h"]));
         loadTime = new Time(j["loading"]["duration"].get<float>());
     }
+    
+    rath->restoreHP();
+    hud->changeLifePlayer(rath->getHP());
 }
 
 void Level::Update(){
