@@ -182,10 +182,11 @@ class Player : public Entity {
         
         int getHP() { return hp; }
         int getMaxHP() { return maxHP; }
-        int getGunNumber() { return currentGun; }
+        int getCurrentGunId() { return currentGun; }
         Weapon *getWeapon() { return weapon; }
         Gun *getCurrentGun() { return guns->at(currentGun); }
         Time *getFlashCooldown() { return flashCooldown; }
+        int getGunsNumber(){ return guns->size(); }
         
         bool isAttacking() { return attacking; }
         

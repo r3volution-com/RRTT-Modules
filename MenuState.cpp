@@ -30,6 +30,7 @@ void MenuState::Init(){
     
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
     game->rM->loadFont("menu", "resources/menu.ttf");
+    game->rM->loadTexture("loading-game", "resources/loading_game.png");
     
     
     principal = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
@@ -45,6 +46,11 @@ void MenuState::Init(){
     
     menuactual = 0;
     actual = principal;
+    
+    loading = new Sprite(game->rM->getTexture("loading-game"), Rect<float>(0,0,1280,720));
+    loadTime = new Time(5.0f);
+    
+    loaded = false;
 }
 
 void MenuState::Input(){
@@ -53,9 +59,8 @@ void MenuState::Input(){
         if (menuactual == 0){
             switch (clicks){
                 case 0:
-                    Game::Instance()->rM->getMusic("Intro")->getMusic()->stop();
-                    Game::Instance()->ChangeCurrentState("level");
-                    Game::Instance()->rM->getMusic("Main")->getMusic()->play();
+                    loadTime->start();
+                    loaded = true;
                 break;
                 case 1:
                     Game::Instance()->rM->getSound("menu")->getSound()->play();
@@ -88,10 +93,19 @@ void MenuState::Input(){
 
 void MenuState::Update(){
     actual->checkHover(Game::Instance()->mouse);
+    if(loadTime->isExpired()){
+        loaded = false;
+        Game::Instance()->rM->getMusic("Intro")->getMusic()->stop();
+        Game::Instance()->ChangeCurrentState("level");
+        Game::Instance()->rM->getMusic("Main")->getMusic()->play();
+    }
 }
 
 void MenuState::Render(){
     actual->drawMenu();
+    if(loaded == true){
+        Game::Instance()->window->draw(*loading->getSprite());
+    }
 }
 
 void MenuState::CleanUp(){

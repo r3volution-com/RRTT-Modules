@@ -6,7 +6,6 @@
         {"x": 3200, "y": 7000}
     ],
     "resources": [
-        "resources": [
             {
                     "name": "enemy",
                     "path": "resources/sprites/ENEMIGOS.png"

@@ -276,7 +276,7 @@
         }
     ],
     "addGun": {
-        "cooldown": 2,
+        "cooldown": 4,
         "sprite": {"texture": "player", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
         "origin": {"x": 56, "y": 34},
         "bullet": {
@@ -284,7 +284,7 @@
             "sprite": {"texture": "player", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
             "origin": {"x": 185, "y": 72},
             "type": 1,
-            "damage": 15,
+            "damage": 1,
             "duration": 2,
             "animations": [
                 {
@@ -298,7 +298,7 @@
         "hudSprite": {
             "position": {"x": 20, "y": 20},
             "rectOn": {"x": 85, "y": 0, "w": 82, "h": 85},
-            "rectOff": {"x": 85, "y": 0, "w": 82, "h": 85}
+            "rectOff": {"x": 85, "y": 85, "w": 82, "h": 85}
         }
     },
     "loading": {

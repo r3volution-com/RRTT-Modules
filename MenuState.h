@@ -3,6 +3,7 @@
 
 #include "GameState.h"
 #include "Menu.h"
+#include "libs/Time.h"
 #include <SFML/Audio.hpp>
 
 class MenuState : public GameState{
@@ -12,7 +13,12 @@ class MenuState : public GameState{
         
         Menu *actual;
         
+        
+        Sprite *loading;
+        Time *loadTime;
+        
         int menuactual;
+        bool loaded;
     public:
         MenuState();
         /**

@@ -7,6 +7,25 @@
  
 #define PI 3,14159265;
 
+void changeGun(thor::ActionContext<std::string> context){
+    Player *rath = Game::Instance()->getLevelState()->getRath();
+    HUD *hud = Game::Instance()->getLevelState()->getHUD();
+    int currentGun = rath->getCurrentGunId();
+    int maxGuns = rath->getGunsNumber();
+    sf::Event e = *context.event;
+    if(e.mouseWheel.delta < 0){
+        if (currentGun-1 >= 0) {
+            rath->changeGun(currentGun-1);
+            hud->changeActiveGun(currentGun-1);
+        }
+    } else if(e.mouseWheel.delta > 0){
+        if (currentGun+1 < maxGuns) {
+            rath->changeGun(currentGun+1);
+            hud->changeActiveGun(currentGun+1);
+        }
+    }
+}
+
 LevelState::LevelState() : GameState(){
     tri = new Trigonometry();
 }
@@ -49,6 +68,8 @@ void LevelState::Init(){
     game->iM->addAction("player-longAttackStop", thor::Action(sf::Mouse::Left, thor::Action::ReleaseOnce));
     
     game->iM->addAction("player-gunAttack", thor::Action(sf::Mouse::Right));
+    
+    game->iM->addActionCallback("player-changeGun", thor::Action(sf::Event::MouseWheelMoved), &changeGun);
     
     game->iM->addAction("pause", thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce));
     
@@ -98,7 +119,7 @@ void LevelState::Init(){
     /*Creamos el nivel*/
     level = new Level(rath, hud); 
     //Y lo iniciamos
-    currentLevel = 2;
+    currentLevel = 1;
     level->Init(currentLevel);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
 }
@@ -163,7 +184,7 @@ void LevelState::Input(){
             rath->setSpeed(rath->getInitialSpeed());
         }
 
-        if (rath->getGunNumber() >= 0){
+        if (rath->getCurrentGunId() >= 0){
             /*Player gun rotation*/
             Coordinate newPos = Coordinate(rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
                     rath->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().top);
@@ -188,6 +209,7 @@ void LevelState::Input(){
             hud->resetClockFlash();
             rath->flash();
         }
+
         //Pausar la partida si rath muere
         if (rath->isDead()) {
             hud->playerDie();
@@ -242,7 +264,7 @@ void LevelState::Input(){
 void LevelState::Render(){
     /*Update animators*/
     rath->getAnimation()->updateAnimator();
-    if (rath->getGunNumber() >= 0){
+    if (rath->getCurrentGunId() >= 0){
         rath->getCurrentGun()->getAnimation()->updateAnimator();
         rath->getCurrentGun()->getBullet()->getAnimation()->updateAnimator();
     }
@@ -262,7 +284,7 @@ void LevelState::Render(){
     
     /*Render Player and guns*/
     Game::Instance()->window->draw(*rath->getAnimation()->getSprite());
-    if (rath->getGunNumber() >= 0){
+    if (rath->getCurrentGunId() >= 0){
         Game::Instance()->window->draw(*rath->getCurrentGun()->getAnimation()->getSprite());
         if (!rath->getCurrentGun()->getBulletLifetime()->isExpired())
             Game::Instance()->window->draw(*rath->getCurrentGun()->getBullet()->getAnimation()->getSprite());
