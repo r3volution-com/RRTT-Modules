@@ -117,7 +117,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 1;
+    currentLevel = 3;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;
@@ -321,6 +321,7 @@ void LevelState::Render(){
       
     /*Pause*/
     if (paused && pauseMenu) pause->drawMenu();
+    std::cout<<rath->getCoordinate()->x<<" "<<rath->getCoordinate()->y<<"\n";
 }
 
 void LevelState::CleanUp(){
@@ -362,6 +363,7 @@ void LevelState::CleanUp(){
 
 void LevelState::changeLevel(){
     currentLevel++;
+    //ToDo:: Comprobar que el siguiente archivo existe;
     level->CleanUp();
     level->Init(currentLevel);
 }

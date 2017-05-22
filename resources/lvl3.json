@@ -32,7 +32,7 @@
         },
         {
             "name": "load",
-            "path": "resources/finish.png"
+            "path": "resources/victory1.png"
         }
     ],
     "boss": {
@@ -90,6 +90,19 @@
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 3000, "y": 3000}
+        }
+    ],
+    "endPoints": [
+        {
+            "position": {"x": 4585, "y": 1900},
+            "size": {"w": 200, "h": 400}
+        }
+    ],
+    "postBossObstacles": [
+        {
+            "position": {"x": 4560, "y": 2450},
+            "size": {"w": 200, "h": 100},
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 0, "w": 200, "h": 100}}
         }
     ],
     "addGun": {
