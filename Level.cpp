@@ -410,7 +410,7 @@ void Level::Update(){
                         loaded = true;
                     }else{
                         loaded = false;
-                        Game::Instance()->getLevelState()->changeLevel();
+                        return Game::Instance()->getLevelState()->changeLevel();
                     }
                 }
             }
