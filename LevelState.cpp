@@ -117,7 +117,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 3;
+    currentLevel = 1;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;

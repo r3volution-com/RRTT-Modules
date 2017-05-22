@@ -97,17 +97,66 @@ Map::Map(const char* ruta, const char* texture) {
 
 
 Map::~Map(){
+    
 
-    delete _tilemapSprite;
+    doc.Clear();
+    delete _tilesetTexture;
+    
+
+    map->DeleteChildren();
+    tileset->DeleteChildren();
+    img->DeleteChildren();
+    layer->DeleteChildren();
+    objectgroup->DeleteChildren();
+    capas->DeleteChildren();
+    _tilesetTexture = NULL;
+    
+    //Pruebas
+    for(int l=0; l<_numLayers; l++){
+        for(int y=0; y<_height; y++){
+            for(int x=0; x<_width; x++){
+                //Vamos comparando
+                delete _tilemapSprite[l][y][x];
+                _tilemapSprite[l][y][x] = NULL;
+            }
+        }
+    } 
+    
+    delete data;
+    
+    for(int y=0; y<_height; y++){
+        for(int x=0; x<_width; x++){
+            //Vamos comparando
+            data[y][x].DeleteChildren();
+        }
+     }
     
     for(int l=0; l<_numLayers; l++){
         for(int y=0; y<_height; y++){
             for(int x=0; x<_width; x++){
                 //Vamos comparando
+                //delete _tilemap[l][y][x];
+                _tilemap[l][y][x] = 0;
+            }
+        }
+    }
+    
+    for(int i=0; i < muros->size(); i++){
+        delete muros->at(i);
+        muros->at(i) = NULL;
+    }
+    
+    muros->clear();
+    
+    for(int l=0; l<_numLayers; l++){
+        for(int y=0; y<_height; y++){
+            for(int x=0; x<_width; x++){
+                //Vamos comparando
+                delete _tilemapSprite[l][y][x];
                 _tilemapSprite[l][y][x] = NULL;
             }
         }
-    } 
+    }
 }
 
 void Map::dataTiles(){

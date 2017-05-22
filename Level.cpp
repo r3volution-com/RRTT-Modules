@@ -665,8 +665,10 @@ void Level::CleanUp(){
     delete loading;
     delete loadTime;
     
+    delete map;
     
-    //map = NULL; 
+    
+    map = NULL; 
     boss = NULL;
     keyIterationNpc = NULL;
     loading = NULL;
