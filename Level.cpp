@@ -43,7 +43,6 @@ void Level::Init(int numLevel){
     
     //Cargamos los recursos
     for (int i=0; i<j["resources"].size(); i++){
-        std::cout<<j["resources"].at(i)["name"].get<std::string>()<<"\n";
         game->rM->loadTexture(j["resources"].at(i)["name"].get<std::string>(), j["resources"].at(i)["path"].get<std::string>().c_str());
     }
     
