@@ -21,11 +21,10 @@ Sprite::Sprite(Texture *texture, Rect<float> spriteRect) {
 }
 
 Sprite::~Sprite() {
-    //delete tex;
     delete sprite;
     delete originalSpriteRect;
     delete actualSpriteRect;
-    //tex = NULL;
+
     sprite = NULL;
     originalSpriteRect = NULL;
     actualSpriteRect = NULL;

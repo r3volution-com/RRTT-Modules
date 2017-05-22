@@ -449,21 +449,28 @@ void Level::Input(){
             }
             //NOTAS
             if (j.find("notes") != j.end()) {
-                if (showNoteText) {
-                    showNoteText = false;
-                }
                 for (int i=0; i<notes.size(); i++){
                     if(rath->collision(notes.at(i)->getHitbox())){
                         if (!showNoteText && !notes.at(i)->getTaken()){
                             showNoteText = true;
                             notes.at(i)->setTaken();
+                            paused = true;
+                            Game::Instance()->getLevelState()->setPaused(true);
                         }
                     }
                 }
             }
         }
     } else {
-        //Si no esta pausado
+        if(Game::Instance()->iM->isActive("interact")){
+            if (j.find("notes") != j.end()) {
+                if (showNoteText) {
+                    showNoteText = false;
+                    paused = false;
+                    Game::Instance()->getLevelState()->setPaused(false);
+                }
+            }
+        }
     }
 }
 
@@ -646,14 +653,12 @@ void Level::CleanUp(){
     delete loading;
     delete loadTime;
     
-    delete tri;
     
     //map = NULL; 
     boss = NULL;
     keyIterationNpc = NULL;
     loading = NULL;
     loadTime = NULL;
-    tri = NULL;
     
     //Reinicializamos las variables
     level = 0;
