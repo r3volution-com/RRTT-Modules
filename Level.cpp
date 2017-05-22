@@ -20,6 +20,8 @@ Level::Level(Player* r, HUD* h) {
     showNPCText = false;
     showNoteText = false;
     bossZone = false;
+    keyIterationNpc = NULL;
+    activeIA = true;
     
 }
 
@@ -247,7 +249,7 @@ void Level::Init(int numLevel){
                     j["addGun"]["bullet"]["animations"].at(k)["nSprites"], j["addGun"]["bullet"]["animations"].at(k)["duration"]);
         }
         bull->getAnimation()->initAnimator();
-        bull->getAnimation()->changeAnimation(j["addGun"]["bullet"]["animations"].at(0)["name"].get<std::string>(), false);
+        bull->getAnimation()->changeAnimation(j["addGun"]["bullet"]["animations"].at(0)["name"].get<std::string>(), j["addGun"]["bullet"]["loop"]);
         bull->setDamage(j["addGun"]["bullet"]["damage"]);
         bull->getAnimation()->setOrigin(Coordinate(j["addGun"]["bullet"]["origin"]["x"],j["addGun"]["bullet"]["origin"]["y"]));//ToDo: campo en json?
 
@@ -277,13 +279,15 @@ void Level::Init(int numLevel){
 void Level::Update(){
     if (!paused){
         /*EJECUTA LAS IAs*/
-        for (int i = 0; i<enemys.size(); i++){
-            if(enemys.at(i)->getHP() > 0){
-                enemys.at(i)->AI(rath, hud);
+        if(activeIA==true){
+            for (int i = 0; i<enemys.size(); i++){
+                if(enemys.at(i)->getHP() > 0){
+                    enemys.at(i)->AI(rath, hud);
+                }
             }
-        }
-        if(boss->getHP() > 0){
-            boss->AI(rath, hud);
+            if(boss->getHP() > 0){
+                boss->AI(rath, hud);
+            }
         }
         /*Actualiza la posicion del jefe*/
         if(boss->getCurrentGun()->getBullet()->getType() != 2){
@@ -660,13 +664,15 @@ void Level::CleanUp(){
     //Hacemos delete de los elementos de Level
     //delete map; ToDo: da segmentation fault aqui
     delete boss; //ToDo: da segmentation fault aqui
-    delete keyIterationNpc;
+    if(keyIterationNpc != NULL)delete keyIterationNpc;
     
     delete loading;
     delete loadTime;
     
+    delete map;
     
-    //map = NULL; 
+    
+    map = NULL; 
     boss = NULL;
     keyIterationNpc = NULL;
     loading = NULL;

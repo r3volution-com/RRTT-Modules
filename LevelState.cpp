@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "Console.h"
 #include "libs/Pie.h"
+#include <iostream>
  
 #define PI 3,14159265;
 
@@ -46,16 +47,20 @@ void LevelState::Init(){
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
     game->rM->loadTexture("damage","resources/dano.png");
-    game->rM->loadTexture("laser","resources/rayo.png");
+    game->rM->loadTexture("victory","resources/victory2.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
     /* SONIDOS */
+    game->rM->loadMusic("Main", "resources/sonidos/main.ogg");
+    game->rM->getMusic("Main")->getMusic()->setLoop(true);
+    
     game->rM->loadSound("ataque", "resources/sonidos/ataque.ogg");
     game->rM->loadSound("cargar", "resources/sonidos/cargar.ogg");
     game->rM->loadSound("fire", "resources/sonidos/lanzallamas2.ogg");
     game->rM->loadSound("flash", "resources/sonidos/flash.ogg");
     game->rM->loadSound("damage", "resources/sonidos/damage.ogg");
     game->rM->loadSound("takeNote", "resources/sonidos/takeNote.ogg");
+    game->rM->loadSound("laser", "resources/sonidos/laser.ogg");
     game->rM->loadMusic("boss", "resources/sonidos/boss.ogg");
     
     /*****INPUTS*****/
@@ -117,7 +122,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 3;
+    currentLevel = 1;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;
@@ -130,6 +135,11 @@ void LevelState::Init(){
     level->Init(currentLevel);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
+    
+    /*END GAME*/
+    victory = new Sprite(game->rM->getTexture("victory"), Rect<float>(0,0,1280,720));
+    end = new Time(4.0);
+    finish = false;
 }
 
 void LevelState::Update(){
@@ -143,13 +153,29 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
+    if (Game::Instance()->iM->isActive("console")){
+        if(Game::Instance()->console->isActive()){
+            paused=true;
+            level->setPause(true); 
+        }else{
+            paused=false;
+            level->setPause(false);
+        }
+    } 
+    
     if (Game::Instance()->iM->isActive("pause")) {
         if (paused == true) {
-            paused = false;
-            pauseMenu = false;
+            if(pauseMenu){
+                paused = false;
+                pauseMenu = false;
+                level->setPause(false);
+            }
         } else {
-            paused = true;
-            pauseMenu = true;
+            if(!pauseMenu){
+                paused = true;
+                pauseMenu = true;
+                level->setPause(true);
+            }
         }
     }
     if (!paused){
@@ -200,8 +226,11 @@ void LevelState::Input(){
             /*Player gun attack*/
             //ToDo: nada mas cargar el juego, la primera vez hace falta pulsar 2 veces (Bug)
             if(Game::Instance()->iM->isActive("player-gunAttack") && !rath->isAttacking()){
-                if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0)
+                if (rath->getCurrentGunId()==0)
                     Game::Instance()->rM->getSound("fire")->getSound()->play();
+                
+                if (rath->getCurrentGunId()==1)
+                    Game::Instance()->rM->getSound("laser")->getSound()->play();
                 
                 hud->resetClockGuns();
                 rath->gunAttack();
@@ -233,6 +262,7 @@ void LevelState::Input(){
                     case 0:
                         paused = false;
                         pauseMenu = false;
+                        level->setPause(false);
                     break;
                     case 1:
                     {
@@ -318,21 +348,25 @@ void LevelState::Render(){
     hud->drawHUD(level->getBoss()->getOnRange());
     
     level->RenderView();
-      
+    
     /*Pause*/
     if (paused && pauseMenu) pause->drawMenu();
-    std::cout<<rath->getCoordinate()->x<<" "<<rath->getCoordinate()->y<<"\n";
+    
+    if(finish){
+        Game::Instance()->window->draw(*victory->getSprite());
+    }
 }
 
 void LevelState::CleanUp(){
     Game *game = Game::Instance();
+    Game::Instance()->rM->releaseMusic("Main");
     game->rM->releaseTexture("player");
     game->rM->releaseTexture("hud-spritesheet");
     game->rM->releaseTexture("hud-playerdeath");
     game->rM->releaseTexture("pause-background");
     game->rM->releaseTexture("damage");
-    game->rM->releaseTexture("laser");
-    game->rM->releaseFont("font");
+    game->rM->releaseTexture("victory");
+    //game->rM->releaseFont("font");
     game->rM->releaseSound("ataque");
     game->rM->releaseSound("cargar");
     game->rM->releaseSound("fire");
@@ -346,6 +380,8 @@ void LevelState::CleanUp(){
     delete hud;
     delete pause;
     delete damage;
+    delete victory;
+    delete end;
     /*Faltaria:
         - playerTexture
      *  - level
@@ -359,11 +395,34 @@ void LevelState::CleanUp(){
     hud = NULL;
     pause = NULL;
     damage = NULL;
+    victory = NULL;
+    end = NULL;
 }
 
 void LevelState::changeLevel(){
     currentLevel++;
-    //ToDo:: Comprobar que el siguiente archivo existe;
+    std::ostringstream s;
+    s<<"resources/lvl"<<currentLevel<<".json";
+    ifstream f(s.str());
+    if(f.good()){
+        std::cout<<"si"<<"\n";
+        finish = false;
+        level->CleanUp();
+        level->Init(currentLevel);
+    }else{
+        end->start();
+        if(!end->isExpired()){
+            finish = true;
+        }else{
+            finish = false;
+            level->CleanUp();
+            return Game::Instance()->ChangeCurrentState("menu");
+        }
+        
+    }
+}
+void LevelState::changeLevelDirect(int numLvl){
+    currentLevel = numLvl;
     level->CleanUp();
     level->Init(currentLevel);
 }

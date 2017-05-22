@@ -1,14 +1,15 @@
 #include "Game.h"
-
-void texto(std::string texto){ //ToDo: quitar, esto es de ejemplo para la consola
-}
+#include <string>
 
 /**
  * Comando para seleccionar el nivel que dese jugar
  * @param texto: Comando
  */
 void selectlevel(std::string texto){
-    
+    if(Game::Instance()->getCurrentScene()=="level"){
+        Game::Instance()->getLevelState()->changeLevelDirect(std::stoi(texto));
+        std::cout<<std::stoi(texto)<<"\n";
+    }
 }
 
 /**
@@ -40,7 +41,7 @@ void godmode(std::string texto){
  * @param texto: Comando
  */
 void noclip(std::string texto){
-    
+    //en level
 }
 
 /**
@@ -72,12 +73,35 @@ void speed(std::string texto){
  * @param texto: Comando
  */
 void disableia(std::string texto){
-    
+    if(Game::Instance()->getCurrentScene()=="level"){
+        if(texto=="true"){
+            Game::Instance()->getLevelState()->getLevel()->setIA(false);
+        }else{
+            Game::Instance()->getLevelState()->getLevel()->setIA(true);
+        }
+    }
+}
+
+
+/**
+ * Comando para mostrar los FPS
+ * @param texto: Comando
+ */
+void showfps(std::string texto){
+    if(Game::Instance()->getCurrentScene()=="level"){
+        if(Game::Instance()->getCurrentScene()=="level"){
+            if(texto=="true"){
+                Game::Instance()->setFps(true);
+            }else{
+                Game::Instance()->setFps(false);
+            }
+        }
+    }
 }
 
 void onTextEntered(thor::ActionContext<std::string> context) {
     if (Game::Instance()->console->isActive()){
-        if (context.event->text.unicode < 128 && (context.event->text.unicode != 13 && context.event->text.unicode != 9 && context.event->text.unicode != 8)) {
+        if ((context.event->text.unicode >= 48 && context.event->text.unicode <= 122) || context.event->text.unicode == 32){
             sf::Uint32 character = context.event->text.unicode;
             std::ostringstream ch;
             ch << static_cast<char>(character);
@@ -148,6 +172,7 @@ Game::Game(){
     fpsTimer = new Time(1);
     fps = 60;
     fpsCounter = 0;
+    showFps=false;
     
     /*IA*/
     iaPS = 15;
@@ -174,10 +199,20 @@ void Game::Init(){
     rM->loadFont("console", "resources/font.ttf");
     rM->loadSound("menu", "resources/sonidos/menu.ogg");
 
+    fpsText=new Text("", Coordinate(1130,15) , rM->getFont("console"), false);
+    fpsText->setTextStyle(sf::Color::Yellow, 40);
     
     console = new Console(Coordinate(0,500), rM->getTexture("gui-tileset"), Rect<float>(0,0,1280,220), rM->getFont("console"));
-    console->addCommand("texto", &texto);
-    //ToDo: anadir comandos a la consola
+    console->addCommand("selectlevel", &selectlevel);
+    console->addCommand("spawnenemy", &spawnenemy);
+    console->addCommand("nocooldown", &nocooldown);
+    console->addCommand("godmode", &godmode);
+    console->addCommand("noclip", &noclip);
+    console->addCommand("teleport", &teleport);
+    console->addCommand("deathtouch", &deathtouch);
+    console->addCommand("speed", &speed);
+    console->addCommand("disableia", &disableia);
+    console->addCommand("showfps", &showfps);
 }
 
 void Game::Input(){
@@ -190,8 +225,9 @@ void Game::Input(){
 void Game::Update(){
     iM->update();
     game->Update();
-    //ToDo mostrar los FPs si se inserta el comando
-    
+    std::ostringstream o;
+    o<<"FPS "<<fps;
+    fpsText->setText(o.str());
     //std::cout<<"FPS: "<<fps<<"\n";
 }
 
@@ -212,13 +248,17 @@ void Game::Render(){
     game->Render();
     
     console->drawConsole();
-    
+    if(showFps==true){
+        window->draw(*fpsText->getText());
+    }
+         
     window->display();
 }
 
 void Game::ChangeCurrentState(const std::string &state){
     game->CleanUp();
     
+    currentScene = state;
     if(state == "intro") game = intro;
     else if(state == "menu") game = menu;
     else if(state == "level") game = level;

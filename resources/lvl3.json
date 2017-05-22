@@ -54,14 +54,14 @@
         "guns": [
             {
                 "cooldown": 0,
-                "sprite": {"texture": "Bullet", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                "sprite": {"texture": "player", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
                 "origin": {"x": 56, "y": 34},
                 "bullet": {
-                    "size": {"w": 128, "h": 128},
+                    "size": {"w": 256, "h": 128},
                     "sprite": {"texture": "Bullet", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
                     "origin": {"x": 300, "y": 64},
-                    "type": 1,
-                    "damage": 5,
+                    "type": 2,
+                    "damage": 6,
                     "duration": 2,
                     "animations": [
                         {
@@ -110,18 +110,20 @@
         "sprite": {"texture": "player", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
         "origin": {"x": 56, "y": 34},
         "bullet": {
-            "size": {"w": 128, "h": 128},
-            "sprite": {"texture": "player", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "origin": {"x": 185, "y": 72},
+            "size": {"w": 256, "h": 128},
+            "sprite": {"texture": "Bullet", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
+            "origin": {"x": 300, "y": 64},
             "type": 2,
-            "damage": 15,
+            "damage": 20,
             "duration": 2,
+            "loop": true,
             "animations": [
                 {
                     "name": "idle",
-                    "position": {"x": 128, "y": 896},
-                    "nSprites": 2,
+                    "position": {"x": 0, "y": 0},
+                    "nSprites": 3,
                     "duration": 0.5
+                    
                 }
             ]
         },

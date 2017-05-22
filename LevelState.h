@@ -22,6 +22,10 @@ class LevelState : public GameState {
         HUD *hud;
         Menu *pause;
         Sprite *damage;
+        Sprite *victory;
+        
+        Time *end;
+        bool finish;
         
         int currentLevel;
         
@@ -60,6 +64,7 @@ class LevelState : public GameState {
         void CleanUp();
         
         void changeLevel();
+        void changeLevelDirect(int numLvl);
         
         void setPaused(bool boolean){paused = boolean;}
         
