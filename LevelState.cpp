@@ -47,7 +47,6 @@ void LevelState::Init(){
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
     game->rM->loadTexture("damage","resources/dano.png");
-    game->rM->loadTexture("laser","resources/rayo.png");
     game->rM->loadTexture("victory","resources/victory2.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
@@ -367,7 +366,6 @@ void LevelState::CleanUp(){
     game->rM->releaseTexture("hud-playerdeath");
     game->rM->releaseTexture("pause-background");
     game->rM->releaseTexture("damage");
-    game->rM->releaseTexture("laser");
     game->rM->releaseTexture("victory");
     game->rM->releaseFont("font");
     game->rM->releaseSound("laser");

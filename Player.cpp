@@ -134,6 +134,8 @@ bool Player::changeGun(int gun){
         guns.at(currentGun)->setActive();
         currentGun = gun;
         guns.at(currentGun)->setActive();
+        guns.at(currentGun)->setPosition(*getCoordinate());
+        this->setPosition(*getCoordinate());
         return true;
     } else return false;
 }

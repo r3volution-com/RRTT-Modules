@@ -249,7 +249,7 @@ void Level::Init(int numLevel){
                     j["addGun"]["bullet"]["animations"].at(k)["nSprites"], j["addGun"]["bullet"]["animations"].at(k)["duration"]);
         }
         bull->getAnimation()->initAnimator();
-        bull->getAnimation()->changeAnimation(j["addGun"]["bullet"]["animations"].at(0)["name"].get<std::string>(), false);
+        bull->getAnimation()->changeAnimation(j["addGun"]["bullet"]["animations"].at(0)["name"].get<std::string>(), j["addGun"]["bullet"]["loop"]);
         bull->setDamage(j["addGun"]["bullet"]["damage"]);
         bull->getAnimation()->setOrigin(Coordinate(j["addGun"]["bullet"]["origin"]["x"],j["addGun"]["bullet"]["origin"]["y"]));//ToDo: campo en json?
 
