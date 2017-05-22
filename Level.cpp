@@ -21,6 +21,8 @@ Level::Level(Player* r, HUD* h) {
     showNoteText = false;
     bossZone = false;
     keyIterationNpc = NULL;
+    activeIA = true;
+    
 }
 
 Level::~Level(){
@@ -665,8 +667,10 @@ void Level::CleanUp(){
     delete loading;
     delete loadTime;
     
+    delete map;
     
-    //map = NULL; 
+    
+    map = NULL; 
     boss = NULL;
     keyIterationNpc = NULL;
     loading = NULL;

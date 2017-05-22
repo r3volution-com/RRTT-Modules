@@ -31,6 +31,7 @@ class Level {
         bool showNoteText;
         bool paused;
         bool bossZone;
+        bool activeIA;
         //Iniciar musica jefe
         bool play = false;
         bool isEnter = false;
@@ -85,6 +86,18 @@ class Level {
          */
         void setBossZone(bool b) { bossZone = b; }
         
+        /**
+         * Actualiza la pausa
+         * @param p: Pausa;
+         */
+        void setPause(bool p){
+            paused = p;
+        }
+        
+        void setIA(bool ia){
+            activeIA = ia; 
+        }
+        
         Coordinate* getRespawn(){ return respawn.at(actualRespawn);}
 
         Hitbox *colision(Hitbox *hitbox);
@@ -94,6 +107,7 @@ class Level {
         Map* getMap(){ return map; }
         Trigonometry *getTrignometry(){return tri;}
         bool getLoaded() {return loaded;}
+        bool geIA(){return activeIA;}
         Sprite *getLoading() {return loading;}
 };
 

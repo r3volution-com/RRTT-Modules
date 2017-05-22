@@ -119,7 +119,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 3;
+    currentLevel = 1;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;
@@ -150,13 +150,29 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
+    if (Game::Instance()->iM->isActive("console")){
+        if(Game::Instance()->console->isActive()){
+            paused=true;
+            level->setPause(true); 
+        }else{
+            paused=false;
+            level->setPause(false);
+        }
+    } 
+    
     if (Game::Instance()->iM->isActive("pause")) {
         if (paused == true) {
-            paused = false;
-            pauseMenu = false;
+            if(pauseMenu){
+                paused = false;
+                pauseMenu = false;
+                level->setPause(false);
+            }
         } else {
-            paused = true;
-            pauseMenu = true;
+            if(!pauseMenu){
+                paused = true;
+                pauseMenu = true;
+                level->setPause(true);
+            }
         }
     }
     if (!paused){
@@ -240,6 +256,7 @@ void LevelState::Input(){
                     case 0:
                         paused = false;
                         pauseMenu = false;
+                        level->setPause(false);
                     break;
                     case 1:
                     {
