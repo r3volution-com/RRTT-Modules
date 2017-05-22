@@ -49,6 +49,15 @@ void LevelState::Init(){
     game->rM->loadTexture("laser","resources/rayo.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
+    /* SONIDOS */
+    game->rM->loadSound("ataque", "resources/sonidos/ataque.ogg");
+    game->rM->loadSound("cargar", "resources/sonidos/cargar.ogg");
+    game->rM->loadSound("fire", "resources/sonidos/lanzallamas2.ogg");
+    game->rM->loadSound("flash", "resources/sonidos/flash.ogg");
+    game->rM->loadSound("damage", "resources/sonidos/damage.ogg");
+    game->rM->loadSound("takeNote", "resources/sonidos/takeNote.ogg");
+    game->rM->loadMusic("boss", "resources/sonidos/boss.ogg");
+    
     /*****INPUTS*****/
     game->iM->addAction("player-up", thor::Action(sf::Keyboard::W));
     game->iM->addAction("player-down", thor::Action(sf::Keyboard::S));
@@ -72,16 +81,6 @@ void LevelState::Init(){
     game->iM->addActionCallback("player-changeGun", thor::Action(sf::Event::MouseWheelMoved), &changeGun);
     
     game->iM->addAction("pause", thor::Action(sf::Keyboard::Escape, thor::Action::PressOnce));
-    
-    /* SONIDOS */
-    game->rM->loadSound("ataque", "resources/sonidos/ataque.ogg");
-    game->rM->loadSound("cargar", "resources/sonidos/cargar.ogg");
-    game->rM->loadSound("fire", "resources/sonidos/lanzallamas2.ogg");
-    game->rM->loadSound("flash", "resources/sonidos/flash.ogg");
-    game->rM->loadSound("damage", "resources/sonidos/damage.ogg");
-    game->rM->loadSound("takeNote", "resources/sonidos/takeNote.ogg");
-    game->rM->loadMusic("boss", "resources/sonidos/boss.ogg");
-    game->rM->getMusic("boss")->getMusic()->setLoop(true);
     
     /*****PLAYER, WEAPON AND GUNS*****/
     rath = new Player(Coordinate(3950,14250), Coordinate(64, 100), 40);
@@ -117,11 +116,20 @@ void LevelState::Init(){
      
     /*****LEVEL*****/
     /*Creamos el nivel*/
-    level = new Level(rath, hud); 
-    //Y lo iniciamos
+    level = new Level(rath, hud);
     currentLevel = 1;
+    //-Comprobamos si hay partida guardada
+    ifstream f("save.txt");
+    std::string c;
+    if(f.good()){
+        std::getline(f,c);
+        currentLevel = std::stoi(c);
+    }
+    f.close();
+    //Y lo iniciamos
     level->Init(currentLevel);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
+    game->rM->getMusic("boss")->getMusic()->setLoop(true);
 }
 
 void LevelState::Update(){
@@ -227,7 +235,11 @@ void LevelState::Input(){
                         pauseMenu = false;
                     break;
                     case 1:
-                           //ToDo: GUARDAR PARTIDA AQUI FOLKLORE
+                    {
+                        std::ofstream fs("save.txt");
+                        fs<<currentLevel<<endl;
+                        fs.close();
+                    }
                     break;
                     case 2:
                         return Game::Instance()->ChangeCurrentState("menu");
@@ -314,12 +326,21 @@ void LevelState::Render(){
 }
 
 void LevelState::CleanUp(){
-    Game::Instance()->rM->releaseTexture("player");
-    Game::Instance()->rM->releaseTexture("hud");
-    Game::Instance()->rM->releaseTexture("hud-spritesheet");
-    Game::Instance()->rM->releaseTexture("hud-playerdeath");
-    Game::Instance()->rM->releaseTexture("pause-background");
-    Game::Instance()->rM->releaseFont("font");
+    Game *game = Game::Instance();
+    game->rM->releaseTexture("player");
+    game->rM->releaseTexture("hud-spritesheet");
+    game->rM->releaseTexture("hud-playerdeath");
+    game->rM->releaseTexture("pause-background");
+    game->rM->releaseTexture("damage");
+    game->rM->releaseTexture("laser");
+    game->rM->releaseFont("font");
+    game->rM->releaseSound("ataque");
+    game->rM->releaseSound("cargar");
+    game->rM->releaseSound("fire");
+    game->rM->releaseSound("flash");
+    game->rM->releaseSound("damage");
+    game->rM->releaseSound("takeNote");
+    game->rM->releaseMusic("boss");
     delete rath;
     delete tri;
     delete level;
