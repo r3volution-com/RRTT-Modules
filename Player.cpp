@@ -33,8 +33,8 @@ void Player::setAnimations(Texture *t, Rect<float> newRect){
     Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(0, 896), 1, 0.25f);
     Entity::getAnimation()->addAnimation("ataqueAbajo", Coordinate(0, 1024), 1, 0.25f);
     Entity::getAnimation()->addAnimation("ataqueArriba", Coordinate(0, 1152), 1, 0.25f);
-    Entity::getAnimation()->addAnimation("die", Coordinate(0, 512), 1, 0.5f);
-    Entity::getAnimation()->addAnimation("respawn", Coordinate(0, 512), 1, 0.5f);
+    Entity::getAnimation()->addAnimation("die", Coordinate(0, 0), 1, 0.5f);
+    Entity::getAnimation()->addAnimation("respawn", Coordinate(0, 0), 1, 0.5f);
     Entity::getAnimation()->initAnimator();
     Entity::getAnimation()->changeAnimation("idle", false); 
 }

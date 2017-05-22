@@ -6,129 +6,137 @@
         {"x": 3200, "y": 7000}
     ],
     "resources": [
-        {
-            "name": "enemy",
-            "path": "resources/enemigosLVL1.png"
-        },
-        {
-            "name": "sangre",
-            "path": "resources/rojo.png"
-        },
-        {
-            "name": "pergamino",
-            "path": "resources/pergamino.png"
-        },
-        {
-            "name": "rayo",
-            "path": "resources/rayo.png"
-        },
-        {
-            "name": "load",
-            "path": "resources/loading_lvl2.jpg"
-        }
+        "resources": [
+            {
+                    "name": "enemy",
+                    "path": "resources/sprites/ENEMIGOS.png"
+            },
+			{
+					"name": "JEFE",
+					"path": "resources/sprites/JEFE1.png"
+			},
+			{
+					"name": "Extra",
+					"path": "resources/sprites/spritesEXTRA.png"
+			},
+            {
+                    "name": "sangre",
+                    "path": "resources/sprites/rojo.png"
+            },
+			{		"name": "Misc",
+					"path": "resources/sprites/spritesMisc.png"
+			},
+            {
+                    "name": "pergamino",
+                    "path": "resources/pergamino.png"
+            },
+            {
+                    "name": "Bullet",
+                    "path": "resources/sprites/Bullet.png"
+            }
     ],
     "enemys": [
-        {
-            "type": 1,
-            "position": {"x": 3500, "y": 8000},
-            "size": {"w": 128, "h": 128},
-            "speed": 20,
-            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "hp": 40,
-            "distanceToHome": 1400,
-            "distanceToPlayer": 700,
-            "damage": 6,
-            "hitCooldown": 0.5,
-            "bleed": true
-        },
-        {
-            "type": 2,
-            "position": {"x": 3500, "y": 8000},
-            "size": {"w": 128, "h": 128},
-            "speed": 15,
-            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "hp": 40,
-            "distanceToHome": 1400,
-            "distanceToPlayer": 700,
-            "damage": 6,
-            "hitCooldown": 0.5,
-            "bleed": true,
-            "extra": {"flashRange": 10, "flashCooldown": 2}
-        },
-        {
-            "type": 1,
-            "position": {"x": 3500, "y": 8700},
-            "size": {"w": 128, "h": 128},
-            "speed": 20,
-            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "hp": 60,
-            "distanceToHome": 1300,
-            "distanceToPlayer": 650,
-            "damage": 6,
-            "hitCooldown": 0.5,
-            "bleed": true
-        },
-        {
-            "type": 2,
-            "position": {"x": 3450, "y": 9750},
-            "size": {"w": 128, "h": 128},
-            "speed": 15,
-            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "hp": 40,
-            "distanceToHome": 1400,
-            "distanceToPlayer": 715,
-            "damage": 4,
-            "hitCooldown": 0.5,
-            "bleed": true,
-            "extra": {"flashRange": 10, "flashCooldown": 2}
+            {
+                    "type": 1,
+                    "position": {"x": 3500, "y": 8000},
+                    "size": {"w": 128, "h": 128},
+                    "speed": 20,
+                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                    "hp": 40,
+                    "distanceToHome": 1400,
+                    "distanceToPlayer": 700,
+                    "damage": 6,
+                    "hitCooldown": 0.5,
+                    "bleed": true
+            },
+            {
+                    "type": 2,
+                    "position": {"x": 3500, "y": 8000},
+                    "size": {"w": 128, "h": 128},
+                    "speed": 15,
+                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                    "hp": 40,
+                    "distanceToHome": 1400,
+                    "distanceToPlayer": 700,
+                    "damage": 6,
+                    "hitCooldown": 0.5,
+                    "bleed": true,
+                    "extra": {"flashRange": 10, "flashCooldown": 2}
+            },
+            {
+                    "type": 1,
+                    "position": {"x": 3500, "y": 8700},
+                    "size": {"w": 128, "h": 128},
+                    "speed": 20,
+                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                    "hp": 60,
+                    "distanceToHome": 1300,
+                    "distanceToPlayer": 650,
+                    "damage": 6,
+                    "hitCooldown": 0.5,
+                    "bleed": true
+            },
+            {
+                    "type": 2,
+                    "position": {"x": 3450, "y": 9750},
+                    "size": {"w": 128, "h": 128},
+                    "speed": 15,
+                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                    "hp": 40,
+                    "distanceToHome": 1400,
+                    "distanceToPlayer": 715,
+                    "damage": 4,
+                    "hitCooldown": 0.5,
+                    "bleed": true,
+                    "extra": {"flashRange": 10, "flashCooldown": 2}
 
-        },
-        {	
-            "type": 1,
-            "position": {"x": 3650, "y": 11500},
-            "size": {"w": 128, "h": 128},
-            "speed": 15,
-            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "hp": 50,
-            "distanceToHome": 1400,
-            "distanceToPlayer": 700,
-            "damage": 5,
-            "hitCooldown": 0.5,
-            "bleed": true
-        },
-        {	
-            "type": 2,
-            "position": {"x": 3250, "y": 7700},
-            "size": {"w": 128, "h": 128},
-            "speed": 20,
-            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "hp": 40,
-            "distanceToHome": 1400,
-            "distanceToPlayer": 700,
-            "damage": 4,
-            "hitCooldown": 0.5,
-            "bleed": true,
-            "extra": {"flashRange": 10, "flashCooldown": 2}
-        },
-        {
-            "type": 1,
-            "position": {"x": 3200, "y": 6300},
-            "size": {"w": 128, "h": 128},
-            "speed": 20,
-            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
-            "hp": 80,
-            "distanceToHome": 1300,
-            "distanceToPlayer": 650,
-            "damage": 7,
-            "hitCooldown": 0.5,
-            "bleed": true
-        }
+            },
+            {	
+                    "type": 1,
+                    "position": {"x": 3650, "y": 11500},
+                    "size": {"w": 128, "h": 128},
+                    "speed": 15,
+                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                    "hp": 50,
+                    "distanceToHome": 1400,
+                    "distanceToPlayer": 700,
+                    "damage": 5,
+                    "hitCooldown": 0.5,
+                    "bleed": true
+            },
+            {	
+                    "type": 2,
+                    "position": {"x": 3250, "y": 7700},
+                    "size": {"w": 128, "h": 128},
+                    "speed": 20,
+                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                    "hp": 40,
+                    "distanceToHome": 1400,
+                    "distanceToPlayer": 700,
+                    "damage": 4,
+                    "hitCooldown": 0.5,
+                    "bleed": true,
+                    "extra": {"flashRange": 10, "flashCooldown": 2}
+            },
+            {
+                    "type": 1,
+                    "position": {"x": 3200, "y": 6300},
+                    "size": {"w": 128, "h": 128},
+                    "speed": 20,
+                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                    "hp": 80,
+                    "distanceToHome": 1300,
+                    "distanceToPlayer": 650,
+                    "damage": 7,
+                    "hitCooldown": 0.5,
+                    "bleed": true
+            }
     ],
     "boss": {
         "position": {"x": 3500, "y": 3900},
         "size": {"w": 40, "h": 100},
         "speed": 20,
-        "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+        "sprite": {"texture": "JEFE", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
         "hp": 500,
         "distanceToHome": 2000,
         "distanceToPlayer": 1500,
@@ -143,11 +151,11 @@
         "guns": [
             {
                 "cooldown": 3,
-                "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                "sprite": {"texture": "JEFE", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
                 "origin": {"x": 56, "y": 34},
                 "bullet": {
                     "size": {"w": 128, "h": 128},
-                    "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+                    "sprite": {"texture": "Bullet", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
                     "origin": {"x": 185, "y": 72},
                     "type": 1,
                     "damage": 3,
@@ -166,7 +174,7 @@
     },
     "notes": [
         {
-            "noteSprite": {"texture": "gui-tileset", "rect": {"x": 325, "y": 920, "w": 128, "h": 128}},
+            "noteSprite": {"texture": "Misc", "rect": {"x": 325, "y": 920, "w": 128, "h": 128}},
             "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
             "font": "font",
             "notePosition": {"x": 1950, "y": 13850},
@@ -176,7 +184,7 @@
     ],
     "npcs": [
         {
-            "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
             "position": {"x": 4500, "y": 13300},
             "size": {"w": 50, "h": 90},
             "speed": 40,
@@ -210,14 +218,14 @@
         {
             "position": {"x": 2500, "y": 5800},
             "size": {"w": 1280, "h": 384},
-            "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
         }
     ],
     "postBossObstacles": [
         {
             "position": {"x": 3425, "y": 2000},
             "size": {"w": 1280, "h": 384},
-            "sprite": {"texture": "gui-tileset", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 525, "w": 1280, "h": 384}}
         }
     ],
     "endPoints": [

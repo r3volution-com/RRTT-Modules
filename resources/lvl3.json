@@ -8,19 +8,31 @@
     "resources": [
         {
             "name": "enemy",
-            "path": "resources/enemigosLVL1.png"
+            "path": "resources/sprites/ENEMIGOS.png"
         },
-        {
+		{
+			"name": "JEFE",
+			"path": "resources/sprites/JefeFinal.png"
+		},
+		{
+			"name": "Extra",
+			"path": "resources/sprites/spritesEXTRA.png"
+		},
+		{
             "name": "sangre",
-            "path": "resources/rojo.png"
+            "path": "resources/sprites/rojo.png"
         },
+		{
+			"name": "Misc",
+			"path": "resources/sprites/spritesMisc.png"
+		},
         {
             "name": "pergamino",
             "path": "resources/pergamino.png"
         },
         {
-            "name": "rayo",
-            "path": "resources/rayo.png"
+            "name": "Bullet",
+			"path": "resources/sprites/Bullet.png"
         },
         {
             "name": "load",
@@ -31,7 +43,7 @@
         "position": {"x": 3500, "y": 3000},
         "size": {"w": 40, "h": 100},
         "speed": 25,
-        "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+        "sprite": {"texture": "JEFE", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
         "hp": 800,
         "distanceToHome": 2000,
         "distanceToPlayer": 1500,
@@ -46,11 +58,11 @@
         "guns": [
             {
                 "cooldown": 0,
-                "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
+                "sprite": {"texture": "Bullet", "rect": {"x": 0, "y": 640, "w": 128, "h": 128}},
                 "origin": {"x": 56, "y": 34},
                 "bullet": {
                     "size": {"w": 128, "h": 128},
-                    "sprite": {"texture": "rayo", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
+                    "sprite": {"texture": "Bullet", "rect": {"x": 0, "y": 0, "w": 256, "h": 128}},
                     "origin": {"x": 300, "y": 64},
                     "type": 1,
                     "damage": 5,
@@ -70,7 +82,7 @@
     },
     "notes": [
         {
-            "noteSprite": {"texture": "gui-tileset", "rect": {"x": 325, "y": 920, "w": 128, "h": 128}},
+            "noteSprite": {"texture": "Misc", "rect": {"x": 325, "y": 920, "w": 128, "h": 128}},
             "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
             "font": "font",
             "notePosition": {"x": 3000, "y": 6500},
@@ -80,7 +92,7 @@
     ],
     "crystals": [
         {
-            "sprite": {"texture": "gui-tileset", "rect": {"x": 128, "y": 920, "w": 174, "h": 290}},
+            "sprite": {"texture": "Misc", "rect": {"x": 128, "y": 920, "w": 174, "h": 290}},
             "position": {"x": 3000, "y": 3000}
         }
     ],
