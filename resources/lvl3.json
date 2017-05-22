@@ -15,10 +15,6 @@
 			"path": "resources/sprites/JefeFinal.png"
 		},
 		{
-			"name": "Extra",
-			"path": "resources/sprites/spritesEXTRA.png"
-		},
-		{
             "name": "sangre",
             "path": "resources/sprites/rojo.png"
         },
