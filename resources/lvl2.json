@@ -215,8 +215,12 @@
     ],
     "crystals": [
         {
-            "sprite": {"texture": "Misc", "rect": {"x": 128, "y": 920, "w": 174, "h": 290}},
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 13000, "y": 13000}
+        },
+        {
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
+            "position": {"x": 2432, "y": 6528}
         }
     ],
     "npcs": [
