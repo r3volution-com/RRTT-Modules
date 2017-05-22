@@ -1,10 +1,11 @@
 #include "MenuState.h"
 #include "Game.h"
-#include <sys/types.h>
+
+#include <sys/stat.h>
+#include <unistd.h>
 
 bool file_exists (const std::string& name) {
-  //struct stat buffer;   
-  //return (stat (name.c_str(), &buffer) == 0); 
+  return (access(name.c_str(), F_OK) != -1);
 }
 
 MenuState::MenuState() {
@@ -35,7 +36,8 @@ void MenuState::Init(){
     principal->addButton(Coordinate (825,270), "Nueva partida", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     principal->addButton(Coordinate (825,340), "Opciones", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     principal->addButton(Coordinate (825,410), "Salir", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
-    opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(0,544,316,64), game->rM->getFont("menu"));
+    if (file_exists("save.txt")) principal->addButton(Coordinate (825,200), "Continuar", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
+    opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
     opciones->addButton(Coordinate (825,270), "Musica On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     opciones->addButton(Coordinate (825,340), "FX On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     opciones->addButton(Coordinate (825,410), "Volver", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
@@ -57,6 +59,7 @@ void MenuState::Input(){
         if (menuactual == 0){
             switch (clicks){
                 case 0:
+                    if(remove("save.txt") != 0) std::cerr << "No existe\n";
                     loadTime->start();
                     loaded = true;
                 break;
@@ -67,6 +70,10 @@ void MenuState::Input(){
                 break;
                 case 2:
                     Game::Instance()->window->close();
+                break;
+                case 3:
+                    loadTime->start();
+                    loaded = true;
                 break;
                 default: break;
             }

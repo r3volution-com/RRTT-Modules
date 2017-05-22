@@ -40,6 +40,7 @@ void Level::Init(int numLevel){
     std::ostringstream text;
     text << i.rdbuf();
     j = json::parse(text.str());
+    i.close();
     
     //Cargamos los recursos
     for (int i=0; i<j["resources"].size(); i++){
