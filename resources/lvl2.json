@@ -6,26 +6,18 @@
         {"x": 4750, "y": 5900}
     ],
     "resources": [
-		{
-            "name": "player",
-            "path": "resources/sprites/spritesRATH.png"
-        },
         {
             "name": "enemy",
             "path": "resources/sprites/ENEMIGOS.png"
         },
-		{
-			"name": "JEFE",
-			"path": "resources/sprites/JEFE2.png"
-		},
-		{
-			"name": "Extra",
-			"path": "resources/sprites/spritesEXTRA.png"
-		},
-		{	
-			"name": "Misc",
-			"path": "resources/sprites/spritesMisc.png"
-		},
+	{
+            "name": "JEFE",
+            "path": "resources/sprites/JEFE2.png"
+	},
+	{	
+            "name": "Misc",
+            "path": "resources/sprites/spritesMisc.png"
+	},
         {
             "name": "sangre",
             "path": "resources/sprites/rojo.png"
@@ -40,7 +32,7 @@
         },
         {
             "name": "load",
-            "path": "resources/loading_lvl2.jpg"
+            "path": "resources/loading_lvl2.png"
         }
     ],
     "enemys": [
