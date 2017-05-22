@@ -64,6 +64,7 @@ class LevelState : public GameState {
         void CleanUp();
         
         void changeLevel();
+        void changeLevelDirect(int numLvl);
         
         void setPaused(bool boolean){paused = boolean;}
         

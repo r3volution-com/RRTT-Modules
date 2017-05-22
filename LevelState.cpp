@@ -396,6 +396,9 @@ void LevelState::changeLevel(){
         }
         
     }
-    //ToDo:: Comprobar que el siguiente archivo existe;
-    
+}
+void LevelState::changeLevelDirect(int numLvl){
+    currentLevel = numLvl;
+    level->CleanUp();
+    level->Init(currentLevel);
 }
