@@ -60,7 +60,7 @@ HUD::~HUD(){
     delete flashCooldown;
     delete die;
     delete cooldownRect;
-    delete clockFlash;
+    //delete clockFlash; ToDo: da error
 
     delete textSprite;
     delete talker;
@@ -68,7 +68,7 @@ HUD::~HUD(){
 
     delete lifePlayerText;
 
-    delete buttonDie;
+    //delete buttonDie; ToDo: da error
     
     playerHP = NULL;
     bossHP = NULL;
@@ -76,7 +76,7 @@ HUD::~HUD(){
     flashCooldown = NULL;
     die = NULL;
     cooldownRect = NULL;
-    clockFlash = NULL; 
+    //clockFlash = NULL; 
 
     textSprite = NULL;
     talker = NULL;
@@ -84,7 +84,7 @@ HUD::~HUD(){
 
     lifePlayerText = NULL;
 
-    buttonDie = NULL;
+    //buttonDie = NULL;
 }
 
 void HUD::addGun(Coordinate position, Rect<float> rect, Rect<float> rectOff, Time *g){

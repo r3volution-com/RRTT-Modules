@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "Console.h"
 #include "libs/Pie.h"
+#include <iostream>
  
 #define PI 3,14159265;
 
@@ -47,6 +48,7 @@ void LevelState::Init(){
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
     game->rM->loadTexture("damage","resources/dano.png");
     game->rM->loadTexture("laser","resources/rayo.png");
+    game->rM->loadTexture("victory","resources/victory2.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
     /* SONIDOS */
@@ -130,6 +132,11 @@ void LevelState::Init(){
     level->Init(currentLevel);
     hud->changeMaxLifeBoss(level->getBoss()->getMaxHP());
     game->rM->getMusic("boss")->getMusic()->setLoop(true);
+    
+    /*END GAME*/
+    victory = new Sprite(game->rM->getTexture("victory"), Rect<float>(0,0,1280,720));
+    end = new Time(4.0);
+    finish = false;
 }
 
 void LevelState::Update(){
@@ -143,13 +150,27 @@ void LevelState::Update(){
 }
 
 void LevelState::Input(){
+    if (Game::Instance()->iM->isActive("console")){
+        if(Game::Instance()->console->isActive()){
+            paused=true;
+            level->setPause(true); 
+        }else{
+            paused=false;
+            level->setPause(false);
+        }
+    } 
+    
     if (Game::Instance()->iM->isActive("pause")) {
         if (paused == true) {
-            paused = false;
-            pauseMenu = false;
+            if(pauseMenu){
+                paused = false;
+                pauseMenu = false;
+            }
         } else {
-            paused = true;
-            pauseMenu = true;
+            if(!pauseMenu){
+                paused = true;
+                pauseMenu = true;
+            }
         }
     }
     if (!paused){
@@ -318,9 +339,13 @@ void LevelState::Render(){
     hud->drawHUD(level->getBoss()->getOnRange());
     
     level->RenderView();
-      
+    
     /*Pause*/
     if (paused && pauseMenu) pause->drawMenu();
+    
+    if(finish){
+        Game::Instance()->window->draw(*victory->getSprite());
+    }
 }
 
 void LevelState::CleanUp(){
@@ -331,7 +356,8 @@ void LevelState::CleanUp(){
     game->rM->releaseTexture("pause-background");
     game->rM->releaseTexture("damage");
     game->rM->releaseTexture("laser");
-    game->rM->releaseFont("font");
+    game->rM->releaseTexture("victory");
+    //game->rM->releaseFont("font");
     game->rM->releaseSound("ataque");
     game->rM->releaseSound("cargar");
     game->rM->releaseSound("fire");
@@ -345,6 +371,8 @@ void LevelState::CleanUp(){
     delete hud;
     delete pause;
     delete damage;
+    delete victory;
+    delete end;
     /*Faltaria:
         - playerTexture
      *  - level
@@ -358,10 +386,33 @@ void LevelState::CleanUp(){
     hud = NULL;
     pause = NULL;
     damage = NULL;
+    victory = NULL;
+    end = NULL;
 }
 
 void LevelState::changeLevel(){
     currentLevel++;
+    std::ostringstream s;
+    s<<"resources/lvl"<<currentLevel<<".json";
+    ifstream f(s.str());
+    if(f.good()){
+        std::cout<<"si"<<"\n";
+        finish = false;
+        level->CleanUp();
+        level->Init(currentLevel);
+    }else{
+        end->start();
+        if(!end->isExpired()){
+            finish = true;
+        }else{
+            finish = false;
+            return Game::Instance()->ChangeCurrentState("menu");
+        }
+        
+    }
+}
+void LevelState::changeLevelDirect(int numLvl){
+    currentLevel = numLvl;
     level->CleanUp();
     level->Init(currentLevel);
 }
