@@ -116,12 +116,14 @@
             "type": 2,
             "damage": 20,
             "duration": 2,
+            "loop": true,
             "animations": [
                 {
                     "name": "idle",
-                    "position": {"x": 128, "y": 896},
-                    "nSprites": 2,
+                    "position": {"x": 0, "y": 0},
+                    "nSprites": 3,
                     "duration": 0.5
+                    
                 }
             ]
         },
