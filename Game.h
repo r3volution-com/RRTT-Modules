@@ -19,7 +19,8 @@ class Game {
         MenuState *menu;
         IntroState *intro;
         GameState *game;
-        
+        bool showFps;
+        Text *fpsText;
         Time *fpsTimer;
         
     protected:
@@ -35,12 +36,14 @@ class Game {
         sf::RenderWindow *window;
         sf::View cameraView;
         
+        
         ResourceManager *rM;
         Event *iM;
         Hitbox *mouse;
         Console *console;
         std::string temp;
         std::string currentScene;
+        
         
         Time *iaTimer;
         int iaPS;
@@ -80,6 +83,12 @@ class Game {
         LevelState *getLevelState(){return level;}
         std::string getCurrentScene(){
             return currentScene;
+        }
+        void setFps(bool f){
+            showFps=f;
+        }
+        bool getFps(){
+            return showFps;
         }
 };
 

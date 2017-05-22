@@ -278,13 +278,15 @@ void Level::Init(int numLevel){
 void Level::Update(){
     if (!paused){
         /*EJECUTA LAS IAs*/
-        for (int i = 0; i<enemys.size(); i++){
-            if(enemys.at(i)->getHP() > 0){
-                enemys.at(i)->AI(rath, hud);
+        if(activeIA==true){
+            for (int i = 0; i<enemys.size(); i++){
+                if(enemys.at(i)->getHP() > 0){
+                    enemys.at(i)->AI(rath, hud);
+                }
             }
-        }
-        if(boss->getHP() > 0){
-            boss->AI(rath, hud);
+            if(boss->getHP() > 0){
+                boss->AI(rath, hud);
+            }
         }
         /*Actualiza la posicion del jefe*/
         if(boss->getCurrentGun()->getBullet()->getType() != 2){

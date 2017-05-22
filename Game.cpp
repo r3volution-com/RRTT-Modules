@@ -73,15 +73,30 @@ void speed(std::string texto){
  * @param texto: Comando
  */
 void disableia(std::string texto){
-    //en level
+    if(Game::Instance()->getCurrentScene()=="level"){
+        if(texto=="true"){
+            Game::Instance()->getLevelState()->getLevel()->setIA(false);
+        }else{
+            Game::Instance()->getLevelState()->getLevel()->setIA(true);
+        }
+    }
 }
+
 
 /**
  * Comando para mostrar los FPS
  * @param texto: Comando
  */
 void showfps(std::string texto){
-    
+    if(Game::Instance()->getCurrentScene()=="level"){
+        if(Game::Instance()->getCurrentScene()=="level"){
+            if(texto=="true"){
+                Game::Instance()->setFps(true);
+            }else{
+                Game::Instance()->setFps(false);
+            }
+        }
+    }
 }
 
 void onTextEntered(thor::ActionContext<std::string> context) {
@@ -157,6 +172,7 @@ Game::Game(){
     fpsTimer = new Time(1);
     fps = 60;
     fpsCounter = 0;
+    showFps=false;
     
     /*IA*/
     iaPS = 15;
@@ -183,6 +199,8 @@ void Game::Init(){
     rM->loadFont("console", "resources/font.ttf");
     rM->loadSound("menu", "resources/sonidos/menu.ogg");
 
+    fpsText=new Text("", Coordinate(1130,15) , rM->getFont("console"), false);
+    fpsText->setTextStyle(sf::Color::Yellow, 40);
     
     console = new Console(Coordinate(0,500), rM->getTexture("gui-tileset"), Rect<float>(0,0,1280,220), rM->getFont("console"));
     console->addCommand("selectlevel", &selectlevel);
@@ -207,8 +225,9 @@ void Game::Input(){
 void Game::Update(){
     iM->update();
     game->Update();
-    //ToDo mostrar los FPs si se inserta el comando
-    
+    std::ostringstream o;
+    o<<"FPS "<<fps;
+    fpsText->setText(o.str());
     //std::cout<<"FPS: "<<fps<<"\n";
 }
 
@@ -229,7 +248,10 @@ void Game::Render(){
     game->Render();
     
     console->drawConsole();
-    
+    if(showFps==true){
+        window->draw(*fpsText->getText());
+    }
+         
     window->display();
 }
 
