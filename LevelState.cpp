@@ -300,7 +300,10 @@ void LevelState::CleanUp(){
     Game::Instance()->rM->releaseFont("font");
     delete rath;
     delete tri;
-    
+    delete level;
+    delete hud;
+    delete pause;
+    delete damage;
     /*Faltaria:
         - playerTexture
      *  - level
@@ -310,6 +313,10 @@ void LevelState::CleanUp(){
 
     rath = NULL;
     tri = NULL;
+    level = NULL;
+    hud = NULL;
+    pause = NULL;
+    damage = NULL;
 }
 
 void LevelState::changeLevel(){

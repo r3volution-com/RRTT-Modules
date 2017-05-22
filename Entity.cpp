@@ -16,10 +16,12 @@ Entity::~Entity() {
     delete hitbox;
     delete anim;
     delete initial;
+    delete size;
     coor = NULL;
     hitbox = NULL;
     anim = NULL;
     initial = NULL;
+    size = NULL;
 }
 
 void Entity::setSprite(Texture *t, Rect<float> newRect){

@@ -580,11 +580,9 @@ void Level::CleanUp(){
     
     //Vaciar los vectores
     //ToDo: da segmentation fault aqui
-    //std::cout<<enemys.size()<<"\n";
     for(int i=0; i < enemys.size(); i++){
-        //std::cout<<i<<" "<<enemys.at(i)->getCoordinate()->x<<"\n";
         delete enemys.at(i);
-        //enemys.at(i) = NULL;
+        enemys.at(i) = NULL;
     }
     
     enemys.clear();
@@ -646,11 +644,14 @@ void Level::CleanUp(){
     delete loading;
     delete loadTime;
     
+    delete tri;
+    
     //map = NULL; 
     boss = NULL;
     keyIterationNpc = NULL;
     loading = NULL;
     loadTime = NULL;
+    tri = NULL;
     
     //Reinicializamos las variables
     level = 0;
@@ -669,7 +670,7 @@ void Level::CleanUp(){
     
     rath->getFlashCooldown()->restart(0);
     
-    for (int i=0; i<rath->getGuns()->size(); i++){
-        rath->getGuns()->at(i)->getGunCooldown()->restart(0);
+    for (int i=0; i<rath->getGuns().size(); i++){
+        rath->getGuns().at(i)->getGunCooldown()->restart(0);
     }
 }

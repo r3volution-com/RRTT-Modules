@@ -12,9 +12,7 @@ MenuState::MenuState() {
 }
 
 MenuState::~MenuState(){
-    delete principal;
-
-    principal = NULL;
+    
 }
 
 void MenuState::Init(){
@@ -110,8 +108,13 @@ void MenuState::Render(){
 
 void MenuState::CleanUp(){
     Game::Instance()->rM->releaseTexture("menu-background");
+    Game::Instance()->rM->releaseTexture("loading-game");
     Game::Instance()->rM->releaseFont("menu");
     Game::Instance()->rM->releaseMusic("Intro");
     delete principal;
+    delete loading;
+    delete loadTime;
     principal = NULL;
+    loading = NULL;
+    loadTime = NULL;
 }

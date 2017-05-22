@@ -14,10 +14,14 @@ Button::~Button() {
     delete hitbox;
     delete buttonLayout;
     delete buttonData;
+    delete outlineColor;
+    delete outlineColorHover;
     text = NULL;
     hitbox = NULL;
     buttonLayout = NULL;
     buttonData = NULL;
+    outlineColor = NULL;
+    outlineColorHover = NULL;
 }
 
 void Button::setText(std::string t, sf::Color color, Font *f, int size){

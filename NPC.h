@@ -7,8 +7,8 @@
 class NPC : public Entity {
     private:
         std::string name;
-        std::vector<std::string> *sentences;
-        std::vector<Coordinate*> *sentencePosition;
+        std::vector<std::string> sentences;
+        std::vector<Coordinate*> sentencePosition;
         Coordinate *runawayDirection;
         int currentSentence;
         
