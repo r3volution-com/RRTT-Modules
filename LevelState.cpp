@@ -123,7 +123,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 2;
+    currentLevel = 3;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;
@@ -368,7 +368,7 @@ void LevelState::CleanUp(){
     game->rM->releaseTexture("damage");
     game->rM->releaseTexture("laser");
     game->rM->releaseTexture("victory");
-    //game->rM->releaseFont("font");
+    game->rM->releaseFont("font");
     game->rM->releaseSound("ataque");
     game->rM->releaseSound("cargar");
     game->rM->releaseSound("fire");
