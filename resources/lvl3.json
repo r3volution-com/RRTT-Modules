@@ -89,7 +89,8 @@
     "crystals": [
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
-            "position": {"x": 3000, "y": 3000}
+            "position": {"x": 3000, "y": 3000},
+            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}}
         }
     ],
     "endPoints": [

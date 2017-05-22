@@ -36,6 +36,10 @@ public:
      */
     void setTouched();
     
+    void startSparks();
+    
+    void drawSparks();
+    
     /**
      * Colision entre el cristal y el jugador
      * @param other: Hitbox del jugador

@@ -7,6 +7,7 @@ Crystal::Crystal(Texture *tex, Rect<float> rect, Texture *sparksTexture, Rect<fl
     anim = new Animation(tex, rect);
     sparks = new Particles(sparksTexture);
     sparks->addParticle(sparksRect);
+    sparks->setProperties(10,0.1f,0.5f);
     touched = false;
 }
 
@@ -30,4 +31,14 @@ void Crystal::setTouched(){
 
 bool Crystal::collision(Hitbox *other){
     return hitbox->checkCollision(other);
+}
+
+void Crystal::startSparks(){
+    sparks->setParticlePosition(thor::Distributions::circle(sf::Vector2f(hitbox->hitbox->left+(hitbox->hitbox->width/2), hitbox->hitbox->top+(hitbox->hitbox->height/2)), 30));
+    sparks->start();
+}
+
+void Crystal::drawSparks(){
+    sparks->update();
+    sparks->draw();
 }

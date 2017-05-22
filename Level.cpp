@@ -155,8 +155,11 @@ void Level::Init(int numLevel){
     if (j.find("crystals") != j.end()) {
         for (int i=0; i<j["crystals"].size(); i++){
             Crystal *crystal = new Crystal(game->rM->getTexture(j["crystals"].at(i)["sprite"]["texture"].get<std::string>()),
-                    Rect<float>(j["crystals"].at(i)["sprite"]["rect"]["x"], j["crystals"].at(i)["sprite"]["rect"]["y"], j["crystals"].at(i)["sprite"]["rect"]["w"], j["crystals"].at(i)["sprite"]["rect"]["h"]));
+                    Rect<float>(j["crystals"].at(i)["sprite"]["rect"]["x"], j["crystals"].at(i)["sprite"]["rect"]["y"], j["crystals"].at(i)["sprite"]["rect"]["w"], j["crystals"].at(i)["sprite"]["rect"]["h"]),
+                    game->rM->getTexture(j["crystals"].at(i)["spark"]["texture"].get<std::string>()),
+                    Rect<float>(j["crystals"].at(i)["sparks"]["rect"]["x"], j["crystals"].at(i)["sparks"]["rect"]["y"], j["crystals"].at(i)["sparks"]["rect"]["w"], j["crystals"].at(i)["sparks"]["rect"]["h"]));
             crystal->setPosition(Coordinate(j["crystals"].at(i)["position"]["x"], j["crystals"].at(i)["position"]["y"]));
+            crystal->startSparks();
             crystals.push_back(crystal);
         }
     }
@@ -498,6 +501,7 @@ void Level::RenderLevel(){
         for (int i=0; i<crystals.size(); i++){
             if(!crystals.at(i)->getTouched()){
                 Game::Instance()->window->draw(*crystals.at(i)->getCrystalAnimation()->getSprite());
+                crystals.at(i)->drawSparks();
             }
         }
     }
