@@ -8,13 +8,13 @@
 
 class Boss : public Enemy{
     private:
-        std::vector<Gun*> *guns;
+        std::vector<Gun*> guns;
         
         Coordinate* dirFlash;
         
         int state;
         int actualState;
-        std::vector<int> *states;
+        std::vector<int> states;
         
         Time *stateClock;
         Time *delay;
@@ -75,7 +75,7 @@ class Boss : public Enemy{
         void updatePosition(Coordinate newCoor);
         void updatePosition(float x, float y);
         
-        Gun *getCurrentGun() { return guns->at(currentGun); }
+        Gun *getCurrentGun() { return guns.at(currentGun); }
         
         /**
          * Comprueba si esta atacando
@@ -93,7 +93,7 @@ class Boss : public Enemy{
          * Actualiza el reloj de estados 
          * @param def: De tipo tiempo
          */
-        void setStateClock(Time *def){stateClock = def; timeState = stateClock->getTime(); stateClock = new Time(0);}
+        void setStateClock(float def){timeState = def;}
         
         /**
          * Actualiza las animaciones del boss

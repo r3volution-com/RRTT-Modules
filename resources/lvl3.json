@@ -21,6 +21,10 @@
         {
             "name": "rayo",
             "path": "resources/rayo.png"
+        },
+        {
+            "name": "load",
+            "path": "resources/loading_lvl2.jpg"
         }
     ],
     "boss": {
@@ -105,5 +109,11 @@
             "rectOn": {"x": 0, "y": 0, "w": 82, "h": 82},
             "rectOff": {"x": 0, "y": 0, "w": 82, "h": 82}
         }
+    },
+    "loading": {
+        "texture": {"name": "load"},
+        "position": {"x": 0, "y": 0},
+        "size": {"w": 1280, "h": 720},
+        "duration": 3
     }
 }

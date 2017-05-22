@@ -170,6 +170,8 @@ void Game::Init(){
     iaTimer->start();
     rM->loadTexture("gui-tileset", "resources/tileset-extra.png");
     rM->loadFont("console", "resources/font.ttf");
+    rM->loadSound("menu", "resources/menu.ogg");
+
     
     console = new Console(Coordinate(0,500), rM->getTexture("gui-tileset"), Rect<float>(0,0,1280,220), rM->getFont("console"));
     console->addCommand("texto", &texto);

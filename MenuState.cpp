@@ -31,7 +31,6 @@ void MenuState::Init(){
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
     game->rM->loadFont("menu", "resources/menu.ttf");
     
-    game->rM->loadSound("menu", "resources/menu.ogg");
     
     principal = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
     principal->addButton(Coordinate (825,270), "Nueva partida", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
@@ -99,7 +98,6 @@ void MenuState::CleanUp(){
     Game::Instance()->rM->releaseTexture("menu-background");
     Game::Instance()->rM->releaseFont("menu");
     Game::Instance()->rM->releaseMusic("Intro");
-    Game::Instance()->rM->releaseSound("menu");
     delete principal;
     principal = NULL;
 }

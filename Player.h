@@ -191,6 +191,7 @@ class Player : public Entity {
         
         float getInitialSpeed() {return initialSpeed;}
         Time *getDmgOnPlayer() {return dmgOnPlayer;}
+        std::vector<Gun*> *getGuns() {return guns;}
 };
 
 #endif /* PROTAGONISTA_H */

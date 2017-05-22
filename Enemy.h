@@ -19,6 +19,7 @@ class Enemy : public Entity{
         int flashRange;
         float maxFlashCooldown;
         float initialSpeed;
+        float coolHit;
         
         Time *cd;
         Time *flashCooldown;
@@ -108,7 +109,7 @@ class Enemy : public Entity{
          * Actualiza el tiempo de enfriamiento del flash del enemigo
          * @param cooldown: Tiempo de enfriamiento
          */
-        void setFlashCooldown(Time *cooldown);
+        void setFlashCooldown(float cooldown);
         
         int getHP() {return hp; }
         int getMaxHP() { return maxHP; }
@@ -130,7 +131,7 @@ class Enemy : public Entity{
          * Actualiza el enfriamiento del golpe
          * @param cool
          */
-        void setHitCooldown(Time *cool) {cd = cool ; cd->start();}
+        void setHitCooldown(float cool);
         
         /**
          * Actualiza la distancia entre el jugador y el enemigo

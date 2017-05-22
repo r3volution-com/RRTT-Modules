@@ -35,6 +35,8 @@ class Level {
         bool play = false;
         bool isEnter = false;
         
+        bool loaded = false;
+        
 
         //Objetos
         HUD *hud;
@@ -43,6 +45,9 @@ class Level {
         Boss *boss;
         Trigonometry *tri;
         Text *keyIterationNpc;
+        Sprite *loading;
+        Time *loadTime;
+        
         //Vectores
         std::vector<Coordinate*> respawn;
         std::vector<Enemy*> enemys;
@@ -86,6 +91,8 @@ class Level {
         Boss *getBoss(){return boss;}
         Map* getMap(){ return map; }
         Trigonometry *getTrignometry(){return tri;}
+        bool getLoaded() {return loaded;}
+        Sprite *getLoading() {return loading;}
 };
 
 #endif /* LEVEL_H */
