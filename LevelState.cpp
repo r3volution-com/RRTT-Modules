@@ -47,7 +47,6 @@ void LevelState::Init(){
     game->rM->loadTexture("hud-playerdeath", "resources/die.png");
     game->rM->loadTexture("pause-background", "resources/pause-bg.png");
     game->rM->loadTexture("damage","resources/dano.png");
-    game->rM->loadTexture("laser","resources/rayo.png");
     game->rM->loadTexture("victory","resources/victory2.png");
     game->rM->loadFont("font", "resources/font.ttf");
     
@@ -119,7 +118,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 1;
+    currentLevel = 2;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;
@@ -358,7 +357,6 @@ void LevelState::CleanUp(){
     game->rM->releaseTexture("hud-playerdeath");
     game->rM->releaseTexture("pause-background");
     game->rM->releaseTexture("damage");
-    game->rM->releaseTexture("laser");
     game->rM->releaseTexture("victory");
     //game->rM->releaseFont("font");
     game->rM->releaseSound("ataque");
