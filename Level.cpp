@@ -156,7 +156,7 @@ void Level::Init(int numLevel){
         for (int i=0; i<j["crystals"].size(); i++){
             Crystal *crystal = new Crystal(game->rM->getTexture(j["crystals"].at(i)["sprite"]["texture"].get<std::string>()),
                     Rect<float>(j["crystals"].at(i)["sprite"]["rect"]["x"], j["crystals"].at(i)["sprite"]["rect"]["y"], j["crystals"].at(i)["sprite"]["rect"]["w"], j["crystals"].at(i)["sprite"]["rect"]["h"]),
-                    game->rM->getTexture(j["crystals"].at(i)["spark"]["texture"].get<std::string>()),
+                    game->rM->getTexture(j["crystals"].at(i)["sparks"]["texture"].get<std::string>()),
                     Rect<float>(j["crystals"].at(i)["sparks"]["rect"]["x"], j["crystals"].at(i)["sparks"]["rect"]["y"], j["crystals"].at(i)["sparks"]["rect"]["w"], j["crystals"].at(i)["sparks"]["rect"]["h"]));
             crystal->setPosition(Coordinate(j["crystals"].at(i)["position"]["x"], j["crystals"].at(i)["position"]["y"]));
             crystal->startSparks();
@@ -292,7 +292,7 @@ void Level::Update(){
                 boss->AI(rath, hud);
             }
         }
-        /*Actualiza la posicion del jefe*/
+            /*Actualiza la posicion del jefe*/
         if(boss->getCurrentGun()->getBullet()->getType() != 2){
             float angleBoss = tri->angle(*boss->getCoordinate(),*rath->getCoordinate());
             Coordinate newBoss = Coordinate(boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
@@ -325,6 +325,18 @@ void Level::Update(){
             if(enemys.at(i)->getHP() <= 0 && enemys.at(i)->isDead()){
                 if(enemys.at(i)->getTimeDead()->getTime() == 0){
                     enemys.at(i)->setPosition(100000,100000);
+                }
+            }
+        }
+        
+        
+        if (j.find("crystals") != j.end()) {
+            for (int i = 0; i<crystals.size(); i++){
+                if(rath->getCurrentGunId() >= 0 && (crystals.at(i)->collision(rath->getWeapon()->getHitbox()) || crystals.at(i)->collision(rath->getCurrentGun()->getBullet()->getHitbox()))){
+                    rath->damage(10);
+                    hud->changeLifePlayer(rath->getHP());
+                    std::cout << "daño\n";
+                    crystals.at(i)->setPosition(Coordinate(100000,100000));
                 }
             }
         }
