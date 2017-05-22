@@ -22,6 +22,10 @@ class LevelState : public GameState {
         HUD *hud;
         Menu *pause;
         Sprite *damage;
+        Sprite *victory;
+        
+        Time *end;
+        bool finish;
         
         int currentLevel;
         
