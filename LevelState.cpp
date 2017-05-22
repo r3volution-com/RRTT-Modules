@@ -52,13 +52,16 @@ void LevelState::Init(){
     game->rM->loadFont("font", "resources/font.ttf");
     
     /* SONIDOS */
+    game->rM->loadMusic("Main", "resources/sonidos/main.ogg");
+    game->rM->getMusic("Main")->getMusic()->setLoop(true);
+    
     game->rM->loadSound("ataque", "resources/sonidos/ataque.ogg");
     game->rM->loadSound("cargar", "resources/sonidos/cargar.ogg");
     game->rM->loadSound("fire", "resources/sonidos/lanzallamas2.ogg");
     game->rM->loadSound("flash", "resources/sonidos/flash.ogg");
     game->rM->loadSound("damage", "resources/sonidos/damage.ogg");
     game->rM->loadSound("takeNote", "resources/sonidos/takeNote.ogg");
-    
+    game->rM->loadSound("laser", "resources/sonidos/laser.ogg");
     game->rM->loadMusic("boss", "resources/sonidos/boss.ogg");
     
     /*****INPUTS*****/
@@ -120,7 +123,7 @@ void LevelState::Init(){
     /*****LEVEL*****/
     /*Creamos el nivel*/
     level = new Level(rath, hud);
-    currentLevel = 1;
+    currentLevel = 2;
     //-Comprobamos si hay partida guardada
     ifstream f("save.txt");
     std::string c;
@@ -228,7 +231,7 @@ void LevelState::Input(){
                     Game::Instance()->rM->getSound("fire")->getSound()->play();
                 
                 if (rath->getCurrentGun()->getGunCooldown()->getTime()==2 || rath->getCurrentGun()->getGunCooldown()->getTime()==0 && rath->getCurrentGunId()==1)
-                    
+                    Game::Instance()->rM->getSound("laser")->getSound()->play();
                 
                 hud->resetClockGuns();
                 rath->gunAttack();

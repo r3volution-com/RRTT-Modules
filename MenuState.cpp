@@ -24,9 +24,6 @@ void MenuState::Init(){
     game->rM->getMusic("Intro")->getMusic()->setLoop(true);
     game->rM->getMusic("Intro")->getMusic()->play();
     
-    game->rM->loadMusic("Main", "resources/sonidos/main.ogg");
-    game->rM->getMusic("Main")->getMusic()->setLoop(true);
-    
     game->rM->loadTexture("menu-background", "resources/menu-bg.png");
     game->rM->loadFont("menu", "resources/menu.ttf");
     game->rM->loadTexture("loading-game", "resources/loading_game.png");
