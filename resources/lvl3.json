@@ -4,28 +4,24 @@
     "spawn_points": [
         {"x": 2565, "y": 5600},
         {"x": 2565, "y": 5600}
-    ],
+        ],
     "resources": [
         {
             "name": "enemy",
             "path": "resources/sprites/ENEMIGOS.png"
         },
-		{
-			"name": "JEFE",
-			"path": "resources/sprites/JefeFinal.png"
-		},
-		{
-			"name": "Extra",
-			"path": "resources/sprites/spritesEXTRA.png"
-		},
-		{
+	{
+            "name": "JEFE",
+            "path": "resources/sprites/JefeFinal.png"
+	},
+        {
             "name": "sangre",
             "path": "resources/sprites/rojo.png"
         },
-		{
-			"name": "Misc",
-			"path": "resources/sprites/spritesMisc.png"
-		},
+        {
+            "name": "Misc",
+            "path": "resources/sprites/spritesMisc.png"
+	},
         {
             "name": "pergamino",
             "path": "resources/pergamino.png"

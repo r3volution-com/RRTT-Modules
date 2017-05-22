@@ -44,7 +44,6 @@ void Level::Init(int numLevel){
     
     //Cargamos los recursos
     for (int i=0; i<j["resources"].size(); i++){
-        std::cout<<j["resources"].at(i)["name"].get<std::string>()<<"\n";
         game->rM->loadTexture(j["resources"].at(i)["name"].get<std::string>(), j["resources"].at(i)["path"].get<std::string>().c_str());
     }
     
@@ -266,7 +265,6 @@ void Level::Init(int numLevel){
     }
     //PANTALLA DE CARGA
     if (j.find("loading") != j.end()) {
-        std::cout<<j["loading"]["texture"]["name"].get<std::string>()<<"\n";
         loading = new Sprite(game->rM->getTexture(j["loading"]["texture"]["name"].get<std::string>()),
                 Rect<float>(j["loading"]["position"]["x"],j["loading"]["position"]["y"],j["loading"]["size"]["w"],j["loading"]["size"]["h"]));
         loadTime = new Time(j["loading"]["duration"].get<float>());
@@ -450,25 +448,32 @@ void Level::Input(){
             }
             //NOTAS
             if (j.find("notes") != j.end()) {
-                if (showNoteText) {
-                    showNoteText = false;
-                }
                 for (int i=0; i<notes.size(); i++){
                     if(rath->collision(notes.at(i)->getHitbox())){
                         if (!showNoteText && !notes.at(i)->getTaken()){
                             showNoteText = true;
                             notes.at(i)->setTaken();
+                            paused = true;
+                            Game::Instance()->getLevelState()->setPaused(true);
                         }
                     }
                 }
             }
         }
     } else {
-        //Si no esta pausado
+        if(Game::Instance()->iM->isActive("interact")){
+            if (j.find("notes") != j.end()) {
+                if (showNoteText) {
+                    showNoteText = false;
+                    paused = false;
+                    Game::Instance()->getLevelState()->setPaused(false);
+                }
+            }
+        }
     }
 }
 
-void Level::Render(){
+void Level::RenderLevel(){
     //ToDo: Para subir los FPS quizas podriamos hacer que solo se muestren las cosas que esten a menos de X distancia de nosotros
     //Dibujamos todos los elementos
     map->dibujarMapa(Game::Instance()->window);
@@ -477,13 +482,6 @@ void Level::Render(){
         for (int i=0; i<notes.size(); i++){
             if(!notes.at(i)->getTaken()){
                Game::Instance()->window->draw(*notes.at(i)->getNoteSprite()->getSprite());
-            }
-            /*Texto notas */
-            if(showNoteText){
-                Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
-                Game::Instance()->window->draw(*notes.at(i)->getBackgroundSprite()->getSprite());
-                Game::Instance()->window->draw(*notes.at(i)->getText()->getText());
-                Game::Instance()->window->setView(Game::Instance()->cameraView);
             }
         }
     }
@@ -542,6 +540,23 @@ void Level::Render(){
     }
     for (int i=0; i<postObstacles.size(); i++){
         if (postObstacles.at(i)->getActive()) Game::Instance()->window->draw(*postObstacles.at(i)->getAnimation()->getSprite());
+    }
+}
+
+void Level::RenderView(){
+    if(loaded){
+        Game::Instance()->window->draw(*loading->getSprite());
+    }
+    if (j.find("notes") != j.end()) {
+        for (int i=0; i<notes.size(); i++){
+            /*Texto notas */
+            if(showNoteText){
+                Game::Instance()->window->setView(Game::Instance()->window->getDefaultView());
+                Game::Instance()->window->draw(*notes.at(i)->getBackgroundSprite()->getSprite());
+                Game::Instance()->window->draw(*notes.at(i)->getText()->getText());
+                Game::Instance()->window->setView(Game::Instance()->cameraView);
+            }
+        }
     }
 }
 
@@ -647,14 +662,12 @@ void Level::CleanUp(){
     delete loading;
     delete loadTime;
     
-    delete tri;
     
     //map = NULL; 
     boss = NULL;
     keyIterationNpc = NULL;
     loading = NULL;
     loadTime = NULL;
-    tri = NULL;
     
     //Reinicializamos las variables
     level = 0;

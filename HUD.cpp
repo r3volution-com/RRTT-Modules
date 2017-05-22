@@ -17,11 +17,7 @@ HUD::HUD(Texture *rTex, Rect<float> lRect, Rect<float> cdRect, Font *f){
     maxLifePlayer = 100;
     lifePlayer = maxLifePlayer;
     //Fin
-    
-    guns = std::vector<Sprite*>();
-    gunsOff = std::vector<Sprite*>();
-    gunsCooldown = std::vector<Sprite*>();
-    gunTimers = std::vector<Time*>();
+
     activeGun = 0;
     
     dieBool = false;

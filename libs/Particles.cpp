@@ -11,7 +11,12 @@ Particles::Particles(Texture *tex) {
 }
 
 Particles::~Particles() {
-    
+    delete system;
+    delete emitter;
+    delete clock;
+    system = NULL;
+    emitter = NULL;
+    clock = NULL;
 }
 
 void Particles::setProperties(int rate, float minLifetime, float maxLifetime){

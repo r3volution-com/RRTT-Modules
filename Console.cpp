@@ -19,8 +19,6 @@ Console::Console(Coordinate coor, Texture *bg, Rect<float> rect, Font *f) {
     
     active = false;
     historyLength = 7;
-    
-    history = std::vector<std::string>();
 }
 
 Console::~Console() {

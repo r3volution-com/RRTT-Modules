@@ -2,8 +2,6 @@
 
 NPC::NPC(Coordinate position, Coordinate size, float sp, std::string npcName) : Entity(position, size, sp) {
     currentSentence=-1;
-    sentences = std::vector<std::string>();
-    sentencePosition = std::vector<Coordinate *>();
     name = npcName;
     inRange = false;
 }

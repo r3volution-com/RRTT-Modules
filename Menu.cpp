@@ -6,7 +6,6 @@ Menu::Menu(Texture* bg, Texture *bLayout, Rect<float> *tRect, Font* bFont) {
     buttonTextureRect = tRect;
     buttonLayout = bLayout;
     buttonFont = bFont;
-    buttons = std::vector<Button*>();
 }
 
 Menu::~Menu() {
