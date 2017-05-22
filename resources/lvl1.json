@@ -174,7 +174,7 @@
     },
     "notes": [
         {
-            "noteSprite": {"texture": "Misc", "rect": {"x": 1152, "y": 384aw, "w": 128, "h": 128}},
+            "noteSprite": {"texture": "Misc", "rect": {"x": 1152, "y": 384, "w": 128, "h": 128}},
             "paperSprite": {"texture": "pergamino", "rect": {"x": 0, "y": 0, "w": 608, "h": 488}},
             "font": "font",
             "notePosition": {"x": 1950, "y": 13850},
