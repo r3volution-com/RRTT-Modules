@@ -493,7 +493,7 @@ void Level::RenderLevel(){
     if (j.find("crystals") != j.end()) {
         for (int i=0; i<crystals.size(); i++){
             if(!crystals.at(i)->getTouched()){
-                Game::Instance()->window->draw(*crystals.at(i)->getCrystalSprite()->getSprite());
+                Game::Instance()->window->draw(*crystals.at(i)->getCrystalAnimation()->getSprite());
             }
         }
     }

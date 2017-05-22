@@ -5,20 +5,24 @@
 
 #include "libs/Hitbox.h"
 #include "libs/Sprite.h"
+#include "libs/Particles.h"
 #include "Player.h"
 
 class Crystal {
 private:
     Hitbox *hitbox;
-    Sprite *sprite;
+    Animation *anim;
     bool touched;
+    Particles *sparks;
+    
+    int damage;
 public:
     /**
      * Creacion de un objeto de tipo cristal
      * @param tex: Textura del cristal
      * @param rect: Zona en la que se va a imprimir el cristal
      */
-    Crystal(Texture *tex, Rect<float> rect);
+    Crystal(Texture *tex, Rect<float> rect, Texture *sparksTexture, Rect<float> sparksRect);
     virtual ~Crystal();
     
     /**
@@ -39,9 +43,12 @@ public:
      */
     bool collision(Hitbox *other);
     
+    void setDamage(int d) { damage = d; }
+    
     Hitbox *getHitbox() { return hitbox; }
-    Sprite *getCrystalSprite(){return sprite;}
+    Animation *getCrystalAnimation(){return anim;}
     bool getTouched() { return touched; }
+    int getDamage(){ return damage; }
 };
 
 #endif /* CRYSTALS_H */
