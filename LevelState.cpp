@@ -273,6 +273,7 @@ void LevelState::Input(){
                     }
                     break;
                     case 2:
+                        level->CleanUp();
                         return Game::Instance()->ChangeCurrentState("menu");
                     break;
                     default: break;
@@ -369,6 +370,7 @@ void LevelState::CleanUp(){
     game->rM->releaseTexture("laser");
     game->rM->releaseTexture("victory");
     game->rM->releaseFont("font");
+    game->rM->releaseSound("laser");
     game->rM->releaseSound("ataque");
     game->rM->releaseSound("cargar");
     game->rM->releaseSound("fire");
@@ -377,7 +379,7 @@ void LevelState::CleanUp(){
     game->rM->releaseSound("takeNote");
     game->rM->releaseMusic("boss");
     delete rath;
-    delete tri;
+    //delete tri;
     delete level;
     delete hud;
     delete pause;
@@ -392,7 +394,7 @@ void LevelState::CleanUp(){
      */  
 
     rath = NULL;
-    tri = NULL;
+    //tri = NULL;
     level = NULL;
     hud = NULL;
     pause = NULL;
