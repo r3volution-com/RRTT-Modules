@@ -6,9 +6,9 @@
  * @param texto: Comando
  */
 void selectlevel(std::string texto){
-    std::cout<<std::stoi(texto)<<"\n";
     if(Game::Instance()->getCurrentScene()=="level"){
-        Game::Instance()->getLevelState()->changeLevel();
+        Game::Instance()->getLevelState()->changeLevelDirect(std::stoi(texto));
+        std::cout<<std::stoi(texto)<<"\n";
     }
 }
 
@@ -86,7 +86,7 @@ void showfps(std::string texto){
 
 void onTextEntered(thor::ActionContext<std::string> context) {
     if (Game::Instance()->console->isActive()){
-        if ((context.event->text.unicode >= 48 && context.event->text.unicode <= 122)){
+        if ((context.event->text.unicode >= 48 && context.event->text.unicode <= 122) || context.event->text.unicode == 32){
             sf::Uint32 character = context.event->text.unicode;
             std::ostringstream ch;
             ch << static_cast<char>(character);
@@ -236,6 +236,7 @@ void Game::Render(){
 void Game::ChangeCurrentState(const std::string &state){
     game->CleanUp();
     
+    currentScene = state;
     if(state == "intro") game = intro;
     else if(state == "menu") game = menu;
     else if(state == "level") game = level;
