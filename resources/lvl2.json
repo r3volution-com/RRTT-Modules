@@ -49,6 +49,20 @@
             "hitCooldown": 0.5,
             "bleed": true,
             "extra": {"freeze": 22}
+        },   
+         {
+            "type": 3,
+            "position": {"x": 3650, "y": 7000},
+            "size": {"w": 128, "h": 128},
+            "speed": 20,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 40,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 700,
+            "damage": 6,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"freeze": 22}
         },
         {
             "type": 2,
@@ -77,6 +91,20 @@
             "hitCooldown": 0.5,
             "bleed": true,
             "extra": {"freeze": 22}
+        },{
+            "type": 2,
+            "position": {"x": 4096, "y": 11520},
+            "size": {"w": 128, "h": 128},
+            "speed": 15,
+            "sprite": {"texture": "enemy", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
+            "hp": 40,
+            "distanceToHome": 1400,
+            "distanceToPlayer": 715,
+            "damage": 4,
+            "hitCooldown": 0.5,
+            "bleed": true,
+            "extra": {"flashRange": 10, "flashCooldown": 2}
+
         },
         {
             "type": 2,
@@ -221,11 +249,23 @@
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 2432, "y": 6528}
+        },
+        {
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
+            "position": {"x": 5120, "y": 2432}
+        },
+        {
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
+            "position": {"x": 5504, "y": 6784}
+        },
+        {
+            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
+            "position": {"x": 2944, "y": 10112}
         }
     ],
     "npcs": [
         {
-            "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 920, "w": 128, "h": 128}},
+            "sprite": {"texture": "Misc", "rect": {"x": 1024, "y": 384, "w": 128, "h": 128}},
             "position": {"x": 4500, "y": 13300},
             "size": {"w": 50, "h": 90},
             "speed": 40,
@@ -275,7 +315,7 @@
     ],
     "endPoints": [
         {
-            "position": {"x": 0, "y": 0},
+            "position": {"x": 3950, "y": 13000},
             "size": {"w": 1280, "h": 400}
         }
     ],

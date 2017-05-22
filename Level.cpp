@@ -20,6 +20,7 @@ Level::Level(Player* r, HUD* h) {
     showNPCText = false;
     showNoteText = false;
     bossZone = false;
+    keyIterationNpc = NULL;
     activeIA = true;
     
 }
@@ -663,13 +664,15 @@ void Level::CleanUp(){
     //Hacemos delete de los elementos de Level
     //delete map; ToDo: da segmentation fault aqui
     delete boss; //ToDo: da segmentation fault aqui
-    delete keyIterationNpc;
+    if(keyIterationNpc != NULL)delete keyIterationNpc;
     
     delete loading;
     delete loadTime;
     
+    delete map;
     
-    //map = NULL; 
+    
+    map = NULL; 
     boss = NULL;
     keyIterationNpc = NULL;
     loading = NULL;

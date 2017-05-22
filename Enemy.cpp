@@ -15,13 +15,14 @@ Enemy::Enemy(Coordinate position, Coordinate size, float sp): Entity (position, 
     timeDead = new Time(2);
     dead = false;
     flashCooldown = new Time(0);
+    blood = NULL;
 }
 
 Enemy::~Enemy() {
     delete flashCooldown;
     delete cd;
     delete tri;
-    delete blood;
+    if(blood != NULL) delete blood;
     delete timeDead;
     flashCooldown = NULL;
     cd = NULL;
@@ -158,8 +159,8 @@ void Enemy::setAnimations(Texture *t, Rect<float> newRect){
         Entity::getAnimation()->addAnimation("idle", Coordinate(512, 0), 1, 0.5f);
         Entity::getAnimation()->addAnimation("correrDerecha", Coordinate(512, 0), 2, 0.5f);
         Entity::getAnimation()->addAnimation("correrIzquierda", Coordinate(512, 128), 2, 0.5f);
-        Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(512, 384), 1, 0.5f);
-        Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(640, 384), 1, 0.5f);
+        Entity::getAnimation()->addAnimation("ataqueDerecha", Coordinate(512, 384), 1, 1.5f);
+        Entity::getAnimation()->addAnimation("ataqueIzquierda", Coordinate(640, 384), 1, 1.5f);
         Entity::getAnimation()->addAnimation("morirDerecha", Coordinate(512, 256), 1, 0.5f);
         Entity::getAnimation()->addAnimation("morirIzquierda", Coordinate(640, 256), 1, 0.5f);
     }
