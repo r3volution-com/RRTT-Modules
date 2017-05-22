@@ -101,11 +101,11 @@ void LevelState::Init(){
     hud->changeMaxLifePlayer(rath->getMaxHP());
     hud->setBossLife(Rect<float>(5,200,200,20));
     hud->setFlash(Coordinate(110, 20), Rect<float>(170, 0, 82, 82), rath->getFlashCooldown());
-    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(511, 925, 200, 64));
+    hud->setDieScreen(game->rM->getTexture("hud-playerdeath"), Coordinate(550, 320), game->rM->getTexture("gui-tileset"), Rect<float>(0,535,318,64));
     
     /*****PAUSE MENU*****/
     pause = new Menu(game->rM->getTexture("pause-background"), game->rM->getTexture("gui-tileset"), 
-            new Rect<float>(511,925,200,64), game->rM->getFont("font"));
+            new Rect<float>(0,535,318,64), game->rM->getFont("font"));
     pause->addButton(Coordinate(550,250), "Continuar", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     pause->addButton(Coordinate(550,320), "Guardar partida", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     pause->addButton(Coordinate(550,390), "Salir al menu", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
