@@ -12,13 +12,12 @@ Animation::Animation(Texture *t, Rect<float> tRect) {
 }
 
 Animation::~Animation() {
-    //delete tex;
     delete spriteRect;
     delete sprite;
     delete clock;
     delete animations;
     delete animator;
-    //tex = NULL;
+
     spriteRect = NULL;
     sprite = NULL;
     clock = NULL;

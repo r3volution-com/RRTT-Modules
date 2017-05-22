@@ -15,9 +15,8 @@ Text::Text(std::string t, Coordinate position, Font* f, bool cO) {
 }
 
 Text::~Text() {
-    //delete font;
     delete text;
-    //font = NULL;
+
     text = NULL;
 }
 
