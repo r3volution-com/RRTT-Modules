@@ -37,7 +37,7 @@ void MenuState::Init(){
     principal->addButton(Coordinate (825,340), "Opciones", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     principal->addButton(Coordinate (825,410), "Salir", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     if (file_exists("save.txt")) principal->addButton(Coordinate (825,200), "Continuar", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
-    opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(511,925,200,64), game->rM->getFont("menu"));
+    opciones = new Menu(game->rM->getTexture("menu-background"), game->rM->getTexture("gui-tileset"), new Rect<float>(0,535,318,64), game->rM->getFont("menu"));
     opciones->addButton(Coordinate (825,270), "Musica On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     opciones->addButton(Coordinate (825,340), "FX On/Off", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
     opciones->addButton(Coordinate (825,410), "Volver", sf::Color::White, sf::Color(170, 170, 170, 255), 20);
