@@ -407,7 +407,6 @@ void LevelState::changeLevel(){
     s<<"resources/lvl"<<currentLevel<<".json";
     ifstream f(s.str());
     if(f.good()){
-        std::cout<<"si"<<"\n";
         finish = false;
         level->CleanUp();
         level->Init(currentLevel);

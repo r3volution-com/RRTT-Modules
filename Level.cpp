@@ -277,7 +277,6 @@ void Level::Init(int numLevel){
     
     rath->restoreHP();
     hud->changeLifePlayer(rath->getHP());
-    std::cout<<boss->getHP()<<"\n";
     hud->changeLifeBoss(boss->getHP());
 }
 
@@ -337,7 +336,6 @@ void Level::Update(){
                 if(rath->getCurrentGunId() >= 0 && (crystals.at(i)->collision(rath->getWeapon()->getHitbox()) || crystals.at(i)->collision(rath->getCurrentGun()->getBullet()->getHitbox()))){
                     rath->damage(10);
                     hud->changeLifePlayer(rath->getHP());
-                    std::cout << "daño\n";
                     crystals.at(i)->setPosition(Coordinate(100000,100000));
                 }
             }

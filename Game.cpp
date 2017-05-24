@@ -8,7 +8,6 @@
 void selectlevel(std::string texto){
     if(Game::Instance()->getCurrentScene()=="level"){
         Game::Instance()->getLevelState()->changeLevelDirect(std::stoi(texto));
-        std::cout<<std::stoi(texto)<<"\n";
     }
 }
 
