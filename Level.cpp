@@ -159,6 +159,15 @@ void Level::Init(int numLevel){
                     game->rM->getTexture(j["crystals"].at(i)["sparks"]["texture"].get<std::string>()),
                     Rect<float>(j["crystals"].at(i)["sparks"]["rect"]["x"], j["crystals"].at(i)["sparks"]["rect"]["y"], j["crystals"].at(i)["sparks"]["rect"]["w"], j["crystals"].at(i)["sparks"]["rect"]["h"]));
             crystal->setPosition(Coordinate(j["crystals"].at(i)["position"]["x"], j["crystals"].at(i)["position"]["y"]));
+            for (int x=0; x < j["crystals"].at(i)["animations"].size(); x++){
+                crystal->getCrystalAnimation()->addAnimation(j["crystals"].at(i)["animations"].at(x)["name"].get<std::string>(),
+                        Coordinate(j["crystals"].at(i)["animations"].at(x)["position"]["x"], j["crystals"].at(i)["animations"].at(x)["position"]["y"]),
+                        j["crystals"].at(i)["animations"].at(x)["nSprites"],
+                        j["crystals"].at(i)["animations"].at(x)["duration"]);
+            }
+            
+            crystal->getCrystalAnimation()->initAnimator();
+            crystal->getCrystalAnimation()->changeAnimation("idle", true);
             crystal->startSparks();
             crystals.push_back(crystal);
         }
@@ -333,10 +342,12 @@ void Level::Update(){
         
         if (j.find("crystals") != j.end()) {
             for (int i = 0; i<crystals.size(); i++){
-                if(rath->getCurrentGunId() >= 0 && (crystals.at(i)->collision(rath->getWeapon()->getHitbox()) || crystals.at(i)->collision(rath->getCurrentGun()->getBullet()->getHitbox()))){
+                if(!crystals.at(i)->getTouched() && rath->getCurrentGunId() >= 0 && (crystals.at(i)->collision(rath->getWeapon()->getHitbox()) || crystals.at(i)->collision(rath->getCurrentGun()->getBullet()->getHitbox()))){
                     rath->damage(10);
                     hud->changeLifePlayer(rath->getHP());
-                    crystals.at(i)->setPosition(Coordinate(100000,100000));
+                    //crystals.at(i)->setPosition(Coordinate(100000,100000));
+                    crystals.at(i)->getCrystalAnimation()->changeAnimation("die", true);
+                    crystals.at(i)->setTouched();
                 }
             }
         }
@@ -511,8 +522,9 @@ void Level::RenderLevel(){
     //Cristales de rayos
     if (j.find("crystals") != j.end()) {
         for (int i=0; i<crystals.size(); i++){
+            crystals.at(i)->getCrystalAnimation()->updateAnimator();
+            Game::Instance()->window->draw(*crystals.at(i)->getCrystalAnimation()->getSprite());
             if(!crystals.at(i)->getTouched()){
-                Game::Instance()->window->draw(*crystals.at(i)->getCrystalAnimation()->getSprite());
                 crystals.at(i)->drawSparks();
             }
         }

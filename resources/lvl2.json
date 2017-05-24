@@ -249,27 +249,97 @@
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 13000, "y": 13000},
-            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}}
+            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}},
+            "animations": [
+                {
+                    "name": "idle",
+                    "position": {"x": 0, "y": 384},
+                    "nSprites": 1,
+                    "duration": 0.1
+                },
+                {
+                    "name": "die",
+                    "position": {"x": 128, "y": 384},
+                    "nSprites": 3,
+                    "duration": 0.3
+                }
+            ]
         },
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 2432, "y": 6528},
-            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}}
+            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}},
+            "animations": [
+                {
+                    "name": "idle",
+                    "position": {"x": 0, "y": 384},
+                    "nSprites": 1,
+                    "duration": 0.1
+                },
+                {
+                    "name": "die",
+                    "position": {"x": 128, "y": 384},
+                    "nSprites": 3,
+                    "duration": 0.3
+                }
+            ]
         },
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 5120, "y": 2432},
-            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}}
+            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}},
+            "animations": [
+                {
+                    "name": "idle",
+                    "position": {"x": 0, "y": 384},
+                    "nSprites": 1,
+                    "duration": 0.1
+                },
+                {
+                    "name": "die",
+                    "position": {"x": 128, "y": 384},
+                    "nSprites": 3,
+                    "duration": 0.3
+                }
+            ]
         },
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 5504, "y": 6784},
-            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}}
+            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}},
+            "animations": [
+                {
+                    "name": "idle",
+                    "position": {"x": 0, "y": 384},
+                    "nSprites": 1,
+                    "duration": 0.1
+                },
+                {
+                    "name": "die",
+                    "position": {"x": 128, "y": 384},
+                    "nSprites": 3,
+                    "duration": 0.3
+                }
+            ]
         },
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 2944, "y": 10112},
-            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}}
+            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}},
+            "animations": [
+                {
+                    "name": "idle",
+                    "position": {"x": 0, "y": 384},
+                    "nSprites": 1,
+                    "duration": 0.1
+                },
+                {
+                    "name": "die",
+                    "position": {"x": 128, "y": 384},
+                    "nSprites": 3,
+                    "duration": 0.3
+                }
+            ]
         }
     ],
     "npcs": [

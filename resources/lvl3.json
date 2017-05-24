@@ -115,7 +115,21 @@
         {
             "sprite": {"texture": "Misc", "rect": {"x": 0, "y": 384, "w": 128, "h": 256}},
             "position": {"x": 3000, "y": 3000},
-            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}}
+            "sparks": {"texture": "sparks", "rect": {"x": 0, "y": 0, "w": 10, "h": 10}},
+            "animations": [
+                {
+                    "name": "idle",
+                    "position": {"x": 0, "y": 384},
+                    "nSprites": 1,
+                    "duration": 0.1
+                },
+                {
+                    "name": "die",
+                    "position": {"x": 128, "y": 384},
+                    "nSprites": 3,
+                    "duration": 0.3
+                }
+            ]
         }
     ],
     "endPoints": [
