@@ -24,8 +24,15 @@ void spawnenemy(std::string texto){
  * Comando para que los cooldown se bajen a cero
  * @param texto: Comando
  */
-void nocooldown(std::string texto){
-    //Game::Instance()->getLevelState()->
+void noflashcooldown(std::string texto){
+    if(Game::Instance()->getCurrentScene()=="level"){
+        if(texto=="true"){
+            Game::Instance()->getLevelState()->getRath()->setFlashCooldown(0);
+        }
+        else{
+            Game::Instance()->getLevelState()->getRath()->setFlashCooldown(2);
+        }
+    }
 }
 
 /**
@@ -33,7 +40,14 @@ void nocooldown(std::string texto){
  * @param texto: Comando
  */
 void godmode(std::string texto){
-    
+     if(Game::Instance()->getCurrentScene()=="level"){
+         if(texto=="true"){
+             Game::Instance()->getLevelState()->getRath()->setMaxHP(10000);
+         }
+         else{
+             Game::Instance()->getLevelState()->getRath()->setMaxHP(350);
+         }
+     }
 }
 
 /**
@@ -57,7 +71,14 @@ void teleport(std::string texto){
  * @param texto: Comando
  */
 void deathtouch(std::string texto){
-    
+    if(Game::Instance()->getCurrentScene()=="level"){
+        if(texto=="true"){
+            Game::Instance()->getLevelState()->getRath()->getWeapon()->setDamage(500);
+        }
+        else{
+            Game::Instance()->getLevelState()->getRath()->getWeapon()->setDamage(12);
+        }
+    }
 }
 
 /**
@@ -65,7 +86,14 @@ void deathtouch(std::string texto){
  * @param texto: Comando
  */
 void speed(std::string texto){
-    
+    if(Game::Instance()->getCurrentScene()=="level"){
+        if(texto=="initial"){
+            Game::Instance()->getLevelState()->getRath()->setSpeed((Game::Instance()->getLevelState()->getRath()->getInitialSpeed()));
+        }
+        else{
+            Game::Instance()->getLevelState()->getRath()->setSpeed(std::stoi(texto));
+        }
+    }
 }
 
 /**
@@ -88,14 +116,10 @@ void disableia(std::string texto){
  * @param texto: Comando
  */
 void showfps(std::string texto){
-    if(Game::Instance()->getCurrentScene()=="level"){
-        if(Game::Instance()->getCurrentScene()=="level"){
-            if(texto=="true"){
-                Game::Instance()->setFps(true);
-            }else{
-                Game::Instance()->setFps(false);
-            }
-        }
+    if(texto=="true"){
+        Game::Instance()->setFps(true);
+    }else{
+        Game::Instance()->setFps(false);
     }
 }
 
@@ -205,7 +229,7 @@ void Game::Init(){
     console = new Console(Coordinate(0,500), rM->getTexture("gui-tileset"), Rect<float>(0,0,1280,220), rM->getFont("console"));
     console->addCommand("selectlevel", &selectlevel);
     console->addCommand("spawnenemy", &spawnenemy);
-    console->addCommand("nocooldown", &nocooldown);
+    console->addCommand("noflashcooldown", &noflashcooldown);
     console->addCommand("godmode", &godmode);
     console->addCommand("noclip", &noclip);
     console->addCommand("teleport", &teleport);
