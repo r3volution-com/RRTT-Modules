@@ -434,10 +434,10 @@ void Level::Update(){
     
     if (j.find("npcs") != j.end()) {
         if (npcMoving != -1){
-            if(npcs.at(npcMoving)->getCoordinate()->y < 20000 && npcs.at(npcMoving)->getCoordinate()->x < 20000){
-                npcs.at(npcMoving)->move(npcs.at(npcMoving)->getRunawayDirection()->x,npcs.at(npcMoving)->getRunawayDirection()->y);
-            }
             int disNpcPlayer = tri->distance(*rath->getCoordinate(), *npcs.at(npcMoving)->getCoordinate());
+            if (disNpcPlayer < 3000){
+                npcs.at(npcMoving)->move(npcs.at(npcMoving)->getRunawayDirection()->x,npcs.at(npcMoving)->getRunawayDirection()->y);
+            } else npcMoving = -1;
             if (disNpcPlayer > 1000){
                 paused = false;
                 Game::Instance()->getLevelState()->setPaused(false);
