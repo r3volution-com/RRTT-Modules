@@ -50,7 +50,7 @@
         "changeStateTimer": 20,
         "distanceToLock": 1600,
         "nStates": 10,
-        "states": {"from": 2, "to": 4},
+        "states": {"from": 1, "to": 5},
         "guns": [
             {
                 "cooldown": 3,
@@ -66,7 +66,7 @@
                     "animations": [
                         {
                             "name": "idle",
-                            "position": {"x": 0, "y": 512},
+                            "position": {"x": 0, "y": 384},
                             "nSprites": 2,
                             "duration": 0.5
                         }
@@ -87,7 +87,7 @@
                     "animations": [
                         {
                             "name": "idle",
-                            "position": {"x": 0, "y": 0},
+                            "position": {"x": 0, "y": 256},
                             "nSprites": 3,
                             "duration": 0.5
                         }
