@@ -155,8 +155,11 @@ void Level::Init(int numLevel){
     if (j.find("crystals") != j.end()) {
         for (int i=0; i<j["crystals"].size(); i++){
             Crystal *crystal = new Crystal(game->rM->getTexture(j["crystals"].at(i)["sprite"]["texture"].get<std::string>()),
-                    Rect<float>(j["crystals"].at(i)["sprite"]["rect"]["x"], j["crystals"].at(i)["sprite"]["rect"]["y"], j["crystals"].at(i)["sprite"]["rect"]["w"], j["crystals"].at(i)["sprite"]["rect"]["h"]));
+                    Rect<float>(j["crystals"].at(i)["sprite"]["rect"]["x"], j["crystals"].at(i)["sprite"]["rect"]["y"], j["crystals"].at(i)["sprite"]["rect"]["w"], j["crystals"].at(i)["sprite"]["rect"]["h"]),
+                    game->rM->getTexture(j["crystals"].at(i)["sparks"]["texture"].get<std::string>()),
+                    Rect<float>(j["crystals"].at(i)["sparks"]["rect"]["x"], j["crystals"].at(i)["sparks"]["rect"]["y"], j["crystals"].at(i)["sparks"]["rect"]["w"], j["crystals"].at(i)["sparks"]["rect"]["h"]));
             crystal->setPosition(Coordinate(j["crystals"].at(i)["position"]["x"], j["crystals"].at(i)["position"]["y"]));
+            crystal->startSparks();
             crystals.push_back(crystal);
         }
     }
@@ -290,7 +293,7 @@ void Level::Update(){
                 boss->AI(rath, hud);
             }
         }
-        /*Actualiza la posicion del jefe*/
+            /*Actualiza la posicion del jefe*/
         if(boss->getCurrentGun()->getBullet()->getType() != 2){
             float angleBoss = tri->angle(*boss->getCoordinate(),*rath->getCoordinate());
             Coordinate newBoss = Coordinate(boss->getCurrentGun()->getBullet()->getAnimation()->getSprite()->getGlobalBounds().left, 
@@ -323,6 +326,18 @@ void Level::Update(){
             if(enemys.at(i)->getHP() <= 0 && enemys.at(i)->isDead()){
                 if(enemys.at(i)->getTimeDead()->getTime() == 0){
                     enemys.at(i)->setPosition(100000,100000);
+                }
+            }
+        }
+        
+        
+        if (j.find("crystals") != j.end()) {
+            for (int i = 0; i<crystals.size(); i++){
+                if(rath->getCurrentGunId() >= 0 && (crystals.at(i)->collision(rath->getWeapon()->getHitbox()) || crystals.at(i)->collision(rath->getCurrentGun()->getBullet()->getHitbox()))){
+                    rath->damage(10);
+                    hud->changeLifePlayer(rath->getHP());
+                    std::cout << "daño\n";
+                    crystals.at(i)->setPosition(Coordinate(100000,100000));
                 }
             }
         }
@@ -420,10 +435,10 @@ void Level::Update(){
     
     if (j.find("npcs") != j.end()) {
         if (npcMoving != -1){
-            if(npcs.at(npcMoving)->getCoordinate()->y < 20000 && npcs.at(npcMoving)->getCoordinate()->x < 20000){
-                npcs.at(npcMoving)->move(npcs.at(npcMoving)->getRunawayDirection()->x,npcs.at(npcMoving)->getRunawayDirection()->y);
-            }
             int disNpcPlayer = tri->distance(*rath->getCoordinate(), *npcs.at(npcMoving)->getCoordinate());
+            if (disNpcPlayer < 3000){
+                npcs.at(npcMoving)->move(npcs.at(npcMoving)->getRunawayDirection()->x,npcs.at(npcMoving)->getRunawayDirection()->y);
+            } else npcMoving = -1;
             if (disNpcPlayer > 1000){
                 paused = false;
                 Game::Instance()->getLevelState()->setPaused(false);
@@ -498,7 +513,8 @@ void Level::RenderLevel(){
     if (j.find("crystals") != j.end()) {
         for (int i=0; i<crystals.size(); i++){
             if(!crystals.at(i)->getTouched()){
-                Game::Instance()->window->draw(*crystals.at(i)->getCrystalSprite()->getSprite());
+                Game::Instance()->window->draw(*crystals.at(i)->getCrystalAnimation()->getSprite());
+                crystals.at(i)->drawSparks();
             }
         }
     }

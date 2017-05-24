@@ -106,9 +106,9 @@ Map::~Map(){
     map->DeleteChildren();
     tileset->DeleteChildren();
     img->DeleteChildren();
-    layer->DeleteChildren();
-    objectgroup->DeleteChildren();
-    capas->DeleteChildren();
+    //layer->DeleteChildren();
+    //objectgroup->DeleteChildren();
+    //capas->DeleteChildren();
     _tilesetTexture = NULL;
     
     //Pruebas
@@ -127,7 +127,7 @@ Map::~Map(){
     for(int y=0; y<_height; y++){
         for(int x=0; x<_width; x++){
             //Vamos comparando
-            data[y][x].DeleteChildren();
+            //data[y][x].DeleteChildren();
         }
      }
     
