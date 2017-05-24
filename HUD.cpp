@@ -220,6 +220,7 @@ void HUD::drawPlayerHP(){
 }
 
 void HUD::drawBossHP(){
+    std::cout<<"si"<<"\n";
     Game::Instance()->window->draw(*bossHP->getSprite());
 }
 

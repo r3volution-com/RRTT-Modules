@@ -286,6 +286,7 @@ void Level::Init(int numLevel){
     
     rath->restoreHP();
     hud->changeLifePlayer(rath->getHP());
+    hud->changeMaxLifeBoss(boss->getMaxHP());
     hud->changeLifeBoss(boss->getHP());
 }
 
