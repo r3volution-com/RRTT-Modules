@@ -33,6 +33,10 @@
         {
             "name": "load",
             "path": "resources/victory1.png"
+        },
+        {
+            "name": "sparks",
+            "path": "resources/spark.png"
         }
     ],
     "boss": {
