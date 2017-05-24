@@ -277,6 +277,8 @@ void Level::Init(int numLevel){
     
     rath->restoreHP();
     hud->changeLifePlayer(rath->getHP());
+    std::cout<<boss->getHP()<<"\n";
+    hud->changeLifeBoss(boss->getHP());
 }
 
 void Level::Update(){

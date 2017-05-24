@@ -225,7 +225,7 @@
                     "animations": [
                         {
                             "name": "idle",
-                            "position": {"x": 0, "y": 0},
+                            "position": {"x": 0, "y": 256},
                             "nSprites": 3,
                             "duration": 0.3
                         }
@@ -337,7 +337,7 @@
             "sprite": {"texture": "player", "rect": {"x": 0, "y": 0, "w": 128, "h": 128}},
             "origin": {"x": 185, "y": 72},
             "type": 1,
-            "damage": 1,
+            "damage": 2,
             "duration": 2,
             "loop": false,
             "animations": [
