@@ -6,7 +6,7 @@
 #include "libs/Hitbox.h"
 #include "libs/Sprite.h"
 #include "libs/Particles.h"
-#include "Player.h"
+#include "libs/Animation.h"
 
 class Crystal {
 private:
