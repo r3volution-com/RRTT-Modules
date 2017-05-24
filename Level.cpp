@@ -678,8 +678,7 @@ void Level::CleanUp(){
     endPoints.clear();
     
     //Hacemos delete de los elementos de Level
-    //delete map; ToDo: da segmentation fault aqui
-    delete boss; //ToDo: da segmentation fault aqui
+    delete boss;
     if(keyIterationNpc != NULL)delete keyIterationNpc;
     
     delete loading;
