@@ -10,7 +10,7 @@ using namespace tinyxml2;
 
 class Map {
     private:
-       
+        
         XMLElement* map;
         XMLElement* tileset;
         XMLElement* img;       
